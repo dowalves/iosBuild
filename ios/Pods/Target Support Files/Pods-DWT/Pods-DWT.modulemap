@@ -1,0 +1,6 @@
+module Pods_DWT {
+  umbrella header "Pods-DWT-umbrella.h"
+
+  export *
+  module * { export * }
+}
