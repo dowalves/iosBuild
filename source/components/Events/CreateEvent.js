@@ -1,27 +1,47 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button,Image,ImageBackground,TouchableOpacity,I18nManager,
-        ScrollView,TextInput,FlatList
-} from 'react-native';
-import MapView, { Polyline,Marker,Callout,PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { Component } from 'react';
+import { Text, View, Image, ImageBackground, ActivityIndicator, Platform, TouchableOpacity, ScrollView, TextInput, Picker } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { width, height, totalSize } from 'react-native-dimension';
 import ImagePicker from 'react-native-image-crop-picker';
-import {RichTextEditor, RichTextToolbar} from 'react-native-zss-rich-text-editor';
+import { Icon } from 'react-native-elements';
+import Modal from "react-native-modal";
+import ApiController from '../../ApiController/ApiController';
+// import {RichTextEditor, RichTextToolbar} from 'react-native-zss-rich-text-editor';
 import DatePicker from 'react-native-datepicker';
-import { FONT_NORMAL,FONT_BOLD,COLOR_PRIMARY,COLOR_ORANGE,COLOR_GRAY,COLOR_SECONDARY,COLOR_DARK_GRAY } from '../../../styles/common';
-import { observer } from 'mobx-react';
-import Store from '../../Stores';
+import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_DARK_GRAY } from '../../../styles/common';
+import store from '../../Stores/orderStore';
 import styles from '../../../styles/Events/CreateEventStyleSheet';
 import EventsUpperView from './EventsUpperView';
-export default class CreateEvent extends Component<Props> {
-  constructor( props ) {
+import { withNavigation } from 'react-navigation';
+
+
+class CreateEvent extends Component<Props> {
+  constructor(props) {
     super(props);
     this.state = {
-      dates: '',
-      images: []
+      loading: false,
+      is_picker: false,
+      isCategory: false,
+      images: [],
+      predictions: [],
+      location: '',
+      latitude: null,
+      longitude: null,
+      eventTitle: null,
+      cate_id: '',
+      cate_name: '',
+      phoneNo: '',
+      email: '',
+      description: '',
+      start_date: '',
+      end_date: '',
+      related_listing: '',
+      list_name: '',
+      avatorSources: []
+
     }
     this.getHTML = this.getHTML.bind(this);
     this.setFocusHandlers = this.setFocusHandlers.bind(this);
-    I18nManager.forceRTL(false);
   }
   onEditorInitialized() {
     this.setFocusHandlers();
@@ -33,7 +53,40 @@ export default class CreateEvent extends Component<Props> {
     const contentHtml = await this.richtext.getContentHtml();
     //alert(titleHtml + ' ' + contentHtml)
   }
-
+  componentWillMount = async () => {
+    let data = store.MY_EVENTS.data.create_event;
+    await this.setState({
+      eventTitle: data.title.value
+    })
+  }
+  createEvent = async () => {
+    this.setState({ loading: true })
+    let formData = new FormData();
+    formData.append('title', this.state.eventTitle);
+    formData.append('category', this.state.cate_id);
+    formData.append('number', this.state.phoneNo);
+    formData.append('email', this.state.email);
+    formData.append('desc', this.state.description);
+    formData.append('start_date', this.state.start_date);
+    formData.append('end_date', this.state.end_date);
+    formData.append('venue', this.state.location);
+    formData.append('lat', this.state.latitude);
+    formData.append('long', this.state.longitude);
+    formData.append('parent_listing', this.state.related_listing);
+    if (this.state.avatorSources.length > 0) {
+      for (let i = 0; i < this.state.avatorSources.length; i++) {
+        formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
+      }
+    }
+    // ApiController 
+    let response = ApiController.postForm('event-submission', formData);
+    console.log('Event Upload========>>>>', response);
+    if ( response ) {
+        this.setState({ loading: false })
+    } else {
+      this.setState({ loading: false })
+    }
+  }
   setFocusHandlers() {
     this.richtext.setTitleFocusHandler(() => {
       //alert('title focus');
@@ -41,218 +94,336 @@ export default class CreateEvent extends Component<Props> {
     this.richtext.setContentFocusHandler(() => {
       //alert('content focus');
     });
-   }
-  static navigationOptions = {
-    header: null,
-  };
-  datePicker(){
-    var date = new Date().toDateString();
-    return(
-      <DatePicker
-        style={{width: 200}}
-        date={this.state.date}
-        mode="date"
-        androidMode= 'spinner' //spinner
-        showIcon={true}
-        placeholder= {date}
-        duration={400}
-        format="DD-MM-YYYY"
-        minDate= {date}
-        maxDate= "1-12-2030"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        disabled={false}
-        is24Hour={false}
-        customStyles={{
-          dateIcon: {
-            position: 'absolute',
-            left: 0,
-            top: 4,
-            marginLeft: 10,
-            marginTop: 6,
-            height: 20,
-            width:20
-          },
-          dateInput: {
-            marginLeft: 0,
-            borderWidth:0,
-          }
-          // ... You can check the source to find the other keys.
-        }}
-        onDateChange={(date) => {this.setState({date: date})}}
-      />
-    )
   }
-  multiImagePicker(){
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: 'Create Event',
+    headerTintColor: COLOR_PRIMARY,
+    headerStyle: {
+      backgroundColor: store.settings.data.main_clr
+    }
+  });
+  placesComplete = async (text) => {
+    if (text.length > 0) {
+      // const API_KEY = 'AIzaSyDVcpaziLn_9wTNCWIG6K09WKgzJQCW2tI'; // new
+      const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
+      fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&key=' + API_KEY)
+        .then((response) => response.json())
+        .then(func = async (responseJson) => {
+          // console.log('result Places AutoComplete===>>', responseJson);
+          if (responseJson.status === 'OK') {
+            await this.setState({ predictions: responseJson.predictions })
+          }
+        }).catch((error) => {
+          console.log('error', error);
+        });
+    } else {
+      this.setState({ predictions: [] })
+    }
+  }
+  getLatLong = async (address) => {
+    this.setState({ location: address })
+    let api_key = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + api_key)
+      .then((response) => response.json())
+      .then(func = async (responseJson) => {
+        // console.warn('latLong', responseJson);
+        if (responseJson.status === 'OK') {
+          await this.setState({
+            latitude: responseJson.results[0].geometry.location.lat,
+            longitude: responseJson.results[0].geometry.location.lng,
+            predictions: []
+          })
+          console.warn(this.state.latitude, this.state.longitude);
+        }
+      })
+  }
+  selectListing = async (itemValue, itemIndex) => {
+    let data = store.MY_EVENTS.data.create_event;
+    await this.setState({ related_listing: itemValue });
+    data.related.dropdown.forEach(async (item) => {
+      if (item.listing_id === itemValue) {
+        await this.setState({ list_name: item.listing_title })
+      }
+    });
+  }
+  selectCategory = async (itemValue, itemIndex) => {
+    let data = store.MY_EVENTS.data.create_event;
+    await this.setState({ cate_id: itemValue });
+    data.category.dropdown.forEach(async (item) => {
+      if (item.category_id === itemValue) {
+        await this.setState({ cate_name: item.category_name })
+      }
+    });
+
+  }
+  multiImagePicker() {
     ImagePicker.openPicker({
       multiple: true,
       waitAnimationEnd: false,
       includeExif: true,
       forceJpg: true,
-    }).then(images => {
-      this.setState({
+    }).then(async (images) => {
+      images.forEach(i => {
+        this.state.avatorSources.push({ uri: i.path, type: i.mime, name: i.filename })
+      })
+      await this.setState({
         image: null,
         images: images.map(i => {
-          console.log('received image', i);
-          return {uri: i.path, width: i.width, height: i.height, mime: i.mime};
+          // console.log('received image', i);
+          return { uri: i.path, width: i.width, height: i.height, mime: i.mime };
         })
-      }).catch(e => alert(e));
-      // console.log(images);
+      })
+    }).catch((error) => {
+      console.log('error:', error);
     });
   }
   renderAsset(image) {
     if (image.mime && image.mime.toLowerCase().indexOf('video/') !== -1) {
       return this.renderVideo(image);
     }
-
     return this.renderImage(image);
   }
   renderImage(image) {
     return (
-      <ImageBackground source={image} style={{height:height(10),width:width(20)}}>
-        <TouchableOpacity style={{height:height(3.5),width:width(6),justifyContent:'center',alignItems:'center',backgroundColor:'rgba(255,255,255,0.9)',alignSelf:'flex-end'}}>
-          <Text style={{fontSize:totalSize(2),color:'red'}}>X</Text>
+      <ImageBackground source={image} style={{ height: height(10), width: width(20) }}>
+        <TouchableOpacity style={{ height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.9)', alignSelf: 'flex-end' }}>
+          <Text style={{ fontSize: totalSize(2), color: 'red' }}>X</Text>
         </TouchableOpacity>
       </ImageBackground>
-      )
+    );
   }
+
   render() {
-    let region = {
-      latitude:       31.582045,
-      longitude:      74.329376,
-      latitudeDelta:  0.00922*1.5,
-      longitudeDelta: 0.00421*1.5
-    }
+    let data = store.MY_EVENTS.data.create_event;
+    var date = new Date().toDateString();
+    // console.warn(date);
     return (
       <View style={styles.container}>
         <ScrollView>
           <EventsUpperView />
-          <View style={styles.titleCon}>
-            <Text style={styles.titleTxt}>Create Event</Text>
+          <View style={styles.textInputCon}>
+            <Text style={styles.textInputLabel}>{data.title.main_title}</Text>
+            <TextInput
+              onChangeText={(value) => this.setState({ eventTitle: value })}
+              placeholder={data.title.placeholder}
+              value={data.title.value !== '' ? this.state.eventTitle : null}
+              placeholderTextColor='gray'
+              underlineColorAndroid='transparent'
+              autoCorrect={false}
+              style={styles.textInput}
+            />
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>Event Title</Text>
-            <TextInput
-                 onChangeText={(value) => this.setState({name: value})}
-                 placeholder='Event Title'
-                 placeholderTextColor= 'gray'
-                 underlineColorAndroid='transparent'
-                 autoCorrect={false}
-                 style={styles.textInput}
-                 />
+            <Text style={styles.textInputLabel}>{data.category.main_title}</Text>
+            {
+              Platform.OS === 'android' ?
+                <View style={{ height: 45, width: 380, flexDirection: 'row', alignItems: 'center', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }}>
+                  <Picker
+                    selectedValue={this.state.language}
+                    style={{ height: 45, width: 370 }}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({ cate_id: itemValue })
+                    }>
+                    <Picker.Item label={data.category.placeholder} />
+                    {
+                      data.category.dropdown.map((item, key) => {
+                        return (
+                          <Picker.Item key={key} label={item.category_name} value={item.category_id} />
+                        );
+                      })
+                    }
+                  </Picker>
+                </View>
+                :
+                <TouchableOpacity style={{ height: 50, width: 340, alignItems: 'center', flexDirection: 'row', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }} onPress={() => this.setState({ isCategory: !this.state.isCategory })}>
+                  <Text style={{ marginHorizontal: 8, width: 290 }}>{this.state.cate_name.length !== 0 ? this.state.cate_name : data.category.placeholder}</Text>
+                  <Icon
+                    size={14}
+                    name='caretdown'
+                    type='antdesign'
+                    color='gray'
+                  />
+                </TouchableOpacity>
+            }
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>Event Tagline</Text>
+            <Text style={styles.textInputLabel}>{data.phone.main_title}</Text>
             <TextInput
-                 onChangeText={(value) => this.setState({name: value})}
-                 placeholder='e.g. Continental Food Festival'
-                 placeholderTextColor= 'gray'
-                 underlineColorAndroid='transparent'
-                 autoCorrect={false}
-                 style={styles.textInput}
-                 />
+              onChangeText={(value) => this.setState({ phoneNo: value })}
+              value={this.state.phoneNo}
+              placeholder={data.phone.placeholder}
+              placeholderTextColor='gray'
+              keyboardType='phone-pad'
+              underlineColorAndroid='transparent'
+              autoCorrect={false}
+              style={styles.textInput}
+            />
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>Select Category</Text>
+            <Text style={styles.textInputLabel}>{data.email.main_title}</Text>
             <TextInput
-                 onChangeText={(value) => this.setState({name: value})}
-                 underlineColorAndroid='transparent'
-                 placeholder = 'Category'
-                 placeholderTextColor='gray'
-                 underlineColorAndroid='transparent'
-                 autoCorrect={false}
-                 style={styles.textInput}
-                 />
-          </View>
-          <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>Phone No</Text>
-            <TextInput
-                 onChangeText={(value) => this.setState({name: value})}
-                 placeholder = '+92 333 9933999'
-                 placeholderTextColor='gray'
-                 keyboardType='phone-pad'
-                 underlineColorAndroid='transparent'
-                 autoCorrect={false}
-                 style={styles.textInput}
-                 />
-          </View>
-          <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>Contact Email</Text>
-            <TextInput
-                 onChangeText={(value) => this.setState({name: value})}
-                 placeholder = 'abc@gamil.com'
-                 placeholderTextColor='gray'
-                 underlineColorAndroid='transparent'
-                 autoCorrect={false}
-                 style={styles.textInput}
-                 />
+              onChangeText={(value) => this.setState({ email: value })}
+              value={this.state.email}
+              placeholder={data.email.placeholder}
+              placeholderTextColor='gray'
+              underlineColorAndroid='transparent'
+              autoCorrect={false}
+              style={styles.textInput}
+            />
           </View>
           <View style={styles.aboutInputCon}>
-            <Text style={styles.textInputLabel}>Description</Text>
+            <Text style={styles.textInputLabel}>{data.desc.main_title}</Text>
             <TextInput
-                 onChangeText={(value) => this.setState({name: value})}
-                 placeholder = 'Description'
-                 placeholderTextColor='gray'
-                 underlineColorAndroid='transparent'
-                 autoCorrect={false}
-                 style={styles.aboutInputText}
-                 />
+              onChangeText={(value) => this.setState({ description: value })}
+              value={this.state.description}
+              placeholder={data.desc.placeholder}
+              placeholderTextColor='gray'
+              underlineColorAndroid='transparent'
+              autoCorrect={true}
+              multiline={true}
+              scrollEnabled={true}
+              style={styles.aboutInputText}
+            />
           </View>
           <View style={styles.textInputCon}>
-            <View style={{height:height(2),alignItems:'center',flex:1,flexDirection:'row'}}>
-              <Text style={styles.dateLabel}>Event Start Date</Text>
-              <Text style={styles.dateLabel}>Event End Date</Text>
+            <View style={{ height: height(2), alignItems: 'center', flex: 1, flexDirection: 'row' }}>
+              <Text style={styles.dateLabel}>{data.date_start.main_title}</Text>
+              <Text style={styles.dateLabel}>{data.date_end.main_title}</Text>
             </View>
-            <View style={{height:height(6.5),justifyContent:'center',flex:1,flexDirection:'row'}}>
-              <View style={{height:height(6),flex:1,borderRadius:3,borderColor:'COLOR_GRAY',marginRight:2,borderWidth:0.3}}>
-                {this.datePicker()}
+            <View style={{ height: height(6.5), justifyContent: 'center', flex: 1, flexDirection: 'row' }}>
+              <View style={{ height: height(5), width: 170, borderRadius: 3, borderColor: 'COLOR_GRAY', marginRight: 2, borderWidth: 0.3 }}>
+                <DatePicker
+                  style={{ width: 200 }}
+                  date={this.state.start_date}
+                  mode="datetime"
+                  androidMode='spinner' //spinner
+                  showIcon={true}
+                  placeholder={data.date_start.placeholder}
+                  duration={400}
+                  format="MM/DD/YYYY"
+                  minDate="1/12/2018"
+                  maxDate="1/12/2030"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  disabled={false}
+                  is24Hour={false}
+                  customStyles={{
+                    dateIcon: {
+                      position: 'absolute',
+                      left: 0,
+                      top: 4,
+                      marginLeft: 10,
+                      marginTop: 6,
+                      height: 20,
+                      width: 20
+                    },
+                    dateInput: {
+                      marginLeft: 0,
+                      borderWidth: 0,
+                    }
+                    // ... You can check the source to find the other keys.
+                  }}
+                  onDateChange={(date) => { this.setState({ start_date: date }) }}
+                />
               </View>
-              <View style={{height:height(6),flex:1,borderRadius:3,borderColor:'COLOR_GRAY',marginLeft:2,borderWidth:0.3}}>
-                {this.datePicker()}
+              <View style={{ height: height(5), width: 170, borderRadius: 3, borderColor: 'COLOR_GRAY', marginLeft: 2, borderWidth: 0.3 }}>
+                <DatePicker
+                  style={{ width: 200 }}
+                  date={this.state.end_date}
+                  is24Hour={true}
+                  mode="time"
+                  androidMode='spinner' //spinner
+                  showIcon={true}
+                  placeholder={data.date_end.placeholder}
+                  duration={400}
+                  format="MM/DD/YYYY"
+                  minDate="1/12/2018"
+                  maxDate="1/12/2030"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  disabled={false}
+                  customStyles={{
+                    dateIcon: {
+                      position: 'absolute',
+                      left: 0,
+                      top: 4,
+                      marginLeft: 10,
+                      marginTop: 6,
+                      height: 20,
+                      width: 20
+                    },
+                    dateInput: {
+                      marginLeft: 0,
+                      borderWidth: 0,
+                    }
+                    // ... You can check the source to find the other keys.
+                  }}
+                  onDateChange={(date) => { this.setState({ end_date: date }) }}
+                />
               </View>
             </View>
           </View>
-          <View style={{flex:1,marginHorizontal:15,marginVertical:5}}>
-            <Text style={styles.textInputLabel}>Listing Gallery</Text>
+          <View style={{ flex: 1, marginHorizontal: 15, marginVertical: 5 }}>
+            <Text style={styles.textInputLabel}>{data.gallery.main_title}</Text>
             <View style={styles.cameraCon}>
-              <TouchableOpacity style={styles.cameraSubCon} onPress={()=>this.multiImagePicker()}>
+              <TouchableOpacity style={styles.cameraSubCon} onPress={() => this.multiImagePicker()}>
                 <Image source={require('../../images/camera.png')} style={styles.cameraIcon} />
-                <Text style={styles.cameraBtnTxt}>Select Pics</Text>
+                <Text style={styles.cameraBtnTxt}>{data.gallery.placeholder}</Text>
               </TouchableOpacity>
               <View style={styles.tickBtnCon}>
                 {
-                  this.state.images.length === 0?
-                    <Image source={require('../../images/success.png')} style={{height:height(10),width:width(20),resizeMode:'contain'}} />
+                  this.state.images.length === 0 ?
+                    <Image source={require('../../images/success.png')} style={{ height: height(10), width: width(20), resizeMode: 'contain' }} />
                     :
-                    <Image source={require('../../images/successChecked.png')} style={{height:height(10),width:width(20),resizeMode:'contain'}} />
+                    <Image source={require('../../images/successChecked.png')} style={{ height: height(10), width: width(20), resizeMode: 'contain' }} />
                 }
               </View>
             </View>
           </View>
-          <View style={{flex:1,marginHorizontal:15,flexDirection:'row',flexWrap:'wrap',justifyContent:'flex-start',alignItems:'center'}}>
+          <View style={{ flex: 1, marginHorizontal: 15, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'center' }}>
             {
-              this.state.images.length > 0?
-                <View style={{flex:1,flexDirection:'row',flexWrap:'wrap',marginVertical:10,marginHorizontal:10,alignSelf:'center',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                  {this.state.images ? this.state.images.map(i => <View key={i.uri} style={{marginRight:3,marginVertical:3}}>{this.renderAsset(i)}</View>) : null}
+              this.state.images.length > 0 ?
+                <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10, marginHorizontal: 10, alignSelf: 'center', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                  {this.state.images ? this.state.images.map(i => <View key={i.uri} style={{ marginRight: 3, marginVertical: 3 }}>{this.renderAsset(i)}</View>) : null}
                 </View>
                 :
                 null
             }
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>Event Location</Text>
+            <Text style={styles.textInputLabel}>{data.location.main_title}</Text>
             <TextInput
-                 onChangeText={(value) => this.setState({name: value})}
-                 placeholder = 'Johar Town F-block Lahore'
-                 placeholderTextColor='gray'
-                 underlineColorAndroid='transparent'
-                 autoCorrect={true}
-                 style={styles.textInput}
-                 />
+              onChangeText={(value) => { this.setState({ location: value }), this.placesComplete(value) }}
+              placeholder={data.location.placeholder}
+              value={this.state.location}
+              placeholderTextColor='gray'
+              underlineColorAndroid='transparent'
+              autoCorrect={true}
+              style={styles.textInput}
+            />
           </View>
+          {
+            this.state.predictions.length > 0 ?
+              <View style={{ alignSelf: 'center', width: width(90), backgroundColor: 'white', marginVertical: 5, elevation: 3 }}>
+                <ScrollView>
+                  {
+                    this.state.predictions.map((item, key) => {
+                      return (
+                        <TouchableOpacity key={key} style={{ height: height(6), width: width(90), justifyContent: 'center', marginBottom: 0.5, backgroundColor: 'white', borderBottomWidth: 0.5, borderColor: COLOR_GRAY }}
+                          onPress={() => this.getLatLong(item.description)}
+                        >
+                          <Text style={{ marginHorizontal: 10 }}>{item.description}</Text>
+                        </TouchableOpacity>
+                      );
+                    })
+                  }
+                </ScrollView>
+              </View>
+              : null
+          }
           <View style={styles.mapCon}>
             <MapView
-              ref = {(ref)=>this.mapView=ref}
+              ref={(ref) => this.mapView = ref}
               zoomEnabled={true}
               zoomControlEnabled={true}
               showsBuildings={true}
@@ -262,74 +433,185 @@ export default class CreateEvent extends Component<Props> {
               showsUserLocation={true}
               followsUserLocation={true}
               minZoomLevel={5}
-              maxZoomLevel = {20}
-              mapType = {"standard"}
-              loadingEnabled = {true}
-              loadingIndicatorColor = {'#ffffff'}
-              loadingBackgroundColor = 'gray'
+              maxZoomLevel={20}
+              mapType={"standard"}
+              loadingEnabled={true}
+              loadingIndicatorColor={'#ffffff'}
+              loadingBackgroundColor='gray'
               moveOnMarkerPress={false}
-              animateToRegion = {{
-                latitude:       31.582045,
-                longitude:      74.329376,
-                latitudeDelta:  0.00922*1.5,
-                longitudeDelta: 0.00421*1.5
-                    }, 5000}
+              // animateToRegion = {{
+              //   latitude:       this.state.latitude,
+              //   longitude:      this.state.latitude,
+              //   latitudeDelta:  0.00922*1.5,
+              //   longitudeDelta: 0.00421*1.5
+              //       }, 5000}
               style={styles.map}
-              region={region}
-              // onRegionChange={this.onRegionChange.bind(this)}
-              >
+              region={{
+                latitude: this.state.latitude || 31.582045,
+                longitude: this.state.longitude || 74.329376,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+              }}
+            // onRegionChange={this.onRegionChange.bind(this)}
+            >
+              {
+                this.state.latitude !== null && this.state.longitude !== null ?
                   <MapView.Marker
-                      coordinate={
-                      { latitude: 31.582045, longitude: 74.329376 }
-                      }
-                      title={'Current location'}
-                      description={'I am here'}
-                      pinColor={'#3edc6d'}
-                      />
+                    coordinate={
+                      { latitude: this.state.latitude, longitude: this.state.longitude }
+                    }
+                    title={'Current location'}
+                    description={'I am here'}
+                    pinColor={'#3edc6d'}
+                  />
+                  :
+                  null
+              }
             </MapView>
           </View>
           <View style={styles.textInputCon}>
-            <View style={{height:height(2),alignItems:'center',flex:1,flexDirection:'row'}}>
-              <Text style={styles.dateLabel}>Longitude</Text>
-              <Text style={styles.dateLabel}>Latitude</Text>
+            <View style={{ height: height(2), alignItems: 'center', flex: 1, flexDirection: 'row' }}>
+              <Text style={styles.dateLabel}>{data.long.main_title}</Text>
+              <Text style={styles.dateLabel}>{data.latt.main_title}</Text>
             </View>
-            <View style={{height:height(6.5),justifyContent:'center',flex:1,flexDirection:'row'}}>
-              <View style={{height:height(6),flex:1,borderRadius:3,borderColor:'COLOR_GRAY',marginRight:2,borderWidth:0.3,justifyContent:'center'}}>
-                <TextInput
-                  value="31.582045"
+            <View style={{ height: height(6.5), justifyContent: 'center', flex: 1, flexDirection: 'row' }}>
+              <View style={{ height: height(5.5), flex: 1, borderRadius: 3, borderColor: 'COLOR_GRAY', marginRight: 2, borderWidth: 0.3, justifyContent: 'center' }}>
+                {/* <TextInput
+                  placeholder={data.long.placeholder}
+                  placeholderTextColor='gray'
                   keyboardType="numeric"
-                  style={{fontSize:totalSize(1.4),color:'gray'}}
-                />
+                  value={this.state.longitude !== null ? this.state.longitude : null}
+                  style={{ fontSize: totalSize(1.4), color: 'black', paddingHorizontal: 7 }}
+                /> */}
+                <Text style={{ fontSize: totalSize(1.4), color: 'black', paddingHorizontal: 7 }}>{this.state.longitude !== null ? this.state.longitude : data.long.placeholder}</Text>
               </View>
-              <View style={{height:height(6),flex:1,borderRadius:3,borderColor:'COLOR_GRAY',marginLeft:2,borderWidth:0.3,justifyContent:'center'}}>
-                <TextInput
-                  value="31.582045"
+              <View style={{ height: height(5.5), flex: 1, borderRadius: 3, borderColor: 'COLOR_GRAY', marginLeft: 2, borderWidth: 0.3, justifyContent: 'center' }}>
+                {/* <TextInput
+                  placeholder={data.latt.placeholder}
+                  placeholderTextColor='gray'
+                  value={this.state.latitude !== null ? this.state.latitude : null}
                   keyboardType="numeric"
-                  style={{fontSize:totalSize(1.4),color:'gray'}}
-                />
+                  style={{ fontSize: totalSize(1.4), color: 'black', paddingHorizontal: 7 }}
+                /> */}
+                <Text style={{ fontSize: totalSize(1.4), color: 'black', paddingHorizontal: 7 }}>{this.state.latitude !== null ? this.state.latitude : data.latt.placeholder}</Text>
               </View>
             </View>
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>Releated Listing (Optional)</Text>
-            <TextInput
-                 onChangeText={(value) => this.setState({name: value})}
-                 underlineColorAndroid='transparent'
-                 placeholder = 'Category'
-                 placeholderTextColor='gray'
-                 underlineColorAndroid='transparent'
-                 autoCorrect={false}
-                 style={styles.textInput}
-                 />
+            <Text style={styles.textInputLabel}>{data.related.main_title}</Text>
+            {
+              Platform.OS === 'android' ?
+                <View style={{ height: 45, width: 380, flexDirection: 'row', alignItems: 'center', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }}>
+                  <Picker
+                    selectedValue={this.state.language}
+                    style={{ height: 45, width: 370 }}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({ related_listing: itemValue })
+                    }>
+                    <Picker.Item label={data.related.placeholder} />
+                    {
+                      data.related.dropdown.map((item, key) => {
+                        return (
+                          <Picker.Item key={key} label={item.listing_title} value={item.listing_id} />
+                        );
+                      })
+                    }
+                  </Picker>
+                </View>
+                :
+                <TouchableOpacity style={{ height: 50, width: 340, alignItems: 'center', flexDirection: 'row', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }} onPress={() => this.setState({ is_picker: !this.state.is_picker })}>
+                  <Text style={{ marginHorizontal: 8, width: 290 }}>{this.state.list_name.length !== 0 ? this.state.list_name : data.related.placeholder}</Text>
+                  <Icon
+                    size={14}
+                    name='caretdown'
+                    type='antdesign'
+                    color='gray'
+                  />
+                </TouchableOpacity>
+            }
           </View>
-          <View style={styles.profielBtn}>
-            <Text style={styles.profielBtnTxt}>Update Profile</Text>
-          </View>
+          <TouchableOpacity style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr }]} onPress={() => { this.createEvent() }}>
+            {
+              this.state.loading ? 
+                <ActivityIndicator animating={true} color={COLOR_PRIMARY} size='large' /> 
+                :
+                <Text style={styles.profielBtnTxt}>Update Profile</Text>
+            }
+          </TouchableOpacity>
         </ScrollView>
+        <Modal
+          animationInTiming={500}
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          avoidKeyboard={true}
+          // transparent={false}
+          isVisible={this.state.is_picker}
+          onBackdropPress={() => this.setState({ is_picker: false })}
+          style={{ flex: 1, marginTop: 275 }}>
+          <View style={{ height: height(35), width: width(100), alignSelf: 'center', backgroundColor: COLOR_PRIMARY }}>
+            <View style={{ height: height(4), alignItems: 'flex-end' }}>
+              <TouchableOpacity style={{ elevation: 3, height: height(4), width: width(8), justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }} onPress={() => { this.setState({ is_picker: false }) }}>
+                <Image source={require('../../images/clear-button.png')} style={{ height: height(2), width: width(3), resizeMode: 'contain' }} />
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Picker
+                selectedValue={this.state.related_listing}
+                style={{ height: 45, width: 370 }}
+                onValueChange={async (itemValue, itemIndex) =>
+                  await this.selectListing(itemValue, itemIndex)
+                  // this.setState({ related_listing: itemValue })
+                }>
+                {
+                  data.related.dropdown.map((item, key) => {
+                    return (
+                      <Picker.Item key={key} label={item.listing_title} value={item.listing_id} />
+                    );
+                  })
+                }
+              </Picker>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationInTiming={500}    // Select category model
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          avoidKeyboard={true}
+          // transparent={false}
+          isVisible={this.state.isCategory}
+          onBackdropPress={() => this.setState({ isCategory: false })}
+          style={{ flex: 1, marginTop: 275 }}>
+          <View style={{ height: height(35), width: width(100), alignSelf: 'center', backgroundColor: COLOR_PRIMARY }}>
+            <View style={{ height: height(4), alignItems: 'flex-end' }}>
+              <TouchableOpacity style={{ elevation: 3, height: height(4), width: width(8), justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }} onPress={() => { this.setState({ isCategory: false }) }}>
+                <Image source={require('../../images/clear-button.png')} style={{ height: height(2), width: width(3), resizeMode: 'contain' }} />
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Picker
+                selectedValue={this.state.cate_id}
+                style={{ height: 45, width: 370 }}
+                onValueChange={async (itemValue, itemIndex) =>
+                  await this.selectCategory(itemValue, itemIndex)
+                  // this.setState({ cate_id: itemValue })
+                }>
+                {
+                  data.category.dropdown.map((item, key) => {
+                    return (
+                      <Picker.Item key={key} label={item.category_name} value={item.category_id} />
+                    );
+                  })
+                }
+              </Picker>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
 }
+export default withNavigation(CreateEvent);
 // <View style={{height:height(21),flexDirection:'column-reverse',borderRadius:5,marginBottom:10,borderColor: COLOR_GRAY,borderWidth:0.5}}>
 //     <RichTextEditor
 //         ref={(r)=>this.richtext = r}

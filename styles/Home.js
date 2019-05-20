@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   secTxt: {
-    // fontFamily: FONT_NORMAL,
+    alignSelf:'flex-start',
     marginHorizontal: 19,
     fontSize: smallTitle,
     marginVertical: 2,
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5
   },
   featuredFLItem: {
-    // shadowOffset: { width: 3, height: 3 },
+    alignSelf:'center',
     marginHorizontal: 5,
     ...Platform.select({
       ios: { shadowColor: 'gray', shadowOpacity: 0.2, shadowRadius: 2 },

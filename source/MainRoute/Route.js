@@ -28,7 +28,8 @@ import ReviewsCon from '../components/Reviews/ReviewsCon';
 import SavedListing from '../components/SavedListing/SavedListing';
 import AdvanceSearch from '../components/AdvanceSearch/AdvanceSearch';
 import SearchingScreen from '../components/AdvanceSearch/SearchingScreen';
-//import EventsTabs from '../components/Events/EventsTabs';
+import EventsTabs from '../components/Events/EventsTabs';
+import CreactEvent from '../components/Events/CreateEvent';
 import Categories from '../components/Categories/Categories';
 import EventDetail from '../components/Events/EventDetail'
 import PublicProfileTab from '../components/PublicProfile/PublicProfileTab';
@@ -85,7 +86,8 @@ const RootStack = createStackNavigator(
     SavedListing: SavedListing,
     AdvanceSearch: AdvanceSearch,
     SearchingScreen: SearchingScreen,
-    //EventsTabs: EventsTabs,
+    EventsTabs: EventsTabs,
+    CreactEvent: CreactEvent,
     Categories: Categories,
     EventDetail: EventDetail,
     PublicProfileTab: PublicProfileTab,

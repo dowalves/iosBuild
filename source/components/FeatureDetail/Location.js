@@ -3,7 +3,6 @@ import {Platform, StyleSheet, Text, View, Button,Image,ImageBackground,Touchable
         ScrollView,TextInput,FlatList
 } from 'react-native';
 import Modal from "react-native-modal";
-import { Rating, AirbnbRating } from 'react-native-ratings';
 import { width, height, totalSize } from 'react-native-dimension';
 import MapView, { Polyline,Marker,Callout,PROVIDER_GOOGLE } from 'react-native-maps';
 import { FONT_NORMAL,FONT_BOLD,COLOR_PRIMARY,COLOR_ORANGE,COLOR_GRAY,COLOR_SECONDARY } from '../../../styles/common';

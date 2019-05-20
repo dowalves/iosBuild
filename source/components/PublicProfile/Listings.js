@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Text, View, Image, ScrollView, ActivityIndicator } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_YELLOW, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
-import { observer } from 'mobx-react';
-// import Grading from 'react-native-grading';
+import {  COLOR_SECONDARY } from '../../../styles/common';
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
-import styles from '../../../styles/Home';
+import ListingComponent from '../Home/ListingComponent';
 import ProfileUpperView from './ProfileUpperView';
 import { withNavigation } from 'react-navigation';
 
@@ -20,70 +17,12 @@ class Listings extends Component<Props> {
       reCaller: false,
     }
   }
-
-  componentWillMount = async () => {
-  }
-  // public_profile = async () => {
-  //   store.is_publicEvents = true;
-  //   this.setState({ loading: true })
-  //   let params = {
-  //     user_id: '14'
-  //   };
-  //   let response = await ApiController.post('author-detial', params);
-  //   if (response.success) {
-  //     store.PUB_PROFILE_DETAIL = response.data;
-  //     this.setState({ loading: false })
-  //     store.is_publicEvents = false;
-  //   } else {
-  //     this.setState({ loading: false })
-  //     store.is_publicEvents = false;
-  //   }
-  // }
+  
   static navigationOptions = { header: null };
 
   _blog = (item, key) => {
     return (
-      <TouchableOpacity key={key} style={[styles.featuredFLItem, { width: width(95), alignSelf: 'center', alignItems: 'center' }]} onPress={() => { this.props.navigation.push('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
-        <ImageBackground source={{ uri: item.image }} style={styles.featuredImg}>
-          <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
-            <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
-          </TouchableOpacity>
-        </ImageBackground>
-        <View style={styles.txtViewCon}>
-          <Text style={styles.subHeadingTxt}>{item.category_name}</Text>
-          <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
-          <View style={styles.ratingCon}>
-            <View style={styles.gradingCon}>
-              {/* <Grading
-                mode="stars"
-                scale={1}
-                score={item.rating_stars === '' ? 0 : item.rating_stars}
-                scoreBase={5}
-                activeColor={COLOR_ORANGE}
-                defaultColor={COLOR_GRAY}
-              /> */}
-            </View>
-            <Icon
-              size={20}
-              name='eye'
-              type='evilicon'
-              color='#8a8a8a'
-              containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-            />
-            <Text style={styles.ratingTxt}>{item.total_views}</Text>
-          </View>
-          <View style={{ marginTop: 2, width: width(45), marginHorizontal: 8, flexDirection: 'row', alignItems: 'center' }}>
-            <Icon
-              size={18}
-              name='calendar'
-              type='evilicon'
-              color='#8a8a8a'
-              containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-            />
-            <Text style={{ fontSize: totalSize(1.6), marginHorizontal: 0 }}>{item.posted_date}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
+      <ListingComponent item={item} key={key} listStatus={true} />
     );
   }
 

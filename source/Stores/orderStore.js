@@ -40,9 +40,11 @@ class orderStore {
     //Blogs
     @observable BLOGS = {};
     @observable BLOG_DETAIL = {};
-    //Events
+    //Public Events
     @observable EVENTS = {};
     @observable EVENTS_SORTING = {};
+    //My Events
+    @observable MY_EVENTS = null;
     //Public Profile
     @observable PUB_PROFILE_DETAIL = {};
     @observable is_publicEvents = false;

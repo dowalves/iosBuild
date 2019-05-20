@@ -29,10 +29,12 @@ export default class ReviewsCon extends Component<Props> {
         store.USER_REVIEWS.data.submitted_reviews.commnets.forEach(item => {
             item.added = false;
             item.checked = false;
+            item.is_Active = false;
         });
         store.USER_REVIEWS.data.received_reviews.commnets.forEach(item => {
           item.added = false;
           item.checked = false;
+          item.is_Active = false;
         });
         this.setState({ loading: false })
     } else {
@@ -95,50 +97,3 @@ export default class ReviewsCon extends Component<Props> {
     );
   }
 }
-
-
-// export default createTabNavigator({
-//     ReceiveReview: ReceiveReview,
-//     SubmitReview: SubmitReview
-//   },
-//  {
-//    order: ['ReceiveReview','SubmitReview'],
-//    initialRouteName: 'ReceiveReview',
-//    tabBarPosition: 'bottom',
-//    removeClippedSubviews: true,
-//    animationEnabled: true,
-//    swipeEnabled: true,
-//    showIcon: false,
-//    animationEnabled: true,
-//    lazy: true,
-//    backBehavior: true,
-//    tabBarOptions: {
-//      activeTintColor: COLOR_SECONDARY,
-//      inactiveTintColor: COLOR_GRAY,
-//      allowFontScaling: true,
-//      scrollEnabled: true,
-//      showIcon: false,
-//      upperCaseLabel: false,
-//      pressColor: COLOR_ORANGE,
-//      labelStyle: {
-//        fontSize: totalSize(1.7),
-//        // textAlign: 'center',
-//        justifyContent: 'center',
-//        alignItems: 'center',
-//        // padding:0
-//      },
-//      tabStyle: {
-//        width:width(50)
-//        // justifyContent: 'center',
-//        // alignItems: 'center',
-//      },
-//      style: {
-//        backgroundColor: COLOR_PRIMARY,
-//      },
-//      indicatorStyle: {
-//        borderColor: COLOR_ORANGE,
-//        borderWidth:2,
-//      },
-//    },
-//  }
-// );

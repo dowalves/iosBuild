@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
     borderRadius:5,
     borderWidth: 0.8,
     paddingLeft:10,
+    width: width(92),
     fontSize:totalSize(subHeadingText),
-    // fontFamily:FONT_NORMAL,
     ...Platform.select({
       ios: { alignSelf:'flex-start'},
       android: { textAlignVertical: 'top', }

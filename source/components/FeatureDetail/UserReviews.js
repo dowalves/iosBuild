@@ -8,13 +8,11 @@ import { width, height, totalSize } from 'react-native-dimension';
 import * as Progress from 'react-native-progress';
 // import RNShineButton from 'react-native-shine-button';
 import HTMLView from 'react-native-htmlview';
-// import Grading from 'react-native-grading';
 import Accordion from 'react-native-collapsible/Accordion';
 import { Avatar } from 'react-native-elements';
 import Modal from "react-native-modal";
 import ImageViewer from 'react-native-image-zoom-viewer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import Toast from 'react-native-simple-toast';
 import { FONT_NORMAL, COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, S2, S18 } from '../../../styles/common';
 import { observer } from 'mobx-react';
@@ -55,21 +53,21 @@ class UserReviews extends Component<Props> {
     this.changeStarScore = this.changeStarScore.bind(this);
   }
   static navigationOptions = { header: null };
-  setModalVisible = (state,prop) => {
+  setModalVisible = (state, prop) => {
     if (state === 'claim' && prop === false) {
-      this.setState({ reportModel: false , isClaimVisible: true })
-    } else { 
+      this.setState({ reportModel: false, isClaimVisible: true })
+    } else {
       if (state === 'report') {
-        this.setState({ reportModel: true , isClaimVisible: false })
+        this.setState({ reportModel: true, isClaimVisible: false })
       }
     }
   }
-  hideModels = (state,hide) => {
+  hideModels = (state, hide) => {
     if (state === 'claim') {
-      this.setState({ isClaimVisible: hide , reportModel: hide })
-    } else { 
+      this.setState({ isClaimVisible: hide, reportModel: hide })
+    } else {
       if (state === 'report') {
-        this.setState({ reportModel: hide , reportModel: hide })
+        this.setState({ reportModel: hide, reportModel: hide })
       }
     }
   }
@@ -78,7 +76,7 @@ class UserReviews extends Component<Props> {
       stars: { score: score }
     });
   }
-  
+
   postReaction = async (comment_id, reaction_id) => {
     let { orderStore } = Store;
     let data = orderStore.home.FEATURE_DETAIL.data.listing_detial.listing_comments;
@@ -116,7 +114,7 @@ class UserReviews extends Component<Props> {
       Toast.show(response.message);
     }
   }
-  loadMore = async(pageNo) => {
+  loadMore = async (pageNo) => {
     let { orderStore } = Store;
     let params = {
       listing_id: orderStore.home.LIST_ID, //orderStore.home.LIST_ID  3518
@@ -125,13 +123,13 @@ class UserReviews extends Component<Props> {
     this.setState({ loadmore: true })
     var data = orderStore.home.FEATURE_DETAIL.data.listing_detial.listing_comments;
     let response = await Api.post('listing-more-reviews', params);
-    if ( response.success ) {
-        //forEach Loop LoadMore Reviewes
-        response.data.listing_comments.listing_reviews.forEach((item)=>{
-          data.listing_reviews.push(item);
-        })
-        data.pagination = response.data.listing_comments.pagination;
-        this.setState({ loadmore: false })
+    if (response.success) {
+      //forEach Loop LoadMore Reviewes
+      response.data.listing_comments.listing_reviews.forEach((item) => {
+        data.listing_reviews.push(item);
+      })
+      data.pagination = response.data.listing_comments.pagination;
+      this.setState({ loadmore: false })
     } else {
       this.setState({ loadmore: false })
     }
@@ -161,7 +159,20 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>5 stars</Text>
           <View style={styles.gradingCon}>
-            {/* <Grading mode="stars" scale={1.1} score={5} scoreBase={5} activeColor={COLOR_ORANGE} defaultColor={COLOR_GRAY} /> */}
+            <Rating
+              type='star'
+              // ratingImage={WATER_IMAGE}
+              ratingColor={COLOR_ORANGE}
+              ratingBackgroundColor={COLOR_GRAY}
+              startingValue={5}
+              fractions={0}
+              readonly={false}
+              ratingCount={5}
+              imageSize={15}
+              onFinishRating={this.ratingCompleted}
+              // showRating
+              style={styles.ratingStyle}
+            />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_5 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
           <Text style={styles.startScoreText}>{data.reviews.total_score.star_5}%</Text>
@@ -169,7 +180,20 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>4 stars</Text>
           <View style={styles.gradingCon}>
-            {/* <Grading mode="stars" scale={1.1} score={4} scoreBase={5} activeColor={COLOR_ORANGE} defaultColor={COLOR_GRAY} /> */}
+            <Rating
+              type='star'
+              // ratingImage={WATER_IMAGE}
+              ratingColor={COLOR_ORANGE}
+              ratingBackgroundColor={COLOR_GRAY}
+              startingValue={4}
+              fractions={0}
+              readonly={false}
+              ratingCount={5}
+              imageSize={15}
+              onFinishRating={this.ratingCompleted}
+              // showRating
+              style={styles.ratingStyle}
+            />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_4 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
           <Text style={styles.startScoreText}>{data.reviews.total_score.star_4}%</Text>
@@ -177,7 +201,20 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>3 stars</Text>
           <View style={styles.gradingCon}>
-            {/* <Grading mode="stars" scale={1.1} score={3} scoreBase={5} activeColor={COLOR_ORANGE} defaultColor={COLOR_GRAY} /> */}
+            <Rating
+              type='star'
+              // ratingImage={WATER_IMAGE}
+              ratingColor={COLOR_ORANGE}
+              ratingBackgroundColor={COLOR_GRAY}
+              startingValue={3}
+              fractions={0}
+              readonly={false}
+              ratingCount={5}
+              imageSize={15}
+              onFinishRating={this.ratingCompleted}
+              // showRating
+              style={styles.ratingStyle}
+            />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_3 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
           <Text style={styles.startScoreText}>{data.reviews.total_score.star_3}%</Text>
@@ -185,7 +222,20 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>2 stars</Text>
           <View style={styles.gradingCon}>
-            {/* <Grading mode="stars" scale={1.1} score={2} scoreBase={5} activeColor={COLOR_ORANGE} defaultColor={COLOR_GRAY} /> */}
+            <Rating
+              type='star'
+              // ratingImage={WATER_IMAGE}
+              ratingColor={COLOR_ORANGE}
+              ratingBackgroundColor={COLOR_GRAY}
+              startingValue={2}
+              fractions={0}
+              readonly={false}
+              ratingCount={5}
+              imageSize={15}
+              onFinishRating={this.ratingCompleted}
+              // showRating
+              style={styles.ratingStyle}
+            />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_2 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
           <Text style={styles.startScoreText}>{data.reviews.total_score.star_2}%</Text>
@@ -193,7 +243,20 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>1 stars</Text>
           <View style={styles.gradingCon}>
-            {/* <Grading mode="stars" scale={1.1} score={1} scoreBase={5} activeColor={COLOR_ORANGE} defaultColor={COLOR_GRAY} /> */}
+            <Rating
+              type='star'
+              // ratingImage={WATER_IMAGE}
+              ratingColor={COLOR_ORANGE}
+              ratingBackgroundColor={COLOR_GRAY}
+              startingValue={1}
+              fractions={0}
+              readonly={false}
+              ratingCount={5}
+              imageSize={15}
+              onFinishRating={this.ratingCompleted}
+              // showRating
+              style={styles.ratingStyle}
+            />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_1 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
           <Text style={styles.startScoreText}>{data.reviews.total_score.star_1}%</Text>
@@ -212,8 +275,9 @@ class UserReviews extends Component<Props> {
           ratingBackgroundColor={COLOR_GRAY}
           startingValue={4}
           fractions={0}
+          readonly={false}
           ratingCount={5}
-          imageSize={totalSize(1.7)}
+          imageSize={15}
           onFinishRating={this.ratingCompleted}
           // showRating
           style={styles.ratingStyle}
@@ -239,7 +303,7 @@ class UserReviews extends Component<Props> {
     let surprise = <Icon family={"FontAwesome5"} name={"surprise"} color={"#808080"} />;
     let { orderStore } = Store;
     let data = orderStore.home.FEATURE_DETAIL.data.listing_detial;
-        
+
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -248,10 +312,10 @@ class UserReviews extends Component<Props> {
             <Accordion
               sections={SECTIONS}
               animationDuration={300}
-              // expanded={true}
+              expanded={true}
               easing='linear'
               collapsed={false}
-              onPress={()=>this.setState({ is_accordin: !this.state.is_accordin })}
+              onPress={() => this.setState({ is_accordin: !this.state.is_accordin })}
               underlayColor={null}
               renderHeader={this._renderHeader}
               renderContent={this._renderContent}
@@ -268,7 +332,7 @@ class UserReviews extends Component<Props> {
                             large
                             rounded
                             source={{ uri: item.user_dp }}
-                            onPress={()=>this.props.navigation.push('PublicProfileTab',{ profiler_id: item.user_id ,user_name: item.user_name })}
+                            onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: item.user_id, user_name: item.user_name })}
                             activeOpacity={1}
                           />
                         </View>
@@ -278,15 +342,20 @@ class UserReviews extends Component<Props> {
                         <Text style={styles.location}>{item.comment_title}</Text>
                         <View style={styles.dateCon}>
                           <Text style={styles.date}>{item.comment_date}   </Text>
-                          <View style={styles.gradingCon}>
-                            {/* <Grading
-                              mode="stars"
-                              scale={1.2}
-                              score={item.comment_stars}
-                              scoreBase={5}
-                              activeColor={COLOR_ORANGE}
-                              defaultColor={COLOR_GRAY}
-                              onGrading={this.changeStarScore} /> */}
+                          <View style={[styles.gradingCon,{ justifyContent:'center',marginHorizontal: 7 }]}>
+                            <Rating
+                              type='star'
+                              // ratingImage={WATER_IMAGE}
+                              ratingColor={COLOR_ORANGE}
+                              ratingBackgroundColor={COLOR_GRAY}
+                              startingValue={item.comment_stars}
+                              fractions={0}
+                              ratingCount={5}
+                              imageSize={15}
+                              onFinishRating={this.ratingCompleted}
+                              // showRating
+                              style={styles.ratingStyle}
+                            />
                           </View>
                         </View>
                       </View>
@@ -295,7 +364,7 @@ class UserReviews extends Component<Props> {
                       <View style={{ width: width(25), alignItems: 'center' }}>
                         {
                           data.listing_comments.show_user_rank ?
-                            <View style={{width:width(25),alignItems:'center'}}>
+                            <View style={{ width: width(25), alignItems: 'center' }}>
                               <TouchableOpacity style={{ backgroundColor: 'green', marginVertical: 3, borderRadius: 5, marginRight: 15, justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={styles.professionalBtn}>{item.user_rank_txt}</Text>
                               </TouchableOpacity>
@@ -306,7 +375,7 @@ class UserReviews extends Component<Props> {
                         }
                       </View>
                       <View style={{ width: width(70) }}>
-                        <View style={{ marginHorizontal: 0,width:width(68),justifyContent:'flex-start',alignSelf:'flex-start' }}>
+                        <View style={{ marginHorizontal: 0, width: width(68), justifyContent: 'flex-start', alignSelf: 'flex-start' }}>
                           <HTMLView
                             value={item.comment_content}
                             stylesheet={styles.paragraph}
@@ -417,15 +486,15 @@ class UserReviews extends Component<Props> {
               })
             }
             {
-              data.listing_comments.pagination.has_next_page?
-                <TouchableOpacity style={{backgroundColor: store.settings.data.main_clr,justifyContent:'center',alignItems:'center',alignSelf:'center',marginVertical: 10,borderRadius: 5}} onPress={()=>this.loadMore(data.listing_comments.pagination.next_page)}>
+              data.listing_comments.pagination.has_next_page ?
+                <TouchableOpacity style={{ backgroundColor: store.settings.data.main_clr, justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginVertical: 10, borderRadius: 5 }} onPress={() => this.loadMore(data.listing_comments.pagination.next_page)}>
                   {
-                    this.state.loadmore?
-                      <View style={{marginHorizontal: 15,marginVertical: 5}}>
-                        <ActivityIndicator color='white' size='small' animating={true}/>
+                    this.state.loadmore ?
+                      <View style={{ marginHorizontal: 15, marginVertical: 5 }}>
+                        <ActivityIndicator color='white' size='small' animating={true} />
                       </View>
                       :
-                      <Text style={{fontSize:totalSize(S18),color: COLOR_PRIMARY,marginHorizontal: 15,marginVertical: 5}}>{data.listing_comments.load_more}</Text>
+                      <Text style={{ fontSize: totalSize(S18), color: COLOR_PRIMARY, marginHorizontal: 15, marginVertical: 5 }}>{data.listing_comments.load_more}</Text>
                   }
                 </TouchableOpacity>
                 : null
@@ -438,10 +507,10 @@ class UserReviews extends Component<Props> {
           animationOut="slideOutRight"
           avoidKeyboard={true}
           // transparent={false}
-          isVisible={this.state.reportModel }
-          onBackdropPress={() => this.setState({ reportModel: false }) }
-          style={{ flex: 1 }}>      
-            <Report hideModels={this.hideModels} /> 
+          isVisible={this.state.reportModel}
+          onBackdropPress={() => this.setState({ reportModel: false })}
+          style={{ flex: 1 }}>
+          <Report hideModels={this.hideModels} />
         </Modal>
         <Modal
           animationInTiming={500}
@@ -450,9 +519,9 @@ class UserReviews extends Component<Props> {
           avoidKeyboard={true}
           // transparent={false}
           isVisible={this.state.isClaimVisible}
-          onBackdropPress={() => this.setState({ isClaimVisible: false }) }
+          onBackdropPress={() => this.setState({ isClaimVisible: false })}
           style={{ flex: 1 }}>
-            <Claim hideModels={this.hideModels} />
+          <Claim hideModels={this.hideModels} />
         </Modal>
         <Modal
           visible={this.state.modalVisible}

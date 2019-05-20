@@ -128,11 +128,11 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderColor: COLOR_SECONDARY,
     fontSize: totalSize(1.4),
-    // fontFamily: FONT_NORMAL,
     color: COLOR_SECONDARY,
   },
   gradingCon: {
     width: width(25.5),
+    height: 20,
   },
   flatlistChild: {
     height: height(8),

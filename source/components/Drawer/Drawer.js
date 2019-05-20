@@ -17,7 +17,7 @@ import PublicEvents from '../PublicEvents/PublicEvents';
 import Packages from '../Packages/Packages';
 import ReviewsCon from '../Reviews/ReviewsCon';
 import SavedListing from '../SavedListing/SavedListing';
-// import EventsTabs from '../Events/EventsTabs';  TabNavigator issue
+import EventsTabs from '../Events/EventsTabs';
 import SearchingScreen from '../AdvanceSearch/SearchingScreen';
 import Categories from '../Categories/Categories';
 
@@ -37,13 +37,13 @@ const DrawerComp = createDrawerNavigator({
   Packages: Packages,
   ReviewsCon: ReviewsCon,
   SavedListing: SavedListing,
-  // EventsTabs: EventsTabs,
+  EventsTabs: EventsTabs,
   SearchingScreen: SearchingScreen,
   PublicEvents: PublicEvents,
   Categories: Categories,
 },
   {
-    order: [ 'Packages', 'ReviewsCon', 'SearchingScreen', 'Home', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','PublicEvents'],
+    order: [ 'Packages', 'EventsTabs','ReviewsCon', 'SearchingScreen', 'Home', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','PublicEvents'],
     initialRouteName: 'Home',
     drawerWidth: width(80), 
     drawerPosition: I18nManager.isRTL ? 'right' : 'left',

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {
-    Platform, StyleSheet, Text, View, Animated, Image, ImageBackground, TouchableOpacity, I18nManager,
+    Text, View, Image, ImageBackground, TouchableOpacity, I18nManager,
     ScrollView, TextInput, ActivityIndicator
 } from 'react-native';
-// import Grading from 'react-native-grading';
 import { NavigationActions } from 'react-navigation';
 import { width, height, totalSize } from 'react-native-dimension';
-import { INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
+import { COLOR_PRIMARY, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
 import Modal from "react-native-modal";
 import { CheckBox, Icon } from 'react-native-elements';
 import { observer } from 'mobx-react';
@@ -15,6 +14,7 @@ import styles from '../../../styles/Home';
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import Toast from 'react-native-simple-toast'
+import ListingComponent from '../Home/ListingComponent';
 
 @observer export default class SearchingScreen extends Component<Props> {
     constructor(props) {
@@ -225,47 +225,7 @@ import Toast from 'react-native-simple-toast'
                                             list !== "" ?
                                                 list.listings.map((item, key) => {
                                                     return (
-                                                        <TouchableOpacity key={key} style={[styles.featuredFLItem, { width: width(95), alignSelf: 'center', alignItems: 'center' }]} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
-                                                            <ImageBackground source={{ uri: item.image }} style={styles.featuredImg}>
-                                                                <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
-                                                                    <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
-                                                                </TouchableOpacity>
-                                                            </ImageBackground>
-                                                            <View style={styles.txtViewCon}>
-                                                                <Text style={styles.subHeadingTxt}>{item.category_name}</Text>
-                                                                <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
-                                                                <View style={styles.ratingCon}>
-                                                                    <View style={styles.gradingCon}>
-                                                                        {/* <Grading
-                                                                            mode="stars"
-                                                                            scale={1}
-                                                                            score={item.rating_stars === '' ? 0 : item.rating_stars}
-                                                                            scoreBase={5}
-                                                                            activeColor={COLOR_ORANGE}
-                                                                            defaultColor={COLOR_GRAY}
-                                                                        /> */}
-                                                                    </View>
-                                                                    <Icon
-                                                                        size={20}
-                                                                        name='eye'
-                                                                        type='evilicon'
-                                                                        color='#8a8a8a'
-                                                                        containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-                                                                    />
-                                                                    <Text style={styles.ratingTxt}>{item.total_views}</Text>
-                                                                </View>
-                                                                <View style={{ marginTop: 2, width: width(45), marginHorizontal: 8, flexDirection: 'row', alignItems: 'center' }}>
-                                                                    <Icon
-                                                                        size={18}
-                                                                        name='calendar'
-                                                                        type='evilicon'
-                                                                        color='#8a8a8a'
-                                                                        containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-                                                                    />
-                                                                    <Text style={{ fontSize: 10, marginHorizontal: 0 }}>{item.posted_date}</Text>
-                                                                </View>
-                                                            </View>
-                                                        </TouchableOpacity>
+                                                       <ListingComponent item={item} key={key} listStatus={true} />
                                                     )
                                                 })
                                                 : null

@@ -7,7 +7,7 @@ import { width, height, totalSize } from 'react-native-dimension';
 import Accordion from 'react-native-collapsible/Accordion';
 import HTMLView from 'react-native-htmlview';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_YELLOW, COLOR_PINK } from '../../../styles/common';
-import { Icon, Rating } from 'react-native-elements'
+import StarRating from 'react-native-star-rating';
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Reviews/ReceiveReviewsStyleSheet';
@@ -71,7 +71,7 @@ class ReceiveReview extends Component<Props> {
     return layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom;
   };
-  _renderHeader=(section, content, isActive)=> {
+  _renderHeader = (section, content, isActive) => {
     return (
       <View style={{ flex: 1, flexDirection: 'row', borderRadius: 5, marginVertical: 10, marginHorizontal: 15, borderBottomWidth: 0.4, borderColor: (isActive ? "#f9f9f9" : COLOR_GRAY) }}>
         <View style={{ height: height(10), alignItems: 'flex-start', justifyContent: 'flex-start', marginBottom: 10 }}>
@@ -80,26 +80,26 @@ class ReceiveReview extends Component<Props> {
             rounded
             source={{ uri: section.commenter_dp }}
             activeOpacity={1}
-            onPress={()=>this.props.navigation.push('PublicProfileTab',{ profiler_id: section.user_id ,user_name: section.commenter_name })}
+            onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: section.user_id, user_name: section.commenter_name })}
           />
         </View>
         <View style={{ flex: 2, marginHorizontal: 10, justifyContent: 'flex-start', marginBottom: 10 }}>
           <Text style={{ fontSize: totalSize(subHeadingTxt), fontWeight: 'bold', color: COLOR_SECONDARY }}>{section.commenter_name}</Text>
           <View style={{ alignSelf: 'flex-start', width: 280, flexDirection: 'row', flexWrap: 'wrap' }}>
-            <Text style={{ fontSize: 11,marginRight: 5, color: Platform.OS === 'ios' ? 'gray' : null }}>{section.statement}</Text>
-            <Text 
+            <Text style={{ fontSize: 11, marginRight: 5, color: Platform.OS === 'ios' ? 'gray' : null }}>{section.statement}</Text>
+            <Text
               style={{ fontSize: totalSize(subHeadingTxt), fontWeight: 'bold', color: COLOR_SECONDARY }}
-              onPress={()=>this.props.navigation.navigate('FeatureDetailTabBar', { listId: section.listing_id, list_title: section.listing_title })}
-              >{section.listing_title}</Text>
+              onPress={() => this.props.navigation.navigate('FeatureDetailTabBar', { listId: section.listing_id, list_title: section.listing_title })}
+            >{section.listing_title}</Text>
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 2 }}>
-            <Rating
-              type='custom'
-              imageSize={12}
-              readonly
-              startingValue={parseFloat(section.rating_stars)}
-              ratingBackgroundColor='transparent'
-              style={{ marginRight: 7, backgroundColor: 'transparent' }}
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              starSize={13}
+              fullStarColor={COLOR_ORANGE}
+              containerStyle={{ marginRight: 5 }}
+              rating={section.rating_stars.length === 0 ? 0 : parseInt(section.rating_stars)}
             />
             <Text style={{ fontSize: totalSize(paragraphTxt), color: COLOR_SECONDARY }}>{section.total_rating}</Text>
           </View>
@@ -118,15 +118,18 @@ class ReceiveReview extends Component<Props> {
       <View style={{ flex: 10, width: width(75), marginBottom: 10, marginHorizontal: 10, alignSelf: 'flex-end', marginHorizontal: 15, borderBottomWidth: 0.4, borderColor: COLOR_GRAY }}>
         {/* <Text style={{ fontSize: totalSize(paragraphTxt), color: Platform.OS === 'ios' ? 'gray' : null }}>{section.comment_desc}</Text> */}
         <HTMLView
-              value={section.comment_desc}
-              stylesheet={styles.longTxt}
-            />
+          value={section.comment_desc}
+          stylesheet={styles.longTxt}
+        />
         <Text style={{ flex: 1, marginVertical: 5, fontSize: totalSize(1.4), fontWeight: 'bold', color: COLOR_SECONDARY }}>{txt.replybox_txt}</Text>
         <TextInput
-          onChangeText={(value) => this.setState({ email: value })}
+          // onChangeText={(value) => {}}
           underlineColorAndroid='transparent'
-          placeholder= { txt.placeholder_txt }
+          placeholder={section.has_reply ? null : null}
+          value={section.has_reply ? section.replier_msg : null}
           placeholderTextColor='gray'
+          multiline={true}
+          scrollEnabled={true}
           underlineColorAndroid='transparent'
           autoCorrect={false}
           style={{ height: height(15), width: width(75), borderRadius: 5, marginVertical: 5, borderColor: COLOR_GRAY, borderWidth: 1, fontSize: totalSize(subHeadingTxt), paddingLeft: 10, textAlignVertical: 'top' }}
@@ -146,7 +149,7 @@ class ReceiveReview extends Component<Props> {
           showsVerticalScrollIndicator={false}
           onScroll={({ nativeEvent }) => {
             if (this.isCloseToBottom(nativeEvent)) {
-              if (this.state.reCaller === false  ) {
+              if (this.state.reCaller === false) {
                 this.loadMore(data.review_type, data.received_pagination.next_page);
               }
               this.setState({ reCaller: true })

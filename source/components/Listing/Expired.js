@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Text, View,Image,TouchableOpacity,ScrollView } from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
 import { width, height, totalSize } from 'react-native-dimension';
 import {
   Menu,

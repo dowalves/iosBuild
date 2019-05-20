@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import { INDICATOR_COLOR, INDICATOR_SIZE, OVERLAY_COLOR } from '../../../styles/common';
 import { width, height, totalSize } from 'react-native-dimension';
-import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-simple-toast';
 import { observer } from 'mobx-react';
 import store from '../../Stores/orderStore';

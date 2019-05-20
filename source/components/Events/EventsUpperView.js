@@ -1,58 +1,91 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button,Image,ImageBackground,TouchableOpacity,I18nManager,
-        ScrollView,TextInput,FlatList
-} from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import {Platform, Text, View, Linking } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import { Avatar } from 'react-native-elements';
-import { FONT_NORMAL,FONT_BOLD,COLOR_PRIMARY,COLOR_ORANGE,COLOR_GRAY } from '../../../styles/common';
+import { Avatar, Icon } from 'react-native-elements';
+import { COLOR_PRIMARY,COLOR_SECONDARY,COLOR_GRAY } from '../../../styles/common';
 import { observer } from 'mobx-react';
-import Store from '../../Stores';
-import styles from '../../../styles/UserDashboardStyles/UpperViewStyleSheet';
-export default class EventsUpperView extends Component<Props> {
-  constructor( props ) {
+import store from '../../Stores/orderStore';
+@observer
+export default class UpperView extends Component<Props> {
+  constructor(props) {
     super(props);
     this.state = {
-      name: '',
+        is_about: false
     }
-    I18nManager.forceRTL(false);
-  }
-  static navigationOptions = {
-    header: null,
-  };
-  render() {
+}
+
+static navigationOptions = { header: null };
+
+social_service = (url) => {
+    if (url !== "") {
+        Linking.openURL(url);
+    }
+}
+
+render() {
+    let navbar_clr = store.settings.data.navbar_clr;
+    let main_clr = store.settings.data.main_clr;
+    let data = store.MY_EVENTS.data.profile_data;    
     return (
-        <ImageBackground source={require('../../images/bk_ground.jpg')} style={styles.bgImg}>
-          <View style={styles.imgConView}>
-            <View style={styles.subCon}>
-                <View style={{flex:2.5,justifyContent:'center'}}>
-                  <Avatar
+        <View style={{ width: width(100), marginBottom: 7, backgroundColor: COLOR_PRIMARY, borderBottomWidth: 0.4, borderBottomColor: '#ccc' }}>
+         {
+           data === ""?
+             null
+             :
+             <View style={{ alignItems:'center' }}>
+                <Avatar
                     large
                     rounded
-                    source={require('../../images/testImg.jpg')}
-                    onPress={() => console.warn("Works!")}
+                    source={{ uri: data.profile_img }}
                     activeOpacity={1}
+                    containerStyle={{ marginHorizontal: 20, marginTop: 15 }}
+                />
+                <Text style={{ fontSize: totalSize(2.5), fontWeight: 'bold', color: COLOR_SECONDARY, marginHorizontal: 0 }}>{data.name}</Text>
+                <View style={{ height: height(7), flexDirection: 'row',marginVertical: 5, marginHorizontal: 20 }}>
+                    <Icon
+                        raised //reverse
+                        size={14}
+                        name='facebook'
+                        type='font-awesome'
+                        color={navbar_clr}
+                        containerStyle={{ marginHorizontal: 0, marginRight: 5 }}
+                        onPress={() => this.social_service(data.fb_link)}
+                        underlayColor='rgba(255,0,0,0.3)'
+                    />
+                    <Icon
+                        raised //reverse
+                        size={14}
+                        name='twitter'
+                        type='entypo'
+                        color={navbar_clr}
+                        // containerStyle={{ marginHorizontal: 0 }}
+                        onPress={() => this.social_service(data.twitter_link)}
+                        underlayColor='rgba(255,0,0,0.3)'
+                    />
+                    <Icon
+                        raised //reverse
+                        size={14}
+                        name='google-'
+                        type='entypo'
+                        color={navbar_clr}
+                        // containerStyle={{ marginHorizontal: 0 }}
+                        onPress={() => this.social_service(data.google_link)}
+                        underlayColor='rgba(255,0,0,0.3)'
+                    />
+                    <Icon
+                        raised //reverse
+                        size={14}
+                        name='linkedin'
+                        type='entypo'
+                        color={navbar_clr}
+                        // containerStyle={{ marginHorizontal: 0 }}
+                        onPress={() => this.social_service(data.linkedin_link)}
+                        underlayColor='rgba(255,0,0,0.3)'
                     />
                 </View>
-                <View style={{flex:1,justifyContent:'flex-end'}}>
-                  <Text style={styles.nameTxt}>usama</Text>
-                </View>
-                <View style={{flex:1,justifyContent:'flex-start'}}>
-                  <Text style={styles.addressTxt}>Lahore, Pakistan</Text>
-                </View>
-                <View style={styles.listCon}>
-                  <View style={styles.listTab}>
-                    <Text style={styles.number}>138</Text>
-                    <Text style={styles.listLabel}>Total Listing</Text>
-                  </View>
-                  <View style={{height:height(6),justifyContent:'center',alignItems:'center'}}>
-                    <Text style={styles.number}>293</Text>
-                    <Text style={styles.listLabel}>Expired</Text>
-                  </View>
-                </View>
-            </View>
-          </View>
-      </ImageBackground>
+            </View> 
+         }
+        </View>
     );
-  }
+}
 }

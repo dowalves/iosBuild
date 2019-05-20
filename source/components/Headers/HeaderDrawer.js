@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button,Image,ImageBackground,TouchableOpacity,I18nManager,
         ScrollView,TextInput,FlatList,Alert
 } from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
-import { width, height, totalSize } from 'react-native-dimension';
-import { DrawerActions } from 'react-navigation';
-import { FONT_NORMAL,FONT_BOLD,COLOR_PRIMARY,COLOR_ORANGE,COLOR_GRAY } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/HeadersStyles/DrawerHeaderStyleSheet';
