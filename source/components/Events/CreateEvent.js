@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { Icon } from 'react-native-elements';
 import Modal from "react-native-modal";
 import ApiController from '../../ApiController/ApiController';
+import Toast from 'react-native-simple-toast';
 // import {RichTextEditor, RichTextToolbar} from 'react-native-zss-rich-text-editor';
 import DatePicker from 'react-native-datepicker';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_DARK_GRAY } from '../../../styles/common';
@@ -27,7 +28,7 @@ class CreateEvent extends Component<Props> {
       location: '',
       latitude: null,
       longitude: null,
-      eventTitle: null,
+      eventTitle: '',
       cate_id: '',
       cate_name: '',
       phoneNo: '',
@@ -37,8 +38,8 @@ class CreateEvent extends Component<Props> {
       end_date: '',
       related_listing: '',
       list_name: '',
-      avatorSources: []
-
+      avatorSources: [],
+      editImages: []
     }
     this.getHTML = this.getHTML.bind(this);
     this.setFocusHandlers = this.setFocusHandlers.bind(this);
@@ -55,37 +56,126 @@ class CreateEvent extends Component<Props> {
   }
   componentWillMount = async () => {
     let data = store.MY_EVENTS.data.create_event;
+    if ( data.category.value !== '' ) {
+      data.category.dropdown.forEach(async(item)=>{
+        if ( item.category_id === data.category.value ) {
+            await this.setState({ cate_name: item.category_name })
+        }
+      })
+    }
+    if ( data.related.value !== '' ) {
+      data.related.dropdown.forEach(async(item)=>{
+        if ( item.listing_id === data.related.value ) {
+            await this.setState({ list_name: item.listing_title })
+        }
+      })
+    }
     await this.setState({
-      eventTitle: data.title.value
+      eventTitle: data.title.value,
+      phoneNo: data.phone.value,
+      email: data.email.value,
+      cate_id: data.category.value,
+      related_listing: data.related.value,
+      description: data.desc.value,
+      start_date: data.date_start.value,
+      end_date: data.date_end.value,
+      location: data.location.value,
+      latitude: data.latt.value === ''? null : data.latt.value,
+      longitude: data.long.value === ''? null : data.long.value,
+      editImages: data.gallery.has_gallery ? data.gallery.dropdown : [] ,
     })
   }
   createEvent = async () => {
-    this.setState({ loading: true })
-    let formData = new FormData();
-    formData.append('title', this.state.eventTitle);
-    formData.append('category', this.state.cate_id);
-    formData.append('number', this.state.phoneNo);
-    formData.append('email', this.state.email);
-    formData.append('desc', this.state.description);
-    formData.append('start_date', this.state.start_date);
-    formData.append('end_date', this.state.end_date);
-    formData.append('venue', this.state.location);
-    formData.append('lat', this.state.latitude);
-    formData.append('long', this.state.longitude);
-    formData.append('parent_listing', this.state.related_listing);
-    if (this.state.avatorSources.length > 0) {
-      for (let i = 0; i < this.state.avatorSources.length; i++) {
-        formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
-      }
-    }
-    // ApiController 
-    let response = ApiController.postForm('event-submission', formData);
-    console.log('Event Upload========>>>>', response);
-    if ( response ) {
-        this.setState({ loading: false })
+    let data = store.MY_EVENTS.data;
+
+    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.avatorSources.length === 0 || this.state.location === '' || this.state.related_listing === '' ) {
+      Toast.show(data.required_msg)
     } else {
-      this.setState({ loading: false })
+      this.setState({ loading: true })
+      let formData = new FormData();
+      formData.append('title', this.state.eventTitle);
+      formData.append('category', this.state.cate_id);
+      formData.append('number', this.state.phoneNo);
+      formData.append('email', this.state.email);
+      formData.append('desc', this.state.description);
+      formData.append('start_date', this.state.start_date);
+      formData.append('end_date', this.state.end_date);
+      formData.append('venue', this.state.location);
+      formData.append('lat', this.state.latitude);
+      formData.append('long', this.state.longitude);
+      formData.append('parent_listing', this.state.related_listing);
+      if (this.state.avatorSources.length > 0) {
+        for (let i = 0; i < this.state.avatorSources.length; i++) {
+          formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
+        }
+      }      
+      // ApiController 
+      let response = await ApiController.postForm('event-submission', formData);
+      console.log('Event Upload========>>>>', response);
+      if ( response.success ) {
+          Toast.show(response.message)
+          await this.clearFields()
+          this.props.navigation.push('EventDetail', { event_id: response.event_id, title: this.state.eventTitle, headerColor: store.settings.data.navbar_clr })
+          this.setState({ loading: false })
+      } else {
+        this.setState({ loading: false })
+      } 
     }
+  }
+  editEvent = async () => {
+    let data = store.MY_EVENTS.data;
+
+    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.avatorSources.length === 0 || this.state.location === '' || this.state.related_listing === '' ) {
+      Toast.show(data.required_msg)
+    } else {
+      this.setState({ loading: true })
+      let formData = new FormData();
+      formData.append('title', this.state.eventTitle);
+      formData.append('category', this.state.cate_id);
+      formData.append('number', this.state.phoneNo);
+      formData.append('email', this.state.email);
+      formData.append('desc', this.state.description);
+      formData.append('start_date', this.state.start_date);
+      formData.append('end_date', this.state.end_date);
+      formData.append('venue', this.state.location);
+      formData.append('lat', this.state.latitude);
+      formData.append('long', this.state.longitude);
+      formData.append('parent_listing', this.state.related_listing);
+      if (this.state.avatorSources.length > 0) {
+        for (let i = 0; i < this.state.avatorSources.length; i++) {
+          formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
+        }
+      }      
+      // ApiController 
+      let response = await ApiController.postForm('edit-event', formData);
+      console.log('Event Upload========>>>>', response);
+      if ( response.success ) {
+          Toast.show(response.message)
+          await this.clearFields()
+          this.props.navigation.push('EventDetail', { event_id: response.event_id, title: this.state.eventTitle, headerColor: store.settings.data.navbar_clr })
+          this.setState({ loading: false })
+      } else {
+        this.setState({ loading: false })
+      } 
+    }
+  }
+  clearFields = async() => {
+    await this.setState({
+      eventTitle: '',
+      cate_id: '',
+      cate_name: '',
+      phoneNo: '',
+      email: '',
+      description: '',
+      start_date: '',
+      end_date: '',
+      related_listing: '',
+      list_name: '',
+      avatorSources: [],
+      latitude: null,
+      location: '',
+      longitude: null
+    })
   }
   setFocusHandlers() {
     this.richtext.setTitleFocusHandler(() => {
@@ -194,6 +284,7 @@ class CreateEvent extends Component<Props> {
   }
 
   render() {
+    let { params } = this.props.navigation.state;
     let data = store.MY_EVENTS.data.create_event;
     var date = new Date().toDateString();
     // console.warn(date);
@@ -202,7 +293,7 @@ class CreateEvent extends Component<Props> {
         <ScrollView>
           <EventsUpperView />
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>{data.title.main_title}</Text>
+            <Text style={styles.textInputLabel}>{data.title.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             <TextInput
               onChangeText={(value) => this.setState({ eventTitle: value })}
               placeholder={data.title.placeholder}
@@ -214,7 +305,7 @@ class CreateEvent extends Component<Props> {
             />
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>{data.category.main_title}</Text>
+            <Text style={styles.textInputLabel}>{data.category.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             {
               Platform.OS === 'android' ?
                 <View style={{ height: 45, width: 380, flexDirection: 'row', alignItems: 'center', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }}>
@@ -260,7 +351,7 @@ class CreateEvent extends Component<Props> {
             />
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>{data.email.main_title}</Text>
+            <Text style={styles.textInputLabel}>{data.email.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             <TextInput
               onChangeText={(value) => this.setState({ email: value })}
               value={this.state.email}
@@ -272,7 +363,7 @@ class CreateEvent extends Component<Props> {
             />
           </View>
           <View style={styles.aboutInputCon}>
-            <Text style={styles.textInputLabel}>{data.desc.main_title}</Text>
+            <Text style={styles.textInputLabel}>{data.desc.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             <TextInput
               onChangeText={(value) => this.setState({ description: value })}
               value={this.state.description}
@@ -287,8 +378,8 @@ class CreateEvent extends Component<Props> {
           </View>
           <View style={styles.textInputCon}>
             <View style={{ height: height(2), alignItems: 'center', flex: 1, flexDirection: 'row' }}>
-              <Text style={styles.dateLabel}>{data.date_start.main_title}</Text>
-              <Text style={styles.dateLabel}>{data.date_end.main_title}</Text>
+              <Text style={styles.dateLabel}>{data.date_start.main_title}<Text style={{ color:'red' }}>*</Text></Text>
+              <Text style={styles.dateLabel}>{data.date_end.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             </View>
             <View style={{ height: height(6.5), justifyContent: 'center', flex: 1, flexDirection: 'row' }}>
               <View style={{ height: height(5), width: 170, borderRadius: 3, borderColor: 'COLOR_GRAY', marginRight: 2, borderWidth: 0.3 }}>
@@ -364,7 +455,7 @@ class CreateEvent extends Component<Props> {
             </View>
           </View>
           <View style={{ flex: 1, marginHorizontal: 15, marginVertical: 5 }}>
-            <Text style={styles.textInputLabel}>{data.gallery.main_title}</Text>
+            <Text style={styles.textInputLabel}>{data.gallery.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             <View style={styles.cameraCon}>
               <TouchableOpacity style={styles.cameraSubCon} onPress={() => this.multiImagePicker()}>
                 <Image source={require('../../images/camera.png')} style={styles.cameraIcon} />
@@ -382,16 +473,36 @@ class CreateEvent extends Component<Props> {
           </View>
           <View style={{ flex: 1, marginHorizontal: 15, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'center' }}>
             {
-              this.state.images.length > 0 ?
-                <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10, marginHorizontal: 10, alignSelf: 'center', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-                  {this.state.images ? this.state.images.map(i => <View key={i.uri} style={{ marginRight: 3, marginVertical: 3 }}>{this.renderAsset(i)}</View>) : null}
+              this.state.images.length > 0 || this.state.editImages.length > 0 ?
+                <View style={{ flex: 1, flexDirection: 'row', marginVertical: 10, alignSelf: 'center', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                  <ScrollView 
+                    horizontal={true}>
+                    {this.state.images ? this.state.images.map(i => <View key={i.uri} style={{ marginRight: 5, marginVertical: 3 }}>{this.renderAsset(i)}</View>) : null}
+                    {
+                      this.state.editImages.length > 0 ? 
+                        this.state.editImages.map((item ,key) => {
+                          return(
+                            <View key={key} style={{ marginRight: 5, marginVertical: 3 }}>
+                              <Image source={{ uri: item.url }} style={{ height: height(10), width: width(20) }} />
+                              <View style={{ height: height(10), width: width(20),alignItems:'flex-end' ,position:'absolute' }}>
+                                <TouchableOpacity style={{ height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.9)', alignSelf: 'flex-end' }}>
+                                  <Text style={{ fontSize: totalSize(2), color: 'red' }}>X</Text>
+                                </TouchableOpacity>
+                              </View>
+                            </View>
+                          )
+                        }) 
+                        : 
+                        null 
+                    }
+                  </ScrollView>
                 </View>
                 :
                 null
             }
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>{data.location.main_title}</Text>
+            <Text style={styles.textInputLabel}>{data.location.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             <TextInput
               onChangeText={(value) => { this.setState({ location: value }), this.placesComplete(value) }}
               placeholder={data.location.placeholder}
@@ -447,8 +558,8 @@ class CreateEvent extends Component<Props> {
               //       }, 5000}
               style={styles.map}
               region={{
-                latitude: this.state.latitude || 31.582045,
-                longitude: this.state.longitude || 74.329376,
+                latitude: parseFloat(this.state.latitude) || 31.582045,
+                longitude: parseFloat(this.state.longitude) || 74.329376,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421
               }}
@@ -458,7 +569,7 @@ class CreateEvent extends Component<Props> {
                 this.state.latitude !== null && this.state.longitude !== null ?
                   <MapView.Marker
                     coordinate={
-                      { latitude: this.state.latitude, longitude: this.state.longitude }
+                      { latitude: parseFloat(this.state.latitude), longitude: parseFloat(this.state.longitude) }
                     }
                     title={'Current location'}
                     description={'I am here'}
@@ -471,8 +582,8 @@ class CreateEvent extends Component<Props> {
           </View>
           <View style={styles.textInputCon}>
             <View style={{ height: height(2), alignItems: 'center', flex: 1, flexDirection: 'row' }}>
-              <Text style={styles.dateLabel}>{data.long.main_title}</Text>
-              <Text style={styles.dateLabel}>{data.latt.main_title}</Text>
+              <Text style={styles.dateLabel}>{data.long.main_title}<Text style={{ color:'red' }}>*</Text></Text>
+              <Text style={styles.dateLabel}>{data.latt.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             </View>
             <View style={{ height: height(6.5), justifyContent: 'center', flex: 1, flexDirection: 'row' }}>
               <View style={{ height: height(5.5), flex: 1, borderRadius: 3, borderColor: 'COLOR_GRAY', marginRight: 2, borderWidth: 0.3, justifyContent: 'center' }}>
@@ -498,7 +609,7 @@ class CreateEvent extends Component<Props> {
             </View>
           </View>
           <View style={styles.textInputCon}>
-            <Text style={styles.textInputLabel}>{data.related.main_title}</Text>
+            <Text style={styles.textInputLabel}>{data.related.main_title}<Text style={{ color:'red' }}>*</Text></Text>
             {
               Platform.OS === 'android' ?
                 <View style={{ height: 45, width: 380, flexDirection: 'row', alignItems: 'center', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }}>
@@ -530,9 +641,15 @@ class CreateEvent extends Component<Props> {
                 </TouchableOpacity>
             }
           </View>
-          <TouchableOpacity style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr }]} onPress={() => { this.createEvent() }}>
+          <TouchableOpacity style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr }]} onPress={() => { 
+              if (params.eventMode === 'create') {
+                this.createEvent()
+              } else {
+                this.editEvent()
+              } 
+            }}>
             {
-              this.state.loading ? 
+              this.state.loading === true ? 
                 <ActivityIndicator animating={true} color={COLOR_PRIMARY} size='large' /> 
                 :
                 <Text style={styles.profielBtnTxt}>Update Profile</Text>

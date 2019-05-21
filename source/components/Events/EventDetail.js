@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform, StyleSheet, Text, View, Button, Image, ImageBackground, TouchableOpacity, ActivityIndicator,
-  ScrollView, TextInput, FlatList, Modal
-} from 'react-native';
+  Text, View, Image, TouchableOpacity,FlatList, ActivityIndicator,ScrollView, TextInput, Modal} from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { width, height, totalSize } from 'react-native-dimension';
 import MapView, { Polyline, Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -11,9 +9,7 @@ import ApiController from '../../ApiController/ApiController';
 import CountDown from 'react-native-countdown-component';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import HTMLView from 'react-native-htmlview';
-import {
-  INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S2, S18, S12, S14, COLOR_PRIMARY, COLOR_SECONDARY
-} from '../../../styles/common';
+import { INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S2, S14, COLOR_PRIMARY, COLOR_SECONDARY} from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
@@ -140,7 +136,7 @@ import Toast from 'react-native-simple-toast';
     }
     var titles = store.home.eventDetail.screen_text;
     var eventDetail = store.home.eventDetail.data;
-    var images = eventDetail.event_detial.gallery_images;
+    var images = eventDetail.event_detial.gallery_images;    
     var region = {
       latitude: parseFloat(eventDetail.event_detial.event_latitude),
       longitude: parseFloat(eventDetail.event_detial.event_longitude),
@@ -157,13 +153,16 @@ import Toast from 'react-native-simple-toast';
               {
                 store.home.eventDetail.data.event_detial.has_gallery ?
                   <View style={{ height: height(30), width: width(100) }}>
-                    {/* <Slideshow
-                      height={height(30)}
-                      dataSource={images}
-                      position={this.state.position}
-                      onPress={(index) => { this.setState({ modalVisible: true, index: this.state.position }) }}
-                      onPositionChanged={position => this.setState({ position: position })}
-                    /> */}
+                    <FlatList
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        data={eventDetail.event_detial.gallery_images}
+                        renderItem={({ item }) =>
+                          <TouchableOpacity style={{ alignSelf: 'center' }} onPress={() => { this.setState({ modalVisible: true }) }}>
+                            <Image source={{ uri: item.url }} style={{ height:height(30),width:width(100) }} />
+                          </TouchableOpacity>
+                        }
+                      />
                   </View>
                   :
                   null
@@ -221,17 +220,17 @@ import Toast from 'react-native-simple-toast';
                   <HTMLView
                     value={eventDetail.event_detial.event_desc}
                     stylesheet={{
-                      width: width(100),
+                      width: width(90),
                       marginHorizontal: 15,
                       marginVertical: 3,
                       fontSize: totalSize(1.5),
-                      textAlignVertical: 'center'
+                      textAlignVertical: 'center',
+                      color:'gray'
                     }}
                   />
-                  <Text style={styles.disText}>{eventDetail.event_detial.event_desc}</Text>
                 </View>
                 <View style={styles.mapCon}>
-                  <MapView
+                  {/* <MapView
                     ref={(ref) => this.mapView = ref}
                     zoomEnabled={true}
                     zoomControlEnabled={true}
@@ -258,7 +257,7 @@ import Toast from 'react-native-simple-toast';
                       description={'I am here'}
                       pinColor={'#3edc6d'}
                     />
-                  </MapView>
+                  </MapView> */}
                 </View>
                 <View style={styles.profileCon}>
                   <View style={styles.imgCon}>

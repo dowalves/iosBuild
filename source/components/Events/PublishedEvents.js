@@ -26,11 +26,10 @@ class PublishedEvents extends Component<Props> {
     }
     let response = await ApiController.post('edit-event',params);
     console.log('edit event==========================>>',response);
-    // store.MY_EVENTS = response;
     if ( response.success ) {
         store.MY_EVENTS.data.create_event = response.data.create_event;
         this.setState({ loading: false })
-        this.props.navigation.push('CreactEvent');
+        this.props.navigation.push('CreactEvent',{ eventMode: 'edit' });
         // this.props.jumpTo('create');
     } else {
         this.setState({ loading: false })
@@ -89,7 +88,7 @@ class PublishedEvents extends Component<Props> {
           scrollEventThrottle={400}>
           <EventsUpperView />
           <View style={{ marginHorizontal: 10,marginVertical: 5,alignItems:'flex-end' }}>
-            <TouchableOpacity style={{ width: 353,alignItems:'center',backgroundColor:'green',borderRadius: 4 }} onPress={()=>this.props.navigation.push('CreactEvent')}>
+            <TouchableOpacity style={{ width: 353,alignItems:'center',backgroundColor:'green',borderRadius: 4 }} onPress={()=>this.props.navigation.push('CreactEvent',{ eventMode: 'create' })}>
               <Text style={{ marginVertical: 10,fontSize: 14,color:'white' }}>Create</Text>
             </TouchableOpacity>
           </View>
