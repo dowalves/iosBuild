@@ -59,7 +59,7 @@ class MyEventComp extends Component<Props> {
                                     :
                                     null
                             }
-                            {/* <MenuOption>
+                            <MenuOption>
                                 <View style={{ flexDirection: 'row', }}>
                                     <Image source={require('../../images/x-button.png')} style={{ height: height(2.5), width: width(4), marginHorizontal: 5, resizeMode: 'contain' }} />
                                     <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>Delete</Text>
@@ -74,9 +74,9 @@ class MyEventComp extends Component<Props> {
                             <MenuOption>
                                 <View style={{ flexDirection: 'row', }}>
                                     <Image source={require('../../images/google-analytics.png')} style={{ height: height(2.5), width: width(4), marginHorizontal: 5, resizeMode: 'contain' }} />
-                                    <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>Expired</Text>
+                                    <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>Reactive</Text>
                                 </View>
-                            </MenuOption> */}
+                            </MenuOption>
                         </MenuOptions>
                     </Menu>
                 </View>

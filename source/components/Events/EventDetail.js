@@ -83,11 +83,13 @@ import Toast from 'react-native-simple-toast';
       this.setState({ loading: true })
       //API calling
       let param = {
-        event_id: params.event_id
+        event_id: params.event_id,
       };
+      console.log('params===>>',param);
+      
       let response = await ApiController.post('event-detial', param);
       orderStore.home.eventDetail = response;
-      // console.log('EventDetail=', response);
+      console.log('EventDetail=', response);
       if (response.success === true) {
         await this.setState({
           interval: setInterval(() => {
@@ -230,7 +232,7 @@ import Toast from 'react-native-simple-toast';
                   />
                 </View>
                 <View style={styles.mapCon}>
-                  {/* <MapView
+                  <MapView
                     ref={(ref) => this.mapView = ref}
                     zoomEnabled={true}
                     zoomControlEnabled={true}
@@ -257,7 +259,7 @@ import Toast from 'react-native-simple-toast';
                       description={'I am here'}
                       pinColor={'#3edc6d'}
                     />
-                  </MapView> */}
+                  </MapView>
                 </View>
                 <View style={styles.profileCon}>
                   <View style={styles.imgCon}>

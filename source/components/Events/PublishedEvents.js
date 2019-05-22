@@ -8,6 +8,7 @@ import store from '../../Stores/orderStore';
 import EventsUpperView from './EventsUpperView';
 import { withNavigation } from 'react-navigation';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import SimpleToast from 'react-native-simple-toast';
 
 class PublishedEvents extends Component<Props> {
   constructor(props) {
@@ -28,10 +29,33 @@ class PublishedEvents extends Component<Props> {
     console.log('edit event==========================>>',response);
     if ( response.success ) {
         store.MY_EVENTS.data.create_event = response.data.create_event;
+        store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
+          item.checkStatus = false;
+        })
         this.setState({ loading: false })
-        this.props.navigation.push('CreactEvent',{ eventMode: 'edit' });
+        this.props.navigation.push('CreactEvent',{ eventMode: 'edit' , eventID: event_id });
         // this.props.jumpTo('create');
     } else {
+        this.setState({ loading: false })
+    }
+  }
+  deleteEvent = async(event_id) => {
+    this.setState({ loading: true })
+    let params = {
+      event_id: event_id
+    }
+    let response = await ApiController.post('delete-event',params);
+    console.log('delete event==========================>>',response);
+    if ( response.success ) {
+        store.MY_EVENTS.data.create_event = response.data.create_event;
+        store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
+          item.checkStatus = false;
+        })
+        this.setState({ loading: false })
+        this.props.navigation.push('CreactEvent',{ eventMode: 'edit' , eventID: event_id });
+        // this.props.jumpTo('create');
+    } else {
+        SimpleToast.show(response.message)
         this.setState({ loading: false })
     }
   }

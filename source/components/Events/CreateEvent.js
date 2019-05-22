@@ -1,3 +1,7 @@
+//***********************//
+//****  Usama Butt  ****//
+//**********************//
+
 import React, { Component } from 'react';
 import { Text, View, Image, ImageBackground, ActivityIndicator, Platform, TouchableOpacity, ScrollView, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
@@ -108,7 +112,9 @@ class CreateEvent extends Component<Props> {
         for (let i = 0; i < this.state.avatorSources.length; i++) {
           formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
         }
-      }      
+      }  
+      // console.log('formData======>>>',formData);
+          
       // ApiController 
       let response = await ApiController.postForm('event-submission', formData);
       console.log('Event Upload========>>>>', response);
@@ -118,14 +124,16 @@ class CreateEvent extends Component<Props> {
           this.props.navigation.push('EventDetail', { event_id: response.event_id, title: this.state.eventTitle, headerColor: store.settings.data.navbar_clr })
           this.setState({ loading: false })
       } else {
+        Toast.show(response.message)
         this.setState({ loading: false })
       } 
     }
   }
   editEvent = async () => {
     let data = store.MY_EVENTS.data;
+    let { params } = this.props.navigation.state;
 
-    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.avatorSources.length === 0 || this.state.location === '' || this.state.related_listing === '' ) {
+    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' ||  this.state.location === '' || this.state.related_listing === '' || this.state.editImages.length === 0? this.state.avatorSources.length === 0 : null ) {
       Toast.show(data.required_msg)
     } else {
       this.setState({ loading: true })
@@ -141,14 +149,16 @@ class CreateEvent extends Component<Props> {
       formData.append('lat', this.state.latitude);
       formData.append('long', this.state.longitude);
       formData.append('parent_listing', this.state.related_listing);
+      formData.append('is_update',params.eventID)
       if (this.state.avatorSources.length > 0) {
         for (let i = 0; i < this.state.avatorSources.length; i++) {
           formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
         }
       }      
+      console.log('formData======>>>',formData);
       // ApiController 
-      let response = await ApiController.postForm('edit-event', formData);
-      console.log('Event Upload========>>>>', response);
+      let response = await ApiController.postForm('event-submission', formData);
+      console.log('Event edit========>>>>', response);
       if ( response.success ) {
           Toast.show(response.message)
           await this.clearFields()
@@ -276,13 +286,57 @@ class CreateEvent extends Component<Props> {
   renderImage(image) {
     return (
       <ImageBackground source={image} style={{ height: height(10), width: width(20) }}>
-        <TouchableOpacity style={{ height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.9)', alignSelf: 'flex-end' }}>
+        <TouchableOpacity style={{ height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.9)', alignSelf: 'flex-end' }} onPress={()=> this.removeLocalImage(image)}>
           <Text style={{ fontSize: totalSize(2), color: 'red' }}>X</Text>
         </TouchableOpacity>
       </ImageBackground>
     );
   }
-
+  removeLocalImage = async(image) => {
+    for (let i = 0; i < this.state.images.length; i++) {
+        if ( image.uri === this.state.images[i].uri ) {
+            this.state.images.splice(this.state.images.indexOf(image.uri),1);
+            this.setState({ loading: false })
+        }
+    }
+    for (let i = 0; i < this.state.avatorSources.length; i++) {
+      if ( image.uri === this.state.avatorSources[i].uri ) {
+          this.state.avatorSources.splice(this.state.avatorSources.indexOf(image.uri),1);
+          this.setState({ loading: false })
+      }
+    }
+  }
+  deleteCloudImage = async(img) => {
+    let data = store.MY_EVENTS.data.create_event;
+    let { params } = this.props.navigation.state;
+    let parameters = {
+      event_id: params.eventID,
+      image_id: img.image_id
+    };
+    data.gallery.dropdown.forEach(item => {
+      if ( item.image_id === img.image_id && img.checkStatus === false ) {
+           item.checkStatus = true;
+      } else {
+          item.checkStatus = false;
+      }
+    })
+    await this.setState({ editImages: data.gallery.dropdown })
+    try {
+      let response = await ApiController.post('delete-event-img',parameters);
+      if ( response.success ) {
+        response.data.gallery.dropdown.forEach(item => {
+          item.checkStatus = false;
+        })
+        data.gallery = response.data.gallery;
+        await this.setState({ editImages: data.gallery.dropdown })
+        // Toast.show(response.message)
+      } else {
+        // Toast.show(response.message)
+      }
+    } catch (error) {
+      console.log('error:',error);
+    }
+  }
   render() {
     let { params } = this.props.navigation.state;
     let data = store.MY_EVENTS.data.create_event;
@@ -391,13 +445,13 @@ class CreateEvent extends Component<Props> {
                   showIcon={true}
                   placeholder={data.date_start.placeholder}
                   duration={400}
-                  format="MM/DD/YYYY"
+                  format="MM/DD/YYYY HH:mm a"
                   minDate="1/12/2018"
                   maxDate="1/12/2030"
                   confirmBtnText="Confirm"
                   cancelBtnText="Cancel"
                   disabled={false}
-                  is24Hour={false}
+                  // is24Hour={false}
                   customStyles={{
                     dateIcon: {
                       position: 'absolute',
@@ -414,20 +468,20 @@ class CreateEvent extends Component<Props> {
                     }
                     // ... You can check the source to find the other keys.
                   }}
-                  onDateChange={(date) => { this.setState({ start_date: date }) }}
+                  onDateChange={(date) => { console.warn(date),this.setState({ start_date: date }) }}
                 />
               </View>
               <View style={{ height: height(5), width: 170, borderRadius: 3, borderColor: 'COLOR_GRAY', marginLeft: 2, borderWidth: 0.3 }}>
                 <DatePicker
                   style={{ width: 200 }}
                   date={this.state.end_date}
-                  is24Hour={true}
-                  mode="time"
+                  // is24Hour={false}
+                  mode="datetime"
                   androidMode='spinner' //spinner
                   showIcon={true}
                   placeholder={data.date_end.placeholder}
                   duration={400}
-                  format="MM/DD/YYYY"
+                  format="MM/DD/YYYY HH:mm a"
                   minDate="1/12/2018"
                   maxDate="1/12/2030"
                   confirmBtnText="Confirm"
@@ -480,14 +534,21 @@ class CreateEvent extends Component<Props> {
                     {this.state.images ? this.state.images.map(i => <View key={i.uri} style={{ marginRight: 5, marginVertical: 3 }}>{this.renderAsset(i)}</View>) : null}
                     {
                       this.state.editImages.length > 0 ? 
-                        this.state.editImages.map((item ,key) => {
+                        data.gallery.dropdown.map((item ,key) => {
                           return(
                             <View key={key} style={{ marginRight: 5, marginVertical: 3 }}>
                               <Image source={{ uri: item.url }} style={{ height: height(10), width: width(20) }} />
                               <View style={{ height: height(10), width: width(20),alignItems:'flex-end' ,position:'absolute' }}>
-                                <TouchableOpacity style={{ height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.9)', alignSelf: 'flex-end' }}>
-                                  <Text style={{ fontSize: totalSize(2), color: 'red' }}>X</Text>
-                                </TouchableOpacity>
+                                {
+                                  item.checkStatus ?
+                                    <View style={{ height: height(10), width: width(20),backgroundColor: item.checkStatus? 'rgba(0,0,0,0.5)':null,justifyContent:'center',alignItems:'center' }}>
+                                      <ActivityIndicator size='large' animating={true} color={COLOR_PRIMARY} /> 
+                                    </View>
+                                    :
+                                    <TouchableOpacity style={{ height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.9)', alignSelf: 'flex-end' }} onPress={async()=> await this.deleteCloudImage(item)}>
+                                      <Text style={{ fontSize: totalSize(2), color: 'red' }}>X</Text>
+                                    </TouchableOpacity> 
+                                }
                               </View>
                             </View>
                           )
