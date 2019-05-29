@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet,Platform } from 'react-native';
-import { FONT_NORMAL,FONT_BOLD,COLOR_PRIMARY,COLOR_SECONDARY,COLOR_BACKGROUND,COLOR_LIME_GREEN,COLOR_LIGHT_PINK,COLOR_RED,COLOR_GRAY,COLOR_ORANGE,COLOR_BROWN,COLOR_YELLOW,COLOR_PINK,COLOR_LIGHT_BLUE,COLOR_DARK_GRAY } from '../common';
+import { COLOR_PRIMARY,COLOR_SECONDARY,COLOR_BACKGROUND,COLOR_LIME_GREEN,COLOR_LIGHT_PINK,COLOR_RED,COLOR_GRAY,COLOR_ORANGE,COLOR_BROWN,COLOR_YELLOW,COLOR_PINK,COLOR_LIGHT_BLUE,COLOR_DARK_GRAY } from '../common';
 import { width, height, totalSize } from 'react-native-dimension';
 const buttonTxt = 1.8;
 const paragraphTxt = 1.4;
@@ -39,19 +39,18 @@ const styles = StyleSheet.create({
   closeBtnTxt: {
     fontSize:totalSize(1.1),
     color: COLOR_PRIMARY,
-    fontFamily: FONT_NORMAL
   },
   textInputCon: {
-    height:height(10),
+    // height:height(10),
+    width:width(90),
     marginHorizontal:15,
-    marginVertical:5
+    marginVertical:5,
   },
   textInputLabel: {
     width:width(61),
     fontSize:totalSize(headingTxt),
     marginVertical:7,
     color: COLOR_DARK_GRAY,
-    // fontFamily: FONT_BOLD
     fontWeight:'bold'
   },
   subCon: {
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     borderColor:COLOR_GRAY
   },
   dateLabel: {
-    flex:1,
+    width:width(45),
     fontSize:totalSize(headingTxt),
     fontWeight:'bold',
     color:'gray',
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
   },
   aboutInputCon: {
     height:height(19),
-    marginHorizontal:15,
+    marginHorizontal:0,
     marginVertical:5,
   },
   aboutInputText: {
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
     marginHorizontal:15,
     marginVertical: 15,
     marginBottom:10,
-    fontFamily: FONT_BOLD
+    fontWeight: 'bold'
   },
   txtInput: {
     height:height(6),

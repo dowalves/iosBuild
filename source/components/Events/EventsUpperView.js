@@ -27,7 +27,7 @@ render() {
     let main_clr = store.settings.data.main_clr;
     let data = store.MY_EVENTS.data.profile_data;    
     return (
-        <View style={{ width: width(100), marginBottom: 7, backgroundColor: COLOR_PRIMARY, borderBottomWidth: 0.4, borderBottomColor: '#ccc' }}>
+        <View style={{ width: width(100), marginBottom: 0, backgroundColor: COLOR_PRIMARY, borderBottomWidth: 0.4, borderBottomColor: '#ccc' }}>
          {
            data === ""?
              null

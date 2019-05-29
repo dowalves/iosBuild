@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ActivityIndicator, ScrollView } from 'react-native';
+import { Text, View, Image, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import ApiController from '../../ApiController/ApiController';
-import { COLOR_SECONDARY } from '../../../styles/common';
+import { COLOR_SECONDARY, COLOR_PRIMARY } from '../../../styles/common';
 import MyEventComp from './MyEventComp';
 import store from '../../Stores/orderStore';
 import EventsUpperView from './EventsUpperView';
 import { withNavigation } from 'react-navigation';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import SimpleToast from 'react-native-simple-toast';
+import { NavigationActions } from 'react-navigation';
+import Toast from 'react-native-simple-toast';
 
 class PublishedEvents extends Component<Props> {
   constructor(props) {
@@ -16,47 +17,142 @@ class PublishedEvents extends Component<Props> {
     this.state = {
       loadMore: false,
       reCaller: false,
-      loading: false
+      loading: false,
+      refreshing: false
     }
   }
   static navigationOptions = { header: null };
-  upDateGet = async(event_id) => {
+  navigateToScreen = (route, title) => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: route
+    });
+    this.props.navigation.setParams({ otherParam: title });
+    this.props.navigation.dispatch(navigateAction);
+  }
+  componentWillMount = async () => {
+    let data = store.MY_EVENTS.data.my_events.active_events;
+    data.events.forEach(item => {
+      item.checkStatus = false;
+      item.removed = false;
+    })
+  }
+  eventAdded = async (eventRes) => {
+    let data = store.MY_EVENTS.data.my_events.pending_events.events;
+    if (eventRes.status === 'pending') {
+      eventRes.events.forEach(item => {
+        data.push(item);
+        this.setState({ loading: false })
+      })
+    }
+    console.log('event added==>>', data);
+
+  }
+  expiredEvents = async (event_id) => {
+    let data = store.MY_EVENTS.data.my_events.active_events.events;
+    let expire = store.MY_EVENTS.data.my_events.expired_events.events;
+    data.forEach(item => {
+      if (event_id === item.event_id) {
+        item.checkStatus = true;
+        this.setState({ loading: false })
+      }
+    })
+    // passing event_id to api class
+    let params = {
+      event_id: event_id
+    }
+    let response = await ApiController.post('expire-event', params);
+    //console.log('delete event==========================>>',response);
+    if (response.success) {
+      data.forEach(item => {
+        if (event_id === item.event_id) {
+          item.checkStatus = false;
+          item.removed = true;
+          data.splice(data.indexOf(event_id), 1);
+          expire.push(item);
+          this.setState({ loading: false })
+        }
+      })
+      this.setState({ loading: false })
+      Toast.show(response.message)
+      // this.props.jumpTo('create');
+    } else {
+      Toast.show(response.message)
+      this.setState({ loading: false })
+    }
+  }
+  upDateGet = async (event_id) => {
     this.setState({ loading: true })
     let params = {
       is_update: event_id
     }
-    let response = await ApiController.post('edit-event',params);
-    console.log('edit event==========================>>',response);
-    if ( response.success ) {
-        store.MY_EVENTS.data.create_event = response.data.create_event;
-        store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
-          item.checkStatus = false;
-        })
-        this.setState({ loading: false })
-        this.props.navigation.push('CreactEvent',{ eventMode: 'edit' , eventID: event_id });
-        // this.props.jumpTo('create');
+    let response = await ApiController.post('edit-event', params);
+    console.log('edit event==========================>>', response);
+    if (response.success) {
+      store.MY_EVENTS.data.create_event = response.data.create_event;
+      store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
+        item.checkStatus = false;
+      })
+      this.setState({ loading: false })
+      this.props.navigation.push('CreactEvent', { eventMode: 'edit', eventID: event_id });
+      // this.props.jumpTo('create');
     } else {
-        this.setState({ loading: false })
+      this.setState({ loading: false })
     }
   }
-  deleteEvent = async(event_id) => {
-    this.setState({ loading: true })
+  deleteEvent = async (event_id) => {
+    let data = store.MY_EVENTS.data.my_events.active_events.events;
+    data.forEach(item => {
+      if (event_id === item.event_id) {
+        item.checkStatus = true;
+        this.setState({ loading: false })
+      }
+    })
+    // passing event_id to api class
     let params = {
       event_id: event_id
     }
-    let response = await ApiController.post('delete-event',params);
-    console.log('delete event==========================>>',response);
-    if ( response.success ) {
-        store.MY_EVENTS.data.create_event = response.data.create_event;
-        store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
+    let response = await ApiController.post('delete-event', params);
+    //console.log('delete event==========================>>',response);
+    if (response.success) {
+      data.forEach(item => {
+        if (event_id === item.event_id) {
           item.checkStatus = false;
-        })
-        this.setState({ loading: false })
-        this.props.navigation.push('CreactEvent',{ eventMode: 'edit' , eventID: event_id });
-        // this.props.jumpTo('create');
+          item.removed = true;
+          data.splice(data.indexOf(event_id), 1);
+          this.setState({ loading: false })
+        }
+      })
+      this.setState({ loading: false })
+      Toast.show(response.message)
+      // this.props.jumpTo('create');
     } else {
-        SimpleToast.show(response.message)
-        this.setState({ loading: false })
+      Toast.show(response.message)
+      this.setState({ loading: false })
+    }
+  }
+  _pullToRefresh = async (listType, pageNo) => {
+    this.setState({ refreshing: true })
+    let params = {
+      event_type: 'publish',
+      next_page: 1
+    }
+    let data = store.MY_EVENTS.data.my_events.active_events;
+    let response = await ApiController.post('load-my-events', params);
+    console.log('Tabs loadMore=====>>>', response);
+    if (response.has_events) {
+      // forEach Loop LoadMore results
+      data.events = response.events;
+      response.events.forEach((item) => {
+        item.checkStatus = false;
+        item.removed = false;
+        //data.events.push(item);
+      })
+      data.publish_pagination = response.publish_pagination;
+      // console.log('after Loop=======>>>',data.commnets);        
+      await this.setState({ refreshing: false })
+    } else {
+      await this.setState({ refreshing: false })
+      // Toast.show(response.data.no_more)
     }
   }
   loadMore = async (listType, pageNo) => {
@@ -71,6 +167,8 @@ class PublishedEvents extends Component<Props> {
     if (response.has_events && data.publish_pagination.has_next_page) {
       // forEach Loop LoadMore results
       response.events.forEach((item) => {
+        item.checkStatus = false;
+        item.removed = false;
         data.events.push(item);
       })
       data.publish_pagination = response.publish_pagination;
@@ -82,6 +180,11 @@ class PublishedEvents extends Component<Props> {
     }
     await this.setState({ reCaller: false })
   }
+  // componentDidUpdate = async() => {
+  //   if (store.refresh) {
+  //       await this.setState({ loading: false })
+  //   }
+  // }
   isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = 20;
     return layoutMeasurement.height + contentOffset.y >=
@@ -92,8 +195,8 @@ class PublishedEvents extends Component<Props> {
     let main_clr = store.settings.data.main_clr;
     if (this.state.loading == true) {
       return (
-        <View style={{ height: height(100), width: width(100), justifyContent:'center',alignItems:'center',flex: 1 }}>
-            <ActivityIndicator size='large' color={main_clr} animating={true} />
+        <View style={{ height: height(100), width: width(100), justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <ActivityIndicator size='large' color={main_clr} animating={true} />
         </View>
       );
     }
@@ -101,6 +204,12 @@ class PublishedEvents extends Component<Props> {
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#f9f9f9' }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._pullToRefresh}
+            />
+          }
           onScroll={({ nativeEvent }) => {
             if (this.isCloseToBottom(nativeEvent)) {
               if (this.state.reCaller === false) {
@@ -111,16 +220,26 @@ class PublishedEvents extends Component<Props> {
           }}
           scrollEventThrottle={400}>
           <EventsUpperView />
-          <View style={{ marginHorizontal: 10,marginVertical: 5,alignItems:'flex-end' }}>
-            <TouchableOpacity style={{ width: 353,alignItems:'center',backgroundColor:'green',borderRadius: 4 }} onPress={()=>this.props.navigation.push('CreactEvent',{ eventMode: 'create' })}>
-              <Text style={{ marginVertical: 10,fontSize: 14,color:'white' }}>Create</Text>
+          <View style={{ backgroundColor: COLOR_PRIMARY, marginBottom: 10 }}>
+            <Text style={{ marginVertical: 15, marginHorizontal: 10, fontWeight: 'bold', color: COLOR_SECONDARY }}>{data.active_events.event_count}</Text>
+          </View>
+          <View style={{ marginVertical: 5, alignItems: 'center' }}>
+            <TouchableOpacity style={{ width: width(95), alignItems: 'center', backgroundColor: store.settings.data.main_clr, borderRadius: 4 }} onPress={() => this.props.navigation.push('CreactEvent', { navigateToScreen: this.navigateToScreen, _eventAdded: this.eventAdded, eventMode: 'create' })}>
+              <Text style={{ marginVertical: 10, fontSize: 14, color: 'white' }}>{store.MY_EVENTS.data.create}</Text>
             </TouchableOpacity>
           </View>
           {
             data.active_events.has_events ?
               data.active_events.events.map((item, key) => {
                 return (
-                  <MyEventComp item={item} key={key} options={'published'} jumpTo={this.props.jumpTo} upDateGet = {this.upDateGet} />
+                  <View key={key}>
+                    {
+                      item.removed ?
+                        null
+                        :
+                        <MyEventComp item={item} key={key} options={'published'} jumpTo={this.props.jumpTo} _deleteEvent={this.deleteEvent} _expiredEvents={this.expiredEvents} upDateGet={this.upDateGet} />
+                    }
+                  </View>
                 );
               })
               :

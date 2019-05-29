@@ -17,10 +17,12 @@ import ApiController from '../../ApiController/ApiController';
   static navigationOptions = { header: null };
   splash = async () => {
     let { orderStore } = Store;
+    orderStore.settings = null;
     // API calling...
     this.setState({ loading: true })
-    orderStore.settings = await ApiController.get('settings');
-    // console.log('settings=',orderStore.settings);
+    let response = await ApiController.get('settings');
+    console.log('settings=',response);
+    orderStore.settings = response;
     if (orderStore.settings.success === true) {
       orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
       this.props.navigation.replace('Drawer'); //MainScreen
@@ -34,12 +36,12 @@ import ApiController from '../../ApiController/ApiController';
        this.splash(true)
     }
   }
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener(
-      'connectionChange',
-      (isConnected) => { isConnected ? this.splash(false) : this.alert() }
-    );
-  }
+  // componentDidMount() {
+  //   NetInfo.isConnected.addEventListener(
+  //     'connectionChange',
+  //     (isConnected) => { isConnected ? this.splash(false) : this.alert() }
+  //   );
+  // }
   alert() {
     this.setState({ loading: true, alertStatus: true })
     Alert.alert(

@@ -1,6 +1,7 @@
 
 import { Platform } from 'react-native';
 import store from '../source/Stores/orderStore';
+// import ApiController from '../source/ApiController/ApiController';
 
 //General Color Settings
 export const nav_header_color = 'black' ;
@@ -78,4 +79,15 @@ export const Button = () => (
 )
 export const test = () => {
   console.warn('tested func');
+}
+export const getEvents = async (loading,ApiController) => {
+  await this.setState({ loading: true })
+  let response = await ApiController.get('my-events');
+  console.warn('User Reviews==========================>>',response);
+  store.MY_EVENTS = response;
+  if ( response.success ) {
+    await this.setState({ loading: false })
+  } else {
+    await this.setState({ loading: false })
+  }
 }

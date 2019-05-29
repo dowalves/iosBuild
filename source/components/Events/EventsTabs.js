@@ -21,16 +21,25 @@ class EventsTabs extends Component<Props> {
   static navigationOptions = { header: null };
 
   componentWillMount = async () => {
-    this.setState({ loading: true })
+    await this.getEvents()
+  }
+  getEvents = async () => {
+    await this.setState({ loading: true })
     let response = await ApiController.get('my-events');
     // console.log('User Reviews==========================>>',response);
     store.MY_EVENTS = response;
     if ( response.success ) {
-        this.setState({ loading: false })
+      await this.setState({ loading: false })
     } else {
-        this.setState({ loading: false })
+      await this.setState({ loading: false })
     }
   }
+  // componentDidUpdate = async() => {
+  //   console.warn('update',store.refresh);
+  //   if (store.refresh) {
+  //      await this.getEvents()
+  //   }
+  // }
   _renderLabel = ({ route }) => (
     <Text style={{ fontSize: 14, color: COLOR_SECONDARY }}>{route.title}</Text>
   );
@@ -84,7 +93,7 @@ class EventsTabs extends Component<Props> {
         onIndexChange={index => this.setState({ index: index })}
         canJumpToTab={true}
         tabBarPosition='bottom'
-        lazy={true}
+        lazy={false}
         // renderLazyPlaceholder='loading...'
         renderTabBar={props =>
           <TabBar

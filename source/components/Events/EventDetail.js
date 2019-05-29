@@ -91,13 +91,17 @@ import Toast from 'react-native-simple-toast';
       orderStore.home.eventDetail = response;
       console.log('EventDetail=', response);
       if (response.success === true) {
-        await this.setState({
-          interval: setInterval(() => {
-            this.setState({
-              position: this.state.position === response.data.event_detial.gallery_images.length ? 0 : this.state.position + 1
-            });
-          }, 5000)
-        });
+        // await this.setState({
+        //   interval: setInterval(() => {
+        //     this.setState({
+        //       position: this.state.position === response.data.event_detial.gallery_images.length ? 0 : this.state.position + 1
+        //     });
+        //   }, 5000)
+        // });
+        if (orderStore.refresh) {
+          store.MY_EVENTS.data.my_events.pending_events.events.push(response.data.event_detial);
+          console.log('event added',store.MY_EVENTS.data.my_events.pending_events.events);
+        }
         // CountDown func call
         await this.countDown(response.data.event_detial.event_timer_detial)
         for (var i = 0; i < response.data.event_detial.gallery_images.length; i++) {

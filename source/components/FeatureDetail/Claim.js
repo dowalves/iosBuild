@@ -87,12 +87,7 @@ import Api from '../../ApiController/ApiController';
                 {
                     store.settings.data.is_demo_mode ?
                         <View style={{ elevation: 3, height: height(6), justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginVertical: 5, marginHorizontal: 20, backgroundColor: main_clr }}>
-                            {
-                                this.state.loading?
-                                <ActivityIndicator size='large' color={COLOR_PRIMARY} animating={true} />
-                                :
-                                <Text style={{ fontSize: totalSize(1.8), color: COLOR_PRIMARY, fontWeight: 'bold' }}>{store.settings.data.demo_mode_txt}</Text>
-                            }
+                            <Text style={{ fontSize: totalSize(1.8), color: COLOR_PRIMARY, fontWeight: 'bold' }}>{store.settings.data.demo_mode_txt}</Text>
                         </View>
                         :
                         <TouchableOpacity style={{ elevation: 3, height: height(6), justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginVertical: 5, marginHorizontal: 20, backgroundColor: main_clr }} onPress={() => { this.postClaim() }}>
