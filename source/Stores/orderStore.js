@@ -56,6 +56,8 @@ class orderStore {
     //User Reviews section
     @observable USER_REVIEWS = null;
     @observable refresh = false;
+    //Change password
+    @observable CHANE_PASS = {};
 }
 
 const store = new orderStore();

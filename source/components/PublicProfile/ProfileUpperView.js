@@ -28,9 +28,9 @@ export default class ProfileUpperView extends Component<Props> {
         let data = store.PUB_PROFILE_DETAIL;
         return (
             <View style={{ width: width(100), marginBottom: 7, backgroundColor: COLOR_PRIMARY, borderBottomWidth: 0.4, borderBottomColor: '#ccc' }}>
-                <View style={{ alignItems:'center' }}>
+                <View style={{ alignItems: 'center' }}>
                     <Avatar
-                        large
+                        size="large"
                         rounded
                         source={{ uri: data.user_img }}
                         // onPress={() => console.warn("Works!")}
@@ -38,7 +38,7 @@ export default class ProfileUpperView extends Component<Props> {
                         containerStyle={{ marginHorizontal: 20, marginTop: 15 }}
                     />
                     <Text style={{ fontSize: totalSize(2.5), fontWeight: 'bold', color: COLOR_SECONDARY, marginHorizontal: 0 }}>{data.user_name}</Text>
-                    <View style={{ height: height(7), flexDirection: 'row',marginVertical: 5, marginHorizontal: 20 }}>
+                    <View style={{ height: height(7), flexDirection: 'row', marginVertical: 5, marginHorizontal: 20 }}>
                         <Icon
                             raised //reverse
                             size={14}
@@ -84,7 +84,7 @@ export default class ProfileUpperView extends Component<Props> {
                 {
                     data.user_loc.length > 0 ?
 
-                        <View style={{ height: height(7), width: width(90), marginRight: 0,alignItems: 'center', borderBottomColor: '#ccc',borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'center' }}>
+                        <View style={{ height: height(7), width: width(90), marginRight: 0, alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'center' }}>
                             <Icon
                                 reverse //raised
                                 size={14}
@@ -100,7 +100,7 @@ export default class ProfileUpperView extends Component<Props> {
                 }
                 {
                     data.user_contact.length > 0 ?
-                        <View style={{ height: height(7), width: width(90), marginRight: 0,alignItems: 'center', borderBottomColor: '#ccc',borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'center'}}>
+                        <View style={{ height: height(7), width: width(90), marginRight: 0, alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'center' }}>
                             <Icon
                                 reverse //raised
                                 size={14}
@@ -116,7 +116,7 @@ export default class ProfileUpperView extends Component<Props> {
                 }
                 {
                     data.user_email ?
-                        <View style={{ height: height(7), width: width(90), marginRight: 0,alignItems: 'center', borderBottomColor: '#ccc',borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'center'}}>
+                        <View style={{ height: height(7), width: width(90), marginRight: 0, alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'center' }}>
                             <Icon
                                 reverse //raised
                                 size={14}
@@ -132,7 +132,7 @@ export default class ProfileUpperView extends Component<Props> {
                 }
                 {
                     data.about.length ?
-                        <TouchableOpacity style={{ height: height(7), width: width(90), marginRight: 0,alignItems: 'center', borderBottomColor: '#ccc',borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'center'}} onPress={() => { this.setState({ is_about: !this.state.is_about }) }}>
+                        <TouchableOpacity style={{ height: height(7), width: width(90), marginRight: 0, alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'center' }} onPress={() => { this.setState({ is_about: !this.state.is_about }) }}>
                             <Icon
                                 reverse //raised
                                 size={14}

@@ -8,10 +8,12 @@ import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
+import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.appevents.AppEventsLogger;
 
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
-import com.magus.fblogin.FacebookLoginPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -34,6 +36,12 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
+  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
+
+  protected static CallbackManager getCallbackManager() {
+    return mCallbackManager;
+  }
+
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -44,10 +52,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FBSDKPackage(mCallbackManager),
             new LottiePackage(),
             new RNGestureHandlerPackage(),
             new ReanimatedPackage(),
-            new FacebookLoginPackage(),
             new RNGoogleSigninPackage(),
             new MapsPackage(),
             new PickerPackage(),

@@ -41,6 +41,7 @@ class PendingEvents extends Component<Props> {
     // console.log('Tabs loadMore=====>>>', response);
     if (response.has_events) {
       // forEach Loop refreshing results
+      data.event_count = response.event_count;
       data.events = response.events;
       // response.events.forEach((item) => {
       //   data.events.push(item);
@@ -95,7 +96,6 @@ class PendingEvents extends Component<Props> {
         if (event_id === item.event_id) {
           item.checkStatus = false;
           item.delete = true;
-          console.log('id===>>>', item);
           // data.splice(data.indexOf(event_id),1);
           this.setState({ loading: false })
         }
@@ -105,6 +105,11 @@ class PendingEvents extends Component<Props> {
       // this.props.jumpTo('create');
     } else {
       Toast.show(response.message)
+      data.forEach(item => {
+        if (event_id === item.event_id) {
+          item.checkStatus = false;
+        }
+      })
       this.setState({ loading: false })
     }
   }
@@ -114,12 +119,14 @@ class PendingEvents extends Component<Props> {
       is_update: event_id
     }
     let response = await ApiController.post('edit-event', params);
-    console.log('edit event==========================>>', response);
+    //console.log('edit event==========================>>', response);
     if (response.success) {
       store.MY_EVENTS.data.create_event = response.data.create_event;
-      store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
-        item.checkStatus = false;
-      })
+      if (store.MY_EVENTS.data.create_event.gallery.has_gallery) {
+        store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
+          item.checkStatus = false;
+        }) 
+      }
       this.setState({ loading: false })
       this.props.navigation.push('CreactEvent', { eventMode: 'edit', eventID: event_id });
       // this.props.jumpTo('create');
@@ -134,12 +141,23 @@ class PendingEvents extends Component<Props> {
   };
   render() {
     let data = store.MY_EVENTS.data.my_events;
+    let main_clr = store.settings.data.main_clr;
+    if (this.state.loading === true) {
+      return (
+        <View style={{ height: height(100), width: width(100), justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <ActivityIndicator size='large' color={main_clr} animating={true} />
+        </View>
+      );
+    }
     return (
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#f9f9f9' }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
+              colors={['white']}
+              progressBackgroundColor={store.settings.data.main_clr}
+              tintColor={store.settings.data.main_clr}
               refreshing={this.state.refreshing}
               onRefresh={this._pullToRefresh}
             />
@@ -157,16 +175,21 @@ class PendingEvents extends Component<Props> {
           <View style={{ backgroundColor: COLOR_PRIMARY, marginBottom: 10 }}>
             <Text style={{ marginVertical: 15, marginHorizontal: 10, fontWeight: 'bold', color: COLOR_SECONDARY }}>{data.pending_events.event_count}</Text>
           </View>
-          <View style={{ height: height(12), flexDirection: 'row', width: width(100), marginBottom: 10, alignItems: 'center', backgroundColor: '#e3f8f5', alignSelf: 'center' }}>
-            <Icon
-              size={36}
-              name='warning'
-              type='antdesign'
-              color='#3bbeb0'
-              containerStyle={{ marginLeft: 20, marginRight: 10, marginVertical: 0 }}
-            />
-            <Text style={{ fontSize: totalSize(2), color: COLOR_SECONDARY }}>{store.MY_EVENTS.data.admin_approval}</Text>
-          </View>
+          {
+            data.pending_events.has_events ?
+              <View style={{ height: height(12), flexDirection: 'row', width: width(100), marginBottom: 10, alignItems: 'center', backgroundColor: '#e3f8f5', alignSelf: 'center' }}>
+                <Icon
+                  size={36}
+                  name='warning'
+                  type='antdesign'
+                  color='#3bbeb0'
+                  containerStyle={{ marginLeft: 20, marginRight: 10, marginVertical: 0 }}
+                />
+                <Text style={{ fontSize: totalSize(2), color: COLOR_SECONDARY }}>{store.MY_EVENTS.data.admin_approval}</Text>
+              </View>
+              :
+              null
+          }
           {
             data.pending_events.has_events ?
               data.pending_events.events.map((item, key) => {

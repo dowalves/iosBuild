@@ -1,13 +1,12 @@
 import React from 'react';
 import { Platform, I18nManager } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import { FONT_NORMAL, FONT_BOLD, COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
+import { FONT_NORMAL, COLOR_PRIMARY, COLOR_ORANGE, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from 'react-navigation';
 import Home from '../Home/Home';
 import FeatureDetailTabBar from '../FeatureDetail/FeatureDetailTabBar';
 import UserDashboard from '../UserDashboard/UserDashboard';
-import SideMenu from './SideMenu'
-import MainScreen from '../MainScreen/MainScreen'
+import SideMenu from './SideMenu';
 import EditProfile from '../UserDashboard/EditProfile'
 import ListingTabCon from '../Listing/ListingTabCon';
 import ContactUs from '../ContactUs/ContactUs';
@@ -20,6 +19,7 @@ import SavedListing from '../SavedListing/SavedListing';
 import EventsTabs from '../Events/EventsTabs';
 import SearchingScreen from '../AdvanceSearch/SearchingScreen';
 import Categories from '../Categories/Categories';
+import ListingPostTabCon from '../PostListings/ListingPostTabCon';
 
 const DashboardStack = createStackNavigator({
   UserDashboard: UserDashboard,
@@ -29,6 +29,7 @@ const DashboardStack = createStackNavigator({
 const DrawerComp = createDrawerNavigator({
   Home: Home,
   FeatureDetailTabBar: FeatureDetailTabBar,
+  ListingPostTabCon: ListingPostTabCon,
   Dashboard: DashboardStack,
   ListingTabCon: ListingTabCon,
   AboutUs: AboutUs,
@@ -43,7 +44,7 @@ const DrawerComp = createDrawerNavigator({
   Categories: Categories,
 },
   {
-    order: [ 'Packages', 'EventsTabs','ReviewsCon', 'SearchingScreen', 'Home', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','PublicEvents'],
+    order: [ 'Packages', 'EventsTabs','ReviewsCon', 'ListingPostTabCon','SearchingScreen', 'Home', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','PublicEvents'],
     initialRouteName: 'Home',
     drawerWidth: width(80), 
     drawerPosition: I18nManager.isRTL ? 'right' : 'left',

@@ -51,7 +51,7 @@ class Api {
     // getting value from asyncStorage
        const email = await AsyncStorage.getItem('email');
        const pass = await AsyncStorage.getItem('password');
-      //  console.log('login detail===>>>',email , pass);
+       //console.warn('login detail===>>>',email , pass);
        
     // using buffer
     if ( email !== null && pass !== null ) {
@@ -138,7 +138,7 @@ class Api {
           'Custom-Security': 12,
           'Content-Type': 'multipart/form-data',
         },
-        timeout: 60000, // default is `0` (no timeout)
+        timeout: 100000, // default is `0` (no timeout)
      }
     let configration = Object.assign(config,options)
     //console.log('configration==>>',configration);
@@ -146,7 +146,7 @@ class Api {
     // getting value from asyncStorage  ***
        const email = await AsyncStorage.getItem('email');
        const pass = await AsyncStorage.getItem('password');
-       //console.log('login detail===>>>',email , pass);
+       console.log('login detail===>>>',email , pass);
        
     //Authorization for login user using buffer ***
     if ( email !== null && pass !== null ) {

@@ -237,7 +237,7 @@ class Description extends Component<Props> {
           <View style={styles.profileCon}>
               <View style={styles.imgCon}>
                 <Avatar
-                  medium
+                  size="medium"
                   rounded
                   source={{ uri: auth_img }}
                   activeOpacity={1}

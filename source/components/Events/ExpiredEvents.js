@@ -20,10 +20,12 @@ export default class PublishedEvents extends Component<Props> {
   static navigationOptions = { header: null };
   componentWillMount = async () => {
     let data = store.MY_EVENTS.data.my_events.expired_events;
-    data.events.forEach(item => {
-      item.checkStatus = false;
-      item.delete = false;
-    })
+    if (data.has_events) {
+      data.events.forEach(item => {
+        item.checkStatus = false;
+        item.delete = false;
+      }) 
+    }
   }
   deleteEvent = async (event_id) => {
     let data = store.MY_EVENTS.data.my_events.expired_events.events;
@@ -44,7 +46,6 @@ export default class PublishedEvents extends Component<Props> {
         if (event_id === item.event_id) {
           item.checkStatus = false;
           item.delete = true;
-          console.log('id===>>>', item);
           // data.splice(data.indexOf(event_id),1);
           // this.setState({ loading: false })
         }
@@ -54,6 +55,11 @@ export default class PublishedEvents extends Component<Props> {
       // this.props.jumpTo('create');
     } else {
       Toast.show(response.message)
+      data.forEach(item => {
+        if (event_id === item.event_id) {
+          item.checkStatus = false;
+        }
+      })
       this.setState({ loading: false })
     }
   }
@@ -77,7 +83,6 @@ export default class PublishedEvents extends Component<Props> {
         if (event_id === item.event_id) {
           item.checkStatus = false;
           item.delete = true;
-          console.warn('id===>>>', item);
           item.removed = false;
           // data.splice(data.indexOf(event_id),1);
           active.push(item);
@@ -89,6 +94,11 @@ export default class PublishedEvents extends Component<Props> {
       // this.props.jumpTo('create');
     } else {
       Toast.show(response.message)
+      data.forEach(item => {
+        if (event_id === item.event_id) {
+          item.checkStatus = false;
+        }
+      })
       this.setState({ loading: false })
     }
   }
@@ -103,6 +113,7 @@ export default class PublishedEvents extends Component<Props> {
     console.log('Tabs expired refreshing=====>>>', response);
     if (response.has_events) {
       // forEach Loop refreshing results
+      data.event_count = response.event_count;
       data.events = response.events;
       response.events.forEach((item) => {
         item.checkStatus = false;
@@ -113,6 +124,8 @@ export default class PublishedEvents extends Component<Props> {
       // console.log('after Loop=======>>>',data.commnets);        
       await this.setState({ refreshing: false })
     } else {
+      data.event_count = response.event_count;
+      data.has_events = response.has_events;
       await this.setState({ refreshing: false })
       // Toast.show(response.data.no_more)
     }
@@ -156,6 +169,9 @@ export default class PublishedEvents extends Component<Props> {
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
+              colors={['white']}
+              progressBackgroundColor={store.settings.data.main_clr}
+              tintColor={store.settings.data.main_clr}
               refreshing={this.state.refreshing}
               onRefresh={this._pullToRefresh}
             />

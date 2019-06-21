@@ -4,13 +4,14 @@ import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, INDICATOR_VISIBILITY, ANIMATION,INDICATOR_SIZE,OVERLAY_COLOR,COLOR_GRAY, S2,COLOR_SECONDARY } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import store from '../../Stores/orderStore';
+import { withNavigation } from 'react-navigation';
 import { TabView, TabBar, SceneMap, PagerPan } from 'react-native-tab-view';
 import ApiController from '../../ApiController/ApiController';
 import ListingTabCon from '../Listing/ListingTabCon';
 import Dashboard from './Dashboard';
 import MyProfile from './MyProfile';
 import EditProfile from './EditProfile';
-export default class UserDashboard extends Component<Props> {
+class UserDashboard extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -97,3 +98,5 @@ export default class UserDashboard extends Component<Props> {
     );
   }
 }
+
+export default withNavigation(UserDashboard)

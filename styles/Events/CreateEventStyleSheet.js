@@ -88,12 +88,12 @@ const styles = StyleSheet.create({
     marginRight:4,
   },
   aboutInputCon: {
-    height:height(19),
+    height:height(34),
     marginHorizontal:0,
     marginVertical:5,
   },
   aboutInputText: {
-    height:height(15),
+    height:height(30),
     borderRadius:5,
     borderWidth: 0.8,
     paddingLeft:10,

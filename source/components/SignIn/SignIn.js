@@ -6,6 +6,8 @@ import {
 import { INDICATOR_COLOR, INDICATOR_SIZE, OVERLAY_COLOR } from '../../../styles/common';
 import { width, height, totalSize } from 'react-native-dimension';
 import Toast from 'react-native-simple-toast';
+import Icon from 'react-native-vector-icons/Octicons';
+import IconLock from 'react-native-vector-icons/SimpleLineIcons';
 import { observer } from 'mobx-react';
 import store from '../../Stores/orderStore';
 import Store from '../../Stores';
@@ -13,8 +15,7 @@ import styles from '../../../styles/SignIn'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
-// import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
-var { FBLoginManager } = require('react-native-facebook-login');
+import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 export default class SignIn extends Component<Props> {
   constructor(props) {
     let { orderStore } = Store;
@@ -47,22 +48,37 @@ export default class SignIn extends Component<Props> {
       console.warn(err);
     }).done();
   }
-  //.... FaceBook Login Methodes
-  fbLogin = () => {
-    FBLoginManager.setLoginBehavior(FBLoginManager.LoginBehaviors.Native); // defaults to Native
-    FBLoginManager.loginWithPermissions(["email"], functionFb = async (error, data) => {
-      if (!error && data.type === "success") {
-        //Calling local func for login through google
-        let profile = JSON.parse(data.profile);
-        store.LOGIN_SOCIAL_TYPE = 'social';
-        store.LOGIN_TYPE = 'facebook';
-        await this.socialLogin(profile.email, profile.name, 'apple@321');
-        // console.log("FaceBook signUp: ", profile);
-      } else {
+  fbsdk = () => {
+    // Attempt a login using the Facebook login dialog asking for default permissions.
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+      functionFun = (result) => {
+        if (result.isCancelled) {
+          Toast.show('It must be your network issue, please try again.', Toast.LONG);
+        } else {
+          const infoRequest = new GraphRequest(
+            '/me?fields=id,first_name,last_name,name,picture.type(large),email,gender',
+            null,
+            this._responseInfoCallback,
+          );
+          new GraphRequestManager().addRequest(infoRequest).start();
+        }
+      },
+      function (error) {
         Toast.show('It must be your network issue, please try again.', Toast.LONG);
-        console.log("Error: ", error);
+        // console.log("Login fail with error: " + error);
       }
-    })
+    );
+  }
+  //Create response callback.
+  _responseInfoCallback = async (error: ?Object, result: ?Object) => {
+    if (error) {
+      // console.log('Error fetching data: ' + error.toString());
+    } else {
+      store.LOGIN_SOCIAL_TYPE = 'social';
+      store.LOGIN_TYPE = 'facebook';
+      await this.socialLogin(result.email, result.name, 'apple@321');
+      // console.log('Success fetching data: ', result);
+    }
   }
   //// Custom Social Login methode
   socialLogin = async (email, name, password) => {
@@ -102,7 +118,7 @@ export default class SignIn extends Component<Props> {
     }
     //Api calling
     let response = await ApiController.post('login', params)
-    // console.log('login user =', response);
+    console.log('login user =', response);
     if (response.success === true) {
       store.LOGIN_TYPE = 'local';
       await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
@@ -137,8 +153,9 @@ export default class SignIn extends Component<Props> {
               </View>
               <View style={styles.buttonView}>
                 <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                  <View style={{ flex: 0.6 }}>
-                    <Image source={require('../../images/mail.png')} style={styles.mail} />
+                  <View style={{ marginHorizontal: 10 }}>
+                    {/* <Image source={require('../../images/mail.png')} style={styles.mail} /> */}
+                    <Icon name='mail' color='white' size={24} />
                   </View>
                   <View style={{ flex: 4.1 }}>
                     <TextInput
@@ -155,8 +172,9 @@ export default class SignIn extends Component<Props> {
                   </View>
                 </View>
                 <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                  <View style={{ flex: 0.6 }}>
-                    <Image source={require('../../images/password.png')} style={styles.mail} />
+                  <View style={{ marginHorizontal: 10 }}>
+                    {/* <Image source={require('../../images/password.png')} style={styles.mail} /> */}
+                    <IconLock name='lock' color='white' size={24} />
                   </View>
                   <View style={{ flex: 4.1 }}>
                     <TextInput
@@ -176,11 +194,11 @@ export default class SignIn extends Component<Props> {
                 </TouchableOpacity>
                 <View style={styles.fgBtn}>
                   {
-                    data.registerBtn_show.facebook?
+                    data.registerBtn_show.facebook ?
                       <TouchableOpacity style={{ width: width(37.2), height: height(5), borderRadius: 3, backgroundColor: 'transparent', backgroundColor: '#134A7C', justifyContent: 'center', alignItems: 'center' }}
-                        onPress={() => { this.fbLogin() }}
+                        onPress={() => { this.fbsdk() }}
                       >
-                        <Text style={ styles.socialBtnText }>{data.main_screen.fb_btn}</Text>
+                        <Text style={styles.socialBtnText}>{data.main_screen.fb_btn}</Text>
                       </TouchableOpacity>
                       :
                       null
@@ -192,7 +210,7 @@ export default class SignIn extends Component<Props> {
                       null
                   }
                   {
-                    data.registerBtn_show.google?
+                    data.registerBtn_show.google ?
                       <TouchableOpacity style={{ width: width(37), height: height(5), borderRadius: 3, backgroundColor: 'transparent', backgroundColor: '#DB4437', justifyContent: 'center', alignItems: 'center' }}
                         onPress={() => { this.handleGoogleSignIn() }}
                       >
@@ -201,7 +219,7 @@ export default class SignIn extends Component<Props> {
                       :
                       null
                   }
-                  
+
                 </View>
                 <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
                   {!this.state.loading ? null :

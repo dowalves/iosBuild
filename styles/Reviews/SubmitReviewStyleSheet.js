@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   cameraSubCon: {
     height:height(15),
-    width:width(55),
+    width:width(50),
     justifyContent:'center',
     borderRightWidth: 0.5,
     borderColor: COLOR_GRAY
@@ -64,8 +64,9 @@ const styles = StyleSheet.create({
   },
   tickBtnCon: {
     height:height(15),
-    width:width(30),
-    justifyContent:'center'
+    width:width(25),
+    justifyContent:'center',
+    alignItems:'center',
   },
 
 });

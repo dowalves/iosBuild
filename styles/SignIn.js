@@ -1,4 +1,4 @@
-import { I18nManager, StyleSheet } from 'react-native';
+import { Platform,I18nManager, StyleSheet } from 'react-native';
 import { COLOR_PRIMARY, smallText, socialBtnText,buttonText,SloganText,InputTextSize,SignInHeaderText, COLOR_SECONDARY } from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const styles = StyleSheet.create({
@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backBtn: {
-    height: height(2.5),
-    width: width(3),
+    height: height(3),
+    width: width(5),
     marginLeft: 25,
     resizeMode: 'contain',
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }], //RTL of icons 
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     color: COLOR_PRIMARY
   },
   buttonView: {
-    height: height(50),
+    height: Platform.OS==='ios'? height(45):height(50),
     alignItems: 'center',
   },
   userImg: {

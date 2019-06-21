@@ -5,7 +5,6 @@ import {
 import { width, height } from 'react-native-dimension';
 import { NavigationActions } from 'react-navigation';
 import { observer } from 'mobx-react';
-import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Home';
 import ApiController from '../../ApiController/ApiController';
@@ -27,12 +26,11 @@ import EventComponent from './EventComponent';
     this.props.navigation.dispatch(navigateAction);
   }
   componentWillMount = async () => {
-    let { orderStore } = Store;
     // calling homeData func
     store.SEARCH_OBJ = {};
     this.setState({ loading: true })
     let response = await ApiController.post('listing-filters');
-    // console.log('Listing Filter response====>>>>', response);
+    console.log('Listing Filter response====>>>>', response);
     if (response.success) {
       store.SEARCHING.LISTING_FILTER = response;
       // creating new array named as options
@@ -65,14 +63,13 @@ import EventComponent from './EventComponent';
   }
   // Getting home data func 
   homeData = async () => {
-    let { orderStore } = Store;
     try {
       this.setState({ loading: true })
       //API calling
       let response = await ApiController.get('home');
       // console.log('responseHome==>>>>>', response);
       if (response.success) {
-        orderStore.home.homeGet = response;
+        store.home.homeGet = response;
         this.setState({ loading: false })
       } else {
         this.setState({ loading: false })
@@ -83,9 +80,8 @@ import EventComponent from './EventComponent';
     }
   }
   render() {
-    let { orderStore } = Store;
-    let data = orderStore.settings.data;
-    let home = orderStore.home.homeGet.data;
+    let data = store.settings.data;
+    let home = store.home.homeGet.data;
     if (this.state.loading == true) {
       return (
         <View style={styles.IndicatorCon}>

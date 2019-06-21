@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button,Image,ImageBackground,TouchableOpacity,I18nManager,
         ScrollView,TextInput,FlatList
 } from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
 import { width, height, totalSize } from 'react-native-dimension';
 import ImagePicker from 'react-native-image-crop-picker';
 import Modal from "react-native-modal";
@@ -45,10 +44,6 @@ export default class WriteReview extends Component<Props> {
       }
     }
   }
-  ratingCompleted=(rating)=> {
-    console.warn("Rating is: " + rating)
-    this.setState({rate: rating})
-  }
   multiImagePicker(){
     ImagePicker.openPicker({
       multiple: true,
@@ -89,18 +84,7 @@ export default class WriteReview extends Component<Props> {
         <ScrollView>
           <FeatureDetail callModel={this.setModalVisible}/>
           <View style={styles.ratingCon}>
-            <Rating
-              type='star'
-              ratingColor= {COLOR_ORANGE}
-              ratingBackgroundColor= {COLOR_GRAY}
-              startingValue={4}
-              fractions={1}
-              ratingCount={5}
-              imageSize={totalSize(3)}
-              onFinishRating={this.ratingCompleted}
-              // showRating
-              // style={styles.ratingStyle}
-            />
+            
           </View>
           <View style={styles.titleCon}>
             <TextInput

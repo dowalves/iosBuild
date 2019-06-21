@@ -23,6 +23,7 @@ class FeatureDetailTabBar extends Component<Props> {
     super(props);
     this.state = {
       loading: false,
+      controlTab: true,
       dis: 'Discription',
       write: 'Write a Review',
       routes: [],
@@ -73,7 +74,9 @@ class FeatureDetailTabBar extends Component<Props> {
     }
   }
   route = (response) => {
-    this.state.routes.push({ key: 'discription', title: response.data.listing_detial.view_desc });
+    if (this.state.controlTab) {
+      this.state.routes.push({ key: 'discription', title: response.data.listing_detial.view_desc }); 
+    }
     if (response.data.listing_detial.has_amenties) {
       this.state.routes.push({ key: 'ameneties', title: response.data.listing_detial.ameneties.tab_txt });
     }
@@ -123,6 +126,13 @@ class FeatureDetailTabBar extends Component<Props> {
       console.log('err=', error);
     }
   }
+  _controls=()=>{
+      console.warn('control');
+      this.setState({ 
+        controlTab: false
+       })
+      console.warn(this.state.controlTab);
+  }
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
@@ -154,7 +164,7 @@ class FeatureDetailTabBar extends Component<Props> {
             return <Description />;
           } else {
             if (route.key === 'ameneties' && store.home.FEATURE_DETAIL.data.listing_detial.has_amenties) {
-              return <Amenties />;
+              return <Amenties fun={this._controls} />;
             } else {
               if (route.key === 'location' && store.home.FEATURE_DETAIL.data.listing_detial.has_location) {
                 return <Location />;

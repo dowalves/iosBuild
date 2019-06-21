@@ -3,12 +3,13 @@
 //**********************//
 
 import React, { Component } from 'react';
-import { Text, View, Image, ImageBackground, Button, ActivityIndicator, Platform, TouchableOpacity, ScrollView, TextInput, Picker } from 'react-native';
+import { Text, View, Image, ImageBackground, Platform, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { width, height, totalSize } from 'react-native-dimension';
 import ImagePicker from 'react-native-image-crop-picker';
 import { Icon } from 'react-native-elements';
 import Modal from "react-native-modal";
+import * as Progress from 'react-native-progress';
 import ApiController from '../../ApiController/ApiController';
 import Toast from 'react-native-simple-toast';
 // import {RichTextEditor, RichTextToolbar} from 'react-native-zss-rich-text-editor';
@@ -61,41 +62,44 @@ class CreateEvent extends Component<Props> {
     //alert(titleHtml + ' ' + contentHtml)
   }
   componentWillMount = async () => {
-    let data = store.MY_EVENTS.data.create_event;
-    if (data.category.value !== '') {
-      data.category.dropdown.forEach(async (item) => {
-        if (item.category_id === data.category.value) {
-          await this.setState({ cate_name: item.category_name })
-        }
+    let { params } = this.props.navigation.state;
+    if ( params.eventMode !== 'create' ) {
+      let data = store.MY_EVENTS.data.create_event;
+      if (data.category.value !== '') {
+        data.category.dropdown.forEach(async (item) => {
+          if (item.category_id === data.category.value) {
+            await this.setState({ cate_name: item.category_name })
+          }
+        })
+      }
+      if (data.related.value !== '') {
+        data.related.dropdown.forEach(async (item) => {
+          if (item.listing_id === data.related.value) {
+            await this.setState({ list_name: item.listing_title })
+          }
+        })
+      }
+      await this.setState({
+        eventTitle: data.title.value,
+        phoneNo: data.phone.value,
+        email: data.email.value,
+        cate_id: data.category.value,
+        related_listing: data.related.value,
+        description: data.desc.value,
+        start_date: data.date_start.value,
+        end_date: data.date_end.value,
+        location: data.location.value,
+        latitude: data.latt.value === '' ? null : data.latt.value,
+        longitude: data.long.value === '' ? null : data.long.value,
+        editImages: data.gallery.has_gallery ? data.gallery.dropdown : [],
       })
     }
-    if (data.related.value !== '') {
-      data.related.dropdown.forEach(async (item) => {
-        if (item.listing_id === data.related.value) {
-          await this.setState({ list_name: item.listing_title })
-        }
-      })
-    }
-    await this.setState({
-      eventTitle: data.title.value,
-      phoneNo: data.phone.value,
-      email: data.email.value,
-      cate_id: data.category.value,
-      related_listing: data.related.value,
-      description: data.desc.value,
-      start_date: data.date_start.value,
-      end_date: data.date_end.value,
-      location: data.location.value,
-      latitude: data.latt.value === '' ? null : data.latt.value,
-      longitude: data.long.value === '' ? null : data.long.value,
-      editImages: data.gallery.has_gallery ? data.gallery.dropdown : [],
-    })
   }
   createEvent = async () => {
     let data = store.MY_EVENTS.data;
     let { params } = this.props.navigation.state;
 
-    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.avatorSources.length === 0 || this.state.location === '' ) {
+    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.phoneNo === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.avatorSources.length === 0 || this.state.location === '' ) {
       Toast.show(data.required_msg)
     } else {
       this.setState({ loading: true })
@@ -111,13 +115,12 @@ class CreateEvent extends Component<Props> {
       formData.append('lat', this.state.latitude);
       formData.append('long', this.state.longitude);
       formData.append('parent_listing', this.state.related_listing);
-      formData.append('event_multiple_attachments', JSON.stringify(this.state.avatorSources));
       if (this.state.avatorSources.length > 0) {
         for (let i = 0; i < this.state.avatorSources.length; i++) {
           formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
         }
       }
-      //console.log('formData======>>>',formData);   
+      console.log('formData======>>>',formData);   
       let config = {
         onUploadProgress: function (progressEvent) {
           store.UPLOADING_PROGRESS = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
@@ -134,10 +137,6 @@ class CreateEvent extends Component<Props> {
               await params._eventAdded(response.data.data)
               Toast.show(response.data.message)
               await this.clearFields()
-              //refeshing
-              // let resp = await ApiController.get('my-events');
-              // console.warn('User Reviews==========================>>',resp);
-              // store.MY_EVENTS = resp;
               store.refresh = true;
               ///
               this.props.navigation.push('EventDetail', { event_id: response.data.event_id, title: this.state.eventTitle, headerColor: store.settings.data.navbar_clr })
@@ -158,8 +157,9 @@ class CreateEvent extends Component<Props> {
   editEvent = async () => {
     let data = store.MY_EVENTS.data;
     let { params } = this.props.navigation.state;
-
-    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.location === '' || this.state.editImages.length === 0 ? this.state.avatorSources.length === 0 : null) {
+    // console.log('images check ===>>>',this.state.editImages);
+    
+    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.phoneNo === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.location === ''  ) {
       Toast.show(data.required_msg)
     } else {
       this.setState({ loading: true })
@@ -176,17 +176,16 @@ class CreateEvent extends Component<Props> {
       formData.append('long', this.state.longitude);
       formData.append('parent_listing', this.state.related_listing);
       formData.append('is_update', params.eventID)
-      formData.append('event_multiple_attachments[]', JSON.stringify(this.state.avatorSources));
       if (this.state.avatorSources.length > 0) {
         for (let i = 0; i < this.state.avatorSources.length; i++) {
           formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
         }
       }
-      //console.log('formData======>>>', formData);
+      console.log('formData======>>>', formData);
       let config = {
-        onUploadProgress: function (progressEvent) {
-          store.UPLOADING_PROGRESS = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-          this.setState({ progress: parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total)) })
+        onUploadProgress: async function (progressEvent) {
+          store.UPLOADING_PROGRESS = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          this.setState({ progress: progressEvent.loaded  / progressEvent.total })
           //console.log('uploading', this.state.progress);
         }.bind(this)
       }
@@ -194,7 +193,7 @@ class CreateEvent extends Component<Props> {
       try {
         ApiController.postAxios('event-submission', formData, config)
           .then(async (response) => {
-            console.log('Event create========>>>>', response);
+            console.log('Event edit========>>>>', response);
             if (response.data.success) {
               Toast.show(response.data.message)
               await this.clearFields()
@@ -205,11 +204,11 @@ class CreateEvent extends Component<Props> {
               this.setState({ loading: false })
             }
           }).catch((error) => {
-            // console.log('axios error==>>', error);
+            console.log('axios error==>>', error);
             this.setState({ loading: false })
           })
       } catch (error) {
-        // console.log('trycatch error==>>', error);
+        console.log('trycatch error==>>', error);
       }
     }
   }
@@ -233,6 +232,9 @@ class CreateEvent extends Component<Props> {
       longitude: null,
       progress: 0
     })
+  }
+  async componentWillUnmount(){
+    await this.clearFields()
   }
   setFocusHandlers() {
     this.richtext.setTitleFocusHandler(() => {
@@ -309,10 +311,15 @@ class CreateEvent extends Component<Props> {
       waitAnimationEnd: false,
       includeExif: true,
       forceJpg: true,
+      minFiles: 1,
+      maxFiles: 5,
+      compressImageQuality: 0.5
     }).then(async (images) => {
-      console.log('images===>>>', images);
+      console.log('images=>>',images);
       images.forEach(i => {
-        this.state.avatorSources.push({ uri: i.path, type: i.mime, name: i.filename })
+        var fileName = i.path.substring(i.path.lastIndexOf('/')+1,i.path.length);
+        console.log('name==>>>',fileName);
+        this.state.avatorSources.push({ uri: i.path, type: i.mime, name: Platform.OS === 'ios'? i.filename : fileName })
         this.state.images.push({ uri: i.path, width: i.width, height: i.height, mime: i.mime })
         this.setState({ sizeImage: this.state.sizeImage + i.size })
         console.log(i.size);
@@ -376,23 +383,29 @@ class CreateEvent extends Component<Props> {
     try {
       let response = await ApiController.post('delete-event-img', parameters);
       if (response.success) {
-        response.data.gallery.dropdown.forEach(item => {
-          item.checkStatus = false;
-        })
-        data.gallery = response.data.gallery;
-        await this.setState({ editImages: data.gallery.dropdown })
+        if (response.data.gallery.has_gallery) {
+          response.data.gallery.dropdown.forEach(item => {
+            item.checkStatus = false;
+          })
+          data.gallery = response.data.gallery;
+          await this.setState({ editImages: data.gallery.dropdown })
+        }else{
+          await this.setState({ editImages: [] })
+        }
         // Toast.show(response.message)
       } else {
-        // Toast.show(response.message)
+        Toast.show(response.message)
+        data.gallery.dropdown.forEach(item => {
+          item.checkStatus = false;
+        })
+        this.setState({ loading: false })
       }
     } catch (error) {
       console.log('error:', error);
     }
   }
 
-  render() {
-    console.warn(store.settings.data);
-    
+  render() {    
     let { params } = this.props.navigation.state;
     let data = store.MY_EVENTS.data.create_event;
     var date = new Date().toDateString();
@@ -582,7 +595,7 @@ class CreateEvent extends Component<Props> {
             </View>
             <View style={{ flex: 1, marginHorizontal: 15, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'center' }}>
               {
-                this.state.images.length > 0 || this.state.editImages.length > 0 ?
+                this.state.images.length > 0 || this.state.editImages !== [] ?
                   <View style={{ flex: 1, flexDirection: 'row', marginVertical: 10, alignSelf: 'center', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                     <ScrollView
                       horizontal={true}>
@@ -714,7 +727,7 @@ class CreateEvent extends Component<Props> {
                       onValueChange={(itemValue, itemIndex) =>
                         this.setState({ related_listing: itemValue })
                       }>
-                      <Picker.Item label={data.related.placeholder} />
+                      <Picker.Item label={data.related.placeholder} value='' />
                       {
                         data.related.dropdown.map((item, key) => {
                           return (
@@ -743,8 +756,10 @@ class CreateEvent extends Component<Props> {
                 </View>
                 :
                 this.state.loading ?
-                  <View style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr }]} >
-                    <Text style={styles.profielBtnTxt}>{this.state.progress}%</Text>
+                  <View style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr,height: height(7) }]} >
+                    {/* <Text style={styles.profielBtnTxt}>{this.state.progress}%</Text> */}
+                    {/* <Progress.Pie progress={this.state.progress} color={COLOR_PRIMARY} size={25} /> */}
+                    <Progress.Circle size={40} indeterminate={false} showsText={true} textStyle={{ fontSize: 10 }} progress={this.state.progress} color={COLOR_PRIMARY} />
                   </View>
                   :
                   <TouchableOpacity style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr }]} onPress={() => {
@@ -782,12 +797,15 @@ class CreateEvent extends Component<Props> {
                   await this.selectListing(itemValue, itemIndex)
                   // this.setState({ related_listing: itemValue })
                 }>
-                {
-                  data.related.dropdown.map((item, key) => {
-                    return (
-                      <Picker.Item key={key} label={item.listing_title} value={item.listing_id} />
-                    );
-                  })
+                { 
+                  data.related.dropdown !== null ?
+                    data.related.dropdown.map((item, key) => {
+                      return (
+                        <Picker.Item key={key} label={item.listing_title} value={item.listing_id} />
+                      );
+                    })
+                    :
+                    null
                 }
               </Picker>
             </View>

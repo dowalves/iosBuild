@@ -11,7 +11,6 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import HTMLView from 'react-native-htmlview';
 import { INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S2, S14, COLOR_PRIMARY, COLOR_SECONDARY} from '../../../styles/common';
 import { observer } from 'mobx-react';
-import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Events/EventDetailStyleSheet';
 // import Slideshow from 'react-native-slideshow';
@@ -77,7 +76,6 @@ import Toast from 'react-native-simple-toast';
   // Getting eventDetail data func 
   eventDetail = async () => {
     let { params } = this.props.navigation.state;
-    let { orderStore } = Store;
 
     try {
       this.setState({ loading: true })
@@ -86,9 +84,8 @@ import Toast from 'react-native-simple-toast';
         event_id: params.event_id,
       };
       console.log('params===>>',param);
-      
       let response = await ApiController.post('event-detial', param);
-      orderStore.home.eventDetail = response;
+      store.home.eventDetail = response;
       console.log('EventDetail=', response);
       if (response.success === true) {
         // await this.setState({
@@ -98,7 +95,7 @@ import Toast from 'react-native-simple-toast';
         //     });
         //   }, 5000)
         // });
-        if (orderStore.refresh) {
+        if (store.refresh) {
           store.MY_EVENTS.data.my_events.pending_events.events.push(response.data.event_detial);
           console.log('event added',store.MY_EVENTS.data.my_events.pending_events.events);
         }
@@ -123,8 +120,7 @@ import Toast from 'react-native-simple-toast';
     this.setState({ timer: seconds })
   }
   render() {
-    let { orderStore } = Store;
-    var data = orderStore.settings.data;
+    var data = store.settings.data;
     if (this.state.loading === true) {
       return (
         <View style={{ height: height(100), width: width(100), flex: 1 }}>

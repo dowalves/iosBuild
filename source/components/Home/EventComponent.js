@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { width,height } from 'react-native-dimension';
 import { withNavigation } from 'react-navigation';
+import store from '../../Stores/orderStore';
 import styles from '../../../styles/Home';
 class EventComponent extends Component<Props> {
     render() {

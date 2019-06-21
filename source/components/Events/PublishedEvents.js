@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
+import { Text, View, Image, ActivityIndicator, ScrollView, RefreshControl, Alert } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import ApiController from '../../ApiController/ApiController';
 import { COLOR_SECONDARY, COLOR_PRIMARY } from '../../../styles/common';
@@ -49,7 +49,7 @@ class PublishedEvents extends Component<Props> {
   }
   expiredEvents = async (event_id) => {
     let data = store.MY_EVENTS.data.my_events.active_events.events;
-    let expire = store.MY_EVENTS.data.my_events.expired_events.events;
+    let expire = store.MY_EVENTS.data.my_events.expired_events;
     data.forEach(item => {
       if (event_id === item.event_id) {
         item.checkStatus = true;
@@ -68,7 +68,13 @@ class PublishedEvents extends Component<Props> {
           item.checkStatus = false;
           item.removed = true;
           data.splice(data.indexOf(event_id), 1);
-          expire.push(item);
+          if (expire.has_events) {
+            expire.events.push(item);
+          } else {
+            expire.has_events = true;
+            expire.events = [];
+            expire.events.push(item);          
+          }
           this.setState({ loading: false })
         }
       })
@@ -77,6 +83,11 @@ class PublishedEvents extends Component<Props> {
       // this.props.jumpTo('create');
     } else {
       Toast.show(response.message)
+      data.forEach(item => {
+        if (event_id === item.event_id) {
+          item.checkStatus = false;
+        }
+      })
       this.setState({ loading: false })
     }
   }
@@ -89,9 +100,11 @@ class PublishedEvents extends Component<Props> {
     console.log('edit event==========================>>', response);
     if (response.success) {
       store.MY_EVENTS.data.create_event = response.data.create_event;
-      store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
-        item.checkStatus = false;
-      })
+      if (store.MY_EVENTS.data.create_event.gallery.has_gallery) {
+        store.MY_EVENTS.data.create_event.gallery.dropdown.forEach(item => {
+          item.checkStatus = false;
+        })
+      }
       this.setState({ loading: false })
       this.props.navigation.push('CreactEvent', { eventMode: 'edit', eventID: event_id });
       // this.props.jumpTo('create');
@@ -127,6 +140,11 @@ class PublishedEvents extends Component<Props> {
       // this.props.jumpTo('create');
     } else {
       Toast.show(response.message)
+      data.forEach(item => {
+        if (event_id === item.event_id) {
+          item.checkStatus = false;
+        }
+      })
       this.setState({ loading: false })
     }
   }
@@ -141,6 +159,7 @@ class PublishedEvents extends Component<Props> {
     console.log('Tabs loadMore=====>>>', response);
     if (response.has_events) {
       // forEach Loop LoadMore results
+      data.event_count = response.event_count;
       data.events = response.events;
       response.events.forEach((item) => {
         item.checkStatus = false;
@@ -180,11 +199,6 @@ class PublishedEvents extends Component<Props> {
     }
     await this.setState({ reCaller: false })
   }
-  // componentDidUpdate = async() => {
-  //   if (store.refresh) {
-  //       await this.setState({ loading: false })
-  //   }
-  // }
   isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = 20;
     return layoutMeasurement.height + contentOffset.y >=
@@ -193,7 +207,7 @@ class PublishedEvents extends Component<Props> {
   render() {
     let data = store.MY_EVENTS.data.my_events;
     let main_clr = store.settings.data.main_clr;
-    if (this.state.loading == true) {
+    if (this.state.loading === true) {
       return (
         <View style={{ height: height(100), width: width(100), justifyContent: 'center', alignItems: 'center', flex: 1 }}>
           <ActivityIndicator size='large' color={main_clr} animating={true} />
@@ -206,6 +220,9 @@ class PublishedEvents extends Component<Props> {
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
+              colors={['white']}
+              progressBackgroundColor={store.settings.data.main_clr}
+              tintColor={store.settings.data.main_clr}
               refreshing={this.state.refreshing}
               onRefresh={this._pullToRefresh}
             />

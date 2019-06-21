@@ -15,6 +15,8 @@ class ListingComponent extends Component<Props> {
     render() {
         let item = this.props.item;
         let status = this.props.listStatus;
+        // console.log('iamge uri==>>',item.image);
+        
         return (
             <TouchableOpacity style={[styles.featuredFLItem,{ width: status? width(95) : width(90) }]} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
                 <ImageBackground source={{ uri: item.image }} style={styles.featuredImg}>

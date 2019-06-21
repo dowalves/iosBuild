@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, Image, TouchableOpacity, ActivityIndicator, Platform } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
 import store from '../../Stores/orderStore';
@@ -23,8 +23,8 @@ class MyEventComp extends Component<Props> {
         let item = this.props.item;
         let data = store.MY_EVENTS.data;
         return (
-            <View>
-                <TouchableOpacity style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, width: width(95), shadowColor: 'gray', shadowOpacity: 0.2, shadowRadius: 2, alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
+            <View style={{ flex:1 }}>
+                <TouchableOpacity style={{ elevation: 5, backgroundColor: item.checkStatus?'rgba(0,0,0,0.5)':COLOR_PRIMARY,marginVertical: 5, borderRadius: 5, marginHorizontal: 5, width: width(95), shadowColor: 'gray', shadowOpacity: 0.2, shadowRadius: 2, alignSelf: 'center', flexDirection: 'row' }}
                     onPress={() => this.props.navigation.push('EventDetail', { event_id: item.event_id, title: item.event_title, headerColor: store.settings.data.navbar_clr })}
                 >
                     <View style={{ marginVertical: 2, width: width(36), justifyContent: 'center', alignItems: 'center' }}>
@@ -124,7 +124,7 @@ class MyEventComp extends Component<Props> {
                 </TouchableOpacity>
                 {
                     item.checkStatus ?
-                        <View style={{ position: 'absolute', justifyContent: 'center', marginVertical: 5, borderRadius: 5, marginHorizontal: 5, height: 112, width: width(95), alignSelf: 'center', backgroundColor: 'rgba(0,0,0,0.6)' }}>
+                        <View style={{ position: "absolute",justifyContent: 'center', marginVertical: 5, borderRadius: 5, marginHorizontal: 5, height: Platform.OS === 'android'? height(17) : height(14), width: width(94), alignSelf: 'center', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                             <ActivityIndicator color='white' size='large' animating={true} />
                         </View>
                         :

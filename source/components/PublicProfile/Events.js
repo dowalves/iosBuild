@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { width, height, totalSize } from 'react-native-dimension';
-import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_YELLOW, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
+import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import { createStackNavigator } from 'react-navigation';

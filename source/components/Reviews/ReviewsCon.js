@@ -23,19 +23,23 @@ export default class ReviewsCon extends Component<Props> {
     let { params } = this.props.navigation.state;
     this.setState({ loading: true })
     let response = await ApiController.get('reviews');
-    // console.log('User Reviews==========================>>',response);
+    console.log('User Reviews==========================>>',response);
     store.USER_REVIEWS = response;
     if ( response.success ) {
+      if (store.USER_REVIEWS.data.submitted_reviews.has_comments) {
         store.USER_REVIEWS.data.submitted_reviews.commnets.forEach(item => {
-            item.added = false;
-            item.checked = false;
-            item.is_Active = false;
-        });
-        store.USER_REVIEWS.data.received_reviews.commnets.forEach(item => {
           item.added = false;
           item.checked = false;
           item.is_Active = false;
-        });
+         });
+      }
+       if (store.USER_REVIEWS.data.received_reviews.has_comments) {
+          store.USER_REVIEWS.data.received_reviews.commnets.forEach(item => {
+            item.added = false;
+            item.checked = false;
+            item.is_Active = false;
+          });
+       } 
         this.setState({ loading: false })
     } else {
         this.setState({ loading: false })

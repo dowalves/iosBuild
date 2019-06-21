@@ -63,6 +63,7 @@ export default class Amenties extends Component<Props> {
                            containerStyle={{ height: height(5),width:width(10),marginRight:0 ,borderWidth: 0,backgroundColor:'transparent' }}
                            size={18}
                            checked={true}
+                           onPress={()=>{ this.props.fun() }}
                         />
                         {/* <Image source={require('../../images/check.png')} style={styles.childIcon} /> */}
                         <View style={styles.childTxtCon}>

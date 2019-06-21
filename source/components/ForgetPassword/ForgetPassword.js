@@ -3,7 +3,7 @@ import {
   Text, View, Button, Image, ImageBackground, TouchableOpacity, ActivityIndicator, TextInput
 } from 'react-native';
 import { INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION } from '../../../styles/common';
-import Spinner from 'react-native-loading-spinner-overlay';
+import Icon from 'react-native-vector-icons/Octicons';
 import { width, height, totalSize } from 'react-native-dimension';
 import Toast from 'react-native-simple-toast';
 import { observer } from 'mobx-react';
@@ -65,8 +65,9 @@ import ApiController from '../../ApiController/ApiController';
             </View>
             <View style={styles.buttonView}>
               <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                <View style={{ flex: 0.6 }}>
-                  <Image source={require('../../images/mail.png')} style={styles.mail} />
+                <View style={{ marginHorizontal: 10 }}>
+                  {/* <Image source={require('../../images/mail.png')} style={styles.mail} /> */}
+                  <Icon name='mail' color='white' size={24} />  
                 </View>
                 <View style={{ flex: 4.1 }}>
                   <TextInput

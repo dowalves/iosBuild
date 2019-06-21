@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { NetInfo, Alert, BackHandler, Platform, StyleSheet, Text, View, Button, Image, ImageBackground, TouchableOpacity, I18nManager } from 'react-native';
-import { width, height, totalSize } from 'react-native-dimension';
-import { observer } from 'mobx-react';
+import { Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import Store from '../../Stores';
 import styles from '../../../styles/MainScreenStyle'
 let { orderStore } = Store;

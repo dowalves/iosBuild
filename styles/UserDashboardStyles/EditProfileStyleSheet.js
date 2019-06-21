@@ -14,11 +14,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_BACKGROUND
   },
   titleCon:{
-    height:height(6),
+    height:height(5),
     marginHorizontal:15,
-    marginBottom:20,
+    marginBottom:0,
     alignItems:'flex-end',
-    flexDirection:'row'
+    flexDirection:'row',
   },
   titleTxt: {
     width:width(61),
@@ -28,8 +28,6 @@ const styles = StyleSheet.create({
     // fontFamily: FONT_BOLD
   },
   changeBtnCon: {
-    height:height(3.8),
-    width:width(28),
     borderRadius:4,
     alignItems:'center',
     backgroundColor: COLOR_LIME_GREEN,
@@ -38,7 +36,8 @@ const styles = StyleSheet.create({
   closeBtnTxt: {
     fontSize:totalSize(smallButtons),
     color: COLOR_PRIMARY,
-    // fontFamily: FONT_NORMAL
+    marginHorizontal: 10,
+    marginVertical: 7
   },
   textInputCon: {
     height:height(10),
@@ -79,22 +78,29 @@ const styles = StyleSheet.create({
     color: COLOR_DARK_GRAY,
     borderColor:COLOR_GRAY
   },
-  aboutInputCon: {
-    height:height(18),
-    marginHorizontal:15,
-    marginVertical:5,
-  },
-  aboutInputText: {
-    height:height(15),
+  socialInput: {
+    // height:height(6),
     borderRadius:5,
-    borderWidth: 0.8,
     paddingLeft:10,
     fontSize:totalSize(paragraphTxt),
     // fontFamily:FONT_NORMAL,
     color: COLOR_DARK_GRAY,
+  },
+  aboutInputCon: {
+    height:height(23),
+    marginHorizontal:15,
+    marginVertical:5,
+  },
+  aboutInputText: {
+    height:height(20),
+    borderRadius:5,
+    borderWidth: 0.8,
+    paddingHorizontal:10,
+    fontSize:totalSize(paragraphTxt),
+    color: COLOR_DARK_GRAY,
     borderColor:COLOR_GRAY,
     ...Platform.select({
-      ios: {},
+      ios: {  },
       android: { textAlignVertical: 'top', }
     }),
   },

@@ -36,11 +36,24 @@ render() {
                 <Avatar
                     large
                     rounded
-                    source={{ uri: data.profile_img }}
-                    // onPress={() => console.warn("Works!")}
+                    source={this.props.pickerImage?  this.props.image  : { uri: data.profile_img }}
                     activeOpacity={1}
                     containerStyle={{ marginHorizontal: 20, marginTop: 15 }}
                 />
+                {
+                    this.props.status?
+                        <View style={{ height:height(5),width:width(13),justifyContent:'center',alignItems:'flex-end',position:'absolute' }}>
+                            <Icon
+                                size={15}
+                                name='camera'
+                                type='font-awesome'
+                                onPress={()=>this.props._imagePicker()}
+                                color={store.settings.data.main_clr}
+                            />
+                        </View>
+                        :
+                        null
+                }
                 <Text style={{ fontSize: totalSize(2.5), fontWeight: 'bold', color: COLOR_SECONDARY, marginHorizontal: 0 }}>{data.name}</Text>
                 <View style={{ height: height(7), flexDirection: 'row',marginVertical: 5, marginHorizontal: 20 }}>
                     <Icon

@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Platform, ActivityIndicator, Text, View, Picker, Image, ImageBackground, TouchableOpacity, I18nManager,
-  ScrollView, TextInput, FlatList
-} from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { ActivityIndicator, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import * as Progress from 'react-native-progress';
 // import RNShineButton from 'react-native-shine-button';
@@ -11,10 +7,11 @@ import HTMLView from 'react-native-htmlview';
 import Accordion from 'react-native-collapsible/Accordion';
 import { Avatar } from 'react-native-elements';
 import Modal from "react-native-modal";
+import StarRating from 'react-native-star-rating';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Toast from 'react-native-simple-toast';
-import { FONT_NORMAL, COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, S2, S18 } from '../../../styles/common';
+import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, S2, S18 } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
@@ -49,7 +46,6 @@ class UserReviews extends Component<Props> {
       report_reason: '',
       report_comments: '',
     }
-    // I18nManager.forceRTL(false);
     this.changeStarScore = this.changeStarScore.bind(this);
   }
   static navigationOptions = { header: null };
@@ -123,6 +119,7 @@ class UserReviews extends Component<Props> {
     this.setState({ loadmore: true })
     var data = orderStore.home.FEATURE_DETAIL.data.listing_detial.listing_comments;
     let response = await Api.post('listing-more-reviews', params);
+    //console.log('loadMore ====>>>>',response);
     if (response.success) {
       //forEach Loop LoadMore Reviewes
       response.data.listing_comments.listing_reviews.forEach((item) => {
@@ -159,19 +156,13 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>5 stars</Text>
           <View style={styles.gradingCon}>
-            <Rating
-              type='star'
-              // ratingImage={WATER_IMAGE}
-              ratingColor={COLOR_ORANGE}
-              ratingBackgroundColor={COLOR_GRAY}
-              startingValue={5}
-              fractions={0}
-              readonly={false}
-              ratingCount={5}
-              imageSize={15}
-              onFinishRating={this.ratingCompleted}
-              // showRating
-              style={styles.ratingStyle}
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              starSize={13}
+              fullStarColor={COLOR_ORANGE}
+              containerStyle={{ marginHorizontal: 10 }}
+              rating={5}
             />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_5 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
@@ -180,19 +171,13 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>4 stars</Text>
           <View style={styles.gradingCon}>
-            <Rating
-              type='star'
-              // ratingImage={WATER_IMAGE}
-              ratingColor={COLOR_ORANGE}
-              ratingBackgroundColor={COLOR_GRAY}
-              startingValue={4}
-              fractions={0}
-              readonly={false}
-              ratingCount={5}
-              imageSize={15}
-              onFinishRating={this.ratingCompleted}
-              // showRating
-              style={styles.ratingStyle}
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              starSize={13}
+              fullStarColor={COLOR_ORANGE}
+              containerStyle={{ marginHorizontal: 10 }}
+              rating={4}
             />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_4 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
@@ -201,19 +186,13 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>3 stars</Text>
           <View style={styles.gradingCon}>
-            <Rating
-              type='star'
-              // ratingImage={WATER_IMAGE}
-              ratingColor={COLOR_ORANGE}
-              ratingBackgroundColor={COLOR_GRAY}
-              startingValue={3}
-              fractions={0}
-              readonly={false}
-              ratingCount={5}
-              imageSize={15}
-              onFinishRating={this.ratingCompleted}
-              // showRating
-              style={styles.ratingStyle}
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              starSize={13}
+              fullStarColor={COLOR_ORANGE}
+              containerStyle={{ marginHorizontal: 10 }}
+              rating={3}
             />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_3 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
@@ -222,19 +201,13 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>2 stars</Text>
           <View style={styles.gradingCon}>
-            <Rating
-              type='star'
-              // ratingImage={WATER_IMAGE}
-              ratingColor={COLOR_ORANGE}
-              ratingBackgroundColor={COLOR_GRAY}
-              startingValue={2}
-              fractions={0}
-              readonly={false}
-              ratingCount={5}
-              imageSize={15}
-              onFinishRating={this.ratingCompleted}
-              // showRating
-              style={styles.ratingStyle}
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              starSize={13}
+              fullStarColor={COLOR_ORANGE}
+              containerStyle={{ marginHorizontal: 10 }}
+              rating={2}
             />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_2 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
@@ -243,19 +216,13 @@ class UserReviews extends Component<Props> {
         <View style={styles.stripCon}>
           <Text style={styles.ratingText}>1 stars</Text>
           <View style={styles.gradingCon}>
-            <Rating
-              type='star'
-              // ratingImage={WATER_IMAGE}
-              ratingColor={COLOR_ORANGE}
-              ratingBackgroundColor={COLOR_GRAY}
-              startingValue={1}
-              fractions={0}
-              readonly={false}
-              ratingCount={5}
-              imageSize={15}
-              onFinishRating={this.ratingCompleted}
-              // showRating
-              style={styles.ratingStyle}
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              starSize={13}
+              fullStarColor={COLOR_ORANGE}
+              containerStyle={{ marginHorizontal: 10 }}
+              rating={1}
             />
           </View>
           <Progress.Bar progress={data.reviews.total_score.star_1 / 100} width={totalSize(12)} height={totalSize(1)} color="red" unfilledColor="gray" borderWidth={0} animated={true} borderRadius={0} animationType="timing" />
@@ -263,39 +230,6 @@ class UserReviews extends Component<Props> {
         </View>
       </View>
     );
-  }
-  _ratingStrip = (item, key) => {
-    return (
-      <View key={key} style={{ height: height(5), width: width(95), flexDirection: 'row', backgroundColor: 'white', alignItems: 'center', borderBottomWidth: 0.3, borderColor: 'gray', marginTop: 10 }}>
-        <Text style={{ height: height(3), width: width(15), paddingLeft: 5, fontSize: totalSize(1.3), fontFamily: FONT_NORMAL, color: 'black' }}>5 stars</Text>
-        <Rating
-          type='star'
-          // ratingImage={WATER_IMAGE}
-          ratingColor={COLOR_ORANGE}
-          ratingBackgroundColor={COLOR_GRAY}
-          startingValue={4}
-          fractions={0}
-          readonly={false}
-          ratingCount={5}
-          imageSize={15}
-          onFinishRating={this.ratingCompleted}
-          // showRating
-          style={styles.ratingStyle}
-        />
-        <Progress.Bar
-          progress={0.7}
-          width={totalSize(12)}
-          height={totalSize(1)}
-          color="red"
-          unfilledColor="gray"
-          borderWidth={0}
-          animated={true}
-          borderRadius={0}
-          animationType="timing"
-        />
-        <Text style={{ height: height(3), width: width(15), paddingLeft: 10, fontSize: totalSize(1.3), fontFamily: FONT_NORMAL, color: 'black' }}>50%</Text>
-      </View>
-    )
   }
   render() {
     let music = (<Icon family={"FontAwesome"} name={"music"} color={"#808080"} />);
@@ -329,7 +263,7 @@ class UserReviews extends Component<Props> {
                       <View style={styles.imgCon}>
                         <View style={styles.imgSubCon}>
                           <Avatar
-                            large
+                            size="large"
                             rounded
                             source={{ uri: item.user_dp }}
                             onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: item.user_id, user_name: item.user_name })}
@@ -342,19 +276,14 @@ class UserReviews extends Component<Props> {
                         <Text style={styles.location}>{item.comment_title}</Text>
                         <View style={styles.dateCon}>
                           <Text style={styles.date}>{item.comment_date}   </Text>
-                          <View style={[styles.gradingCon,{ justifyContent:'center',marginHorizontal: 7 }]}>
-                            <Rating
-                              type='star'
-                              // ratingImage={WATER_IMAGE}
-                              ratingColor={COLOR_ORANGE}
-                              ratingBackgroundColor={COLOR_GRAY}
-                              startingValue={item.comment_stars}
-                              fractions={0}
-                              ratingCount={5}
-                              imageSize={15}
-                              onFinishRating={this.ratingCompleted}
-                              // showRating
-                              style={styles.ratingStyle}
+                          <View style={[styles.gradingCon, { justifyContent: 'center', marginHorizontal: 7 }]}>
+                            <StarRating
+                              disabled={false}
+                              maxStars={5}
+                              starSize={13}
+                              fullStarColor={COLOR_ORANGE}
+                              containerStyle={{ marginHorizontal: 10 }}
+                              rating={item.comment_stars.length === 0 ? 0 : item.comment_stars}
                             />
                           </View>
                         </View>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform,StyleSheet } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, buttonText,exploreMoreText, SloganText, COLOR_SECONDARY } from './common';
 
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   buttonView: {
-    height: height(33),
+    height: Platform.OS==='ios'?height(30):height(33),
     alignItems: 'center',
   },
   signInBtn: {
@@ -68,10 +68,9 @@ const styles = StyleSheet.create({
     color: COLOR_PRIMARY,
   },
   expTxt: {
-    height: height(10),
+    // height: height(10),
     width: width(65),
     textAlign: 'center',
-    // fontFamily: FONT_NORMAL,
     marginTop: 7,
     fontWeight: 'bold',
     fontSize: exploreMoreText,

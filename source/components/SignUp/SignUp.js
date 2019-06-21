@@ -9,13 +9,14 @@ import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/SignUp'
+import Icon from 'react-native-vector-icons/Octicons';
+import IconLock from 'react-native-vector-icons/SimpleLineIcons';
+import IconUser from 'react-native-vector-icons/FontAwesome';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
-import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
-// import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
-var { FBLoginManager } = require('react-native-facebook-login');
+import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 @observer export default class SignUp extends Component<Props> {
   constructor(props) {
     let { orderStore } = Store;
@@ -50,20 +51,37 @@ var { FBLoginManager } = require('react-native-facebook-login');
     }).done();
   }
   // FaceBook SignUp 
-  fbLogin = () => {
-    FBLoginManager.setLoginBehavior(FBLoginManager.LoginBehaviors.Native); // defaults to Native
-    FBLoginManager.loginWithPermissions(["email"], functionFb = (error, data) => {
-      if (!error && data.type === "success") {
-        //Calling local func for login through google
-        let profile = JSON.parse(data.profile);
-        store.LOGIN_TYPE = 'facebook';
-        this.socialSignUp(profile.email, profile.name, 'apple@321');
-        // console.log("FaceBook signUp: ", data);
-      } else {
+  fbLogin = async() => {
+    // Attempt a login using the Facebook login dialog asking for default permissions.
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+      functionFun = (result) => {
+        if (result.isCancelled) {
+          Toast.show('It must be your network issue, please try again.', Toast.LONG);
+        } else {
+          const infoRequest = new GraphRequest(
+            '/me?fields=id,first_name,last_name,name,picture.type(large),email,gender',
+            null,
+            this._responseInfoCallback,
+          );
+          new GraphRequestManager().addRequest(infoRequest).start();
+        }
+      },
+      function (error) {
         Toast.show('It must be your network issue, please try again.', Toast.LONG);
-        console.log("Error: ", error);
+        // console.log("Login fail with error: " + error);
       }
-    })
+    );
+  }
+  //Create response callback.
+  _responseInfoCallback = async (error: ?Object, result: ?Object) => {
+    if (error) {
+      // console.log('Error fetching data: ' + error.toString());
+    } else {
+      store.LOGIN_SOCIAL_TYPE = 'social';
+      store.LOGIN_TYPE = 'facebook';
+      await this.socialSignUp(result.email, result.name, 'apple@321');
+      // console.log('Success fetching data: ', result);
+    }
   }
   //// Custom Social Login methode
   socialSignUp = async (email, name, password) => {
@@ -134,8 +152,9 @@ var { FBLoginManager } = require('react-native-facebook-login');
             </View>
             <View style={styles.buttonView}>
               <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                <View style={{ flex: 0.6 }}>
-                  <Image source={require('../../images/user.png')} style={styles.userImg} />
+                <View style={{ marginHorizontal: 10 }}>
+                  {/* <Image source={require('../../images/user.png')} style={styles.userImg} /> */}
+                  <IconUser name='user-o' color='white' size={24} />
                 </View>
                 <View style={{ flex: 4.1 }}>
                   <TextInput
@@ -153,8 +172,9 @@ var { FBLoginManager } = require('react-native-facebook-login');
                 </View>
               </View>
               <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                <View style={{ flex: 0.6 }}>
-                  <Image source={require('../../images/mail.png')} style={styles.mail} />
+                <View style={{ marginHorizontal: 10 }}>
+                  {/* <Image source={require('../../images/mail.png')} style={styles.mail} /> */}
+                  <Icon name='mail' color='white' size={24} />
                 </View>
                 <View style={{ flex: 4.1 }}>
                   <TextInput
@@ -170,8 +190,9 @@ var { FBLoginManager } = require('react-native-facebook-login');
                 </View>
               </View>
               <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                <View style={{ flex: 0.6 }}>
-                  <Image source={require('../../images/password.png')} style={styles.mail} />
+                <View style={{ marginHorizontal: 10 }}>
+                  {/* <Image source={require('../../images/password.png')} style={styles.mail} /> */}
+                  <IconLock name='lock' color='white' size={24} />
                 </View>
                 <View style={{ flex: 4.1 }}>
                   <TextInput
@@ -191,7 +212,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
               </TouchableOpacity>
               <View style={styles.fgBtn}>
                 {
-                  data.registerBtn_show.facebook?
+                  data.registerBtn_show.facebook ?
                     <TouchableOpacity style={styles.buttonCon}
                       onPress={() => { this.fbLogin() }} >
                       <Text style={styles.socialBtnText}>{data.main_screen.fb_btn}</Text>
@@ -206,7 +227,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
                     null
                 }
                 {
-                  data.registerBtn_show.google?
+                  data.registerBtn_show.google ?
                     <TouchableOpacity style={[styles.buttonCon, { backgroundColor: '#DB4437' }]}
                       onPress={() => { this.handleGoogleSignIn() }} >
                       <Text style={styles.socialBtnText}>{data.main_screen.g_btn}</Text>

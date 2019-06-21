@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, I18nManager } from 'react-native';
+import { Platform,StyleSheet, I18nManager } from 'react-native';
 import { FONT_NORMAL, FONT_BOLD, COLOR_PRIMARY, S18, S17, S15, S12, socialBtnText,buttonText,SloganText,InputTextSize,SignInHeaderText, } from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const styles = StyleSheet.create({
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   buttonView: {
-    height: height(50),
+    height: Platform.OS==='ios'?height(45):height(50),
     alignItems: 'center',
   },
   userImg: {

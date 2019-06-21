@@ -9,7 +9,7 @@ import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Drawer/SideMenuStyleSheet';
 import LocalDB from '../../LocalDB/LocalDB';
-import { FBLoginManager } from 'react-native-facebook-login';
+// import { FBLoginManager } from 'react-native-facebook-login';
 import { GoogleSignin } from 'react-native-google-signin';
 import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStorage } from 'react-native';
 @observer class SideMenu extends Component {
@@ -57,14 +57,14 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
     // BackHandler.exitApp();
   }
   handleLogout=async()=>{
-    var _this = this;
-    FBLoginManager.logout(function(error, data){
-      if (!error) {
-        _this.props.onLogout && _this.props.onLogout();
-      } else {
-        console.log(error, data);
-      }
-    });
+    // var _this = this;
+    // FBLoginManager.logout(function(error, data){
+    //   if (!error) {
+    //     _this.props.onLogout && _this.props.onLogout();
+    //   } else {
+    //     console.log(error, data);
+    //   }
+    // });
   }
   signOutGoogle = async () => {
     try {
@@ -86,7 +86,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
               <View style={styles.headerCon}>
                 <View style={styles.profileImgCon}>
                   <Avatar
-                    large
+                    size="large"
                     rounded
                     source={{ uri: login.loginStatus === true ? login.loginResponse.data.profile_img : data.user_defualt_img }}
                     // onPress={() => console.warn("Works!")}
@@ -126,6 +126,14 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                 </TouchableOpacity>
                 {this.state.isCollapsed === true ?
                   <View style={{ width: width(65), alignItems: 'flex-start', justifyContent: 'center', alignSelf: 'flex-end' }}>
+                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ListingPostTabCon', data.menu.my_listings)}>
+                      <View style={[styles.itemIconCon, { width: width(10), alignSelf: 'flex-start' }]} >
+                        <Image source={require('../../images/bullet-list.png')} style={[styles.itemIcon, { alignSelf: 'flex-start' }]} />
+                      </View>
+                      <View style={styles.itemTxtCon}>
+                        <Text style={styles.itemTxt}>{'Create Listings'}</Text>
+                      </View>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Dashboard', data.menu.my_listings)}>
                       <View style={[styles.itemIconCon, { width: width(10), alignSelf: 'flex-start' }]} >
                         <Image source={require('../../images/bullet-list.png')} style={[styles.itemIcon, { alignSelf: 'flex-start' }]} />

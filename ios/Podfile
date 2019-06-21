@@ -31,6 +31,10 @@ target 'DWT' do
     pod 'GoogleSignIn'
     pod 'XCDYouTubeKit', '~> 2.5'
     pod 'Firebase/Core'
+    pod 'FacebookSDK'
+    pod 'FBSDKCoreKit'
+    pod 'FBSDKShareKit'
+    pod 'FBSDKLoginKit'
     pod 'react-native-maps', :path => '../node_modules/react-native-maps'
     pod 'react-native-google-maps', path: rn_maps_path  # Unomment this line if you want to support GoogleMaps on iOS
     pod 'GoogleMaps'  # Uncomment this line if you want to support GoogleMaps on iOS
@@ -47,6 +51,8 @@ target 'DWT' do
     pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
     pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+
+    pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
   end
 
