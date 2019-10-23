@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import {
-    Text, View, Image, ImageBackground, TouchableOpacity, I18nManager,
+    Text, View, Image, ImageBackground, TouchableOpacity, Platform,
     ScrollView, TextInput, ActivityIndicator
 } from 'react-native';
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded,
+} from 'react-native-admob';
 import { NavigationActions } from 'react-navigation';
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
@@ -26,7 +32,6 @@ import ListingComponent from '../Home/ListingComponent';
             sorting: false,
             sortCheck: false,
             search: '',
-            arr: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }]
         }
     }
     static navigationOptions = { header: null };
@@ -36,6 +41,27 @@ import ListingComponent from '../Home/ListingComponent';
         });
         this.props.navigation.setParams({ otherParam: title });
         this.props.navigation.dispatch(navigateAction);
+    }
+    async componentDidMount() {
+        await this.interstitial()
+        this.subs = this.props.navigation.addListener("didFocus", func = async () => {
+            //Your logic, this listener will call when you open the class every time
+            await this.getSearchList()
+        });
+    }
+    interstitial = () => {
+        let data = store.settings.data;
+        try {
+            if (data.has_admob && data.admob.interstitial !== '') {
+                AdMobInterstitial.setAdUnitID(data.admob.interstitial); //ca-app-pub-3940256099942544/1033173712
+                AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
+            }
+            // InterstitialAdManager.showAd('636005723573957_636012803573249')
+            //   .then(didClick => console.log('response===>>>',didClick))
+            //   .catch(error => console.log('error===>>>',error)); 
+        } catch (error) {
+            console.log('catch===>>>', error);
+        }
     }
     _sort = () => this.setState({ sorting: !this.state.sorting })
     componentWillMount = async () => {
@@ -51,6 +77,9 @@ import ListingComponent from '../Home/ListingComponent';
         }
         if (store.moveToSearch === true) {
             store.SEARCH_OBJ.l_category = store.CATEGORY.category_id;
+        }
+        if (store.moveToSearchLoc === true) {
+            store.SEARCH_OBJ.l_location = store.LOCATION.location_id;
         }
         // console.log('paramsPPP===>>>', store.SEARCH_OBJ);
         try {
@@ -74,6 +103,7 @@ import ListingComponent from '../Home/ListingComponent';
     resetSearchList = async () => {
         let { orderStore } = Store;
         store.CATEGORY = {};
+        store.LOCATION = {};
         store.SEARCH_OBJ = {};
         await this.setState({
             search: ''
@@ -161,8 +191,7 @@ import ListingComponent from '../Home/ListingComponent';
         let list = orderStore.SEARCHING.LISTING_SEARCH.data;
         let data = store.SEARCHING.LISTING_FILTER.data;
         let home = orderStore.home.homeGet.data.advanced_search;
-        // console.warn('pageno=>',orderStore.SEARCHING.LISTING_SEARCH.data.pagination.next_page);
-        // console.log('listSeacrhReturn===>', store.SEARCHING.LISTING_SEARCH);
+        let settings = store.settings.data;
         return (
             <View style={styles.container}>
                 <View style={{ height: height(10), width: width(100), backgroundColor: store.settings.data.navbar_clr, justifyContent: 'center', alignItems: 'center' }}>
@@ -218,14 +247,14 @@ import ListingComponent from '../Home/ListingComponent';
                                             }
                                         }}
                                         scrollEventThrottle={400}>
-                                        <View style={{ height: height(6), width: width(100), backgroundColor: 'white', justifyContent: 'center', marginBottom: 5 }}>
+                                        <View style={{ height: height(6), width: width(100), backgroundColor: 'white', justifyContent: 'center', marginBottom: 5, alignItems: 'flex-start' }}>
                                             <Text style={{ fontSize: totalSize(2.2), color: COLOR_SECONDARY, marginHorizontal: 15, marginVertical: 10 }}>{list.total_listings}</Text>
                                         </View>
                                         {
                                             list !== "" ?
                                                 list.listings.map((item, key) => {
                                                     return (
-                                                       <ListingComponent item={item} key={key} listStatus={true} />
+                                                        <ListingComponent item={item} key={key} listStatus={true} />
                                                     )
                                                 })
                                                 : null
@@ -280,7 +309,7 @@ import ListingComponent from '../Home/ListingComponent';
                                     <TouchableOpacity key={key} style={{ height: height(5), width: width(90), flexDirection: 'row', justifyContent: 'center' }}
                                         onPress={() => { this._sortingModule(item, data.sorting.option_dropdown), item.checkStatus = !item.checkStatus }}
                                     >
-                                        <View style={{ height: height(6), width: width(80), justifyContent: 'center' }}>
+                                        <View style={{ height: height(6), width: width(80), justifyContent: 'center', alignItems: 'flex-start' }}>
                                             <Text style={{ fontSize: totalSize(1.6), color: item.checkStatus ? store.settings.data.navbar_clr : COLOR_SECONDARY, marginHorizontal: 10 }}>{item.value}</Text>
                                         </View>
                                         <View style={{ height: height(6), width: width(10), justifyContent: 'center', alignItems: 'center' }}>
@@ -288,7 +317,7 @@ import ListingComponent from '../Home/ListingComponent';
                                                 size={16}
                                                 uncheckedColor={COLOR_GRAY}
                                                 checkedColor={store.settings.data.navbar_clr}
-                                                containerStyle={{ backgroundColor: 'transparent', height: height(6), width: width(10), borderWidth: 0 }}
+                                                containerStyle={{ backgroundColor: 'transparent', width: width(10), borderWidth: 0 }}
                                                 checked={item.checkStatus}
                                                 onPress={() => { this._sortingModule(item, data.sorting.option_dropdown), item.checkStatus = !item.checkStatus }}
                                             />
@@ -299,6 +328,20 @@ import ListingComponent from '../Home/ListingComponent';
                         }
                     </View>
                 </Modal>
+                <View style={{ alignItems: 'center' }}>
+                    {
+                        settings.has_admob && settings.admob.banner !== '' ?
+                            <AdMobBanner
+                                adSize={Platform.OS === 'ios' ? "smartBanner" : "smartBannerLandscape"}
+                                adUnitID={settings.admob.banner} // 'ca-app-pub-3940256099942544/6300978111' 
+                                onAdFailedToLoad={async () => await this.setState({ loadAdd: false })}
+                                didFailToReceiveAdWithError={async () => await this.setState({ loadAdd: false })}
+                                onAdLoaded={async () => { await this.setState({ loadAdd: true }) }}
+                            />
+                            :
+                            null
+                    }
+                </View>
             </View>
         );
     }

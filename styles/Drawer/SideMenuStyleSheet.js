@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet,I18nManager } from 'react-native';
 import { FONT_NORMAL,COLOR_PRIMARY,COLOR_TRANSPARENT_BLACK,COLOR_ORANGE,S25,S2,S18,S17,S16,S15,S14,S13,S12,S11 } from '../common';
 import { width, height, totalSize } from 'react-native-dimension';
 const size = totalSize(S18);
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     height:height(7),
     width:width(15),
     justifyContent:'center',
+    alignItems:'center'
     // backgroundColor:'orange'
   },
   itemIcon: {
@@ -50,12 +51,14 @@ const styles = StyleSheet.create({
     width:width(6),
     alignSelf:'center',
     resizeMode:'contain',
+    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
     // backgroundColor:'green'
   },
   itemTxtCon: {
     flex:4.5,
     // height:height(7),
     // width:width(50),
+    alignItems:'flex-start',
     justifyContent:'center',
     // backgroundColor:'orange'
   },

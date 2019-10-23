@@ -8,25 +8,29 @@ import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
+// import com.facebook.ads.AudienceNetworkAds; // <-- add this
+// import suraj.tiwari.reactnativefbads.FBAdsPackage; // <-- add this
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.sbugert.rnadmob.RNAdMobPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.dooboolab.RNIap.RNIapPackage;
+import com.reactlibrary.RNPaypalPackage;
+import com.gettipsi.stripe.StripeReactPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -52,15 +56,18 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new RNAdMobPackage(),
+            new PickerPackage(),
+            // new FBAdsPackage(),
+            new RNIapPackage(),
+            new RNPaypalPackage(),
+            new StripeReactPackage(),
             new FBSDKPackage(mCallbackManager),
             new LottiePackage(),
             new RNGestureHandlerPackage(),
             new ReanimatedPackage(),
-            new RNGoogleSigninPackage(),
             new MapsPackage(),
-            new PickerPackage(),
-            new VectorIconsPackage(),
-            new WebViewBridgePackage(),
             new RNFusedLocationPackage()
       );
     }
@@ -80,6 +87,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    // AudienceNetworkAds.initialize(this); // <-- add this
     try {
       PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
       for (Signature signature : info.signatures) {

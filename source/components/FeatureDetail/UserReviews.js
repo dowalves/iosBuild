@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { ActivityIndicator, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import * as Progress from 'react-native-progress';
-// import RNShineButton from 'react-native-shine-button';
+import ProgressImage from '../CustomTags/ImageTag';
+import * as Animatable from 'react-native-animatable';
 import HTMLView from 'react-native-htmlview';
 import Accordion from 'react-native-collapsible/Accordion';
 import { Avatar } from 'react-native-elements';
@@ -45,6 +46,7 @@ class UserReviews extends Component<Props> {
       com_id: '',
       report_reason: '',
       report_comments: '',
+      refreshing: false
     }
     this.changeStarScore = this.changeStarScore.bind(this);
   }
@@ -137,7 +139,28 @@ class UserReviews extends Component<Props> {
     });
     this.setState({ index: key, modalVisible: true })
   }
-
+  _pulToRefresh = async() => {
+    console.log('before===>>',store.home.FEATURE_DETAIL.data.listing_detial.listing_comments.listing_reviews);
+    try {
+      this.setState({ refreshing: true })
+      //API calling
+      let parameter = {
+        listing_id: store.LIST_ID    // params.listId
+      }
+      let response = await Api.post('listing-detial', parameter);
+      if (response.success === true) {
+        store.home.FEATURE_DETAIL = response;
+        store.home.FEATURE_DETAIL.data.listing_detial.listing_comments.listing_reviews=response.data.listing_detial.listing_comments.listing_reviews;
+        // store.home.TAB_LABELS.amenties = response.data.listing_detial.ameneties.tab_txt;
+        this.setState({ refreshing: false })
+      } else {
+        this.setState({ refreshing: false })
+      }
+    } catch (error) {
+      this.setState({ refreshing: false })
+      // console.warn('error', error);
+    }
+  }
   _renderHeader = (section, content, isActive) => {
     let { orderStore } = Store;
     let data = orderStore.home.FEATURE_DETAIL.data.listing_detial;
@@ -240,7 +263,17 @@ class UserReviews extends Component<Props> {
 
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView 
+        showsVerticalScrollIndicator={true}
+        refreshControl={
+          <RefreshControl
+            colors={['white']}
+            progressBackgroundColor={store.settings.data.main_clr}
+            tintColor={store.settings.data.main_clr}
+            refreshing={this.state.refreshing}
+            onRefresh={this._pulToRefresh}
+          />
+        }>
           <FeatureDetail callModel={this.setModalVisible} />
           <View style={styles.subCon}>
             <Accordion
@@ -317,7 +350,7 @@ class UserReviews extends Component<Props> {
                               item.gallery_images.map((image, key) => {
                                 return (
                                   <TouchableOpacity key={key} style={styles.flatlistChild} onPress={() => { this._getImage(item.gallery_images, key) }}>
-                                    <Image source={{ uri: image.small_img }} style={styles.childImg} />
+                                    <ProgressImage source={{ uri: image.small_img }} style={styles.childImg} />
                                   </TouchableOpacity>
                                 );
                               })
@@ -330,45 +363,63 @@ class UserReviews extends Component<Props> {
                           data.listing_comments.show_emojis ?
                             <View style={{ height: height(7), width: width(70), flexDirection: 'row' }}>
                               <View style={{ height: height(7), width: width(12), alignItems: 'center' }}>
-                                {/* <RNShineButton
-                                  shape={"like"}
-                                  color={"#808080"}
-                                  fillColor={COLOR_ORANGE}
-                                  size={totalSize(3)}
-                                  value={false}
-                                  onChange={() => this.postReaction(item.comment_id, 1)}
-                                /> */}
+                                <Animatable.View
+                                  duration={2000}
+                                  animation="swing"
+                                  easing="ease-out"
+                                  iterationCount={10}
+                                  direction="alternate"
+                                  style={styles.featureBtn}
+                                  >
+                                  <TouchableOpacity onPress={() => this.postReaction(item.comment_id, 1)}>
+                                    <Image source={require('../../images/like.png')}  style={{ height: height(4), width: width(8),resizeMode:'contain' }} />
+                                  </TouchableOpacity>
+                                </Animatable.View>
                                 <Text style={{ color: 'black', fontSize: totalSize(1.6) }}>{item.likes}</Text>
                               </View>
                               <View style={{ width: width(12), alignItems: 'center' }}>
-                                {/* <RNShineButton
-                                  shape={"heart"}
-                                  color={"#808080"}
-                                  fillColor={"#ff0000"}
-                                  size={totalSize(3)}
-                                  disabled={false}
-                                  onChange={() => this.postReaction(item.comment_id, 2)}
-                                /> */}
+                              <Animatable.View
+                                  duration={2000}
+                                  animation="pulse"
+                                  easing="ease-out"
+                                  iterationCount={10}
+                                  direction="alternate"
+                                  style={styles.featureBtn}
+                                  >
+                                  <TouchableOpacity onPress={() => this.postReaction(item.comment_id, 2)}>
+                                    <Image source={require('../../images/heart-emoji.png')}  style={{ height: height(4), width: width(8),resizeMode:'contain' }} />
+                                  </TouchableOpacity>
+                                </Animatable.View>
                                 <Text style={{ color: 'black', fontSize: totalSize(1.6) }}>{item.love}</Text>
                               </View>
                               <View style={{ width: width(12), alignItems: 'center' }}>
-                                {/* <RNShineButton
-                                  shape={'smile'}
-                                  color={"#808080"}
-                                  fillColor={"#ff0000"}
-                                  size={totalSize(3)}
-                                  onChange={() => this.postReaction(item.comment_id, 3)}
-                                /> */}
+                                <Animatable.View
+                                    duration={2000}
+                                    animation="tada"
+                                    easing="ease-out"
+                                    iterationCount={'infinite'}
+                                    direction="alternate"
+                                    style={styles.featureBtn}
+                                    >
+                                    <TouchableOpacity onPress={() => this.postReaction(item.comment_id, 3)}>
+                                       <Image source={require('../../images/emoji.png')}  style={{ height: height(4), width: width(8),resizeMode:'contain' }} />
+                                    </TouchableOpacity>
+                                  </Animatable.View>
                                 <Text style={{ color: 'black', fontSize: totalSize(1.6) }}>{item.wows}</Text>
                               </View>
                               <View style={{ width: width(12), alignItems: 'center' }}>
-                                {/* <RNShineButton
-                                  shape={<Icon family={"FontAwesome"} name={"music"} color={"#808080"} />}
-                                  color={"#808080"}
-                                  fillColor={COLOR_ORANGE}
-                                  size={totalSize(3)}
-                                  onChange={() => this.postReaction(item.comment_id, 4)}
-                                /> */}
+                                  <Animatable.View
+                                        duration={2000}
+                                        animation="tada"
+                                        easing="ease-out"
+                                        iterationCount={'infinite'}
+                                        direction="alternate"
+                                        style={styles.featureBtn}
+                                        >
+                                          <TouchableOpacity onPress={() => this.postReaction(item.comment_id, 4)}>
+                                            <Image source={require('../../images/dislike.png')}  style={{ height: height(4), width: width(8),resizeMode:'contain' }} />
+                                          </TouchableOpacity>
+                                  </Animatable.View>
                                 <Text style={{ color: 'black', fontSize: totalSize(1.6) }}>{item.angry}</Text>
                               </View>
                               {

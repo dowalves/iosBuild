@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { StyleSheet, Platform, Dimensions, I18nManager } from 'react-native';
 import { COLOR_SECONDARY, COLOR_ORANGE, COLOR_PRIMARY, COLOR_RED, S2, S16, S14,smallTitle ,homeTitle, titleText,eventTitleText,ListingOnOffBtn,InputTextSize,ListingTitle,} from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const window = Dimensions.get('window');
@@ -89,9 +89,10 @@ const styles = StyleSheet.create({
     // backgroundColor: 'black'
   },
   findTxtCon: {
-    height: 110,
+    height: 100,
     width: width(90),
     justifyContent: 'flex-end',
+    alignItems:'flex-start'
   },
   firTxt: {
     fontWeight: 'bold',
@@ -100,9 +101,10 @@ const styles = StyleSheet.create({
   },
   secTxt: {
     alignSelf:'flex-start',
-    marginHorizontal: 19,
+    marginHorizontal: 20,
     fontSize: smallTitle,
     marginVertical: 2,
+    lineHeight: 20,
     textAlignVertical: 'center',
     color: '#ffffff'
   },
@@ -117,15 +119,17 @@ const styles = StyleSheet.create({
   txtInput: {
     fontSize: InputTextSize,
     width: width(80),
-    height: 45,
+    height: 42,
     margin: 2,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    textAlign: 'left',
   },
   searchIcon: {
     height: height(2.5),
     width: width(8),
     resizeMode: 'contain',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
   },
   flatlistCon: {
     // height: height(43),
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
     width: width(92),
     alignSelf: 'center',
     // position: 'absolute',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
     // marginTop: Platform.OS === 'ios' ? 150 : 140,
   },
   flatlistChild: {
@@ -205,10 +209,9 @@ const styles = StyleSheet.create({
     width: width(90),
     flexDirection: 'row',
     backgroundColor: '#ffffff',
-    // borderWidth: 0.1,
-    // borderColor: 'gray',
     borderRadius: 5,
-    marginVertical: 5
+    marginVertical: 5,
+    marginBottom: 6
   },
   featuredImg: {
     height: 118,
@@ -240,10 +243,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   txtViewHeading: {
-    // fontFamily: 'italic',
+    textAlign: 'left',
     fontWeight: 'bold',
     // height: height(6),
-    width: width(45),
+    // width: width(45),
     marginTop: 3,
     marginBottom: 1,
     marginLeft: 10,
@@ -253,7 +256,9 @@ const styles = StyleSheet.create({
   subHeadingTxt: {
     marginTop: 0,
     marginLeft: 10,
-    fontSize: 11, //totalSize(S15)
+    fontSize: 11, //totalSize(S15),
+    textAlign: 'left',
+    width: width(50)
   },
   ratingCon: {
     // height: height(8),
@@ -279,6 +284,17 @@ const styles = StyleSheet.create({
     marginVertical: 3,
     fontSize: 11, //totalSize(S15)
     color: '#8a8a8a',
+  },
+  triangleCorner: {
+    width: width(3),
+    height: height(3),
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderRightWidth: 32,
+    borderTopWidth: 32,
+    borderRightColor: 'transparent',
+    borderTopColor: 'red',
+
   },
   cate_con: {
     height: height(8),
@@ -321,13 +337,15 @@ const styles = StyleSheet.create({
     color: COLOR_PRIMARY,
     fontWeight: 'bold',
     marginVertical: 2,
-    marginHorizontal: 15
+    marginHorizontal: 15,
+    textAlign: 'left'
   },
   locIcon: {
     height: height(2.5),
     width: width(5),
     resizeMode: 'contain',
-    marginRight: 5
+    marginRight: 5,
+    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
   },
   locText: {
     fontSize: 12,

@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, ScrollView, ActivityIndicator, TextInput } from 'react-native';
+import { Text, View, Image, TouchableOpacity, ScrollView, ActivityIndicator, TextInput, Platform } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_YELLOW, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
+import { COLOR_PRIMARY, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
 import { observer } from 'mobx-react';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob';
 import { NavigationActions } from 'react-navigation';
 import { CheckBox } from 'react-native-elements';
 import Modal from "react-native-modal";
@@ -31,7 +37,23 @@ class PublicEvents extends Component<Props> {
   componentWillMount = async () => {
     await this.getSearchList();
   }
-
+  componentDidMount = async() => {
+    await this.interstitial() 
+  }
+  interstitial = () => {        
+    let data = store.settings.data;
+    try {
+      if ( data.has_admob && data.admob.interstitial !== '' ) {
+         AdMobInterstitial.setAdUnitID(data.admob.interstitial); //ca-app-pub-3940256099942544/1033173712
+         AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd()); 
+      }
+    // InterstitialAdManager.showAd('636005723573957_636012803573249')
+    //   .then(didClick => console.log('response===>>>',didClick))
+    //   .catch(error => console.log('error===>>>',error)); 
+    } catch (error) {
+        console.log('catch===>>>',error);
+    }
+ }
   getSearchList = async () => {
     let { params } = this.props.navigation.state;
     if (this.state.search.length !== 0) {
@@ -141,6 +163,7 @@ class PublicEvents extends Component<Props> {
     let main_clr = store.settings.data.main_clr;
     let home = store.home.homeGet.data.advanced_search;
     let data = store.SEARCHING.LISTING_FILTER.data;
+    let settings = store.settings.data;
     return (
       <View style={{ flex: 1 }}>
         <View style={{ height: height(10), width: width(100), backgroundColor: store.settings.data.navbar_clr, justifyContent: 'center', alignItems: 'center' }}>
@@ -202,7 +225,7 @@ class PublicEvents extends Component<Props> {
                   </View>
                   :
                   <View>
-                    <View style={{ backgroundColor: COLOR_PRIMARY, marginBottom: 10 }}>
+                    <View style={{ backgroundColor: COLOR_PRIMARY, marginBottom: 10, alignItems: 'flex-start' }}>
                       <Text style={{ fontSize: 16, color: COLOR_SECONDARY, marginHorizontal: 15, marginVertical: 10 }}>{store.EVENTS.data.total_events}</Text>
                     </View>
                     {
@@ -240,7 +263,7 @@ class PublicEvents extends Component<Props> {
           style={{ flex: 1 }}>
           <View style={{ height: height(5 + (data.sorting.option_dropdown.length * 6)), width: width(90), alignSelf: 'center', backgroundColor: COLOR_PRIMARY }}>
             <View style={{ height: height(7), width: width(90), flexDirection: 'row', borderBottomWidth: 0.5, alignItems: 'center', borderBottomColor: '#c4c4c4' }}>
-              <View style={{ height: height(5), width: width(80), justifyContent: 'center' }}>
+              <View style={{ height: height(5), width: width(80), justifyContent: 'center', alignItems: 'flex-start' }}>
                 <Text style={{ fontSize: totalSize(2), fontWeight: '500', color: COLOR_SECONDARY, marginHorizontal: 10 }}>{data.sorting.title}</Text>
               </View>
               <TouchableOpacity style={{ height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: store.settings.data.navbar_clr }} onPress={() => { this._sort() }}>
@@ -250,18 +273,18 @@ class PublicEvents extends Component<Props> {
             {
               store.EVENTS_SORTING.option_dropdown.map((item, key) => {
                 return (
-                  <TouchableOpacity key={key} style={{ height: height(5), width: width(90), flexDirection: 'row', justifyContent: 'center' }}
+                  <TouchableOpacity key={key} style={{ height: height(5), width: width(90), flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => { this._sortingModule(item, data.sorting.option_dropdown), item.checkStatus = !item.checkStatus }}
                   >
-                    <View style={{ height: height(6), width: width(80), justifyContent: 'center' }}>
+                    <View style={{ height: height(5), width: width(80), justifyContent: 'center', alignItems: 'flex-start' }}>
                       <Text style={{ fontSize: totalSize(1.6), color: item.checkStatus ? store.settings.data.navbar_clr : COLOR_SECONDARY, marginHorizontal: 10 }}>{item.value}</Text>
                     </View>
-                    <View style={{ height: height(6), width: width(10), justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ height: height(5), width: width(10), justifyContent: 'center', alignItems: 'center' }}>
                       <CheckBox
                         size={16}
                         uncheckedColor={COLOR_GRAY}
                         checkedColor={store.settings.data.navbar_clr}
-                        containerStyle={{ backgroundColor: 'transparent', height: height(6), width: width(10), borderWidth: 0 }}
+                        containerStyle={{ backgroundColor: 'transparent', width: width(10), borderWidth: 0 }}
                         checked={item.checkStatus}
                         onPress={() => { this._sortingModule(item, data.sorting.option_dropdown), item.checkStatus = !item.checkStatus }}
                       />
@@ -272,6 +295,20 @@ class PublicEvents extends Component<Props> {
             }
           </View>
         </Modal>
+        <View style={{ alignItems: 'center' }}>
+          {
+            settings.has_admob && settings.admob.banner !== '' ?
+              <AdMobBanner
+                adSize={Platform.OS === 'ios' ? "smartBanner" : "smartBannerLandscape"}
+                adUnitID={settings.admob.banner} // 'ca-app-pub-3940256099942544/6300978111' 
+                onAdFailedToLoad={async () => await this.setState({ loadAdd: false })}
+                didFailToReceiveAdWithError={async () => await this.setState({ loadAdd: false })}
+                onAdLoaded={async () => { await this.setState({ loadAdd: true }) }}
+              />
+              :
+              null
+          }
+        </View>
       </View>
     );
   }

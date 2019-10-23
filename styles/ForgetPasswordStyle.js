@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   inputTxt: {
     alignSelf: 'stretch',
-    textAlign: I18nManager.isRTL ? 'right' : 'left',
+    textAlign: 'left',
     height: height(6),
     justifyContent: 'center',
     fontSize: InputTextSize,

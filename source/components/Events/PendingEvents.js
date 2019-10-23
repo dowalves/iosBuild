@@ -25,10 +25,12 @@ class PendingEvents extends Component<Props> {
   };
   componentWillMount = async () => {
     let data = store.MY_EVENTS.data.my_events.pending_events;
-    data.events.forEach(item => {
-      item.checkStatus = false;
-      item.delete = false;
-    })
+    if (data.has_events) {
+      data.events.forEach(item => {
+        item.checkStatus = false;
+        item.delete = false;
+      })
+    }
   }
   _pullToRefresh = async (listType, pageNo) => {
     this.setState({ refreshing: true })

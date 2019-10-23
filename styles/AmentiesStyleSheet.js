@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     width:width(36),
     alignSelf:'center',
     justifyContent:'center',
-    marginTop: 10
+    marginTop: 10,
+    alignItems:'flex-start'
   },
   childTxt: {
     fontSize:totalSize(headingTxt),

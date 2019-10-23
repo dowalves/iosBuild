@@ -10,8 +10,10 @@ const styles = StyleSheet.create({
   },
   blogCon:{
     elevation :10,
-    height:height(88),
+    shadowOpacity: 0.6,
+    // height:height(50),
     width:width(80),
+    alignItems:'center',
     marginVertical:10,shadowColor:'gray',alignSelf:'center',backgroundColor:COLOR_PRIMARY
   },
   ImgViewCon:{

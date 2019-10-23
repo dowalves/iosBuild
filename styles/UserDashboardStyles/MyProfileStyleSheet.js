@@ -51,19 +51,19 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   label: {
-    width:width(46),
     fontSize:totalSize(headingTxt),
     color: COLOR_SECONDARY,
+    textAlign:'left'
     // fontFamily: FONT_BOLD
   },
   txt: {
-    width:width(46),
     fontSize:totalSize(paragraphTxt),
     color: COLOR_SECONDARY,
+    textAlign:'left'
     // fontFamily: FONT_NORMAL
   },
   labelMedia: {
-    // fontFamily: FONT_BOLD,
+    textAlign:'left',
     fontWeight:'bold',
     fontSize:totalSize(titles),
     color: COLOR_SECONDARY,
@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
     fontSize:totalSize(paragraphTxt),
     color: COLOR_DARK_GRAY,
     marginHorizontal:15,
-    // fontFamily: FONT_NORMAL
+    marginVertical: 5,
+    textAlign:'left'
   },
   planBox: {
     height:height(23),
@@ -85,7 +86,8 @@ const styles = StyleSheet.create({
   },
   boxTitleCon: {
     height:height(5),
-    justifyContent:'center'
+    justifyContent:'center',
+    alignItems:'flex-start'
   },
   boxTitleTxt: {
     fontSize:totalSize(titles),
@@ -100,6 +102,15 @@ const styles = StyleSheet.create({
     marginHorizontal:15,
     // fontFamily: FONT_NORMAL
   },
+  longTxt: {
+    width:width(88),
+    marginHorizontal:15,
+    marginVertical: 0,
+    fontSize:totalSize(paragraphTxt),
+    color: COLOR_GRAY,
+    textAlignVertical: 'center',
+    alignSelf:'center'
+  }, 
   viewBtn: {
     height:height(5),
     width:width(30),

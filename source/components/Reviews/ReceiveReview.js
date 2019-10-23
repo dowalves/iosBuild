@@ -121,8 +121,8 @@ class ReceiveReview extends Component<Props> {
               onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: section.user_id, user_name: section.commenter_name })}
             />
           </View>
-          <View style={{ flex: 2, marginHorizontal: 10, justifyContent: 'flex-start', marginBottom: 10 }}>
-            <Text style={{ fontSize: totalSize(subHeadingTxt), fontWeight: 'bold', color: COLOR_SECONDARY }}>{section.commenter_name}</Text>
+          <View style={{ flex: 2, marginHorizontal: 10, justifyContent: 'flex-start', marginBottom: 10, }}>
+            <Text style={{ fontSize: totalSize(subHeadingTxt), textAlign:'left',fontWeight: 'bold', color: COLOR_SECONDARY }}>{section.commenter_name}</Text>
             <View style={{ alignSelf: 'flex-start', width: 280, flexDirection: 'row', flexWrap: 'wrap' }}>
               <Text style={{ fontSize: 11, marginRight: 5, color: Platform.OS === 'ios' ? 'gray' : null }}>{section.statement}</Text>
               <Text
@@ -141,7 +141,7 @@ class ReceiveReview extends Component<Props> {
               />
               <Text style={{ fontSize: totalSize(paragraphTxt), color: COLOR_SECONDARY }}>{section.total_rating}</Text>
             </View>
-            <Text style={{ flex: 0.1, fontSize: totalSize(paragraphTxt), color: Platform.OS === 'ios' ? 'gray' : null }}>{section.comment_time}</Text>
+            <Text style={{ fontSize: totalSize(paragraphTxt), textAlign:'left',color: Platform.OS === 'ios' ? 'gray' : null }}>{section.comment_time}</Text>
           </View>
           <View style={{ marginHorizontal: 4 }}>
             <Image source={isActive ? require('../../images/up-arrowImg.png') : require('../../images/dropDown.png')} style={{ height: height(2), width: width(4), resizeMode: 'contain' }} />
@@ -165,12 +165,12 @@ class ReceiveReview extends Component<Props> {
         animation="fadeInDown"
         iterationCount={1}
         direction="alternate"
-        style={{ flex: 10, width: width(75), marginBottom: 10, marginHorizontal: 10, alignSelf: 'flex-end', marginHorizontal: 15, borderBottomWidth: 0.4, borderColor: COLOR_GRAY }}>
+        style={{ flex: 10, width: width(75), marginBottom: 10, marginHorizontal: 10, alignItems:'flex-start',alignSelf: 'flex-end', marginHorizontal: 15, borderBottomWidth: 0.4, borderColor: COLOR_GRAY }}>
         <HTMLView
           value={section.comment_desc}
           stylesheet={styles.longTxt}
         />
-        <Text style={{ flex: 1, marginVertical: 5, fontSize: totalSize(1.4), fontWeight: 'bold', color: COLOR_SECONDARY }}>{txt.replybox_txt}</Text>
+        <Text style={{ flex: 1, marginVertical: 5, fontSize: totalSize(1.4), textAlign:'left',fontWeight: 'bold', color: COLOR_SECONDARY }}>{txt.replybox_txt}</Text>
         <TextInput
           onChangeText={(value) => { this.setState({ comment: value }) }}
           underlineColorAndroid='transparent'
@@ -181,15 +181,15 @@ class ReceiveReview extends Component<Props> {
           scrollEnabled={true}
           underlineColorAndroid='transparent'
           autoCorrect={false}
-          style={{ height: height(15), width: width(75), borderRadius: 5, marginVertical: 5, borderColor: COLOR_GRAY, borderWidth: 1, fontSize: totalSize(subHeadingTxt), paddingHorizontal: 10, textAlignVertical: 'top' }}
+          style={{ height: height(15), width: width(75), borderRadius: 5, marginVertical: 5, textAlign:'left',borderColor: COLOR_GRAY, borderWidth: 1, fontSize: totalSize(subHeadingTxt), paddingHorizontal: 10, textAlignVertical: 'top' }}
         />
         {
           this.state.postComment ?
-            <View style={{ alignSelf: 'flex-end', borderRadius: 5, height: height(3),width:width(20),alignItems: 'center', justifyContent: 'center', backgroundColor: main_clr, marginVertical: 10 }}>
+            <View style={{ alignSelf: 'flex-start', borderRadius: 5, height: height(3),width:width(20),alignItems: 'center', justifyContent: 'center', backgroundColor: main_clr, marginVertical: 10 }}>
               <ActivityIndicator size='small' color={'white'} animating={true} />
             </View>
             :
-            <TouchableOpacity style={{ alignSelf: 'flex-end', borderRadius: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: main_clr, marginVertical: 10 }}
+            <TouchableOpacity style={{ alignSelf: 'flex-start', borderRadius: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: main_clr, marginVertical: 10 }}
               onPress={async () => await this.postComment(section)}
             >
               <Text style={{ fontSize: 11, marginHorizontal: 7, marginVertical: 5, color: COLOR_PRIMARY }}>{txt.btn_txt}</Text>

@@ -19,7 +19,8 @@ import SideMenu from '../components/Drawer/SideMenu';
 import ContactUs from '../components/ContactUs/ContactUs';
 import AboutUs from '../components/AboutUs/AboutUs';
 import EditProfile from '../components/UserDashboard/EditProfile'
-import ListingStack from '../components/Listing/ListingStack'
+import ListingStack from '../components/Listing/ListingStack';
+import ListingPostTabCon from '../components/PostListings/ListingPostTabCon';
 import blogStack from '../components/Blogs/Blogs';
 import BlogDetail from '../components/Blogs/BlogDetail';
 import PublicEvents from '../components/PublicEvents/PublicEvents';
@@ -79,6 +80,7 @@ const RootStack = createStackNavigator(
     AboutUs: AboutUs,
     EditProfile: EditProfile,
     ListingStack: ListingStack,
+    ListingPostTabCon: ListingPostTabCon,
     Blogs: blogStack,
     BlogDetail: BlogDetail,
     Packages: Packages,

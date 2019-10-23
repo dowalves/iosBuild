@@ -4,14 +4,10 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
-import { CheckBox } from 'react-native-elements';
-import Modal from "react-native-modal";
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
-import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import Geolocation from 'react-native-geolocation-service';
-import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/AdvanceSearch/AdvanceSearchStyleSheet';
 let _this = null;
@@ -84,15 +80,7 @@ export default class EventSearching extends Component<Props> {
     } else {
       store.SEARCH_OBJ_EVENT.by_location = this.state.location;
     }
-    // if (this.state.currentLocation.length !== 0) {
-    //   store.SEARCH_OBJ.e_lat = this.state.latitude;
-    //   store.SEARCH_OBJ.e_long = this.state.longitude;
-    //   store.SEARCH_OBJ.e_distance = this.state.radius;
-    // } else {
-    //   store.SEARCH_OBJ.e_lat = this.state.latitude;
-    //   store.SEARCH_OBJ.e_long = this.state.longitude;
-    //   store.SEARCH_OBJ.e_distance = this.state.radius;
-    // }
+
     if (key === 'event_cat') {
       list.forEach(item => {
         if (item.value === value) {
@@ -100,28 +88,6 @@ export default class EventSearching extends Component<Props> {
         }
       })
     }
-    // if (key === 'l_price_type') {
-    //   list.forEach(item => {
-    //     if (item.value === value) {
-    //       store.SEARCH_OBJ.l_price_type = item.key;
-    //     }
-    //   })
-    // }
-    // if (key === 'l_rating') {
-    //   list.forEach(item => {
-    //     if (item.value === value) {
-    //       item.checkStatus = !item.checkStatus,
-    //         store.SEARCH_OBJ.l_rating = item.key;
-    //     } else {
-    //       item.checkStatus = false;
-    //     }
-    //   })
-    //   this.setState({ loading: false })
-    // }
-    // if (key === 'l_listing_status') {
-    //   store.SEARCH_OBJ.l_listing_status = value.checkStatus ? 'opened' : "";
-    //   this.setState({ loading: false })
-    // }
     console.log('params==>>', store.SEARCH_OBJ_EVENT);
     if (state === 'search') {
       // this.props.navigation.push('SearchingScreen');
@@ -135,19 +101,9 @@ export default class EventSearching extends Component<Props> {
     if (text === '' && state === 'road') {
       this.setState({ predictions: [], focus: false })
     } 
-    // else {
-    //   if (text === '' && state === 'street') {
-    //     this.setState({ predictions: [], streetLocation: false, isSliderActive: false })
-    //   }
-    // }
     if (text.length > 0 && state === 'road') {
       this.setState({ location: text, focus: true })
     } 
-    // else {
-    //   if (text.length > 0 && state === 'street') {
-    //     this.setState({ currentLocation: text, streetLocation: true })
-    //   }
-    // }
     // const API_KEY = 'AIzaSyDVcpaziLn_9wTNCWIG6K09WKgzJQCW2tI'; // new
     const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
     fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&key=' + API_KEY)
@@ -214,7 +170,6 @@ export default class EventSearching extends Component<Props> {
       })
   }
   render() {
-    // let data = store.SEARCHING.LISTING_FILTER.data;
     let data = store.LISTING_FILTER_EVENTS.data;    
     let settings = store.settings.data;
     return (

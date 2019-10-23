@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     marginVertical:5,
   },
   textInputLabel: {
-    width:width(61),
+    alignSelf:'flex-start',
     fontSize:totalSize(headingTxt),
     marginVertical:7,
     color: COLOR_DARK_GRAY,
@@ -74,14 +74,13 @@ const styles = StyleSheet.create({
     height:height(6),
     borderRadius:5,
     borderWidth: 0.8,
-    paddingLeft:10,
+    paddingHorizontal:10,
     fontSize:totalSize(subHeadingText),
     // fontFamily:FONT_NORMAL,
     color: COLOR_DARK_GRAY,
     borderColor:COLOR_GRAY
   },
   dateLabel: {
-    width:width(45),
     fontSize:totalSize(headingTxt),
     fontWeight:'bold',
     color:'gray',
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
     height:height(30),
     borderRadius:5,
     borderWidth: 0.8,
-    paddingLeft:10,
+    paddingHorizontal:10,
     width: width(92),
     fontSize:totalSize(subHeadingText),
     ...Platform.select({
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
     alignSelf:'center'
   },
   cameraBtnTxt: {
-    height:height(6),
+    // height:height(6),
     textAlign:'center',
     textAlignVertical:'center',
     color: COLOR_SECONDARY,

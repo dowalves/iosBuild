@@ -166,13 +166,13 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   expTxt: {
-    height:height(6),
+    // height:height(6),
     width:width(80),
     fontSize:totalSize(titles),
     // fontFamily: FONT_NORMAL,
     color: COLOR_SECONDARY,
     textAlign:'center',
-    textAlignVertical:'center'
+    marginVertical: 15
   },
   expTimeCon: {
     height:height(12),

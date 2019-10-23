@@ -63,7 +63,7 @@ class CreateEvent extends Component<Props> {
   }
   componentWillMount = async () => {
     let { params } = this.props.navigation.state;
-    if ( params.eventMode !== 'create' ) {
+    if (params.eventMode !== 'create') {
       let data = store.MY_EVENTS.data.create_event;
       if (data.category.value !== '') {
         data.category.dropdown.forEach(async (item) => {
@@ -72,7 +72,7 @@ class CreateEvent extends Component<Props> {
           }
         })
       }
-      if (data.related.value !== '') {
+      if (data.related.dropdown !== null) {
         data.related.dropdown.forEach(async (item) => {
           if (item.listing_id === data.related.value) {
             await this.setState({ list_name: item.listing_title })
@@ -99,7 +99,7 @@ class CreateEvent extends Component<Props> {
     let data = store.MY_EVENTS.data;
     let { params } = this.props.navigation.state;
 
-    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.phoneNo === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.avatorSources.length === 0 || this.state.location === '' ) {
+    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.phoneNo === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.avatorSources.length === 0 || this.state.location === '') {
       Toast.show(data.required_msg)
     } else {
       this.setState({ loading: true })
@@ -120,7 +120,7 @@ class CreateEvent extends Component<Props> {
           formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
         }
       }
-      console.log('formData======>>>',formData);   
+      //console.log('formData======>>>',formData);   
       let config = {
         onUploadProgress: function (progressEvent) {
           store.UPLOADING_PROGRESS = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
@@ -132,7 +132,7 @@ class CreateEvent extends Component<Props> {
       try {
         ApiController.postAxios('event-submission', formData, config)
           .then(async (response) => {
-            console.log('Event create========>>>>', response);
+            //console.log('Event create========>>>>', response);
             if (response.data.success) {
               await params._eventAdded(response.data.data)
               Toast.show(response.data.message)
@@ -146,11 +146,11 @@ class CreateEvent extends Component<Props> {
               this.setState({ loading: false })
             }
           }).catch((error) => {
-            console.log('axios error==>>', error);
+            //console.log('axios error==>>', error);
             this.setState({ loading: false })
           })
       } catch (error) {
-        console.log('trycatch error==>>', error);
+        //console.log('trycatch error==>>', error);
       }
     }
   }
@@ -158,8 +158,8 @@ class CreateEvent extends Component<Props> {
     let data = store.MY_EVENTS.data;
     let { params } = this.props.navigation.state;
     // console.log('images check ===>>>',this.state.editImages);
-    
-    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.phoneNo === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.location === ''  ) {
+
+    if (this.state.cate_id === '' || this.state.eventTitle === '' || this.state.email === '' || this.state.phoneNo === '' || this.state.description === '' || this.state.start_date === '' || this.state.end_date === '' || this.state.location === '') {
       Toast.show(data.required_msg)
     } else {
       this.setState({ loading: true })
@@ -181,11 +181,11 @@ class CreateEvent extends Component<Props> {
           formData.append('event_multiple_attachments[]', this.state.avatorSources[i]);
         }
       }
-      console.log('formData======>>>', formData);
+      //console.log('formData======>>>', formData);
       let config = {
         onUploadProgress: async function (progressEvent) {
           store.UPLOADING_PROGRESS = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-          this.setState({ progress: progressEvent.loaded  / progressEvent.total })
+          this.setState({ progress: progressEvent.loaded / progressEvent.total })
           //console.log('uploading', this.state.progress);
         }.bind(this)
       }
@@ -193,7 +193,7 @@ class CreateEvent extends Component<Props> {
       try {
         ApiController.postAxios('event-submission', formData, config)
           .then(async (response) => {
-            console.log('Event edit========>>>>', response);
+            // console.log('Event edit========>>>>', response);
             if (response.data.success) {
               Toast.show(response.data.message)
               await this.clearFields()
@@ -204,11 +204,11 @@ class CreateEvent extends Component<Props> {
               this.setState({ loading: false })
             }
           }).catch((error) => {
-            console.log('axios error==>>', error);
+            //console.log('axios error==>>', error);
             this.setState({ loading: false })
           })
       } catch (error) {
-        console.log('trycatch error==>>', error);
+        //console.log('trycatch error==>>', error);
       }
     }
   }
@@ -233,7 +233,7 @@ class CreateEvent extends Component<Props> {
       progress: 0
     })
   }
-  async componentWillUnmount(){
+  async componentWillUnmount() {
     await this.clearFields()
   }
   setFocusHandlers() {
@@ -315,25 +315,14 @@ class CreateEvent extends Component<Props> {
       maxFiles: 5,
       compressImageQuality: 0.5
     }).then(async (images) => {
-      console.log('images=>>',images);
       images.forEach(i => {
-        var fileName = i.path.substring(i.path.lastIndexOf('/')+1,i.path.length);
-        console.log('name==>>>',fileName);
-        this.state.avatorSources.push({ uri: i.path, type: i.mime, name: Platform.OS === 'ios'? i.filename : fileName })
+        var fileName = i.path.substring(i.path.lastIndexOf('/') + 1, i.path.length);
+        this.state.avatorSources.push({ uri: i.path, type: i.mime, name: Platform.OS === 'ios' ? i.filename : fileName })
         this.state.images.push({ uri: i.path, width: i.width, height: i.height, mime: i.mime })
         this.setState({ sizeImage: this.state.sizeImage + i.size })
-        console.log(i.size);
       })
-      // await this.setState({
-      //   images: images.map(i => {
-      //     // console.log('received image', i);
-      //     return { uri: i.path, width: i.width, height: i.height, mime: i.mime };
-      //   })
-      // })
-      console.log('images size => ', this.state.sizeImage);
-
     }).catch((error) => {
-      console.log('error:', error);
+      //console.log('error:', error);
     });
   }
   renderAsset(image) {
@@ -389,7 +378,7 @@ class CreateEvent extends Component<Props> {
           })
           data.gallery = response.data.gallery;
           await this.setState({ editImages: data.gallery.dropdown })
-        }else{
+        } else {
           await this.setState({ editImages: [] })
         }
         // Toast.show(response.message)
@@ -405,7 +394,7 @@ class CreateEvent extends Component<Props> {
     }
   }
 
-  render() {    
+  render() {
     let { params } = this.props.navigation.state;
     let data = store.MY_EVENTS.data.create_event;
     var date = new Date().toDateString();
@@ -449,7 +438,9 @@ class CreateEvent extends Component<Props> {
                   </View>
                   :
                   <TouchableOpacity style={{ height: 50, width: width(90), alignItems: 'center', flexDirection: 'row', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }} onPress={() => this.setState({ isCategory: !this.state.isCategory })}>
-                    <Text style={{ marginHorizontal: 8, width: width(78) }}>{this.state.cate_name.length !== 0 ? this.state.cate_name : data.category.placeholder}</Text>
+                    <View style={{ alignItems:'flex-start', width: width(80) }}>
+                      <Text style={{ marginHorizontal: 8 }}>{this.state.cate_name.length !== 0 ? this.state.cate_name : data.category.placeholder}</Text>
+                    </View>
                     <Icon
                       size={14}
                       name='caretdown'
@@ -500,8 +491,12 @@ class CreateEvent extends Component<Props> {
             </View>
             <View style={styles.textInputCon}>
               <View style={{ alignItems: 'center', flexDirection: 'row', marginVertical: 3 }}>
-                <Text style={styles.dateLabel}>{data.date_start.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
-                <Text style={styles.dateLabel}>{data.date_end.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
+                <View style={{ width: width(45), alignItems:'flex-start' }}>
+                  <Text style={styles.dateLabel}>{data.date_start.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
+                </View>
+                <View style={{ width: width(45), alignItems:'flex-start' }}>
+                  <Text style={styles.dateLabel}>{data.date_end.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
+                </View>
               </View>
               <View style={{ marginVertical: 5, justifyContent: 'center', flexDirection: 'row', width: width(90) }}>
                 <View style={{ width: width(45), borderRadius: 3, borderColor: 'COLOR_GRAY', marginRight: 2, borderWidth: 0.3 }}>
@@ -601,7 +596,7 @@ class CreateEvent extends Component<Props> {
                       horizontal={true}>
                       {this.state.images ? this.state.images.map(i => <View key={i.uri} style={{ marginRight: 5, marginVertical: 3 }}>{this.renderAsset(i)}</View>) : null}
                       {
-                        this.state.editImages.length > 0 ?
+                        this.state.editImages.length > 0 && data.gallery.has_gallery ?
                           data.gallery.dropdown.map((item, key) => {
                             return (
                               <View key={key} style={{ marginRight: 5, marginVertical: 3 }}>
@@ -694,7 +689,7 @@ class CreateEvent extends Component<Props> {
                         { latitude: parseFloat(this.state.latitude), longitude: parseFloat(this.state.longitude) }
                       }
                       title={'Current location'}
-                      description={'I am here'}
+                      // description={'I am here'}
                       pinColor={'#3edc6d'}
                     />
                     :
@@ -704,61 +699,71 @@ class CreateEvent extends Component<Props> {
             </View>
             <View style={styles.textInputCon}>
               <View style={{ height: height(2), alignItems: 'center', marginBottom: 5, flexDirection: 'row' }}>
-                <Text style={styles.dateLabel}>{data.long.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
-                <Text style={styles.dateLabel}>{data.latt.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
+                <View style={{ width: width(45), alignItems:'flex-start' }}>
+                  <Text style={styles.dateLabel}>{data.long.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
+                </View>
+                <View style={{ width: width(45), alignItems:'flex-start' }}>
+                  <Text style={styles.dateLabel}>{data.latt.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
+                </View>
               </View>
               <View style={{ height: height(6.5), justifyContent: 'center', flex: 1, flexDirection: 'row' }}>
-                <View style={{ height: height(5.5), flex: 1, borderRadius: 3, borderColor: 'COLOR_GRAY', marginRight: 2, borderWidth: 0.3, justifyContent: 'center' }}>
+                <View style={{ height: height(5.5), flex: 1, borderRadius: 3, borderColor: 'COLOR_GRAY', marginRight: 2, borderWidth: 0.3, justifyContent: 'center', alignItems:'flex-start' }}>
                   <Text style={{ fontSize: totalSize(1.4), color: 'black', paddingHorizontal: 7 }}>{this.state.longitude !== null ? this.state.longitude : data.long.placeholder}</Text>
                 </View>
-                <View style={{ height: height(5.5), flex: 1, borderRadius: 3, borderColor: 'COLOR_GRAY', marginLeft: 2, borderWidth: 0.3, justifyContent: 'center' }}>
+                <View style={{ height: height(5.5), flex: 1, borderRadius: 3, borderColor: 'COLOR_GRAY', marginLeft: 2, borderWidth: 0.3, justifyContent: 'center', alignItems:'flex-start' }}>
                   <Text style={{ fontSize: totalSize(1.4), color: 'black', paddingHorizontal: 7 }}>{this.state.latitude !== null ? this.state.latitude : data.latt.placeholder}</Text>
                 </View>
               </View>
             </View>
-            <View style={styles.textInputCon}>
-              <Text style={styles.textInputLabel}>{data.related.main_title}</Text>
-              {
-                Platform.OS === 'android' ?
-                  <View style={{ height: 45, width: width(90), flexDirection: 'row', alignItems: 'center', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }}>
-                    <Picker
-                      selectedValue={this.state.related_listing}
-                      style={{ height: 45, width: width(88) }}
-                      onValueChange={(itemValue, itemIndex) =>
-                        this.setState({ related_listing: itemValue })
-                      }>
-                      <Picker.Item label={data.related.placeholder} value='' />
-                      {
-                        data.related.dropdown.map((item, key) => {
-                          return (
-                            <Picker.Item key={key} label={item.listing_title} value={item.listing_id} />
-                          );
-                        })
-                      }
-                    </Picker>
-                  </View>
-                  :
-                  <TouchableOpacity style={{ height: 50, width: width(90), alignItems: 'center', flexDirection: 'row', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }} onPress={() => this.setState({ is_picker: !this.state.is_picker })}>
-                    <Text style={{ marginHorizontal: 10, width: width(78) }}>{this.state.list_name.length !== 0 ? this.state.list_name : data.related.placeholder}</Text>
-                    <Icon
-                      size={14}
-                      name='caretdown'
-                      type='antdesign'
-                      color='gray'
-                    />
-                  </TouchableOpacity>
-              }
-            </View>
+            {
+              data.related.dropdown !== null ?
+                <View style={styles.textInputCon}>
+                  <Text style={styles.textInputLabel}>{data.related.main_title}</Text>
+                  {
+                    Platform.OS === 'android' ?
+                      <View style={{ height: 45, width: width(90), flexDirection: 'row', alignItems: 'center', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }}>
+                        <Picker
+                          selectedValue={this.state.related_listing}
+                          style={{ height: 45, width: width(88) }}
+                          onValueChange={(itemValue, itemIndex) =>
+                            this.setState({ related_listing: itemValue })
+                          }>
+                          <Picker.Item label={data.related.placeholder} value='' />
+                          {
+                            data.related.dropdown.map((item, key) => {
+                              return (
+                                <Picker.Item key={key} label={item.listing_title} value={item.listing_id} />
+                              );
+                            })
+                          }
+                        </Picker>
+                      </View>
+                      :
+                      <TouchableOpacity style={{ height: 50, width: width(90), alignItems: 'center', flexDirection: 'row', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }} onPress={() => this.setState({ is_picker: !this.state.is_picker })}>
+                        <View style={{ width: width(78), alignItems:'flex-start' }}>
+                          <Text style={{ marginHorizontal: 10 }}>{this.state.list_name.length !== 0 ? this.state.list_name : data.related.placeholder}</Text>
+                        </View>
+                        <Icon
+                          size={14}
+                          name='caretdown'
+                          type='antdesign'
+                          color='gray'
+                        />
+                      </TouchableOpacity>
+                  }
+                </View>
+                :
+                null
+            }
+
             {
               store.settings.data.is_demo_mode ?
                 <View style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr }]}>
-                  <Text style={{ fontSize: totalSize(1.8), color: COLOR_PRIMARY, marginHorizontal: 15,marginVertical: 3,fontWeight: 'bold' }}>{store.settings.data.demo_mode_txt}</Text>
+                  <Text style={{ fontSize: totalSize(1.8), color: COLOR_PRIMARY, marginHorizontal: 15, marginVertical: 3, fontWeight: 'bold' }}>{store.settings.data.demo_mode_txt}</Text>
                 </View>
                 :
                 this.state.loading ?
-                  <View style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr,height: height(7) }]} >
-                    {/* <Text style={styles.profielBtnTxt}>{this.state.progress}%</Text> */}
-                    {/* <Progress.Pie progress={this.state.progress} color={COLOR_PRIMARY} size={25} /> */}
+                  <View style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr, height: height(7) }]} >
                     <Progress.Circle size={40} indeterminate={false} showsText={true} textStyle={{ fontSize: 10 }} progress={this.state.progress} color={COLOR_PRIMARY} />
                   </View>
                   :
@@ -769,7 +774,7 @@ class CreateEvent extends Component<Props> {
                       this.editEvent()
                     }
                   }}>
-                    <Text style={styles.profielBtnTxt}>{params.eventMode === 'create'? store.MY_EVENTS.data.create : store.MY_EVENTS.data.update_event}</Text>
+                    <Text style={styles.profielBtnTxt}>{params.eventMode === 'create' ? store.MY_EVENTS.data.create : store.MY_EVENTS.data.update_event}</Text>
                   </TouchableOpacity>
             }
           </View>
@@ -797,7 +802,7 @@ class CreateEvent extends Component<Props> {
                   await this.selectListing(itemValue, itemIndex)
                   // this.setState({ related_listing: itemValue })
                 }>
-                { 
+                {
                   data.related.dropdown !== null ?
                     data.related.dropdown.map((item, key) => {
                       return (
@@ -832,7 +837,6 @@ class CreateEvent extends Component<Props> {
                 style={{ height: 45, width: 370 }}
                 onValueChange={async (itemValue, itemIndex) =>
                   await this.selectCategory(itemValue, itemIndex)
-                  // this.setState({ cate_id: itemValue })
                 }>
                 {
                   data.category.dropdown.map((item, key) => {

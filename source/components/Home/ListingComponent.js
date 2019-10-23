@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+// import ProgressBar from 'react-native-progress/Bar';
+import ProgressImage from '../CustomTags/ImageTag';
 import { width } from 'react-native-dimension';
 import { Icon } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import { COLOR_GRAY, COLOR_ORANGE } from '../../../styles/common';
 import { withNavigation } from 'react-navigation';
 import styles from '../../../styles/Home';
+import store from '../../Stores/orderStore';
 class ListingComponent extends Component<Props> {
     onStarRatingPress(rating) {
         this.setState({
@@ -18,15 +21,19 @@ class ListingComponent extends Component<Props> {
         // console.log('iamge uri==>>',item.image);
         
         return (
-            <TouchableOpacity style={[styles.featuredFLItem,{ width: status? width(95) : width(90) }]} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
-                <ImageBackground source={{ uri: item.image }} style={styles.featuredImg}>
+            <TouchableOpacity style={[styles.featuredFLItem,{ width: status? width(95) : width(90) }]} onPress={() => { store.LIST_ID=item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
+                <ProgressImage indicator={null} source={{ uri: item.image }} style={styles.featuredImg}>
                     <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
                         <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
                     </TouchableOpacity>
-                </ImageBackground>
+                </ProgressImage>
                 <View style={styles.txtViewCon}>
-                    <Text style={styles.subHeadingTxt}>{item.category_name}</Text>
-                    <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
+                    <View style={{ width: width(50), alignItems:'flex-start' }}>
+                        <Text style={styles.subHeadingTxt}>{item.category_name}</Text>
+                    </View>
+                    <View style={{ width: width(50), alignItems:'flex-start' }}>
+                        <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
+                    </View>
                     <View style={styles.ratingCon}>
                         <View style={styles.gradingCon}>
                             <StarRating
@@ -35,7 +42,7 @@ class ListingComponent extends Component<Props> {
                                 starSize={13}
                                 fullStarColor={COLOR_ORANGE}
                                 containerStyle={{ marginHorizontal: 10 }}
-                                rating={item.rating_stars.length === 0 ? 0 : item.rating_stars}
+                                rating={item.rating_stars === "" ? 0 : item.rating_stars}
                             />
                         </View>
                         <Icon

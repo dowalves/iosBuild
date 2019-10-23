@@ -25,8 +25,8 @@ class EventsTabs extends Component<Props> {
   }
   getEvents = async () => {
     await this.setState({ loading: true })
-    let response = await ApiController.get('my-events');
-    // console.log('User Reviews==========================>>',response);
+    let response = await ApiController.post('my-events');
+    console.log('My Events==========================>>',response);
     store.MY_EVENTS = response;
     if ( response.success ) {
       await this.setState({ loading: false })

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     height: height(6),
     textAlignVertical: 'center',
     fontSize: InputTextSize,
-    textAlign: I18nManager.isRTL ? 'right' : 'left',
+    textAlign: 'left',
     color: COLOR_PRIMARY,
   },
   socialBtnText: {

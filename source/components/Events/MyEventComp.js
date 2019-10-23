@@ -46,7 +46,9 @@ class MyEventComp extends Component<Props> {
                         <View style={{ width: width(58), flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
                             <Image source={require('../../images/paper-plane.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
                             <Text style={{ height: height(2), fontWeight: 'bold', fontSize: 12, color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.venue}</Text>
-                            <Text style={{ fontSize: 11, flexWrap: 'wrap', width: width(38) }}>{item.event_loc}</Text>
+                            <View style={{ width: width(38), alignItems:'flex-start' }}>
+                                <Text style={{ fontSize: 11, flexWrap: 'wrap' }}>{item.event_loc}</Text>
+                            </View>
                         </View>
                     </View>
                     <View style={{ height: 100, width: 25, alignSelf: 'center' }}>

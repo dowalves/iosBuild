@@ -55,14 +55,13 @@ class FeatureDetailTabBar extends Component<Props> {
         listing_id: params.listId    // params.listId
       }
       let response = await ApiController.post('listing-detial', parameter);
+      console.log('listing details=====>>>>',response);
       if (response.success === true) {
         await this.route(response);
         orderStore.home.FEATURE_DETAIL = response;
         store.home.TAB_LABELS.amenties = response.data.listing_detial.ameneties.tab_txt;
         await this._getReports()
         await this._getClaims()
-        // console.log('responseHome=',  orderStore.home.FEATURE_DETAIL);
-        // console.warn('status==>?',store.home.TAB_LABELS.amenties);
         this.setState({ loading: false })
         await this.showHideTabnavigator()
       } else {
@@ -75,7 +74,7 @@ class FeatureDetailTabBar extends Component<Props> {
   }
   route = (response) => {
     if (this.state.controlTab) {
-      this.state.routes.push({ key: 'discription', title: response.data.listing_detial.view_desc }); 
+      this.state.routes.push({ key: 'discription', title: response.data.listing_detial.view_desc });
     }
     if (response.data.listing_detial.has_amenties) {
       this.state.routes.push({ key: 'ameneties', title: response.data.listing_detial.ameneties.tab_txt });
@@ -86,8 +85,8 @@ class FeatureDetailTabBar extends Component<Props> {
     if (response.data.listing_detial.has_video) {
       this.state.routes.push({ key: 'video', title: response.data.listing_detial.video.tab_txt });
     }
-    if ( response.data.listing_detial.has_add_fields ) {
-      this.state.routes.push({ key:'aditionalDetail' , title: response.data.listing_detial.additional_fields.tab_txt });
+    if (response.data.listing_detial.has_add_fields) {
+      this.state.routes.push({ key: 'aditionalDetail', title: response.data.listing_detial.additional_fields.tab_txt });
     }
     if (response.data.listing_detial.has_menu) {
       this.state.routes.push({ key: 'menu', title: response.data.listing_detial.menu.tab_txt });
@@ -95,9 +94,7 @@ class FeatureDetailTabBar extends Component<Props> {
     if (response.data.listing_detial.has_reviews_score) {
       this.state.routes.push({ key: 'review', title: response.data.listing_detial.reviews.tab_txt });
     }
-    // if ( response.data.listing_detial.has_menu ) {
-    // this.state.routes.push({ key:'writeReview' , title: this.state.write });
-    // }
+    this.state.routes.push({ key: 'writeReview', title: this.state.write });
   }
   _renderLabel = ({ route }) => (
     <Text style={{ fontSize: 13, color: COLOR_SECONDARY }}>{route.title}</Text>
@@ -106,7 +103,7 @@ class FeatureDetailTabBar extends Component<Props> {
     let { orderStore } = Store;
     //API CALLING FOR REPORTS
     try {
-      let response = await ApiController.get('listing-report');
+      let response = await ApiController.post('listing-report');
       if (response.success) {
         orderStore.home.REPORTS = response.data;
       }
@@ -126,12 +123,12 @@ class FeatureDetailTabBar extends Component<Props> {
       console.log('err=', error);
     }
   }
-  _controls=()=>{
-      console.warn('control');
-      this.setState({ 
-        controlTab: false
-       })
-      console.warn(this.state.controlTab);
+  _controls = () => {
+    console.warn('control');
+    this.setState({
+      controlTab: false
+    })
+    console.warn(this.state.controlTab);
   }
   render() {
     let { orderStore } = Store;
@@ -148,7 +145,7 @@ class FeatureDetailTabBar extends Component<Props> {
             color={store.settings.data.navbar_clr}
             animation={ANIMATION}
             overlayColor={OVERLAY_COLOR}
-            // textStyle={{ fontSize: totalSize(TEXT_SIZE), color: TEXT_COLOR }}
+          // textStyle={{ fontSize: totalSize(TEXT_SIZE), color: TEXT_COLOR }}
           />
         </View>
       );
@@ -178,8 +175,10 @@ class FeatureDetailTabBar extends Component<Props> {
                     if (route.key === 'video' && store.home.FEATURE_DETAIL.data.listing_detial.has_video) {
                       return <Video />;
                     } else {
-                      if ( route.key === 'aditionalDetail' && store.home.FEATURE_DETAIL.data.listing_detial.has_add_fields ) {
+                      if (route.key === 'aditionalDetail' && store.home.FEATURE_DETAIL.data.listing_detial.has_add_fields) {
                         return <AditionalDetails />;
+                      } else {
+                        return <WriteReview />
                       }
                     }
                   }
@@ -187,15 +186,8 @@ class FeatureDetailTabBar extends Component<Props> {
               }
             }
           }
+          WriteReview
         }}
-        // renderScene={SceneMap({
-        //   discription: props => <Description {...props} />,
-        //   ameneties: Amenties,
-        //   location: Location,
-        //   menu: Menu,
-        //   review: UserReviews,
-        //   writeReview: WriteReview
-        // })}
         swipeEnabled={true}
         animationEnabled={true}
         onIndexChange={index => this.setState({ index: index })}
@@ -225,4 +217,4 @@ class FeatureDetailTabBar extends Component<Props> {
   }
 }
 
-export default  withNavigation(FeatureDetailTabBar)
+export default withNavigation(FeatureDetailTabBar)

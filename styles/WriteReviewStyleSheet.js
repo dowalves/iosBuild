@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal:10
   },
   titleCon: {
-    height: height(10),
+    height: height(8),
     width: width(85),
     marginHorizontal: 25,
     alignSelf: 'center',
@@ -49,12 +49,13 @@ const styles = StyleSheet.create({
     // fontFamily: FONT_NORMAL
   },
   cameraCon: {
-    height: height(15),
+    // height: height(15),
     width: width(85),
     marginHorizontal: 25,
     flexDirection: 'row',
     alignSelf: 'center',
     justifyContent: 'center',
+    alignItems:'center',
     borderRadius: 5,
     borderWidth: 0.5,
     borderColor: COLOR_GRAY
@@ -110,7 +111,6 @@ const styles = StyleSheet.create({
     // fontFamily: FONT_NORMAL
   },
   reviewBtn: {
-    height: height(6),
     width: width(85),
     marginHorizontal: 25,
     marginVertical: 5,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   reviewBtnTxt: {
-    // fontFamily: FONT_BOLD,
+    marginVertical: 10,
     color: COLOR_PRIMARY,
     fontSize: totalSize(buttonTxt),
     // fontWeight:'bold',

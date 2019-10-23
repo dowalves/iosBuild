@@ -19,11 +19,10 @@ const styles = StyleSheet.create({
     width:width(50),
     marginHorizontal:15,
     marginBottom:20,
-    alignItems:'flex-end',
+    alignItems:'flex-start',
     flexDirection:'row'
   },
   titleTxt: {
-    width:width(61),
     fontSize:totalSize(titles),
     color: COLOR_SECONDARY,
     // fontFamily: FONT_BOLD,

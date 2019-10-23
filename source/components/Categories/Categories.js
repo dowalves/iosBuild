@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import {
-  Text, View, Image, TouchableOpacity, ActivityIndicator,
-  I18nManager, TextInput, FlatList
+  Text, View, Image, TouchableOpacity, ActivityIndicator, TextInput, FlatList, Platform
 } from 'react-native';
-import { width, height, totalSize } from 'react-native-dimension';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import Toast from 'react-native-simple-toast';
+import ProgressImage from '../CustomTags/ImageTag';
 import { NavigationActions } from 'react-navigation';
 import ApiController from '../../ApiController/ApiController';
 import styles from '../../../styles/Categories/CategoriesStyleSheet';
@@ -26,13 +31,30 @@ import styles from '../../../styles/Categories/CategoriesStyleSheet';
     // calling homeData func
     this.getCategories()
   }
+  componentDidMount = async () => {
+    await this.interstitial()
+  }
+  interstitial = () => {
+    let data = store.settings.data;
+    try {
+      if (data.has_admob && data.admob.interstitial !== '') {
+        AdMobInterstitial.setAdUnitID(data.admob.interstitial); //ca-app-pub-3940256099942544/1033173712
+        AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
+      }
+      // InterstitialAdManager.showAd('636005723573957_636012803573249')
+      //   .then(didClick => console.log('response===>>>',didClick))
+      //   .catch(error => console.log('error===>>>',error)); 
+    } catch (error) {
+      console.log('catch===>>>', error);
+    }
+  }
   // Getting home data func 
   getCategories = async () => {
     let { orderStore } = Store;
     try {
       this.setState({ loading: true })
       //API calling
-      let response = await ApiController.get('categories');
+      let response = await ApiController.post('categories');
       orderStore.categories = response.data.categories;
       console.log('responsecategory=', response);
       if (response.success === true) {
@@ -69,7 +91,7 @@ import styles from '../../../styles/Categories/CategoriesStyleSheet';
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
-   
+
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {
@@ -77,6 +99,20 @@ import styles from '../../../styles/Categories/CategoriesStyleSheet';
             <ActivityIndicator color={data.main_clr} size='large' animating={true} />
             :
             <View style={styles.container}>
+              <View style={{ alignItems:'center' }}>
+                {
+                  data.has_admob && data.admob.banner !== '' ?
+                    <AdMobBanner
+                      adSize={Platform.OS === 'ios' ? "smartBanner" : "smartBannerLandscape"}
+                      adUnitID={data.admob.banner} // 'ca-app-pub-3940256099942544/6300978111' 
+                      onAdFailedToLoad={async () => await this.setState({ loadAdd: false })}
+                      didFailToReceiveAdWithError={async () => await this.setState({ loadAdd: false })}
+                      onAdLoaded={async () => { await this.setState({ loadAdd: true }) }}
+                    />
+                    :
+                    null
+                }
+              </View>
               <View style={styles.TextInputCon}>
                 <TextInput
                   onChangeText={(value) => this.setState({ name: value })}
@@ -103,14 +139,14 @@ import styles from '../../../styles/Categories/CategoriesStyleSheet';
                   indicatorStyle='black'
                   data={this.state.searchCate.length === 0 ? orderStore.categories : this.state.searchCate}
                   renderItem={({ item }) =>
-                    <TouchableOpacity style={styles.cate_strip} 
+                    <TouchableOpacity style={styles.cate_strip}
                       onPress={() => {
-                          store.CATEGORY = item,
+                        store.CATEGORY = item,
                           store.moveToSearch = true,
                           this.navigateToScreen('SearchingScreen', 'search')
                       }}
                     >
-                      <Image source={{ uri: item.img }} style={styles.icon} />
+                      <ProgressImage source={{ uri: item.img }} style={styles.icon} />
                       <Text style={styles.cate_text}>{item.name}</Text>
                       <Image source={require('../../images/next.png')} style={styles.rightIcon} />
                     </TouchableOpacity>

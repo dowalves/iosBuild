@@ -76,9 +76,6 @@ export default class Amenties extends Component<Props> {
               </View>
               : null
           }
-          {/* <Text style={styles.largeTxt}>There are three reasons why i preffer jogging to other sports. One reason is that jogging os a cheap sport.
-            I can practice it anywhere at any time with no need for a ball or any other equipment. Another reason why i preffered jogging is that it is friendly to my heart. I do not have to exhaust myself or do excessive efforts while jogging.
-          </Text> */}
         </ScrollView>
         <Modal
           animationInTiming={500}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, TouchableOpacity, ScrollView, ActivityIndicator, Image, PermissionsAndroid, PermissionsIos
+  Platform, Text, View, TouchableOpacity, ScrollView, ActivityIndicator, Image, PermissionsAndroid, PermissionsIos
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -59,7 +59,7 @@ export default class AdvanceSearch extends Component<Props> {
               <Image source={require('../../images/map-placeholder.png')} style={{ height: 20, width: 25, marginRight: 15, resizeMode: 'contain' }} />
               :
               null
-         }
+          }
         </TouchableOpacity>
       )
     }
@@ -157,24 +157,40 @@ export default class AdvanceSearch extends Component<Props> {
   getCurrentPosition = async () => {
     this.setState({ currentLoc: true })
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      )
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        )
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          Geolocation.getCurrentPosition(func = async (position) => {
+            // console.log('getCurrentPosition=', position);
+            await this.getAddress(position.coords.latitude, position.coords.longitude);
+            await this.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+            this.setState({ currentLoc: false })
+            console.log(this.state.latitude)
+          },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
+        }
+        else {
+          this.setState({ currentLoc: false })
+        }
+      } else {
         Geolocation.getCurrentPosition(func = async (position) => {
-          // console.log('getCurrentPosition=',position);
+          // console.log('getCurrentPosition========>>>>>>', position);
           await this.getAddress(position.coords.latitude, position.coords.longitude);
           await this.setState({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
           this.setState({ currentLoc: false })
+          console.log(this.state.latitude)
         },
           (error) => this.setState({ error: error.message }),
           { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
-      }
-      else {
-        this.setState({ currentLoc: false })
       }
     }
     catch (err) {
@@ -209,8 +225,8 @@ export default class AdvanceSearch extends Component<Props> {
   render() {
     let data = store.SEARCHING.LISTING_FILTER.data;
     let settings = store.settings.data;
-    console.warn('filters=>>>',data.all_filters);
-    
+    console.warn('filters=>>>', data.all_filters);
+
     return (
       <View style={styles.container}>
         {
@@ -328,7 +344,7 @@ export default class AdvanceSearch extends Component<Props> {
                       null
                   }
                   {
-                    data.is_current_loc_enabled?
+                    data.is_current_loc_enabled ?
                       this.state.currentLoc ?
                         <View style={{ width: width(100), alignItems: 'center', marginVertical: 20 }}>
                           <ActivityIndicator color={settings.navbar_clr} size='large' animating={true} />
@@ -410,8 +426,8 @@ export default class AdvanceSearch extends Component<Props> {
                               : null
                           }
                         </View>
-                        :
-                        null
+                      :
+                      null
                   }
                 </View>
               </ScrollView>

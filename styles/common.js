@@ -3,6 +3,9 @@ import { Platform } from 'react-native';
 import store from '../source/Stores/orderStore';
 // import ApiController from '../source/ApiController/ApiController';
 
+// Payment Methodes keys
+export const strip_key = 'pk_test_t7TQMB7Spg7QO8n67MRVfA1l00tUYlY9ip';
+
 //General Color Settings
 export const nav_header_color = 'black' ;
 // export const drawer_color = store.settings.data.sidebar_clr;
@@ -20,6 +23,8 @@ export const S14 = 1.4;
 export const S13 = 1.3;
 export const S12 = 1.2;
 export const S11 = 1.1;
+
+export const iconsSize = 20;
 //SignIn/SignUp/MainScreen/Splash
 export const SloganText = 20;
 export const SignInHeaderText = 14;
@@ -39,6 +44,7 @@ export const ListingTitle = 13;
 export const homeTitle = 17;
 
 // Colors are here
+export const COLOR_SECTIONS = '#f8f8f8';
 export const COLOR_RED = 'red';
 export const COLOR_GRAY = '#ccc'; //#acacac
 export const COLO_DARK_GRAY = '#a9a9a9';

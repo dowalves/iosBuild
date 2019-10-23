@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform,SafeAreaView,StatusBar,NetInfo,BackHandler,Alert} from 'react-native';
+import {Platform,SafeAreaView,StatusBar,BackHandler,Alert} from 'react-native';
 import Route from './MainRoute/Route';
 import store from './Stores/orderStore';
 import { MenuProvider } from 'react-native-popup-menu';

@@ -10,8 +10,9 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-//#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <React/RCTLinkingManager.h>
 #import <RNGoogleSignin/RNGoogleSignin.h>
+@import GoogleMobileAds;
 @import Firebase;
 @implementation AppDelegate
 
@@ -19,7 +20,11 @@
 {
   NSURL *jsCodeLocation;
   [GMSServices provideAPIKey:@"AIzaSyA30fMP5nXMS9iH6G7LjdZ47vUzLWbnBM0"];
-//  GMSPlacesClient.provideAPIKey("AIzaSyA30fMP5nXMS9iH6G7LjdZ47vUzLWbnBM0")
+  //  GMSPlacesClient.provideAPIKey("AIzaSyA30fMP5nXMS9iH6G7LjdZ47vUzLWbnBM0")
+
+  //Google sdk ads
+  [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+  
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
@@ -50,12 +55,10 @@
   [[FBSDKApplicationDelegate sharedInstance] application:application
                                                         openURL:url
                                               sourceApplication:sourceApplication
-                                                     annotation:annotation]
+                                                annotation:annotation]
   ||
-  [RNGoogleSignin application:application
-                        openURL:url
-              sourceApplication:sourceApplication
-                     annotation:annotation
-     ];
+  [RCTLinkingManager application:application openURL:url
+               sourceApplication:sourceApplication annotation:annotation];
 }
+
 @end

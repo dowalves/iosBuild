@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NetInfo, Alert, BackHandler, ActivityIndicator, Platform, StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import {  Alert, BackHandler, ActivityIndicator, Platform, StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { INDICATOR_COLOR, INDICATOR_SIZE, OVERLAY_COLOR } from '../../../styles/common';
 import { width, height, totalSize } from 'react-native-dimension';
 import styles from '../../../styles/SplashStyleSheet'
@@ -7,6 +7,9 @@ import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
+import NetInfo from "@react-native-community/netinfo";
+
+
 @observer export default class Splash extends Component<Props> {
   constructor(props) {
     super(props);
@@ -20,7 +23,7 @@ import ApiController from '../../ApiController/ApiController';
     orderStore.settings = null;
     // API calling...
     this.setState({ loading: true })
-    let response = await ApiController.get('settings');
+    let response = await ApiController.post('settings');
     console.log('settings=',response);
     orderStore.settings = response;
     if (orderStore.settings.success === true) {
@@ -31,9 +34,9 @@ import ApiController from '../../ApiController/ApiController';
       Toast.show('Check your internet and try again', Toast.LONG);
     }
   }
-  componentWillMount(){
+  componentWillMount=async()=>{
     if(NetInfo.isConnected){
-       this.splash(true)
+       await this.splash(true)
     }
   }
   // componentDidMount() {

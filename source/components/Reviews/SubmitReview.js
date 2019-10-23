@@ -118,11 +118,9 @@ class SubmitReview extends Component<Props> {
             this.setState({ loading: false })
           }
         }).catch((error) => {
-          //console.log('axios error==>>', error);
           this.setState({ loading: false })
         })
     } catch (error) {
-      //console.log('trycatch error==>>', error);
     }
   }
   loadMore = async (listType, pageNo) => {
@@ -276,7 +274,7 @@ class SubmitReview extends Component<Props> {
               />
               <Text style={{ fontSize: totalSize(paragraphTxt), color: COLOR_SECONDARY }}>{section.total_rating}</Text>
             </View>
-            <Text style={{ flex: 0.1, fontSize: totalSize(paragraphTxt), color: Platform.OS === 'ios' ? 'gray' : null }}>{section.comment_time}</Text>
+            <Text style={{ flex: 0.1, fontSize: totalSize(paragraphTxt), textAlign:'left',color: Platform.OS === 'ios' ? 'gray' : null }}>{section.comment_time}</Text>
           </View>
           <View style={{ marginHorizontal: 4 }}>
             <Image source={isActive ? require('../../images/up-arrowImg.png') : require('../../images/dropDown.png')} style={{ height: height(2), width: width(4), resizeMode: 'contain' }} />
@@ -301,7 +299,7 @@ class SubmitReview extends Component<Props> {
         animation="fadeInDown"
         iterationCount={1}
         direction="alternate"
-        style={{ flex: 10, width: width(75), marginBottom: 10, marginHorizontal: 10, alignSelf: 'flex-end', marginHorizontal: 15, borderBottomWidth: 0.4, borderColor: COLOR_GRAY }}>
+        style={{ flex: 10, width: width(75), alignItems:'flex-start',marginBottom: 10, marginHorizontal: 10, alignSelf: 'flex-end', marginHorizontal: 15, borderBottomWidth: 0.4, borderColor: COLOR_GRAY }}>
         <HTMLView
           value={section.comment_desc}
           stylesheet={styles.longTxt}
@@ -404,11 +402,11 @@ class SubmitReview extends Component<Props> {
               />
               {
                 this.state.postComment ?
-                  <View style={{ alignSelf: 'flex-end', borderRadius: 5, height: height(3), width: width(20), alignItems: 'center', justifyContent: 'center', backgroundColor: main_clr, marginVertical: 10 }}>
+                  <View style={{ alignSelf: 'flex-start', borderRadius: 5, height: height(3), width: width(20), alignItems: 'center', justifyContent: 'center', backgroundColor: main_clr, marginVertical: 10 }}>
                     <ActivityIndicator size='small' color={'white'} animating={true} />
                   </View>
                   :
-                  <TouchableOpacity style={{ alignSelf: 'flex-end', borderRadius: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: main_clr, marginVertical: 10 }}
+                  <TouchableOpacity style={{ alignSelf: 'flex-start', borderRadius: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: main_clr, marginVertical: 10 }}
                     onPress={async () => await this.postComment(section)}
                   >
                     <Text style={{ fontSize: 11, marginHorizontal: 7, marginVertical: 5, color: COLOR_PRIMARY }}>{txt.btn_txt}</Text>

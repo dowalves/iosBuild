@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     flexDirection:'row'
   },
   titleTxt: {
-    width:width(61),
     fontSize:totalSize(titles),
     color: COLOR_SECONDARY,
     fontWeight:'bold',

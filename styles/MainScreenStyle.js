@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     marginVertical: 20
   },
   logoTxt: {
-    // height: height(12),
+    lineHeight: 30,
     width: width(60),
     marginHorizontal: 10,
     textAlign: 'center',

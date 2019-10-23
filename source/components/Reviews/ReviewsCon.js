@@ -22,8 +22,8 @@ export default class ReviewsCon extends Component<Props> {
   componentWillMount = async () => {
     let { params } = this.props.navigation.state;
     this.setState({ loading: true })
-    let response = await ApiController.get('reviews');
-    console.log('User Reviews==========================>>',response);
+    let response = await ApiController.post('reviews');
+    // console.log('User Reviews==========================>>',response);
     store.USER_REVIEWS = response;
     if ( response.success ) {
       if (store.USER_REVIEWS.data.submitted_reviews.has_comments) {

@@ -1,12 +1,17 @@
 import store from '../Stores/orderStore';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
-import {Buffer} from 'buffer';
+import { Buffer } from 'buffer';
+
+// change your baseUrl and Domain
+const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
+const PURCHASE_CODE = '1234';
+const CUSTOM_SECURITY = '1234';
 class Api {
   static headers() {
     return {
-      'Purchase-Code': 12,
-      'Custom-Security': 12,
+      'Purchase-Code': PURCHASE_CODE,
+      'Custom-Security': CUSTOM_SECURITY,
       'Content-Type': 'application/json',
       'Login-type': store.LOGIN_SOCIAL_TYPE
     }
@@ -35,30 +40,25 @@ class Api {
     return this.func(route, params, 'DELETE')
   }
 
-  static func = async(route, params, verb) => {
-    
-    // const host = 'http:
-    const base_url = 'https://listing.downtown-directory.com/';
+  static func = async (route, params, verb) => {
 
-    const host = base_url+'for-apps/wp-json/downtown/app';
-    
+    const host = base_url;
     const url = `${host}/${route}`
+    console.log("url--->",url);
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null);
     options.headers = Api.headers()
     // console.log('URL===>>>>>',options);
 
     //Authorization for login user/////
     // getting value from asyncStorage
-       const email = await AsyncStorage.getItem('email');
-       const pass = await AsyncStorage.getItem('password');
-       //console.warn('login detail===>>>',email , pass);
-       
-    // using buffer
-    if ( email !== null && pass !== null ) {
-        const hash = new Buffer(`${email}:${pass}`).toString('base64');
-        options.headers['Authorization'] = `Basic ${hash}`;  
-    }
+    const email = await AsyncStorage.getItem('email');
+    const pass = await AsyncStorage.getItem('password');
 
+    // using buffer
+    if (email !== null && pass !== null) {
+      const hash = new Buffer(`${email}:${pass}`).toString('base64');
+      options.headers['Authorization'] = `Basic ${hash}`;
+    }
     return fetch(url, options).then(resp => {
       // console.log('Api response is ------------->>>>>>', resp);
 
@@ -72,38 +72,37 @@ class Api {
       // console.log('Api response is ------------->>>>>>', json);
 
       return json;
-    });
+    }).catch((erorr)=>{
+      console.log("error===> "+erorr.name);
+    });;
   }
 
-  static formDataPost = async(route, formData, verb) => {
-    console.log('FORMDATA====>>>>',formData);
-    // const host = 'http:
-    const base_url = 'https://listing.downtown-directory.com/';
-
-    const host = base_url+'for-apps/wp-json/downtown/app';
+  static formDataPost = async (route, formData, verb) => {
     
+    const host = base_url;
     const url = `${host}/${route}`
     let options = {
       method: 'POST',
       body: formData,
-        headers:{
-          'Purchase-Code': 12,
-          'Custom-Security': 12,
-          'Content-Type': 'multipart/form-data',
-        },
+      headers: {
+        'Purchase-Code': PURCHASE_CODE,
+        'Custom-Security': CUSTOM_SECURITY,
+        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
       timeout: 180000
-     }
-    // getting value from asyncStorage  ***
-       const email = await AsyncStorage.getItem('email');
-       const pass = await AsyncStorage.getItem('password');
-       console.log('login detail===>>>',email , pass);
-       
-    //Authorization for login user using buffer ***
-    if ( email !== null && pass !== null ) {
-        const hash = new Buffer(`${email}:${pass}`).toString('base64');
-        options.headers['Authorization'] = `Basic ${hash}`;  
     }
-    
+    // getting value from asyncStorage  ***
+    const email = await AsyncStorage.getItem('email');
+    const pass = await AsyncStorage.getItem('password');
+    //  console.log('login detail===>>>',email , pass);
+
+    //Authorization for login user using buffer ***
+    if (email !== null && pass !== null) {
+      const hash = new Buffer(`${email}:${pass}`).toString('base64');
+      options.headers['Authorization'] = `Basic ${hash}`;
+    }
+
     return fetch(url, options).then(resp => {
       // console.log('Api response is ------------->>>>>>', resp);
 
@@ -115,55 +114,47 @@ class Api {
       return json.then(err => { throw err });
     }).then(json => {
       // console.log('Api response is ------------->>>>>>', json);
-
       return json;
-    }).catch((error)=>{
-      throw error  
-      console.log('API ERROR===>>>',error);
+    }).catch((error) => {
+      throw error
+      console.log('API ERROR===>>>', error);
     })
   }
-  static axios = async(route, formData, config) => {
-  
-    //console.log('FORMDATA====>>>>',formData);
-    // const host = 'http:
-    const base_url = 'https://listing.downtown-directory.com/';
-
-    const host = base_url+'for-apps/wp-json/downtown/app';
-  
+  static axios = async (route, formData, config) => {
+    const host = base_url;
     const url = `${host}/${route}`
-    
+
     let options = {
-        headers:{
-          'Purchase-Code': 12,
-          'Custom-Security': 12,
-          'Content-Type': 'multipart/form-data',
-        },
-        timeout: 100000, // default is `0` (no timeout)
-     }
-    let configration = Object.assign(config,options)
-    //console.log('configration==>>',configration);
-    
-    // getting value from asyncStorage  ***
-       const email = await AsyncStorage.getItem('email');
-       const pass = await AsyncStorage.getItem('password');
-       console.log('login detail===>>>',email , pass);
-       
-    //Authorization for login user using buffer ***
-    if ( email !== null && pass !== null ) {
-        const hash = new Buffer(`${email}:${pass}`).toString('base64');
-        options.headers['Authorization'] = `Basic ${hash}`;  
+      headers: {
+        'Purchase-Code': PURCHASE_CODE,
+        'Custom-Security': CUSTOM_SECURITY,
+        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      //timeout: 100000, // default is `0` (no timeout)
     }
-    
-   return axios.post( url,
-        formData,
-        configration,
-        );
-      // .then((response)=>{
-      //   console.log('SUCCESS!!',response);
-      // })
-      // .catch((error)=>{
-      //   console.log('FAILURE!!',error);
-      // });
+    let configration = Object.assign(config, options)
+    // getting value from asyncStorage  ***
+    const email = await AsyncStorage.getItem('email');
+    const pass = await AsyncStorage.getItem('password');
+    //  console.log('login detail===>>>',email , pass);
+
+    //Authorization for login user using buffer ***
+    if (email !== null && pass !== null) {
+      const hash = new Buffer(`${email}:${pass}`).toString('base64');
+      options.headers['Authorization'] = `Basic ${hash}`;
+    }
+
+    return axios.post(url,
+      formData,
+      configration,
+    );
+    // .then((response)=>{
+    //   console.log('SUCCESS!!',response);
+    // })
+    // .catch((error)=>{
+    //   console.log('FAILURE!!',error);
+    // });
   }
 }
 

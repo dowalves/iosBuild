@@ -16,8 +16,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   featuredFLItem: {
-    // shadowOpacity: 0.2,
-    // shadowColor: '#8a8a8a',
     ...Platform.select({
       ios: { shadowColor: 'gray', shadowOpacity: 0.2, shadowRadius: 2 },
       android: { elevation: 2, }

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Platform,StatusBar,I18nManager,NetInfo,BackHandler,Alert} from 'react-native';
+import {Platform,StatusBar,I18nManager,BackHandler,Alert,Text} from 'react-native';
 import AppMain from './source/app';
 import { MenuProvider } from 'react-native-popup-menu';
 import store from './source/Stores/orderStore';
 import Store from './source/Stores';
+console.disableYellowBox=true
 import ApiController from './source/ApiController/ApiController';
 import { nav_header_color } from './styles/common';
 

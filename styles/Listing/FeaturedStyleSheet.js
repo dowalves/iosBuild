@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     borderRadius:4,
     backgroundColor: COLOR_ORANGE,
     marginLeft:10,
+    marginVertical: 10,
     justifyContent:'center',
   },
   closedBtnTxt: {

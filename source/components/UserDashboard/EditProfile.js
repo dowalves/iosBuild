@@ -141,7 +141,7 @@ class EditProfile extends Component<Props> {
         formData.append('user_dp', this.state.avatarSource);
       }
 
-      console.log('formData======>>>', formData);
+      // console.log('formData======>>>', formData);
       let config = {
         onUploadProgress: async function (progressEvent) {
           this.setState({ progress: progressEvent.loaded / progressEvent.total })
@@ -152,7 +152,7 @@ class EditProfile extends Component<Props> {
       try {
         ApiController.postAxios('profile-edit', formData, config)
           .then(async (response) => {
-            console.log('profile edit========>>>>', response);
+            // console.log('profile edit========>>>>', response);
             if (response.data.success) {
               store.login.loginResponse.data.display_name = response.data.data.display_name;
               store.login.loginResponse.data.profile_img = response.data.data.profile_img;
@@ -165,7 +165,7 @@ class EditProfile extends Component<Props> {
               this.setState({ loading: false, progress: 0 })
             }
           }).catch((error) => {
-            console.log('axios error==>>', error);
+            // console.log('axios error==>>', error);
             this.setState({ loading: false })
           })
       } catch (error) {
@@ -176,7 +176,7 @@ class EditProfile extends Component<Props> {
   getChangePassword = async () => {
     this.setState({ isPassChange: true })
     let res = await ApiController.get('change-password');
-    console.log('password change get===>>>', res);
+    // console.log('password change get===>>>', res);
     try {
       if (res.success) {
         store.CHANGE_PASS = res.data;
@@ -243,7 +243,9 @@ class EditProfile extends Component<Props> {
         <ScrollView>
           <UpperView status={true} image={this.state.image} pickerImage={this.state.pickerImage} _imagePicker={this.imagePicker} />
           <View style={styles.titleCon}>
-            <Text style={styles.titleTxt}>{store.USER_PROFILE.data.page_title_edit}</Text>
+            <View style={{ width:width(61), alignItems:'flex-start' }}>
+              <Text style={styles.titleTxt}>{store.USER_PROFILE.data.page_title_edit}</Text>
+            </View>
             <TouchableOpacity style={styles.changeBtnCon} onPress={() => this.setState({ modalVisible: true }) }>
               <Text style={styles.closeBtnTxt}>{store.USER_PROFILE.extra_text.forget_pass}</Text>
             </TouchableOpacity>
@@ -297,9 +299,9 @@ class EditProfile extends Component<Props> {
               style={styles.textInput}
             />
           </View>
-          <View style={{ width: width(92), alignSelf: 'center', marginTop: 5 }}>
+          <View style={{ width: width(92), alignSelf: 'center', marginTop: 5, alignItems:'flex-start' }}>
             <Text style={{ fontSize: 15, color: COLOR_SECONDARY }}>{data.hours.main_title}</Text>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', alignItems:'flex-start' }}>
               <CheckBox
                 center
                 title={data.hours.dropdown[0].text}
@@ -326,18 +328,18 @@ class EditProfile extends Component<Props> {
             <Text style={styles.textInputLabel}>{data.timezone.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
             {
               Platform.OS === 'android' ?
-                <View style={{ height: 45, width: 380, flexDirection: 'row', alignItems: 'center', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }}>
+                <View style={{ height: 45, width: width(90), flexDirection: 'row', alignItems: 'center', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }}>
                   <Picker
                     selectedValue={this.state.timezone}
-                    style={{ height: 45, width: 370 }}
+                    style={{ height: 45, width: width(90) }}
                     onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ language: itemValue })
+                      this.setState({ timezone: itemValue })
                     }>
                     <Picker.Item label={data.timezone.placeholder} />
                     {
                       store.TIME_ZONE.map((item, key) => {
                         return (
-                          <Picker.Item label={item} value={item} />
+                          <Picker.Item key={key} label={item} value={item} />
                         );
                       })
                     }
@@ -345,7 +347,9 @@ class EditProfile extends Component<Props> {
                 </View>
                 :
                 <TouchableOpacity style={{ height: 45, width: width(92), alignItems: 'center', flexDirection: 'row', borderWidth: 0.4, borderColor: '#8a8a8a', borderRadius: 5 }} onPress={() => this.setState({ is_picker: !this.state.is_picker })}>
-                  <Text style={{ marginHorizontal: 8, width: 290 }}>{this.state.timezone}</Text>
+                  <View style={{ alignItems:'flex-start', width: width(85) }}>
+                    <Text style={{ marginHorizontal: 8 }}>{this.state.timezone}</Text>
+                  </View>
                   <Icon
                     size={14}
                     name='caretdown'
@@ -479,13 +483,11 @@ class EditProfile extends Component<Props> {
           {
             store.settings.data.is_demo_mode ?
               <View style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr }]}>
-                <Text style={{ fontSize: totalSize(1.8), color: COLOR_PRIMARY, marginHorizontal: 15, marginVertical: 3, fontWeight: 'bold' }}>{store.USER_PROFILE.extra_text.profile_edit_btn}</Text>
+                <Text style={{ fontSize: totalSize(1.8), color: COLOR_PRIMARY, marginHorizontal: 0, marginVertical: 3, fontWeight: 'bold' }}>{store.settings.data.demo_mode_txt}</Text>
               </View>
               :
               this.state.loading ?
                 <View style={[styles.profielBtn, { backgroundColor: store.settings.data.main_clr, height: height(7) }]} >
-                  {/* <Text style={styles.profielBtnTxt}>{this.state.progress}%</Text> */}
-                  {/* <Progress.Pie progress={this.state.progress} color={COLOR_PRIMARY} size={25} /> */}
                   <Progress.Circle size={40} indeterminate={false} showsText={true} textStyle={{ fontSize: 10 }} progress={this.state.progress} color={COLOR_PRIMARY} />
                 </View>
                 :

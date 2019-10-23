@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         borderColor: '#cccccc'
     },
     icon: {
-        height: height(4),
+        height: height(5.5),
         width: width(10),
         resizeMode: 'contain'
     },
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: totalSize(S16),
         color: COLOR_SECONDARY,
-        marginHorizontal: 15
+        marginHorizontal: 15,
+        // textAlign: 'left'
     },
     rightIcon: {
         height: height(2.2),

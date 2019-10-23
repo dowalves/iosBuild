@@ -12,7 +12,7 @@ import styles from '../../../styles/SignUp'
 import Icon from 'react-native-vector-icons/Octicons';
 import IconLock from 'react-native-vector-icons/SimpleLineIcons';
 import IconUser from 'react-native-vector-icons/FontAwesome';
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
 import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
@@ -203,7 +203,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
                     placeholderTextColor='white'
                     underlineColorAndroid='transparent'
                     autoCorrect={false}
-                    style={styles.inputTxt}
+                    style={[styles.inputTxt,{textAlign: I18nManager.isRTL ? 'right' : 'left'}]}
                   />
                 </View>
               </View>

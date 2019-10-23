@@ -22,23 +22,25 @@ const styles = StyleSheet.create({
     width:width(100),
     backgroundColor:'rgba(0,0,0,0.7)',
     alignItems:'center',
-    justifyContent:'flex-end'
+    justifyContent:'flex-end',
   },
   imgSubConView: {
-    height:height(15),
+    // height:height(15),
     width:width(90),
     marginVertical:5,
     marginHorizontal:10,
-    marginBottom: 0,
+    marginBottom: 10,
   },
   featureBtn: {
     height:height(3),
     width:width(18),
     backgroundColor: COLOR_RED,
     borderRadius: 4,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginVertical: 4
   },
   featureBtnTxt: {
+    marginVertical: 3,
     fontSize:totalSize(smallButtons),
     color: COLOR_PRIMARY,
     textAlign:'center',

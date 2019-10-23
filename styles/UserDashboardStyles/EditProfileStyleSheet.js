@@ -21,11 +21,11 @@ const styles = StyleSheet.create({
     flexDirection:'row',
   },
   titleTxt: {
-    width:width(61),
+    // width:width(61),
     fontSize:totalSize(titles),
     color: COLOR_SECONDARY,
-    fontWeight:'bold'
-    // fontFamily: FONT_BOLD
+    fontWeight:'bold',
+    textAlign: 'left'
   },
   changeBtnCon: {
     borderRadius:4,
@@ -42,14 +42,15 @@ const styles = StyleSheet.create({
   textInputCon: {
     height:height(10),
     marginHorizontal:15,
-    marginVertical:5
+    marginVertical:5,
+    width: width(90),
+    alignItems:'flex-start'
   },
   textInputLabel: {
-    width:width(61),
     fontSize:totalSize(headingTxt),
     marginVertical:7,
     color: COLOR_DARK_GRAY,
-    // fontFamily: FONT_BOLD
+    textAlign: 'left'
   },
   subCon: {
     height:height(6),
@@ -72,7 +73,8 @@ const styles = StyleSheet.create({
     height:height(6),
     borderRadius:5,
     borderWidth: 0.8,
-    paddingLeft:10,
+    paddingHorizontal:10,
+    width: width(90),
     fontSize:totalSize(paragraphTxt),
     // fontFamily:FONT_NORMAL,
     color: COLOR_DARK_GRAY,
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
   socialInput: {
     // height:height(6),
     borderRadius:5,
-    paddingLeft:10,
+    paddingHorizontal:10,
     fontSize:totalSize(paragraphTxt),
     // fontFamily:FONT_NORMAL,
     color: COLOR_DARK_GRAY,
@@ -90,9 +92,11 @@ const styles = StyleSheet.create({
     height:height(23),
     marginHorizontal:15,
     marginVertical:5,
+    alignItems:'flex-start'
   },
   aboutInputText: {
     height:height(20),
+    width: width(90),
     borderRadius:5,
     borderWidth: 0.8,
     paddingHorizontal:10,

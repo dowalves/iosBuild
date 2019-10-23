@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Linking } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import * as Animatable from 'react-native-animatable';
 import { Avatar, Icon } from 'react-native-elements';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
-import { observer } from 'mobx-react';
 import store from '../../Stores/orderStore';
 export default class ProfileUpperView extends Component<Props> {
     constructor(props) {

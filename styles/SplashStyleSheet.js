@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
         color: COLOR_PRIMARY,
         textAlign: 'center',
         marginHorizontal: 70,
-        marginVertical: 25
+        marginVertical: 25,
+        lineHeight: 20,
     },
     IndicatorCon: {
         flex: 1,

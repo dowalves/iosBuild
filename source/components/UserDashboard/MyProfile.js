@@ -4,8 +4,8 @@ import {Platform, StyleSheet, Text, View, Button,Image,ImageBackground,Touchable
 } from 'react-native';
 import store from '../../Stores/orderStore';
 import { width, height, totalSize } from 'react-native-dimension';
-import { FONT_NORMAL,FONT_BOLD,COLOR_PRIMARY,COLOR_ORANGE,COLOR_GRAY,COLOR_SECONDARY,COLOR_YELLOW } from '../../../styles/common';
-import { observer } from 'mobx-react';
+import { COLOR_PRIMARY,COLOR_ORANGE,COLOR_GRAY,COLOR_SECONDARY,COLOR_YELLOW } from '../../../styles/common';
+import HTMLView from 'react-native-htmlview';
 import styles from '../../../styles/UserDashboardStyles/MyProfileStyleSheet';
 import UpperView from './UpperView';
 export default class MyProfile extends Component<Props> {
@@ -35,21 +35,37 @@ export default class MyProfile extends Component<Props> {
             data.user_info.map((item,key)=>{
               return(
                 <View key={key} style={styles.userInfoCon}>
-                  <Text style={styles.label}>{item.key}</Text>
-                  <Text style={styles.txt}>{item.value}</Text>
+                  <View style={{ width:width(46), alignItems:'flex-start' }}>
+                    <Text style={styles.label}>{item.key}</Text>
+                  </View>
+                  <View style={{ width:width(46), alignItems:'flex-start' }}>
+                    <Text style={styles.txt}>{item.value}</Text>
+                  </View>
                 </View>
               )
             })
           }
-          <Text style={styles.labelMedia}>{data.about_user.heading}</Text>
-          <Text style={styles.labelTxt}>{data.about_user.desc}</Text>
+          <View style={{ alignItems:'flex-start' }}>
+            <Text style={styles.labelMedia}>{data.about_user.heading}</Text>
+          </View>
+          <View style={{ marginVertical: 0,marginHorizontal: 15 }}>
+            <HTMLView
+                value={data.about_user.desc}
+                stylesheet={styles.longTxt}
+              />
+          </View>
+          {/* <Text style={styles.labelTxt}>{data.about_user.desc}</Text> */}
           <Text style={styles.labelMedia}>Social Media accounts</Text>
           {
             data.profile_social_media.map((item,key)=>{
               return(
                 <View key={key} style={styles.userInfoCon}>
-                  <Text style={styles.label}>{item.key}</Text>
-                  <Text style={styles.txt}>{item.value}</Text>
+                  <View style={{ width:width(46), alignItems:'flex-start' }}>
+                    <Text style={styles.label}>{item.key}</Text>
+                  </View>
+                  <View style={{ width:width(46), alignItems:'flex-start' }}>
+                    <Text style={styles.txt}>{item.value}</Text>
+                  </View>
                 </View>
               );
             })
@@ -58,7 +74,7 @@ export default class MyProfile extends Component<Props> {
             <View style={styles.boxTitleCon}>
               <Text style={styles.boxTitleTxt}>{plan.heading}</Text>
             </View>
-            <View style={{height:height(8)}}>
+            <View style={{height:height(8), alignItems:'flex-start'}}>
               <Text style={styles.boxMessage}>{plan.desc}</Text>
             </View>
             <View style={{ alignItems:'center',alignSelf:'flex-start' }}>

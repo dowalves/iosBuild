@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
+import ProgressImage from '../CustomTags/ImageTag';
 import store from '../../Stores/orderStore';
 import { withNavigation } from 'react-navigation';
 

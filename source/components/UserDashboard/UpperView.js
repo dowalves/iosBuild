@@ -34,7 +34,7 @@ render() {
              :
              <View style={{ alignItems:'center' }}>
                 <Avatar
-                    large
+                    size="large"
                     rounded
                     source={this.props.pickerImage?  this.props.image  : { uri: data.profile_img }}
                     activeOpacity={1}
@@ -42,9 +42,10 @@ render() {
                 />
                 {
                     this.props.status?
-                        <View style={{ height:height(5),width:width(13),justifyContent:'center',alignItems:'flex-end',position:'absolute' }}>
+                        <View style={{ height:height(5),width:width(34),justifyContent:'center',alignItems:'flex-end',position:'absolute' }}>
                             <Icon
-                                size={15}
+                                raised
+                                size={12}
                                 name='camera'
                                 type='font-awesome'
                                 onPress={()=>this.props._imagePicker()}

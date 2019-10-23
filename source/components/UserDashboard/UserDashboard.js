@@ -25,13 +25,10 @@ class UserDashboard extends Component<Props> {
   componentWillMount = async () => {
       let { params } = this.props.navigation.state;
       this.setState({ loading: true })
-      let response = await ApiController.get('profile');
+      let response = await ApiController.post('profile');
       console.log('User profile==========================>>',response);
       if ( response.success ) {
           store.USER_PROFILE = response;
-          // store.USER_PROFILE.data.dashboard_notifications.data.lead_activities.forEach(item => {
-          //   item.image = require('../../images/like.png')
-          // });
           this.setState({ loading: false })
       } else {
           this.setState({ loading: false })

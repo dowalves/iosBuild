@@ -31,10 +31,12 @@ class PublishedEvents extends Component<Props> {
   }
   componentWillMount = async () => {
     let data = store.MY_EVENTS.data.my_events.active_events;
-    data.events.forEach(item => {
-      item.checkStatus = false;
-      item.removed = false;
-    })
+    if (data.has_events) {
+      data.events.forEach(item => {
+        item.checkStatus = false;
+        item.removed = false;
+      })
+    }
   }
   eventAdded = async (eventRes) => {
     let data = store.MY_EVENTS.data.my_events.pending_events.events;
@@ -44,7 +46,7 @@ class PublishedEvents extends Component<Props> {
         this.setState({ loading: false })
       })
     }
-    console.log('event added==>>', data);
+    // console.log('event added==>>', data);
 
   }
   expiredEvents = async (event_id) => {
@@ -61,7 +63,7 @@ class PublishedEvents extends Component<Props> {
       event_id: event_id
     }
     let response = await ApiController.post('expire-event', params);
-    //console.log('delete event==========================>>',response);
+    // console.log('delete event==========================>>',response);
     if (response.success) {
       data.forEach(item => {
         if (event_id === item.event_id) {
@@ -73,7 +75,7 @@ class PublishedEvents extends Component<Props> {
           } else {
             expire.has_events = true;
             expire.events = [];
-            expire.events.push(item);          
+            expire.events.push(item);
           }
           this.setState({ loading: false })
         }
@@ -82,6 +84,8 @@ class PublishedEvents extends Component<Props> {
       Toast.show(response.message)
       // this.props.jumpTo('create');
     } else {
+      console.warn('here');
+      
       Toast.show(response.message)
       data.forEach(item => {
         if (event_id === item.event_id) {
@@ -97,7 +101,7 @@ class PublishedEvents extends Component<Props> {
       is_update: event_id
     }
     let response = await ApiController.post('edit-event', params);
-    console.log('edit event==========================>>', response);
+    // console.log('edit event==========================>>', response);
     if (response.success) {
       store.MY_EVENTS.data.create_event = response.data.create_event;
       if (store.MY_EVENTS.data.create_event.gallery.has_gallery) {
@@ -148,7 +152,7 @@ class PublishedEvents extends Component<Props> {
       this.setState({ loading: false })
     }
   }
-  _pullToRefresh = async (listType, pageNo) => {
+  _pullToRefresh = async () => {
     this.setState({ refreshing: true })
     let params = {
       event_type: 'publish',
@@ -156,7 +160,7 @@ class PublishedEvents extends Component<Props> {
     }
     let data = store.MY_EVENTS.data.my_events.active_events;
     let response = await ApiController.post('load-my-events', params);
-    console.log('Tabs loadMore=====>>>', response);
+    // console.log('Tabs loadMore=====>>>', response);
     if (response.has_events) {
       // forEach Loop LoadMore results
       data.event_count = response.event_count;

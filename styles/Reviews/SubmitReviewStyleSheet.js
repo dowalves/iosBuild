@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   cameraCon: {
     height:height(15),
     width:width(75),
-    marginHorizontal: 25,
+    marginHorizontal: 0,
     marginVertical:5,
     flexDirection:'row',
     alignSelf:'center',
