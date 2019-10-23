@@ -18,13 +18,14 @@ import com.facebook.appevents.AppEventsLogger;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.sbugert.rnadmob.RNAdMobPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.dooboolab.RNIap.RNIapPackage;
 import com.reactlibrary.RNPaypalPackage;
 import com.gettipsi.stripe.StripeReactPackage;
-import com.airbnb.android.react.lottie.LottiePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.facebook.react.ReactNativeHost;
@@ -56,6 +57,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNGoogleSigninPackage(),
+            new NetInfoPackage(),
             new VectorIconsPackage(),
             new RNAdMobPackage(),
             new PickerPackage(),
@@ -63,8 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNIapPackage(),
             new RNPaypalPackage(),
             new StripeReactPackage(),
-            new FBSDKPackage(mCallbackManager),
-            new LottiePackage(),
+            // new LottiePackage(),
             new RNGestureHandlerPackage(),
             new ReanimatedPackage(),
             new MapsPackage(),

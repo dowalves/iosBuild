@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/Models/LOTShapeGroup.h
+../../../../lottie-ios/lottie-ios/Classes/Models/LOTShapeGroup.h

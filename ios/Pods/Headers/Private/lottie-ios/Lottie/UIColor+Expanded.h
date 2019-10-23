@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/Extensions/UIColor+Expanded.h
+../../../../lottie-ios/lottie-ios/Classes/Extensions/UIColor+Expanded.h

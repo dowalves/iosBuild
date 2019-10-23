@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/Private/LOTAnimationView_Internal.h
+../../../../lottie-ios/lottie-ios/Classes/Private/LOTAnimationView_Internal.h

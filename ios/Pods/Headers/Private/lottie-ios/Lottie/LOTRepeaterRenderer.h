@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/RenderSystem/RenderNodes/LOTRepeaterRenderer.h
+../../../../lottie-ios/lottie-ios/Classes/RenderSystem/RenderNodes/LOTRepeaterRenderer.h

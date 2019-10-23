@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/PublicHeaders/LOTAnimatedControl.h
+../../../../lottie-ios/lottie-ios/Classes/PublicHeaders/LOTAnimatedControl.h

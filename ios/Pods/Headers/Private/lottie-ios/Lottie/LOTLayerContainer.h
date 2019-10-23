@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/AnimatableLayers/LOTLayerContainer.h
+../../../../lottie-ios/lottie-ios/Classes/AnimatableLayers/LOTLayerContainer.h

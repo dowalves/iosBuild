@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/PublicHeaders/LOTValueCallback.h
+../../../../lottie-ios/lottie-ios/Classes/PublicHeaders/LOTValueCallback.h

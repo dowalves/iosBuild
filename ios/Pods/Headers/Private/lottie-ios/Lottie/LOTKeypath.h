@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/PublicHeaders/LOTKeypath.h
+../../../../lottie-ios/lottie-ios/Classes/PublicHeaders/LOTKeypath.h

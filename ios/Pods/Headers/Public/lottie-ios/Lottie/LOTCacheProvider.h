@@ -1,1 +1,1 @@
-../../../../../../node_modules/lottie-ios/lottie-ios/Classes/PublicHeaders/LOTCacheProvider.h
+../../../../lottie-ios/lottie-ios/Classes/PublicHeaders/LOTCacheProvider.h
