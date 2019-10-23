@@ -3019,11 +3019,11 @@ Copyright 2019 Google
 
 ## GoogleMaps
 
-Copyright 2017 Google
+Copyright 2019 Google
 
 ## GooglePlaces
 
-Copyright 2017 Google
+Copyright 2019 Google
 
 ## GoogleSignIn
 
