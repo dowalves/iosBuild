@@ -18,6 +18,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -57,6 +58,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCWebViewPackage(),
             new RNGoogleSigninPackage(),
             new NetInfoPackage(),
             new VectorIconsPackage(),

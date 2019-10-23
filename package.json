@@ -53,6 +53,7 @@
     "react-native-tab-view": "^2.3.0",
     "react-native-tags": "^2.1.0",
     "react-native-vector-icons": "^6.4.2",
+    "react-native-webview": "^7.4.3",
     "react-native-zss-rich-text-editor": "^1.1.0",
     "react-navigation": "^3.9.1",
     "tipsi-stripe": "^7.5.0"

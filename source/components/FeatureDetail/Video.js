@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, View, WebView } from 'react-native';
+import { Platform, View } from 'react-native';
 import Modal from "react-native-modal";
 import { observer } from 'mobx-react';
 import { height, width, totalSize } from 'react-native-dimension';
@@ -9,6 +9,10 @@ import Report from './Report'
 import styles from '../../../styles/LocationStyleSheet';
 import FeatureDetail from './FeatureDetail';
 import { YOUTUBE_API_KEY } from '../../../styles/common';
+import { WebView } from 'react-native-webview';
+
+
+
 @observer export default class Location extends Component<Props> {
     constructor(props) {
         super(props);
