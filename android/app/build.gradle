@@ -210,9 +210,7 @@ dependencies {
     implementation 'androidx.core:core:1.0.0'
     implementation ("com.facebook.react:react-native:+")  // From node_modules
     //google SDk
-    implementation(project(":react-native-google-signin")){
-        exclude group: "com.google.android.gms" // very important
-    }
+
     implementation "com.google.android.gms:play-services-auth:17.0.0"
     implementation "com.google.android.gms:play-services-location:17.0.0"
     //firebase
