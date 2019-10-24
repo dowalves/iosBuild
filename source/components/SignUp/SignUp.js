@@ -28,7 +28,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
       email: '',
       password: '',
     }
-    // I18nManager.forceRTL(data.is_rtl);
+    // I18nManager.forceRTL(true);
   }
   static navigationOptions = {
     header: null

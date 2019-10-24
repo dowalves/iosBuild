@@ -160,11 +160,11 @@ const styles = StyleSheet.create({
     }),
   },
   cateCon: {
-    height: height(25),
-    width: width(70),
+    height: height(30),
+    width: width(44),
     marginBottom: 10,
     alignSelf: 'center',
-    marginRight: 15,
+    marginRight: 8,
     marginHorizontal: 5,
     marginVertical: 5,
     borderRadius: 5,
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     // textAlignVertical:'center',
     fontSize: totalSize(S14),
     color: 'black',
-    marginHorizontal: 5
+    // marginHorizontal: 5
   },
   featuredFLItem: {
     alignSelf:'center',
@@ -295,9 +295,9 @@ const styles = StyleSheet.create({
     height: height(3),
     backgroundColor: 'transparent',
     borderStyle: 'solid',
-    borderRightWidth: 32,
+    borderLeftWidth: 32,
     borderTopWidth: 32,
-    borderRightColor: 'transparent',
+    borderLeftColor: 'transparent',
     borderTopColor: 'red',
 
   },
@@ -320,8 +320,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   cate_img: {
-    height: height(27),
-    width: width(72),
+    height: height(30),
+    width: width(44),
     borderRadius: 5,
     overflow: 'hidden'
   },
@@ -332,17 +332,19 @@ const styles = StyleSheet.create({
     borderRadius: 3
   },
   cateNameText: {
-    marginHorizontal: 10,
-    marginVertical: 5,
-    fontSize: 11,
+    marginHorizontal: 5,
+    marginVertical: 3,
+    fontSize: 8,
+    fontWeight:'bold',
     color: COLOR_PRIMARY
   },
   eventTitle: {
-    fontSize: 14,
+    fontSize: 12,
     color: COLOR_PRIMARY,
     fontWeight: 'bold',
     marginVertical: 2,
-    marginHorizontal: 15,
+    marginHorizontal: 10,
+    // marginLeft:
     textAlign: 'left'
   },
   locIcon: {
@@ -353,7 +355,7 @@ const styles = StyleSheet.create({
     transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
   },
   locText: {
-    fontSize: 12,
+    fontSize: 10,
     color: COLOR_PRIMARY,
     marginRight: 5
   },
@@ -366,7 +368,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_ORANGE
   },
   cate_text: {
-    fontSize: 11,
+    fontSize: 8,
     color: COLOR_PRIMARY,
     marginRight: 5
   },

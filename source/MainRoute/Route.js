@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
+import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import { createStackNavigator,createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../source/helpers/Responsive'
 //Authentication
 import Splash from '../components/SplashScreen/Splash';
 import MainScreen from '../components/MainScreen/MainScreen';
@@ -39,6 +40,7 @@ import EventSearching from '../components/PublicEvents/EventSearching';
 import { observer } from 'mobx-react';
 import store from '../Stores/orderStore';
 import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet';
+import { Icon, Avatar } from 'react-native-elements';
 
 const RootStack = createStackNavigator(
   {
@@ -56,18 +58,41 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: navigation.getParam('otherParam', store.settings.data.menu.home),
         header: (
-          <View style={[styles.overlyHeader,{ backgroundColor: store.settings.data.navbar_clr }]}>
+          <View style={[styles.overlyHeader, { backgroundColor: 'black' }]}>
             <TouchableOpacity style={styles.drawerBtnCon} onPress={() => {
-              // Alert.alert(navigation+'')
               navigation.toggleDrawer()
-              // navigation.openDrawer()
             }}>
-              <Image source={require('../images/drawer.png')} style={styles.drawerBtn} />
+              <Image source={require('../images/menu_newhome.png')} style={styles.drawerBtn} />
             </TouchableOpacity>
             <View style={styles.headerTxtCon}>
-              <Text style={styles.headerTxt}>{navigation.getParam('otherParam', store.settings.data.menu.home)}</Text>
-            </View>
-            <View style={{flex:1}}></View>
+              {/* <View style={{ backgroundColor: '#fff', height: '90%', width: '90%', borderRadius: 10, alignItems: 'center', alignContent: 'center' }}> */}
+                <TextInput
+                  onChangeText={(value) => this.setState({ email: value })}
+                  underlineColorAndroid='transparent'
+                  placeholder={"What are you looking for..."}
+                  // placeholderTextColor='black'
+                  underlineColorAndroid='transparent'
+                  autoCorrect={false}
+                  // onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
+                  style={{ height: wp(10), paddingLeft: 15, paddingTop: 10, backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), }}
+                />
+
+              </View>
+              <View style={{backgroundColor:'red',alignContent:'center',alignItems:'center',justifyContent:'center',marginLeft:5,height:wp('10'),width:wp('10'),borderRadius:wp('5')}}>
+                <Icon
+                  size={wp(7)}
+                  name='search'
+                  type='evilicon'
+                  color='#fff'
+                  containerStyle={{ marginLeft: 0, marginVertical: 3 }}
+                // containerStyle={styles.searchIcon}
+                // onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
+                />
+              </View>
+
+              {/* <Text style={styles.headerTxt}>{navigation.getParam('otherParam', store.settings.data.menu.home)}</Text> */}
+            {/* </View> */}
+            <View style={{ flex: 1 }}></View>
             {/* <Image source={require('../images/search_white.png')} style={styles.headerSearch} />
             <Image source={require('../images/cart.png')} style={styles.cart} /> */}
           </View>
