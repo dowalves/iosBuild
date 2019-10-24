@@ -1,5 +1,5 @@
 import { StyleSheet, Platform, Dimensions, I18nManager } from 'react-native';
-import { COLOR_SECONDARY, COLOR_ORANGE, COLOR_PRIMARY, COLOR_RED, S2, S16, S14,smallTitle ,homeTitle, titleText,eventTitleText,ListingOnOffBtn,InputTextSize,ListingTitle,} from './common';
+import { COLOR_SECONDARY, COLOR_ORANGE, COLOR_PRIMARY, COLOR_RED, S2, S16, SloganText,S14,smallTitle ,headingText,homeTitle, titleText,eventTitleText,ListingOnOffBtn,InputTextSize,ListingTitle, headerText,} from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const window = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
   topViewCon: {
     alignSelf: 'center',
     overflow: 'hidden',
-    height: 410 / 1.5,
+    height: height(15),
+    // backgroundColor:'red',
     width: width(100),
     overflow: 'hidden',
     // backgroundColor:'red' 
@@ -81,8 +82,9 @@ const styles = StyleSheet.create({
     // backgroundColor:'orange'
   },
   imageCon: {
-    height: 410 / 1.5,
+    height: 30,
     width: width(100),
+    backgroundColor:'red',
     position: 'absolute',
     bottom: 0,
     marginLeft: width(100) / 2,
@@ -141,16 +143,17 @@ const styles = StyleSheet.create({
     // marginTop: Platform.OS === 'ios' ? 150 : 140,
   },
   flatlistChild: {
-    height: 90,
-    width: width(26),
-    marginVertical: 15,
-    marginHorizontal: 5,
+    height: width(16),
+    width: width(16),
+    // zIndex:-1,
+
+    // marginVertical: 15,
+    marginBottom:5,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 5,
     backgroundColor: 'white',
-    borderRadius: 5,
+    borderRadius: width(8),
     ...Platform.select({
       ios: { shadowColor: 'gray', shadowOpacity: 0.2, shadowRadius: 2 },
       android: { elevation: 2, }
@@ -179,16 +182,18 @@ const styles = StyleSheet.create({
   },
   childTxt: {
     // fontFamily: FONT_NORMAL,
-    width: width(18),
+    width: width(16),
+    // marginLeft:5,
     fontSize: smallTitle, //totalSize(S15)
     alignSelf: 'center',
     textAlign: 'center',
     color: COLOR_SECONDARY,
-    marginVertical: 3
+    // backgroundColor:'red',
+    marginVertical: 5
   },
   recList: {
-    fontWeight: '500',
-    fontSize: titleText, //totalSize(S2)
+    fontWeight: 'bold',
+    fontSize: SloganText, //totalSize(S2)
     color: 'black',
     // textDecorationLine:'underline',
   },
@@ -205,21 +210,20 @@ const styles = StyleSheet.create({
       ios: { shadowColor: 'gray', shadowOpacity: 0.2, shadowRadius: 2 },
       android: { elevation: 2, }
     }),
-    height: 118,
+    height: 104,
     width: width(90),
     flexDirection: 'row',
     backgroundColor: '#ffffff',
-    borderRadius: 5,
+    borderRadius: 15,
     marginVertical: 5,
     marginBottom: 6
   },
   featuredImg: {
-    height: 118,
-    width: width(32),
-    alignSelf: 'stretch',
-    margin: 0,
-    alignItems: 'flex-start',
-    borderRadius: 5
+    height:'100%',width:'100%',
+    // borderRadius:30,
+    alignSelf:"center"
+   
+    
   },
   closedBtn: {
     // height:height(3),
@@ -238,15 +242,16 @@ const styles = StyleSheet.create({
     // alignSelf:'center'
   },
   txtViewCon: {
-    height: 118,
+    height: 98,
     width: width(55),
     justifyContent: 'center'
   },
   txtViewHeading: {
     textAlign: 'left',
     fontWeight: 'bold',
+    // backgroundColor:'red',
     // height: height(6),
-    // width: width(45),
+    width: width(55),
     marginTop: 3,
     marginBottom: 1,
     marginLeft: 10,
@@ -258,7 +263,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 11, //totalSize(S15),
     textAlign: 'left',
-    width: width(50)
+    // width: width(50)
   },
   ratingCon: {
     // height: height(8),
@@ -307,10 +312,10 @@ const styles = StyleSheet.create({
   readMoreBtnCon: {
     height: 24,
     // width: width(22),
-    borderRadius: 3,
-    borderColor: COLOR_ORANGE,
+    // borderRadius: 3,
+    // borderColor: COLOR_ORANGE,
     alignSelf: 'center',
-    borderWidth: 0.8,
+    // borderWidth: 0.8,
     alignItems: 'center',
     justifyContent: 'center'
   },

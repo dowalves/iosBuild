@@ -12,29 +12,59 @@ import store from '../../Stores/orderStore';
 class ListingComponent extends Component<Props> {
     onStarRatingPress(rating) {
         this.setState({
-        //   starCount: rating
+            //   starCount: rating
         });
     }
     render() {
         let item = this.props.item;
         let status = this.props.listStatus;
         // console.log('iamge uri==>>',item.image);
-        
+
         return (
-            <TouchableOpacity style={[styles.featuredFLItem,{ width: status? width(95) : width(90) }]} onPress={() => { store.LIST_ID=item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
-                <ProgressImage indicator={null} source={{ uri: item.image }} style={styles.featuredImg}>
-                    <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
-                        <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
-                    </TouchableOpacity>
-                </ProgressImage>
+            <TouchableOpacity style={[styles.featuredFLItem, { width: status ? width(95) : width(90) }]} onPress={() => { store.LIST_ID = item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
+                <View style={{
+                    height: 99,
+                    width: width(26),
+                    borderRadius: 15,
+                    marginLeft: 1,
+                    backgroundColor: 'red',
+                    alignSelf: "center",
+                    overflow: "hidden",
+
+                }}>
+                    <ProgressImage indicator={null} source={{ uri: item.image }} style={styles.featuredImg}>
+                        <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
+                            <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
+                        </TouchableOpacity>
+                    </ProgressImage>
+                </View>
+
                 <View style={styles.txtViewCon}>
-                    <View style={{ width: width(50), alignItems:'flex-start' }}>
-                        <Text style={styles.subHeadingTxt}>{item.category_name}</Text>
+                    <View style={{ marginTop: 0, width: width(45), marginHorizontal: 7, flexDirection: 'row', alignItems: 'center' }}>
+                        <Icon
+                            size={18}
+                            name='calendar'
+                            type='evilicon'
+                            color='red'
+                            containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+                        />
+                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft:2 }}>{item.posted_date}</Text>
                     </View>
-                    <View style={{ width: width(50), alignItems:'flex-start' }}>
+
+                   
+
+                    <View style={{ width: width(50), alignItems: 'flex-start' }}>
                         <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
                     </View>
-                    <View style={styles.ratingCon}>
+
+                    <View style={{ width: width(50),flexDirection:'row',marginTop:2 }}>
+                        <Text style={styles.subHeadingTxt}>2 Reviews  |</Text>
+                        <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
+                        <Text style={styles.subHeadingTxt}>{item.business_hours_status}</Text>
+
+                    </View>
+                    
+                    {/* <View style={styles.ratingCon}>
                         <View style={styles.gradingCon}>
                             <StarRating
                                 disabled={false}
@@ -53,17 +83,18 @@ class ListingComponent extends Component<Props> {
                             containerStyle={{ marginLeft: 0, marginVertical: 3 }}
                         />
                         <Text style={styles.ratingTxt}>{item.total_views}</Text>
-                    </View>
-                    <View style={{ marginTop: 2, width: width(45), marginHorizontal: 8, flexDirection: 'row', alignItems: 'center' }}>
+                    </View> */}
+                    <View style={{ marginTop: 5, width: width(45), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
                         <Icon
                             size={18}
-                            name='calendar'
+                            name='location'
                             type='evilicon'
-                            color='#8a8a8a'
+                            color='red'
                             containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                         />
-                        <Text style={{ fontSize: 10, color: '#8a8a8a' }}>{item.posted_date}</Text>
+                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2, }}>Arkansas, United States</Text>
                     </View>
+
                 </View>
             </TouchableOpacity>
         );

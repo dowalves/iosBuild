@@ -106,7 +106,7 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
       this.setState({ loading: true })
       //API calling
       let response = await ApiController.post('home');
-      // console.log('responseHome==>>>>>', response);
+      console.log('responseHome==>>>>>', response);
       if (response.success) {
         store.home.homeGet = response;
         this.setState({ loading: false })
@@ -167,9 +167,9 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
               />
             }>
             <View style={styles.topViewCon}>
-              <View style={styles.InnerRadius}>
-                <View style={styles.imageCon}>
-                  <ImageBackground indicator={null} source={{ uri: home.search_section.image }} style={{ flex: 1, resizeMode: 'contain' }}>
+              {/* <View style={styles.InnerRadius}> */}
+                {/* <View style={styles.imageCon}> */}
+                  {/* <ImageBackground indicator={null} source={{ uri: home.search_section.image }} style={{ flex: 1, resizeMode: 'contain' }}>
                     <View style={{ height: height(40), alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
                       <View style={styles.findTxtCon}>
                         <Text style={styles.firTxt}>{home.search_section.main_title}</Text>
@@ -194,41 +194,57 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                           containerStyle={{ marginLeft: 0, marginVertical: 10 }}
                           // containerStyle={styles.searchIcon}
                           onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
-                        />
-                        {/* <Image
+                        /> */}
+                  {/* <Image
                           source={require('../../images/search_black.png')}
                           style={styles.searchIcon}
                           onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
                         /> */}
-                      </View>
+                  {/* </View>
                     </View>
-                  </ImageBackground>
-                </View>
-              </View>
+                  </ImageBackground> */}
+                {/* </View> */}
+              {/* </View> */}
             </View>
             {
               home.categories_enabled ?
-                <View style={{ flex: 1, width: width(100), backgroundColor: 'transparent', alignItems: 'center', position: 'absolute', marginVertical: 190 }}>
+                <View style={{ flex: 1, width: width(100), backgroundColor: 'transparent', alignItems: 'center', position: 'absolute', marginVertical: 1 }}>
                   <View style={styles.flatlistCon}>
                     <FlatList
                       data={home.categories}
                       renderItem={({ item, key }) =>
-                        <TouchableOpacity key={key} style={styles.flatlistChild}
-                          onPress={() => {
-                            store.CATEGORY = item,
-                              store.moveToSearch = true,
-                              this.navigateToScreen('SearchingScreen', data.menu.adv_search)
-                          }}
-                        >
-                          <Animatable.View
-                            duration={2000}
-                            animation="zoomIn"
-                            iterationCount={1}
-                            direction="alternate">
-                            <Image style={{ height: height(6), width: width(15), resizeMode: 'contain' }} source={{ uri: item.img }} />
-                          </Animatable.View>
-                          <Text style={[styles.childTxt, { fontWeight: 'bold' }]}>{item.name}</Text>
-                        </TouchableOpacity>
+                        <View style={{
+                          marginTop: 15,
+                          marginBottom: 8,
+                          marginRight: 15,
+                          alignContent:'center',
+                          alignItems:'center'
+                          // marginHorizontal: 10,
+                        }}>
+
+                          <TouchableOpacity key={key} style={styles.flatlistChild}
+                            onPress={() => {
+                              store.CATEGORY = item,
+                                store.moveToSearch = true,
+                                this.navigateToScreen('SearchingScreen', data.menu.adv_search)
+                            }}
+                          >
+                            <Animatable.View
+                              duration={2000}
+                              animation="zoomIn"
+                              iterationCount={1}
+                              direction="alternate">
+                              <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
+                            </Animatable.View>
+                            <View style={{height:width(4),width:width(4),alignContent:'center',alignItems:'center',justifyContent:'center',backgroundColor:'red',position:'absolute',borderRadius:width(2),top:0,right:0}}>
+                              <Text style={{color:'#fff',fontSize:width(1.6),fontWeight:'bold'}}>01</Text>
+                            </View>
+
+                          </TouchableOpacity>
+
+                          <Text style={[styles.childTxt,{fontWeight:'500'}]}>{item.name}</Text>
+
+                        </View>
                       }
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
@@ -242,12 +258,12 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
             }
             {
               home.listings_enabled ?
-                <View style={{ width: width(90), flexDirection: 'row', alignSelf: 'center', alignItems: 'center', marginTop: Platform.OS === 'ios' ? 35 : 35, marginBottom: 5 }}>
+                <View style={{ width: width(90), flexDirection: 'row', alignSelf: 'center', alignItems: 'center', marginTop: Platform.OS === 'ios' ? 15 : 15, marginBottom: 5 }}>
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                     <Text style={styles.recList}>{home.section_txt}</Text>
                   </View>
-                  <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-                    <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.section_btn}</Text>
+                  <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+                    <Text style={[styles.latestFeature, { fontSize: 13,color:store.settings.data.navbar_clr }]}>{home.section_btn}</Text>
                   </TouchableOpacity>
                 </View>
                 :
@@ -283,7 +299,7 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                     {
                       home.featured_listings.list.map((item, key) => {
                         return (
-                          <TouchableOpacity style={{ width: width(55), backgroundColor: 'white', borderRadius: 5, marginRight: 10, marginBottom: 30 }} onPress={() => { store.LIST_ID=item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
+                          <TouchableOpacity style={{ width: width(55), backgroundColor: 'white', borderRadius: 5, marginRight: 10, marginBottom: 30 }} onPress={() => { store.LIST_ID = item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
                             <Image indicator={null} source={{ uri: item.image }} style={{ height: 160, width: width(55), borderTopLeftRadius: 5, borderTopRightRadius: 5 }} />
                             <View style={{ height: height(5), width: width(32), position: 'absolute' }}>
                               <View>
@@ -366,14 +382,14 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
             {
               home.location_enabled ?
                 <View style={{ marginHorizontal: 20 }}>
-                  <Text style={{ fontSize: 14, fontWeight:'500', color: COLOR_SECONDARY, marginVertical: 15 }}>Locations</Text>
+                  <Text style={{ fontSize: 14, fontWeight: '500', color: COLOR_SECONDARY, marginVertical: 15 }}>Locations</Text>
                   <View style={{ flexWrap: 'wrap', flexDirection: 'row', alignItems: 'center' }}>
                     {
                       home.location_list.map((item, key) => {
                         return (
                           <TouchableOpacity style={{ height: height(16), width: width(43), marginRight: this.isOdd(key) ? width(3) : 0, marginVertical: 5, alignItems: 'center' }}
                             onPress={() => {
-                                store.LOCATION = item,
+                              store.LOCATION = item,
                                 store.moveToSearchLoc = true,
                                 this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                             }}>
