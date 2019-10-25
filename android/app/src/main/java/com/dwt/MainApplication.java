@@ -14,6 +14,7 @@ import android.util.Log;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.wix.interactable.Interactable;
 
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -72,7 +73,9 @@ public class MainApplication extends Application implements ReactApplication {
             new RNGestureHandlerPackage(),
             new ReanimatedPackage(),
             new MapsPackage(),
-            new RNFusedLocationPackage()
+            new RNFusedLocationPackage(),
+            new Interactable()
+
       );
     }
 
