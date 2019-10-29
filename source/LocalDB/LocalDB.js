@@ -16,6 +16,44 @@ class LocalDB {
         }
     }
 
+    static async saveHomepage(number) {
+        console.log('homepage==>>', number);
+        try {
+            await AsyncStorage.setItem('homepage', JSON.stringify(number));
+            return true;
+        } catch (error) {
+            // Error retrieving data
+            console.log('error is ',error.message);
+            return false;
+        }
+    }
+
+    static  getHomepage() {
+        
+        try {
+           
+           AsyncStorage.getItem('homepage').then((value)=>{
+            console.log('here here')
+            return value
+
+           });
+            // if(homepagenumber!=null){
+                // console.log('here here')
+                // const number = JSON.parse(homepagenumber);
+            // return 1;
+
+            // }
+        }
+        catch (error) {
+            console.log('error is', error.message);
+            return null;
+        }
+    }
+
+
+
+    
+
     static async getUserProfile() {
         let item = {};
         try {

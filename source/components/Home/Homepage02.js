@@ -1,4 +1,3 @@
-
 // Banner	ca-app-pub-3940256099942544/6300978111
 // Interstitial	ca-app-pub-3940256099942544/1033173712
 // Interstitial Video	ca-app-pub-3940256099942544/8691691433
@@ -8,7 +7,7 @@
 
 import React, { Component } from 'react';
 import {
-  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl
+  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl, I18nManager
 } from 'react-native';
 import {
   AdMobBanner,
@@ -27,13 +26,13 @@ import StarRating from 'react-native-star-rating';
 import Marker from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 import store from '../../Stores/orderStore';
-import styles from '../../../styles/Home';
+import styles from '../../../styles/Home2';
 import ApiController from '../../ApiController/ApiController';
-import ListingComponent from './ListingComponent';
+import ListingComponent from './ListingComponent2';
 import EventComponent from './EventComponent';
 import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpers/Responsive'
-import LocalDB from '../../LocalDB/LocalDB';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../helpers/Responsive'
+import ListingComponentBox from './ListingComponentBox2';
 @observer export default class Home extends Component<Props> {
   constructor(props) {
     super(props);
@@ -87,7 +86,6 @@ import LocalDB from '../../LocalDB/LocalDB';
   }
   componentDidMount = async () => {
     await this.interstitial()
-    
   }
   interstitial = () => {
     let data = store.settings.data;
@@ -216,83 +214,46 @@ import LocalDB from '../../LocalDB/LocalDB';
                     <FlatList
                       data={home.categories}
                       renderItem={({ item, key }) =>
-                        <View style={{
-                          marginTop: 15,
-                          marginBottom: 8,
-                          marginRight: 15,
-                          alignContent: 'center',
-                          alignItems: 'center'
-                          // marginHorizontal: 10,
-                        }}>
 
-                          <TouchableOpacity key={key} style={styles.flatlistChild}
-                            onPress={() => {
-                              store.CATEGORY = item,
-                                store.moveToSearch = true,
-                                this.navigateToScreen('SearchingScreen', data.menu.adv_search)
-                            }}
-                          >
-                            <Animatable.View
-                              duration={2000}
-                              animation="zoomIn"
-                              iterationCount={1}
-                              direction="alternate">
-                              <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
-                            </Animatable.View>
-                            <View style={{ height: width(4), width: width(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red', position: 'absolute', borderRadius: width(2), top: 0, right: 0 }}>
-                              <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>01</Text>
-                            </View>
 
-                          </TouchableOpacity>
+                        <TouchableOpacity key={key} style={styles.flatlistChild}
+                          onPress={() => {
+                            store.CATEGORY = item,
+                              store.moveToSearch = true,
+                              this.navigateToScreen('SearchingScreen', data.menu.adv_search)
+                          }}
+                        >
+                          <Animatable.View
+                            duration={2000}
+                            animation="zoomIn"
+                            iterationCount={1}
+                            direction="alternate">
+                            <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
+                          </Animatable.View>
 
-                          <Text style={[styles.childTxt, { fontWeight: '500' ,width:wp('18')}]}>{item.name}</Text>
+                          <Text style={[styles.childTxt, { fontWeight: '500', width: wp('18') }]}>{item.name}</Text>
+                          <Text style={[styles.childTxt2, { width: wp('18') }]}>01 Listings</Text>
 
-                        </View>
+
+                        </TouchableOpacity>
+
+
+
                       }
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
                     // keyExtractor={item => item.email}
                     />
                   </View>
-                  <View style={{ flex: 1.3, width: width(100) }}></View>
+                  {/* <View style={{ flex: 1.3, width: width(100) }}></View> */}
                 </View>
                 :
                 null
             }
-            {
-              home.listings_enabled ?
-                <View style={{ width: width(90), flexDirection: 'row', alignSelf: 'center', alignItems: 'center', marginTop: Platform.OS === 'ios' ? 15 : 15, marginBottom: 5 }}>
-                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
-                    <Text style={styles.recList}>{home.section_txt}</Text>
-                  </View>
-                  <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-                    <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>See All</Text>
-                    {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
-                  </TouchableOpacity>
-                </View>
-                :
-                null
-            }
-            {
-              home.listings_enabled ?
-                <View style={{ flex: 1, alignItems: 'center' }}>
-                  <FlatList
-                    data={home.listings}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item, key }) =>
-                      <ListingComponent item={item} key={key} listStatus={false} />
-                    }
-                    horizontal={false}
-                    showsHorizontalScrollIndicator={false}
-                  // keyExtractor={item => item.email}
-                  />
-                </View>
-                :
-                null
-            }
+            {/* /////////// */}
             {
               home.featured_enabled && home.featured_listings.has_featured_listings ?
-                <View style={{ width: width(100), marginTop: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#232323' }}>
+                <View style={{ width: width(100), alignItems: 'center', justifyContent: 'center', backgroundColor: '#232323' }}>
                   <View style={{ marginHorizontal: 20, width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
                     <Text style={{ marginVertical: 20, fontSize: 20, color: COLOR_PRIMARY, fontWeight: 'bold' }}>{home.featured_list_txt}</Text>
 
@@ -310,7 +271,21 @@ import LocalDB from '../../LocalDB/LocalDB';
                         return (
                           <TouchableOpacity style={{ width: width(55), backgroundColor: 'white', borderRadius: 5, marginRight: 10, marginBottom: 30 }} onPress={() => { store.LIST_ID = item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
                             <Image indicator={null} source={{ uri: item.image }} style={{ height: 220, width: width(55), borderTopLeftRadius: 5, borderTopRightRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 5 }} />
-                            <View style={{ height: height(5), width: width(55), position: 'absolute', }}>
+
+                            {
+                              I18nManager.isRTL ? [
+                                <Image
+                                  source={require('../../images/left-star.png')}
+                                  style={{ height: wp('8'), width: wp('8'), position: 'absolute', right: 0 }}
+                                />
+                              ] : [
+                                  <Image
+                                    source={require('../../images/right_Star.png')}
+                                    style={{ height: wp('8'), width: wp('8'), position: 'absolute', right: 0 }}
+                                  />
+                                ]
+                            }
+                            {/* <View style={{ height: height(5), width: width(55), position: 'absolute', }}>
                               <View style={{ position: 'absolute', right: 0 }}>
                                 <View style={styles.triangleCorner}></View>
                                 <Icon
@@ -319,10 +294,10 @@ import LocalDB from '../../LocalDB/LocalDB';
                                   type='entypo'
                                   color='white'
                                   containerStyle={{ marginRight: 0, marginLeft: 3, marginTop: 2, right: 1, position: 'absolute', resizeMode: 'contain' }}
-                                />
-                                {/* <Image source={require('../../images/starfill.png')} style={{ height: height(1.5), width: width(3), marginLeft: 4, marginTop: 4, position: 'absolute', resizeMode: 'contain' }} /> */}
-                              </View>
-                            </View>
+                                /> */}
+                            {/* <Image source={require('../../images/starfill.png')} style={{ height: height(1.5), width: width(3), marginLeft: 4, marginTop: 4, position: 'absolute', resizeMode: 'contain' }} /> */}
+                            {/* </View>
+                            </View> */}
                             <View style={{ backgroundColor: '#fff', borderRadius: 5, width: '97%', alignSelf: 'center', position: 'absolute', bottom: 3 }}>
                               <Text style={{ fontSize: 11, color: 'gray', marginHorizontal: 7, marginTop: 10, width: width(45) }}>{item.category_name}</Text>
                               <Text style={{ fontSize: 13, fontWeight: 'bold', color: COLOR_SECONDARY, marginHorizontal: 7, marginTop: 3, marginBottom: 5 }}>{item.listing_title}</Text>
@@ -362,6 +337,41 @@ import LocalDB from '../../LocalDB/LocalDB';
                 :
                 null
             }
+            {/* //////////  */}
+
+            {
+              home.listings_enabled ?
+                <View style={{ width: width(90), flexDirection: 'row', alignSelf: 'center', alignItems: 'center', marginTop: Platform.OS === 'ios' ? 15 : 15, marginBottom: 5 }}>
+                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+                    <Text style={styles.recList}>{home.section_txt}</Text>
+                  </View>
+                  <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+                    <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>See All</Text>
+                    {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
+                  </TouchableOpacity>
+                </View>
+                :
+                null
+            }
+            {
+              home.listings_enabled ?
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                  <FlatList
+                    data={home.listings}
+                    numColumns={2}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item, key }) =>
+                      <ListingComponentBox item={item} key={key} listStatus={false} />
+                    }
+                    horizontal={false}
+                    showsHorizontalScrollIndicator={false}
+                  // keyExtractor={item => item.email}
+                  />
+                </View>
+                :
+                null
+            }
+
             {/*
               home.location_enabled ?
                 <View style={{ marginHorizontal: 15 }}>
@@ -396,7 +406,7 @@ import LocalDB from '../../LocalDB/LocalDB';
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20,  color: COLOR_SECONDARY, marginVertical: 15 }}>Best Location</Text>
+                    <Text style={{ fontSize: 20,fontWeight:'bold',  color: COLOR_SECONDARY, marginVertical: 15 }}>Best Location</Text>
 
                     <Text style={{ marginVertical: 20, fontSize: 10, color: 'red', fontWeight: 'bold', position: 'absolute', right: 0 }}>See All</Text>
 
@@ -418,22 +428,41 @@ import LocalDB from '../../LocalDB/LocalDB';
                                   this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                               }}>
                               {/* <View style={{ height: 10 }} /> */}
-                              <View style={{  width: width(43.5), paddingHorizontal: wp('5'), paddingVertical: wp('3'), backgroundColor: '#fff', borderRadius: wp(3), }}>
-                                <Avatar
+                              <View style={{ height: wp('28'), width: width(43.5), backgroundColor: '#fff', borderRadius: wp(3), }}>
+                                <View style={{ height: wp('18'), width: '100%' }}>
+                                  <Image
+                                    source={{ uri: item.location_image }}
+                                    style={{ height: '100%', width: '100%' }}
+                                    resizeMode="cover"
+                                  />
+                                </View>
+
+                                {/* <Avatar
                                   size="medium"
-                                  rounded
+                                  
                                   source={{ uri: item.location_image }}
                                   containerStyle={{ resizeMode: 'contain', elevation: 2, shadowOpacity: 0.2 }}
                                   // onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: item.user_id, user_name: item.user_name })} 
                                   activeOpacity={1}
-                                />
+                                /> */}
                                 <View style={{ flexDirection: "row" }}>
-                                  <Text style={{ fontSize: totalSize(1.5), fontWeight: 'bold', marginLeft: 5, color: COLOR_SECONDARY, marginTop: 8 }}>{item.location_name}</Text>
-                                  <Image
-                                    source={require('../../images/right-arrow.png')}
-                                    resizeMode="contain"
-                                    style={{ height: 10, width: 10, position: 'absolute', right: 10, top: 12 }}
-                                  />
+                                  <Text style={{ fontSize: wp(2.5), fontWeight: 'bold', marginLeft: 5, color: COLOR_SECONDARY, marginTop: 8 }}>{item.location_name}</Text>
+                                  {
+                                    I18nManager.isRTL ? [
+                                      <Image
+                                        source={require('../../images/left-arrow.png')}
+                                        resizeMode="contain"
+                                        style={{ height: 10, width: 10, position: 'absolute', right: 10, top: 12 }}
+                                      />
+                                    ] : [
+                                        <Image
+                                          source={require('../../images/right-arrow.png')}
+                                          resizeMode="contain"
+                                          style={{ height: 10, width: 10, position: 'absolute', right: 10, top: 12 }}
+                                        />
+                                      ]
+                                  }
+
                                 </View>
                                 {/* <Text style={{ fontSize: totalSize(1.7), color: COLOR_SECONDARY, marginTop: 4 }}>{'View All'}</Text> */}
                                 {/* <Text style={{ fontSize: totalSize(1.7), color: COLOR_SECONDARY, marginTop: 4 }}>{item.location_ads}</Text> */}
@@ -487,7 +516,7 @@ import LocalDB from '../../LocalDB/LocalDB';
                     <Text style={styles.recList}>{home.latest_events}</Text>
                   </View>
                   <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-                    <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold',color:'red' }]}>See All</Text>
+                    <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: 'red' }]}>See All</Text>
                     {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
                   </TouchableOpacity>
                 </View>

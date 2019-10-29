@@ -7,6 +7,8 @@ import Store from './source/Stores';
 console.disableYellowBox=true
 import ApiController from './source/ApiController/ApiController';
 import { nav_header_color } from './styles/common';
+import LocalDB from '../DownTown/source/LocalDB/LocalDB'
+import Storage from '../DownTown/source/LocalDB/storage'
 
 export default class App extends Component<Props> {
   constructor(props) {
@@ -23,12 +25,14 @@ export default class App extends Component<Props> {
            // this.setState({ loading: false })
             clearInterval(timerId);
       } else {
-        console.warn('app.js')
+        console.log('app.js')
       }
      }, 5000);
   }
-  componentDidMount(){
+  async componentDidMount(){
     setTimeout(()=>{ this.setState({ color: store.statusbar_color }) },9000)
+    // await LocalDB.saveHomepage(1);
+    Storage.setItem('homepage',1)
   }
   render() {
     return (
