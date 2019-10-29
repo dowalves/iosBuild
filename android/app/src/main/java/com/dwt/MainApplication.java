@@ -14,15 +14,16 @@ import android.util.Log;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.wix.interactable.Interactable;
+//import com.wix.interactable.Interactable;
 
-import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
+//import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
+//import com.reactnativecommunity.webview.RNCWebViewPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.sbugert.rnadmob.RNAdMobPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.dooboolab.RNIap.RNIapPackage;
@@ -72,9 +73,7 @@ public class MainApplication extends Application implements ReactApplication {
             // new LottiePackage(),
             new RNGestureHandlerPackage(),
             new ReanimatedPackage(),
-            new MapsPackage(),
-            new RNFusedLocationPackage(),
-            new Interactable()
+            new MapsPackage()
 
       );
     }
