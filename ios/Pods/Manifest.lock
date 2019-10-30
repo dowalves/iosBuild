@@ -169,6 +169,8 @@ PODS:
   - Protobuf (3.10.0)
   - QBImagePickerController (3.4.0)
   - RCTRequired (0.61.2)
+  - RCTRestart (0.0.13):
+    - React
   - RCTTypeSafety (0.61.2):
     - FBLazyVector (= 0.61.2)
     - Folly (= 2018.10.22.00)
@@ -431,6 +433,7 @@ DEPENDENCIES:
   - GoogleSignIn
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
+  - RCTRestart (from `../node_modules/react-native-restart/ios`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
   - React-ART (from `../node_modules/react-native/Libraries/ART`)
@@ -518,6 +521,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-react-native"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
+  RCTRestart:
+    :path: "../node_modules/react-native-restart/ios"
   RCTTypeSafety:
     :path: "../node_modules/react-native/Libraries/TypeSafety"
   React:
@@ -624,6 +629,7 @@ SPEC CHECKSUMS:
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
+  RCTRestart: e8e3868a71dbec2cf8055fc2c0635db23c8c4479
   RCTTypeSafety: dc23fb655d6c77667c78e327bf661bc11e3b8aec
   React: 7e586e5d7bec12b91c1a096826b0fc9ab1da7865
   React-ART: 4893375cb803d3158fd2845ea9cdc33b535c5ff5
@@ -659,6 +665,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 0503aeeff055d79e89f1a6548351b5f5c7f4d128
+PODFILE CHECKSUM: 764ccbb905aa60bb65b0ee9f8c7c706dfbe1cf04
 
 COCOAPODS: 1.8.4
