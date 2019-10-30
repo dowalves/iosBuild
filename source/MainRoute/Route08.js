@@ -41,6 +41,7 @@ import { observer } from 'mobx-react';
 import store from '../Stores/orderStore';
 import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet';
 import { Icon, Avatar } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 
 const RootStack = createStackNavigator(
   {
@@ -77,13 +78,19 @@ const RootStack = createStackNavigator(
                   color='#fff'
                   containerStyle={{ marginLeft: 0, marginVertical: 3,marginRight:wp('2') }}
                 // containerStyle={styles.searchIcon}
-                // onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
+                onPress={() => {
+                  const navigateAction = NavigationActions.navigate({
+                    routeName: 'SearchingScreen'
+                  });
+                  navigation.setParams({ otherParam: 'search' });
+                  navigation.dispatch(navigateAction);
+                }}
                 />
-                <Image
+                {/* <Image
                      source={require('../../source/images/map_pin_icon_white.png')}
                      resizeMode="contain"
                      style={{height:wp('6'),width:wp('6'),alignSelf:'center'}}
-                />
+                /> */}
                 </View>
              
               {/* </View> */}

@@ -32,7 +32,11 @@ export default class App extends Component<Props> {
   async componentDidMount(){
     setTimeout(()=>{ this.setState({ color: store.statusbar_color }) },9000)
     // await LocalDB.saveHomepage(1);
-    Storage.setItem('homepage',11)
+    Storage.getItem('homepage').then((value)=>{
+      if(value==null){
+        Storage.setItem('homepage',1)
+      }
+    })
   }
   render() {
     return (

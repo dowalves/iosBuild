@@ -41,6 +41,7 @@ import { observer } from 'mobx-react';
 import store from '../Stores/orderStore';
 import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet6';
 import { Icon, Avatar } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 
 const RootStack = createStackNavigator(
   {
@@ -64,7 +65,7 @@ const RootStack = createStackNavigator(
             }}>
               <Image source={require('../images/menu_newhome2.png')} style={styles.drawerBtn} />
             </TouchableOpacity>
-            <View style={styles.headerTxtCon}>
+            <View style={[styles.headerTxtCon,{width:wp(88)}]}>
               {/* <View style={{ backgroundColor: '#fff', height: '90%', width: '90%', borderRadius: 10, alignItems: 'center', alignContent: 'center' }}> */}
               <TextInput
                 onChangeText={(value) => this.setState({ email: value })}
@@ -74,7 +75,13 @@ const RootStack = createStackNavigator(
                 underlineColorAndroid='transparent'
                 autoCorrect={false}
                 placeholderTextColor={"#fff"}
-                // onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
+                onFocus={() => {
+                  const navigateAction = NavigationActions.navigate({
+                    routeName: 'SearchingScreen'
+                  });
+                  navigation.setParams({ otherParam: 'search' });
+                  navigation.dispatch(navigateAction);
+                }}
                 style={{ height: wp(10), paddingLeft: 15, paddingVertical:wp('2.5'), backgroundColor: '#000', color: '#fff', width: '100%', borderRadius: wp('6'), fontSize: totalSize(1.5), }}
               />
               <Icon
@@ -84,14 +91,20 @@ const RootStack = createStackNavigator(
                 color='#fff'
                 containerStyle={{ marginLeft: 0, marginVertical: 3,position:'absolute',right: wp('2'),alignSelf:'center' }}
               // containerStyle={styles.searchIcon}
-              // onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
+              onPress={() => {
+                const navigateAction = NavigationActions.navigate({
+                  routeName: 'SearchingScreen'
+                });
+                navigation.setParams({ otherParam: 'search' });
+                navigation.dispatch(navigateAction);
+              }}
               />
             </View>
-            <Image
+            {/* <Image
                 source={require('../images/map_pin_icon.png')}
                 resizeMode="contain"
                 style={{ height: wp(7), width: wp(7), position: 'absolute', right: wp('2'),alignSelf:'center' }}
-              />
+              /> */}
 
             {/* <Text style={styles.headerTxt}>{navigation.getParam('otherParam', store.settings.data.menu.home)}</Text> */}
             {/* </View> */}

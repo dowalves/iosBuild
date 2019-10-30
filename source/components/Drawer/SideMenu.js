@@ -144,14 +144,14 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                 {this.state.isCollapsed === true ?
                   <View style={{ width: width(65), alignItems: 'flex-start', justifyContent: 'center', alignSelf: 'flex-end' }}>
                     <TouchableOpacity style={styles.drawerItem} onPress={
-                      data.package.has_package ? 
+                      data.package.has_package ?
                         this.navigateToScreen('ListingPostTabCon', data.menu.create_listing)
                         :
-                        ()=>{
-                          this.setState({ isAlert: true})
+                        () => {
+                          this.setState({ isAlert: true })
                         }
                     }>
-                      <View style={[styles.itemIconCon, { width: width(10), alignItems:'flex-start',alignSelf: 'flex-start' }]} >
+                      <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
                         <Form name='form' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
@@ -159,7 +159,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Dashboard', data.menu.dashboard)}>
-                      <View style={[styles.itemIconCon, { width: width(10), alignItems:'flex-start',alignSelf: 'flex-start' }]} >
+                      <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
                         <Form name='setting' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
@@ -167,7 +167,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ReviewsCon', data.menu.reviews)}>
-                      <View style={[styles.itemIconCon, { width: width(10), alignItems:'flex-start',alignSelf: 'flex-start' }]} >
+                      <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
                         <Form name='staro' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
@@ -175,7 +175,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('EventsTabs', data.menu.my_events)}>
-                      <View style={[styles.itemIconCon, { width: width(10), alignItems:'flex-start',alignSelf: 'flex-start' }]} >
+                      <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
                         <Form name='calendar' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
@@ -183,7 +183,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('SavedListing', data.menu.saved_listings)}>
-                      <View style={[styles.itemIconCon, { width: width(10), alignItems:'flex-start',alignSelf: 'flex-start' }]}>
+                      <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]}>
                         <Form name='hearto' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
@@ -257,6 +257,14 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                 </View>
               </TouchableOpacity>
           }
+          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Themes', data.menu.cats)}>
+            <View style={styles.itemIconCon}>
+              <Form name='windowso' size={22} color='white' />
+            </View>
+            <View style={styles.itemTxtCon}>
+              <Text style={styles.itemTxt}>{'Themes'}</Text>
+            </View>
+          </TouchableOpacity>
         </ScrollView>
         <Modal
           animationInTiming={500}
@@ -267,12 +275,12 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
           isVisible={this.state.isAlert}
           onBackdropPress={() => this.setState({ isAlert: false })}
           style={{ flex: 1 }}>
-            <View style={{ height: height(35), width: width(90), alignItems:'center',borderRadius: 5,borderColor: 'red', borderWidth: 0.5,alignSelf: 'center', backgroundColor: 'white' }}>
-                <View style={{ height: height(25), width: width(90),justifyContent:'center',alignItems:'center' }}>
-                  <LottieView source={require('../../animations/1174-warning.json')} autoPlay loop />
-                </View>
-                <Text style={{ marginHorizontal: 20, marginVertical: 10, color: 'black' }}>{data.package.message}</Text>
+          <View style={{ height: height(35), width: width(90), alignItems: 'center', borderRadius: 5, borderColor: 'red', borderWidth: 0.5, alignSelf: 'center', backgroundColor: 'white' }}>
+            <View style={{ height: height(25), width: width(90), justifyContent: 'center', alignItems: 'center' }}>
+              <LottieView source={require('../../animations/1174-warning.json')} autoPlay loop />
             </View>
+            <Text style={{ marginHorizontal: 20, marginVertical: 10, color: 'black' }}>{data.package.message}</Text>
+          </View>
         </Modal>
       </View>
     );

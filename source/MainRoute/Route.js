@@ -41,6 +41,9 @@ import { observer } from 'mobx-react';
 import store from '../Stores/orderStore';
 import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet';
 import { Icon, Avatar } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
+
+
 
 const RootStack = createStackNavigator(
   {
@@ -73,7 +76,13 @@ const RootStack = createStackNavigator(
                   placeholderTextColor='black'
                   underlineColorAndroid='transparent'
                   autoCorrect={false}
-                  // onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
+                  onFocus={() => {
+                    const navigateAction = NavigationActions.navigate({
+                      routeName: 'SearchingScreen'
+                    });
+                    navigation.setParams({ otherParam: 'search' });
+                    navigation.dispatch(navigateAction);
+                  }}
                   style={{ height: wp(10), paddingLeft: 15, paddingVertical: wp(2.5), backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), }}
                 />
 
@@ -86,7 +95,13 @@ const RootStack = createStackNavigator(
                   color='#fff'
                   containerStyle={{ marginLeft: 0, marginVertical: 3 }}
                 // containerStyle={styles.searchIcon}
-                // onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
+                onPress={() => {              
+                  const navigateAction = NavigationActions.navigate({
+                    routeName: 'SearchingScreen'
+                  });
+                  navigation.setParams({ otherParam: 'search' });
+                  navigation.dispatch(navigateAction);
+                }}
                 />
               </View>
 

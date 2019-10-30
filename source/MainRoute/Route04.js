@@ -41,6 +41,7 @@ import { observer } from 'mobx-react';
 import store from '../Stores/orderStore';
 import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet4';
 import { Icon, Avatar } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 
 const RootStack = createStackNavigator(
   {
@@ -58,35 +59,42 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: navigation.getParam('otherParam', store.settings.data.menu.home),
         header: (
-          <View style={[styles.overlyHeader, { backgroundColor: '#f9f9f9',justifyContent:'center' }]}>
+          <View style={[styles.overlyHeader, { backgroundColor: '#f9f9f9', justifyContent: 'center' }]}>
             <TouchableOpacity style={styles.drawerBtnCon} onPress={() => {
               navigation.toggleDrawer()
             }}>
               <Image source={require('../images/menu_newhome2.png')} style={styles.drawerBtn} />
             </TouchableOpacity>
-            <View style={[styles.headerTxtCon,{alignItems:'center',alignContent:'center',justifyContent:'center'}]}>
-            <Image
+            <View style={[styles.headerTxtCon, { alignItems: 'center', alignContent: 'center', justifyContent: 'center' }]}>
+              <Image
                 source={require('../images/splash_logo_black.png')}
                 resizeMode="contain"
-                style={{ height: wp(8), width: wp(50),alignSelf:'center',marginLeft:wp(-10) }}
+                style={{ height: wp(8), width: wp(50), alignSelf: 'center', marginLeft: wp(-10) }}
               />
-              <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'),position:'absolute',right: wp('8.5') }}>
+              <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('1') }}>
+              {/* <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('8.5') }}> */}
                 <Icon
                   size={wp(9)}
                   name='search'
                   type='evilicon'
                   color='black'
                   containerStyle={{ marginLeft: 0, marginVertical: 3 }}
-                // containerStyle={styles.searchIcon}
-                // onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
+                  // containerStyle={styles.searchIcon}
+                  onPress={() => {
+                    const navigateAction = NavigationActions.navigate({
+                      routeName: 'SearchingScreen'
+                    });
+                    navigation.setParams({ otherParam: 'search' });
+                    navigation.dispatch(navigateAction);
+                  }}
                 />
               </View>
 
-              <Image
+              {/* <Image
                 source={require('../images/map_pin_icon.png')}
                 resizeMode="contain"
-                style={{ height: wp(6), width: wp(6),position:'absolute',right: wp('1'), }}
-              />
+                style={{ height: wp(6), width: wp(6), position: 'absolute', right: wp('1'), }}
+              /> */}
 
             </View>
 

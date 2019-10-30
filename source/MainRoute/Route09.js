@@ -41,6 +41,7 @@ import { observer } from 'mobx-react';
 import store from '../Stores/orderStore';
 import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet';
 import { Icon, Avatar } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 
 const RootStack = createStackNavigator(
   {
@@ -69,20 +70,26 @@ const RootStack = createStackNavigator(
                
 
               </View>
-              <View style={{alignContent:'center',flexDirection:'row',alignItems:'center',justifyContent:'center',position:'absolute',right: wp('2'),}}>
+              <View style={{alignContent:'center',flexDirection:'row',alignItems:'center',justifyContent:'center',position:'absolute',right: wp('1'),}}>
                 <Icon
                   size={wp(7)}
                   name='search'
                   type='evilicon'
                   color='black'
-                  containerStyle={{ marginLeft: 0, marginVertical: 3,marginRight:wp('2') }}
+                  containerStyle={{ marginLeft: 0, marginVertical: 3,marginRight:wp('0') }}
                 // containerStyle={styles.searchIcon}
-                // onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
+                onPress={() => {
+                  const navigateAction = NavigationActions.navigate({
+                    routeName: 'SearchingScreen'
+                  });
+                  navigation.setParams({ otherParam: 'search' });
+                  navigation.dispatch(navigateAction);
+                }}
                 />
 
-              <Image source={require('../images/map_pin_icon.png')}
+              {/* <Image source={require('../images/map_pin_icon.png')}
               resizeMode="contain"
-              style={{height:wp('5'),width:wp('7')}} />
+              style={{height:wp('5'),width:wp('7')}} /> */}
 
               </View>
 
