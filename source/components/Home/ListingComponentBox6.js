@@ -1,15 +1,17 @@
+  
 import React, { Component } from 'react';
-import { Text, View, ImageBackground,I18nManager, TouchableOpacity } from 'react-native';
+import { Text, View, Image, ImageBackground, I18nManager, TouchableOpacity } from 'react-native';
 // import ProgressBar from 'react-native-progress/Bar';
 import ProgressImage from '../CustomTags/ImageTag';
-import { width } from 'react-native-dimension';
+import { width, height } from 'react-native-dimension';
 import { Icon } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import { COLOR_GRAY, COLOR_ORANGE } from '../../../styles/common';
 import { withNavigation } from 'react-navigation';
-import styles from '../../../styles/Home2';
+import styles from '../../../styles/Home6';
 import store from '../../Stores/orderStore';
-class ListingComponent extends Component<Props> {
+import { widthPercentageToDP as wp } from '../../helpers/Responsive';
+class ListingComponentBox extends Component<Props> {
     onStarRatingPress(rating) {
         this.setState({
             //   starCount: rating
@@ -21,12 +23,13 @@ class ListingComponent extends Component<Props> {
         // console.log('iamge uri==>>',item.image);
 
         return (
-            <TouchableOpacity style={[styles.featuredFLItem, { width: status ? width(95) : width(90) }]} onPress={() => { store.LIST_ID = item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
+            <TouchableOpacity style={[styles.featuredFLItemBox, { width: status ? wp(45) : wp(45) }]} onPress={() => { store.LIST_ID = item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
                 <View style={{
-                    height: 99,
-                    width: width(26),
-                    borderRadius: 15,
-                    marginLeft: 1,
+                    height: wp(40),
+                    width: wp(44),
+                    borderRadius: wp('2'),
+                    // marginLeft: 1,
+                    marginTop: wp(0.5),
                     backgroundColor: 'red',
                     alignSelf: "center",
                     overflow: "hidden",
@@ -37,10 +40,25 @@ class ListingComponent extends Component<Props> {
                             <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
                         </TouchableOpacity>
                     </ProgressImage>
-                </View>
 
-                <View style={styles.txtViewCon}>
-                    <View style={{ marginTop: 0, width: width(45), marginHorizontal: 7, flexDirection: 'row', alignItems: 'center' }}>
+                </View>
+                {
+                    I18nManager.isRTL ? [
+                        <Image
+                            source={require('../../images/left-star.png')}
+                            style={{ height: wp('8'), width: wp('8'), position: 'absolute', right: 0 }}
+                        />
+                    ] : [
+                            <Image
+                                source={require('../../images/right_Star.png')}
+                                style={{ height: wp('8'), width: wp('8'), position: 'absolute', right: 0 }}
+                            />
+                        ]
+                }
+
+
+                <View style={styles.txtViewConBox}>
+                    <View style={{ marginTop: wp('1'), width: wp(40), marginHorizontal: 7, flexDirection: 'row', alignItems: 'center' }}>
                         <Icon
                             size={18}
                             name='calendar'
@@ -48,22 +66,16 @@ class ListingComponent extends Component<Props> {
                             color='red'
                             containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                         />
-                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft:2 }}>{item.posted_date}</Text>
+                        <Text style={{ fontSize: 10, color: '#8a8a8a', marginLeft: 2 }}>{item.posted_date}</Text>
                     </View>
 
-                   
 
-                    <View style={{ width: width(50), alignItems: 'flex-start' }}>
-                        <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
+
+                    <View style={{ width: wp(40), alignItems: 'flex-start' }}>
+                        <Text style={styles.txtViewHeadingBox}>{item.listing_title}</Text>
                     </View>
 
-                    <View style={{ width: width(50),flexDirection:'row',marginTop:2 }}>
-                        <Text style={styles.subHeadingTxt}>2 Reviews  |</Text>
-                        <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
-                        <Text style={styles.subHeadingTxt}>{item.business_hours_status}</Text>
 
-                    </View>
-                    
                     {/* <View style={styles.ratingCon}>
                         <View style={styles.gradingCon}>
                             <StarRating
@@ -92,7 +104,7 @@ class ListingComponent extends Component<Props> {
                             color='red'
                             containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                         />
-                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2, }}>Arkansas, United States</Text>
+                        <Text style={{ fontSize: 10, color: '#8a8a8a', marginLeft: 2, }}>Arkansas, United States</Text>
                     </View>
 
                 </View>
@@ -100,4 +112,4 @@ class ListingComponent extends Component<Props> {
         );
     }
 }
-export default withNavigation(ListingComponent)
+export default withNavigation(ListingComponentBox)
