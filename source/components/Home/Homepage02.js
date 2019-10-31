@@ -42,6 +42,7 @@ import ListingComponentBox from './ListingComponentBox2';
   }
   static navigationOptions = { header: null };
   navigateToScreen = (route, title) => {
+    console.log("going going",title)
     const navigateAction = NavigationActions.navigate({
       routeName: route
     });
@@ -218,7 +219,8 @@ import ListingComponentBox from './ListingComponentBox2';
 
                         <TouchableOpacity key={key} style={styles.flatlistChild}
                           onPress={() => {
-                            store.CATEGORY = item,
+                              console.log('here category',item)
+                              store.CATEGORY = item,
                               store.moveToSearch = true,
                               this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                           }}

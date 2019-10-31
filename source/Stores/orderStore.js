@@ -36,8 +36,14 @@ class orderStore {
     @observable SEARCH_OBJ_EVENT = {};
     @observable moveToSearch = false;
     @observable moveToSearchLoc = false;
+    @observable moveToSearchTXT = false;
+    
 
     @observable CATEGORY = {};
+    @observable SEARCHTEXT = '';
+    setSearchText(text){
+        this.SEARCHTEXT=text
+    }
     @observable LOCATION = {};
     //Blogs
     @observable BLOGS = {};

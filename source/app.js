@@ -49,27 +49,27 @@ export default class AppMain extends Component<Props> {
     console.log('settings in app..js=', response);
     // orderStore.settings = response;
     if (response.success === true) {
-      Storage.getItem('homepageChangeCounter').then((res) => {
-        if (res != null) {
-          if(res<3)
-          {
-             Storage.getItem('homepage').then((resx) => {
-              if (resx != null) {
-                this.setState({ move: true, current: resx })
-                Storage.setItem('homepageChangeCounter',res+1)
+      // Storage.getItem('homepageChangeCounter').then((res) => {
+        // if (res != null) {
+          // if(res<3)
+          // {
+            //  Storage.getItem('homepage').then((resx) => {
+              // if (resx != null) {
+                // this.setState({ move: true, current: resx })
+                // Storage.setItem('homepageChangeCounter',res+1)
                 // console.log('resxxx', res)
-              }
-            })
-          }else{
+              // }
+            // })
+          // }else{
             this.setState({ move: true, current: Number(response.data.home_theme_type) })
-          }
+          // }
           console.log('resxxx', res)
-        }else{
-          Storage.setItem('homepageChangeCounter',0)
-          this.setState({ move: true, current: Number(response.data.home_theme_type) })
+        // }else{
+          // Storage.setItem('homepageChangeCounter',0)
+          // this.setState({ move: true, current: Number(response.data.home_theme_type) })
 
-        }
-      })
+        // }
+      // })
       // if(Number(orderStore.settings.data.home_theme_type))
       // orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
       // this.props.navigation.replace('Drawer'); //MainScreen

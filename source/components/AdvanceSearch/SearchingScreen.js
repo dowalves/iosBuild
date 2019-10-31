@@ -49,6 +49,29 @@ import ListingComponent from '../Home/ListingComponent';
             await this.getSearchList()
         });
     }
+
+
+    async UNSAFE_componentWillReceiveProps(props) {
+        console.log('ok so I received', props)
+        this.getSearchList()
+    }
+
+    // static getDerivedStateFromProps(nextProps, prevState){
+    //     if(nextProps.someValue!==prevState.someValue){
+    //       return { someState: nextProps.someValue};
+    //    }
+    // console.log('ok so I received next props', nextProps)
+    // console.log('ok so I received prev props', prevState)
+       
+    // return null;
+    //  }
+    //  componentDidUpdate(prevProps,prevState){
+        // console.log('ok so I received prev props', prevProps)
+        // console.log('ok so I received prev state', prevState)
+        // if(prevProps.)
+        // this.getSearchList()
+    // }
+     
     interstitial = () => {
         let data = store.settings.data;
         try {
@@ -65,15 +88,20 @@ import ListingComponent from '../Home/ListingComponent';
     }
     _sort = () => this.setState({ sorting: !this.state.sorting })
     componentWillMount = async () => {
+        // console.log('this props',this.props)
         await this.getSearchList()
     }
     getSearchList = async () => {
         let { orderStore } = Store;
         let { params } = this.props.navigation.state;
-        if (this.state.search.length !== 0) {
-            store.SEARCH_OBJ.by_title = this.state.search;
-        } else {
-            // store.SEARCH_OBJ.by_title = this.state.search;
+        // if (this.state.search.length !== 0) {
+        //     store.SEARCH_OBJ.by_title = this.state.search;
+        // } else {
+        //     // store.SEARCH_OBJ.by_title = this.state.search;
+        // }
+
+        if (store.moveToSearchTXT === true) {
+            store.SEARCH_OBJ.by_title = store.SEARCHTEXT;
         }
         if (store.moveToSearch === true) {
             store.SEARCH_OBJ.l_category = store.CATEGORY.category_id;
@@ -84,6 +112,7 @@ import ListingComponent from '../Home/ListingComponent';
         // console.log('paramsPPP===>>>', store.SEARCH_OBJ);
         try {
             this.setState({ loading: true })
+            console.log('before listing search api call store is', store)
             //API calling
             let response = await ApiController.post('listing-search', store.SEARCH_OBJ);
             orderStore.SEARCHING.LISTING_SEARCH = response;
@@ -192,9 +221,11 @@ import ListingComponent from '../Home/ListingComponent';
         let data = store.SEARCHING.LISTING_FILTER.data;
         let home = orderStore.home.homeGet.data.advanced_search;
         let settings = store.settings.data;
+        let searchtxt = store.SEARCHTEXT
+        // console.log('inside render list is',list)
         return (
             <View style={styles.container}>
-                <View style={{ height: height(10), width: width(100), backgroundColor: store.settings.data.navbar_clr, justifyContent: 'center', alignItems: 'center' }}>
+                {/* <View style={{ height: height(10), width: width(100), backgroundColor: store.settings.data.navbar_clr, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ height: height(7), width: width(90), backgroundColor: COLOR_PRIMARY, borderRadius: 5, flexDirection: 'row', alignItems: 'center' }}>
                         <TextInput
                             style={{ width: width(80), alignSelf: 'stretch', paddingHorizontal: 10 }}
@@ -212,7 +243,7 @@ import ListingComponent from '../Home/ListingComponent';
                             <Image source={require('../../images/searching-magnifying.png')} style={{ height: height(3), width: width(5), resizeMode: 'contain' }} />
                         </TouchableOpacity>
                     </View>
-                </View>
+                </View> */}
                 <View style={{ height: height(8), width: width(100), backgroundColor: 'rgba(0,0,0,0.9)', flexDirection: 'row', borderColor: 'white', borderWidth: 0, alignItems: 'center' }}>
                     <TouchableOpacity style={{ height: height(5), width: width(33.3), flexDirection: 'row', borderRightWidth: 1, borderRightColor: 'rgba(241,241,241,0.2)', justifyContent: 'center', alignItems: 'center' }} onPress={() => this.props.navigation.navigate('AdvanceSearch', { navigateToScreen: this.navigateToScreen, getSearchList: this.getSearchList })}>
                         <Image source={require('../../images/filterNew.png')} style={{ height: height(3), width: width(5), resizeMode: 'contain', marginHorizontal: 5 }} />
@@ -342,6 +373,7 @@ import ListingComponent from '../Home/ListingComponent';
                             null
                     }
                 </View>
+              
             </View>
         );
     }
