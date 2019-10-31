@@ -34,7 +34,7 @@ export default class App extends Component<Props> {
     // await LocalDB.saveHomepage(1);
     Storage.getItem('homepage').then((value)=>{
       // if(value==null){
-        Storage.setItem('homepage',11)
+        Storage.setItem('homepage',7)
       // }
     })
   }

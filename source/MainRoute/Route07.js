@@ -30,6 +30,7 @@ import ReviewsCon from '../components/Reviews/ReviewsCon';
 import SavedListing from '../components/SavedListing/SavedListing';
 import AdvanceSearch from '../components/AdvanceSearch/AdvanceSearch';
 import SearchingScreen from '../components/AdvanceSearch/SearchingScreen';
+import SearchingScreenW from '../components/AdvanceSearch/SearchingScreenWBar';
 import EventsTabs from '../components/Events/EventsTabs';
 import CreactEvent from '../components/Events/CreateEvent';
 import Categories from '../components/Categories/Categories';
@@ -77,7 +78,7 @@ const RootStack = createStackNavigator(
            
             <View style={{ flexDirection: 'row', marginRight: wp('2'), position: 'absolute', right: wp('0') }}>
               {
-                navigation.state.index==5?[]:[
+                navigation.state.index==5 || navigation.state.index==4 ?[]:[
                   <Icon
                   size={wp(7)}
                   name='search'
@@ -128,7 +129,7 @@ const RootStack = createStackNavigator(
     ReviewsCon: ReviewsCon,
     SavedListing: SavedListing,
     AdvanceSearch: AdvanceSearch,
-    SearchingScreen: SearchingScreen,
+    SearchingScreen: SearchingScreenW,
     EventsTabs: EventsTabs,
     CreactEvent: CreactEvent,
     Categories: Categories,

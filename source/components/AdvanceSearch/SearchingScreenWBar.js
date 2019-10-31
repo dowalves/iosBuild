@@ -32,6 +32,7 @@ import ListingComponent from '../Home/ListingComponent';
             sorting: false,
             sortCheck: false,
             search: '',
+            firstDone:false
         }
     }
     static navigationOptions = { header: null };
@@ -65,16 +66,40 @@ import ListingComponent from '../Home/ListingComponent';
     }
     _sort = () => this.setState({ sorting: !this.state.sorting })
     componentWillMount = async () => {
+        // if(this.props)
+
         await this.getSearchList()
     }
     getSearchList = async () => {
+        // console.log('this props',this.props)
         let { orderStore } = Store;
         let { params } = this.props.navigation.state;
-        if (this.state.search.length !== 0) {
-            store.SEARCH_OBJ.by_title = this.state.search;
-        } else {
-            // store.SEARCH_OBJ.by_title = this.state.search;
+        if(this.state.firstDone==false){
+            if(this.props.navigation.state.params.from!=undefined){
+                if(this.props.navigation.state.params.from=="home007"){
+                    this.setState({firstDone:true})
+                    if (this.props.navigation.state.params.search_text.length !== 0) {
+                        store.SEARCH_OBJ.by_title = this.props.navigation.state.params.search_text;
+                    } else {
+                        // store.SEARCH_OBJ.by_title = this.state.search;
+                    }
+                }
+            }else{
+                if (this.state.search.length !== 0) {
+                    store.SEARCH_OBJ.by_title = this.state.search;
+                } else {
+                    // store.SEARCH_OBJ.by_title = this.state.search;
+                }
+            }
+        }else{
+            if (this.state.search.length !== 0) {
+                store.SEARCH_OBJ.by_title = this.state.search;
+            } else {
+                // store.SEARCH_OBJ.by_title = this.state.search;
+            }
         }
+      
+       
         if (store.moveToSearch === true) {
             store.SEARCH_OBJ.l_category = store.CATEGORY.category_id;
         }

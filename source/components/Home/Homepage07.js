@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 import {
-  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl
+  Platform, SafeAreaView, Text, View, ImageBackground, Keyboard,Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl
 } from 'react-native';
 import {
   AdMobBanner,
@@ -37,6 +37,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
     super(props);
     this.state = {
       loading: false,
+      searchtxt: ''
     }
   }
   static navigationOptions = { header: null };
@@ -174,20 +175,49 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
               <View style={{ flexDirection: 'row', marginTop: wp('4') }}>
                 <View style={{ height: wp('10'), width: wp('80'), backgroundColor: '#202224', borderRadius: wp('1.5') }}>
                   <TextInput
+                    onChangeText={(value) => this.setState({ searchtxt: value })}
+                    underlineColorAndroid='transparent'
+                    value={this.state.searchtxt}
+
                     placeholder="What are you looking for..."
                     placeholderTextColor="#fff"
 
-                    style={{ color: '#fff', paddingLeft: wp('2'),paddingVertical:wp('2.8'), justifyContent:'center',alignContent: 'center', alignItems: 'center', fontSize: wp('3') }}
+
+
+                    style={{ color: '#fff', paddingLeft: wp('2'), paddingVertical: wp('2.8'), justifyContent: 'center', alignContent: 'center', alignItems: 'center', fontSize: wp('3') }}
                   />
                 </View>
-                <View style={{backgroundColor:'red',marginLeft:wp('2'),borderRadius:wp('1.5'),paddingHorizontal:wp('2.5'),alignContent:'center',alignItems:'center',justifyContent:'center'}}>
+                <TouchableOpacity 
+                 onPress={() => {
+                  // console.log('navigaitonxxx', NavigationActions)
+                  // console.log('searchtext', this.state.searchtxt)
+                  Keyboard.dismiss()
+                  store.SEARCHTEXT=this.state.searchtxt,
+                  store.moveToSearchTXT = true
+                  // if(this.props.navigation.state.index != 4 ){
+                    const navigateAction = NavigationActions.navigate({
+                      routeName: 'SearchingScreen',
+                      params:{search_text:this.state.searchtxt, from:'home007'}
+                    });
+                    this.props.navigation.setParams({ 
+                      params: { search_text: this.state.searchtxt , from:'home007'},
+                      key: 'screen-123',
+                     });
+                    this.props.navigation.dispatch(navigateAction);
+                  // }
+                  // this.setState({searchtxt:''})
+                
+                }}
+                style={{ backgroundColor: 'red', marginLeft: wp('2'), borderRadius: wp('1.5'), paddingHorizontal: wp('2.5'), alignContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
                   <Icon
                     size={wp(5)}
                     name='search'
                     type='evilicon'
                     color='#fff'
-                    containerStyle={{ marginLeft: 0,  }} />
-                </View>
+                    containerStyle={{ marginLeft: 0, }} 
+                   
+                    />
+                </TouchableOpacity>
               </View>
 
 
@@ -200,7 +230,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20,fontWeight:'bold',  color: '#fff', marginVertical: 15 }}>Best Location</Text>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff', marginVertical: 15 }}>Best Location</Text>
 
                     <Text style={{ marginVertical: 20, fontSize: 10, color: '#fff', fontWeight: 'bold', position: 'absolute', right: 0 }}>See All</Text>
 
