@@ -215,7 +215,7 @@ dependencies {
     // strip payment method
     implementation project(':tipsi-stripe')
     // Lottie animations
-//    implementation project(':lottie-react-native')
+//   implementation project(':lottie-react-native')
     //Navigation
     implementation project(':react-native-gesture-handler')
     implementation project(':react-native-reanimated')
