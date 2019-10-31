@@ -33,9 +33,9 @@ export default class App extends Component<Props> {
     setTimeout(()=>{ this.setState({ color: store.statusbar_color }) },9000)
     // await LocalDB.saveHomepage(1);
     Storage.getItem('homepage').then((value)=>{
-      if(value==null){
-        Storage.setItem('homepage',1)
-      }
+      // if(value==null){
+        Storage.setItem('homepage',4)
+      // }
     })
   }
   render() {

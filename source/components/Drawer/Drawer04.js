@@ -17,6 +17,7 @@ import Packages from '../Packages/Packages';
 import ReviewsCon from '../Reviews/ReviewsCon';
 import SavedListing from '../SavedListing/SavedListing';
 import EventsTabs from '../Events/EventsTabs';
+import SearchingScreenW from '../AdvanceSearch/SearchingScreenWBar';
 import SearchingScreen from '../AdvanceSearch/SearchingScreen';
 import Categories from '../Categories/Categories';
 import ListingPostTabCon from '../PostListings/ListingPostTabCon';
@@ -40,7 +41,7 @@ const DrawerComp = createDrawerNavigator({
   ReviewsCon: ReviewsCon,
   SavedListing: SavedListing,
   EventsTabs: EventsTabs,
-  SearchingScreen: SearchingScreen,
+  SearchingScreen: SearchingScreenW,
   PublicEvents: PublicEvents,
   Categories: Categories,
   Themes: Themes,
