@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../source/helpers/Responsive'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../source/helpers/Responsive'
 //Authentication
 import Splash from '../components/SplashScreen/Splash';
 import MainScreen from '../components/MainScreen/MainScreen';
@@ -30,6 +30,7 @@ import ReviewsCon from '../components/Reviews/ReviewsCon';
 import SavedListing from '../components/SavedListing/SavedListing';
 import AdvanceSearch from '../components/AdvanceSearch/AdvanceSearch';
 import SearchingScreen from '../components/AdvanceSearch/SearchingScreen';
+import SearchingScreenW from '../components/AdvanceSearch/SearchingScreenWBar';
 import EventsTabs from '../components/Events/EventsTabs';
 import CreactEvent from '../components/Events/CreateEvent';
 import Categories from '../components/Categories/Categories';
@@ -67,32 +68,37 @@ const RootStack = createStackNavigator(
             </TouchableOpacity>
             <View style={styles.headerTxtCon}>
               {/* <View style={{ backgroundColor: '#fff', height: '90%', width: '90%', borderRadius: 10, alignItems: 'center', alignContent: 'center' }}> */}
-               
-              </View>
-              <View style={{flexDirection:'row',marginRight:wp('2'),position:'absolute',right:wp('1')}}>
-                <Icon
-                  size={wp(7)}
-                  name='search'
-                  type='evilicon'
-                  color='#000'
-                  containerStyle={{ marginLeft: 0, marginVertical: 3,marginRight:wp('2') }}
-                // containerStyle={styles.searchIcon}
-                onPress={() => {
-                  const navigateAction = NavigationActions.navigate({
-                    routeName: 'SearchingScreen'
-                  });
-                  navigation.setParams({ otherParam: 'search' });
-                  navigation.dispatch(navigateAction);
-                }}
-                />
-                {/* <Image
-                     source={require('../../source/images/map_pin_icon.png')}
-                     resizeMode="contain"
-                     style={{height:wp('6'),width:wp('6'),alignSelf:'center'}}
-                /> */}
-                </View>
 
-              {/* <Text style={styles.headerTxt}>{navigation.getParam('otherParam', store.settings.data.menu.home)}</Text> */}
+            </View>
+            {
+              navigation.state.index == 4 ? [] : [
+                <View style={{ flexDirection: 'row', marginRight: wp('2'), position: 'absolute', right: wp('1') }}>
+                  <Icon
+                    size={wp(7)}
+                    name='search'
+                    type='evilicon'
+                    color='#000'
+                    containerStyle={{ marginLeft: 0, marginVertical: 3, marginRight: wp('2') }}
+                    // containerStyle={styles.searchIcon}
+                    onPress={() => {
+                      const navigateAction = NavigationActions.navigate({
+                        routeName: 'SearchingScreen'
+                      });
+                      navigation.setParams({ otherParam: 'search' });
+                      navigation.dispatch(navigateAction);
+                    }}
+                  />
+                  {/* <Image
+                       source={require('../../source/images/map_pin_icon.png')}
+                       resizeMode="contain"
+                       style={{height:wp('6'),width:wp('6'),alignSelf:'center'}}
+                  /> */}
+                </View>
+              ]
+            }
+
+
+            {/* <Text style={styles.headerTxt}>{navigation.getParam('otherParam', store.settings.data.menu.home)}</Text> */}
             {/* </View> */}
             <View style={{ flex: 1 }}></View>
             {/* <Image source={require('../images/search_white.png')} style={styles.headerSearch} />
@@ -114,7 +120,7 @@ const RootStack = createStackNavigator(
     ReviewsCon: ReviewsCon,
     SavedListing: SavedListing,
     AdvanceSearch: AdvanceSearch,
-    SearchingScreen: SearchingScreen,
+    SearchingScreen: SearchingScreenW,
     EventsTabs: EventsTabs,
     CreactEvent: CreactEvent,
     Categories: Categories,
