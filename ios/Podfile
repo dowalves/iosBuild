@@ -84,7 +84,6 @@ target 'DWT' do
 
     pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
-    pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
 
 
@@ -109,6 +108,8 @@ target 'DWT' do
     pod 'react-native-geolocation', path: '../node_modules/@react-native-community/geolocation'
 
     pod 'RCTRestart', :path => '../node_modules/react-native-restart/ios'
+
+    pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   end
 

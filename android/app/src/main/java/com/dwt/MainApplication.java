@@ -15,7 +15,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 //import com.wix.interactable.Interactable;
-//import com.airbnb.android.react.lottie.LottiePackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 
 //import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -73,7 +73,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNIapPackage(),
             new RNPaypalPackage(),
             new StripeReactPackage(),
-//             new LottiePackage(),
+             new LottiePackage(),
             new RNGestureHandlerPackage(),
             new ReanimatedPackage(),
             new MapsPackage()
