@@ -30,6 +30,7 @@ import ReviewsCon from '../components/Reviews/ReviewsCon';
 import SavedListing from '../components/SavedListing/SavedListing';
 import AdvanceSearch from '../components/AdvanceSearch/AdvanceSearch';
 import SearchingScreen from '../components/AdvanceSearch/SearchingScreen';
+import SearchingScreenW from '../components/AdvanceSearch/SearchingScreenWBar';
 import EventsTabs from '../components/Events/EventsTabs';
 import CreactEvent from '../components/Events/CreateEvent';
 import Categories from '../components/Categories/Categories';
@@ -68,24 +69,29 @@ const RootStack = createStackNavigator(
             </TouchableOpacity>
             <View style={[styles.headerTxtCon, { alignItems: 'center', alignContent: 'center', justifyContent: 'center' }]}>
               <Text style={{ fontSize: wp('4.5'), fontWeight: 'bold', color: '#fff', marginLeft: wp(-10) }}>Down Town</Text>
-              <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('1') }}>
-              {/* <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('8.5') }}> */}
-                <Icon
-                  size={wp(9)}
-                  name='search'
-                  type='evilicon'
-                  color='white'
-                  containerStyle={{ marginLeft: 0, marginVertical: 3 }}
-                  // containerStyle={styles.searchIcon}
-                  onPress={() => {
-                    const navigateAction = NavigationActions.navigate({
-                      routeName: 'SearchingScreen'
-                    });
-                    navigation.setParams({ otherParam: 'search' });
-                    navigation.dispatch(navigateAction);
-                  }}
-                />
-              </View>
+              {
+                navigation.state.index == 4 ? [] : [
+                  <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('1') }}>
+                    {/* <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('8.5') }}> */}
+                    <Icon
+                      size={wp(9)}
+                      name='search'
+                      type='evilicon'
+                      color='white'
+                      containerStyle={{ marginLeft: 0, marginVertical: 3 }}
+                      // containerStyle={styles.searchIcon}
+                      onPress={() => {
+                        const navigateAction = NavigationActions.navigate({
+                          routeName: 'SearchingScreen'
+                        });
+                        navigation.setParams({ otherParam: 'search' });
+                        navigation.dispatch(navigateAction);
+                      }}
+                    />
+                  </View>
+                ]
+              }
+
 
               {/* <Image
                 source={require('../images/map_pin_icon_white.png')}
@@ -115,7 +121,7 @@ const RootStack = createStackNavigator(
     ReviewsCon: ReviewsCon,
     SavedListing: SavedListing,
     AdvanceSearch: AdvanceSearch,
-    SearchingScreen: SearchingScreen,
+    SearchingScreen: SearchingScreenW,
     EventsTabs: EventsTabs,
     CreactEvent: CreactEvent,
     Categories: Categories,

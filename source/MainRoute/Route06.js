@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native';
+import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert, Keyboard } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../source/helpers/Responsive'
@@ -43,6 +43,74 @@ import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet6';
 import { Icon, Avatar } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 
+
+@observer export class HeaderRoute6 extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      searchtxt: ''
+    }
+    //  this.te .xtInput=null
+  }
+
+  render() {
+    return (
+      <View style={[styles.overlyHeader, { backgroundColor: '#f9f9f9', alignContent: 'center', alignItems: 'center' }]}>
+        <TouchableOpacity style={styles.drawerBtnCon} onPress={() => {
+          this.props.navigation.toggleDrawer()
+        }}>
+          <Image source={require('../images/menu_newhome2.png')} style={styles.drawerBtn} />
+        </TouchableOpacity>
+        <View style={[styles.headerTxtCon, { width: wp(88) }]}>
+          {/* <View style={{ backgroundColor: '#fff', height: '90%', width: '90%', borderRadius: 10, alignItems: 'center', alignContent: 'center' }}> */}
+          <TextInput
+            onChangeText={(value) => this.setState({ searchtxt: value })}
+            underlineColorAndroid='transparent'
+            placeholder={"What are you looking for..."}
+            // placeholderTextColor='black'
+            value={this.state.searchtxt}
+            underlineColorAndroid='transparent'
+            autoCorrect={false}
+            placeholderTextColor={"#fff"}
+
+            style={{ height: wp(10), paddingLeft: 15, paddingVertical: wp('2.5'), backgroundColor: '#000', color: '#fff', width: '100%', borderRadius: wp('6'), fontSize: totalSize(1.5), }}
+          />
+          <Icon
+            size={wp(6)}
+            name='search'
+            type='evilicon'
+            color='#fff'
+            containerStyle={{ marginLeft: 0, marginVertical: 3, position: 'absolute', right: wp('2'), alignSelf: 'center' }}
+            // containerStyle={styles.searchIcon}
+            onPress={() => {
+            // console.log('navigaitonxxx', NavigationActions)
+              // console.log('searchtext', this.state.searchtxt)
+              Keyboard.dismiss()
+              store.SEARCHTEXT = this.state.searchtxt,
+                store.moveToSearchTXT = true
+              // if(this.props.navigation.state.index != 4 ){
+              const navigateAction = NavigationActions.navigate({
+                routeName: 'SearchingScreen',
+                params: { search_text: this.state.searchtxt }
+              });
+              this.props.navigation.setParams({
+                params: { search_text: this.state.searchtxt },
+                key: 'screen-123',
+              });
+              this.props.navigation.dispatch(navigateAction);
+            }}
+          />
+        </View>
+      
+        <View style={{ flex: 1 }}></View>
+       
+      </View>
+              ///////////////////
+
+    )
+  }
+}
+
 const RootStack = createStackNavigator(
   {
     Splash: Splash,
@@ -59,59 +127,7 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: navigation.getParam('otherParam', store.settings.data.menu.home),
         header: (
-          <View style={[styles.overlyHeader, { backgroundColor: '#f9f9f9',alignContent:'center',alignItems:'center' }]}>
-            <TouchableOpacity style={styles.drawerBtnCon} onPress={() => {
-              navigation.toggleDrawer()
-            }}>
-              <Image source={require('../images/menu_newhome2.png')} style={styles.drawerBtn} />
-            </TouchableOpacity>
-            <View style={[styles.headerTxtCon,{width:wp(88)}]}>
-              {/* <View style={{ backgroundColor: '#fff', height: '90%', width: '90%', borderRadius: 10, alignItems: 'center', alignContent: 'center' }}> */}
-              <TextInput
-                onChangeText={(value) => this.setState({ email: value })}
-                underlineColorAndroid='transparent'
-                placeholder={"What are you looking for..."}
-                // placeholderTextColor='black'
-                underlineColorAndroid='transparent'
-                autoCorrect={false}
-                placeholderTextColor={"#fff"}
-                onFocus={() => {
-                  const navigateAction = NavigationActions.navigate({
-                    routeName: 'SearchingScreen'
-                  });
-                  navigation.setParams({ otherParam: 'search' });
-                  navigation.dispatch(navigateAction);
-                }}
-                style={{ height: wp(10), paddingLeft: 15, paddingVertical:wp('2.5'), backgroundColor: '#000', color: '#fff', width: '100%', borderRadius: wp('6'), fontSize: totalSize(1.5), }}
-              />
-              <Icon
-                size={wp(6)}
-                name='search'
-                type='evilicon'
-                color='#fff'
-                containerStyle={{ marginLeft: 0, marginVertical: 3,position:'absolute',right: wp('2'),alignSelf:'center' }}
-              // containerStyle={styles.searchIcon}
-              onPress={() => {
-                const navigateAction = NavigationActions.navigate({
-                  routeName: 'SearchingScreen'
-                });
-                navigation.setParams({ otherParam: 'search' });
-                navigation.dispatch(navigateAction);
-              }}
-              />
-            </View>
-            {/* <Image
-                source={require('../images/map_pin_icon.png')}
-                resizeMode="contain"
-                style={{ height: wp(7), width: wp(7), position: 'absolute', right: wp('2'),alignSelf:'center' }}
-              /> */}
-
-            {/* <Text style={styles.headerTxt}>{navigation.getParam('otherParam', store.settings.data.menu.home)}</Text> */}
-            {/* </View> */}
-            <View style={{ flex: 1 }}></View>
-            {/* <Image source={require('../images/search_white.png')} style={styles.headerSearch} />
-            <Image source={require('../images/cart.png')} style={styles.cart} /> */}
-          </View>
+         <HeaderRoute6 navigation={navigation}/>
         )
       }),
     },
