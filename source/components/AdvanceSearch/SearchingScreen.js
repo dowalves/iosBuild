@@ -52,7 +52,7 @@ import ListingComponent from '../Home/ListingComponent';
 
 
     async UNSAFE_componentWillReceiveProps(props) {
-        console.log('ok so I received', props)
+        // console.log('ok so I received', props)
         this.getSearchList()
     }
 
@@ -134,6 +134,7 @@ import ListingComponent from '../Home/ListingComponent';
         store.CATEGORY = {};
         store.LOCATION = {};
         store.SEARCH_OBJ = {};
+        store.SEARCHTEXT=""
         await this.setState({
             search: ''
         })

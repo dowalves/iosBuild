@@ -98,6 +98,7 @@ import { NavigationActions } from 'react-navigation';
                 key: 'screen-123',
               });
               this.props.navigation.dispatch(navigateAction);
+              // this.setState({searchtxt:''})
             }}
           />
         </View>

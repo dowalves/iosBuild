@@ -27,7 +27,7 @@ class ListingComponent extends Component<Props> {
                     width: width(26),
                     borderRadius: 15,
                     marginLeft: 1,
-                    backgroundColor: 'red',
+                    // backgroundColor: 'red',
                     alignSelf: "center",
                     overflow: "hidden",
 

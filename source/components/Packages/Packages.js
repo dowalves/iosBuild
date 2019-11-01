@@ -24,7 +24,7 @@ const theme = {
   errorColor: 'red'
 };
 let itemSkewsIos = [];
-let itemSkewsAndroid =[];
+let itemSkewsAndroid = [];
 
 let packgeIdIap = '';
 let packageTypeIap = '';
@@ -50,23 +50,22 @@ export default class Packages extends Component<Props> {
   static navigationOptions = {
     header: null,
   };
-  inAppPurchase = async (pkgId, pkgType, item,model) => {
+  inAppPurchase = async (pkgId, pkgType, item, model) => {
     packageTypeIap = pkgType;
     packgeIdIap = pkgId;
     let code = '';
-    if(Platform.OS == 'ios')
-    {
+    if (Platform.OS == 'ios') {
       code = model.ios.code;
     }
     else
-    code = model.android.code;
+      code = model.android.code;
     this.requestSubscription(code);
-    
+
     // this.setState({ breaker: 0 })
     // try {
     //   console.warn(code);
     //   RNIap.requestPurchase(code,true); //ios: com.scriptsbundle.DWT.business , android: 12 ,item.android.code
-     
+
     //   console.warn(re);
     //   await RNIap.purchaseUpdatedListener(async (purchase) => {
     //     if (Platform.OS === 'ios') {
@@ -84,8 +83,8 @@ export default class Packages extends Component<Props> {
     //   this.setState({ breaker: 0 })
     //   console.log('inAppPurchase ERROR===>>>', err.code, err.message);
     // }
-  } 
-  
+  }
+
   purchaseUpdateSubscription;
   purchaseErrorSubscription;
   async componentDidMount() {
@@ -93,73 +92,78 @@ export default class Packages extends Component<Props> {
 
     try {
       const itemSkus = Platform.select({
-        ios: 
+        ios:
           itemSkewsIos
         ,
-        android: 
+        android:
           itemSkewsAndroid
-        
+
       });
-      console.warn(itemSkewsIos);
+      // console.warn(itemSkewsIos);
       const products: Product[] = await RNIap.getSubscriptions(itemSkus);
-        console.warn("PRoducts===>",products);
+      console.warn("PRoducts===>", products);
       const result = await RNIap.initConnection();
       console.log('result', result);
     } catch (err) {
-      console.warn(err.code, err.message);
+      console.log(err.code, err.message);
     }
-    this.purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
-    (purchase: ProductPurchase) => {
-      if (Platform.OS === 'ios') {
-                RNIap.finishTransactionIOS(purchase.transactionId);
-             } 
-             else
+    if (products.length > 0) {
+      this.purchaseUpdateSubscription =
+        RNIap.purchaseUpdatedListener(
+          (purchase: ProductPurchase) => {
+            console.log('purchase is', purchase)
+            if (Platform.OS === 'ios') {
+              RNIap.finishTransactionIOS(purchase.transactionId);
+            }
+            else
               RNIap.consumePurchaseAndroid(purchase.purchaseToken);
-             
-              this.freePackage(packgeIdIap, packageTypeIap, 'in_app');
-    });
-    this.purchaseErrorSubscription = RNIap.purchaseErrorListener(
-    (error: PurchaseError) => {
-      console.log('purchaseErrorListener', error);
-      alert('purchase cancelled', JSON.stringify(error));
-    });
+
+            this.freePackage(packgeIdIap, packageTypeIap, 'in_app');
+          });
+      this.purchaseErrorSubscription = RNIap.purchaseErrorListener(
+        (error: PurchaseError) => {
+          console.log('purchaseErrorListener', error);
+          alert('purchase cancelled', JSON.stringify(error));
+        });
+    }
+
 
   }
-  componentWillMount = async() => {
+  componentWillMount = async () => {
 
- 
+
   }
-  requestPurchase = async(sku) => {
+  requestPurchase = async (sku) => {
     try {
       RNIap.requestPurchase(sku);
     } catch (err) {
       console.warn(err.code, err.message);
     }
   }
-  requestSubscription = async(sku) => {
+  requestSubscription = async (sku) => {
     try {
       RNIap.requestSubscription(sku);
     } catch (err) {
       alert(err.message);
     }
   }
-  
+
   getPackages = async () => {
     this.setState({ loading: true });
     try {
       var response = await ApiController.post('packages');
-      console.log('packages are====>>>',response);
+      console.log('packages are====>>>', response);
 
       if (response.success) {
         store.PACKAGES_OBJ = response.data;
         store.PACKAGES_OBJ.packages.forEach(item => {
           item.selectedMethod = '';
-          if(item.ios.code.length!=0)
-          itemSkewsIos.push(item.ios.code);
-          if(item.android.code.length!=0)
-          itemSkewsAndroid.push(item.android.code);
+          if (item.ios.code.length != 0)
+            itemSkewsIos.push(item.ios.code);
+          if (item.android.code.length != 0)
+            itemSkewsAndroid.push(item.android.code);
         });
-        
+
         this.setState({ loading: false })
       } else {
         this.setState({ loading: false })
@@ -169,7 +173,7 @@ export default class Packages extends Component<Props> {
       this.setState({ loading: false })
     }
   }
-  callerPaymentMethodes = async (itemValue, pkgId, pkgType, amount, currency, item) => {    
+  callerPaymentMethodes = async (itemValue, pkgId, pkgType, amount, currency, item) => {
     store.PACKAGES_OBJ.packages.forEach(item => {
       if (item.package_id === pkgId) {
         item.selectedMethod = itemValue;
@@ -191,7 +195,7 @@ export default class Packages extends Component<Props> {
       } else {
         if (itemValue === 'in_app') {
           if (item.android.key && item.ios.key) {
-            await this.inAppPurchase(pkgId, pkgType, item,item);
+            await this.inAppPurchase(pkgId, pkgType, item, item);
           } else {
             Toast.show(store.PACKAGES_OBJ.generic_msg)
           }
@@ -234,7 +238,7 @@ export default class Packages extends Component<Props> {
       price: parseInt(amount),
       currency: currency,
       description: pkgType,
-      acceptCreditCards: true 
+      acceptCreditCards: true
     }).then(response => {
       this.paidPackage(response.response.id, 'paypal', itemValue, pkgId, pkgType, amount, currency)
       console.log(response)
@@ -524,7 +528,7 @@ export default class Packages extends Component<Props> {
                     </View>
                     :
                     <TouchableOpacity style={{ marginVertical: 0, width: width(70), borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: main_clr, opacity: item.already_purchased ? 0.5 : 1 }} onPress={() => {
-                        this.inAppPurchase(item.package_id, item.package_type, 'free',item)
+                      this.inAppPurchase(item.package_id, item.package_type, 'free', item)
                     }}>
                       <Text style={{ marginVertical: 15, fontSize: 16, color: COLOR_PRIMARY }}>{item.already_purchased ? data.user_btn : data.btn_txt}</Text>
                     </TouchableOpacity>
@@ -562,7 +566,7 @@ export default class Packages extends Component<Props> {
               {
                 data.has_package ?
                   data.packages.map((item, key) => {
-                    console.warn('loop');
+                    // console.warn('loop');
                     return (
                       this._blog(item, key)
                     )

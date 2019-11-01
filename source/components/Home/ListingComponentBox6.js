@@ -30,7 +30,7 @@ class ListingComponentBox extends Component<Props> {
                     borderRadius: wp('2'),
                     // marginLeft: 1,
                     marginTop: wp(0.5),
-                    backgroundColor: 'red',
+                    // backgroundColor: 'red',
                     alignSelf: "center",
                     overflow: "hidden",
 

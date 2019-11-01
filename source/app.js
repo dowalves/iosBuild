@@ -81,13 +81,13 @@ export default class AppMain extends Component<Props> {
 
   async componentDidMount() {
     setTimeout(() => { this.setState({ color: store.statusbar_color }) }, 9000)
-    // await this.splash()
-    Storage.getItem('homepage').then((res) => {
-      if (res != null) {
-        this.setState({ move: true, current: res })
-        console.log('resxxx', res)
-      }
-    })
+    await this.splash()
+    // Storage.getItem('homepage').then((res) => {
+    //   if (res != null) {
+    //     this.setState({ move: true, current: res })
+    //     console.log('resxxx', res)
+    //   }
+    // })
   }
 
 
