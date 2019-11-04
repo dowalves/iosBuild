@@ -70,7 +70,7 @@ const RootStack = createStackNavigator(
             <View style={[styles.headerTxtCon, { alignItems: 'center', alignContent: 'center', justifyContent: 'center' }]}>
               <Text style={{ fontSize: wp('4.5'), fontWeight: 'bold', color: '#fff', marginLeft: wp(-10) }}>Down Town</Text>
               {
-                navigation.state.index == 4 ? [] : [
+                navigation.state.index == 4 || navigation.state.index == 14 ? [] : [
                   <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('1') }}>
                     {/* <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('8.5') }}> */}
                     <Icon

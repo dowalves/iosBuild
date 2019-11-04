@@ -75,7 +75,7 @@ const RootStack = createStackNavigator(
               />
 
               {
-                navigation.state.index == 4 ? [
+                navigation.state.index == 4 || navigation.state.index == 14? [
                 ] : [
                     <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('1') }}>
                       {/* <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('8.5') }}> */}

@@ -88,20 +88,38 @@ import { NavigationActions } from 'react-navigation';
               onPress={() => {
                 // console.log('navigaitonxxx', NavigationActions)
                 // console.log('searchtext', this.state.searchtxt)
-                Keyboard.dismiss()
-                store.SEARCHTEXT = this.state.searchtxt,
-                  store.moveToSearchTXT = true
-                // if(this.props.navigation.state.index != 4 ){
-                const navigateAction = NavigationActions.navigate({
-                  routeName: 'SearchingScreen',
-                  params: { search_text: this.state.searchtxt }
-                });
-                this.props.navigation.setParams({
-                  params: { search_text: this.state.searchtxt },
-                  key: 'screen-123',
-                });
-                this.props.navigation.dispatch(navigateAction);
-              }}
+               
+                if (this.props.navigation.state.index == 14) {
+                  store.SEARCH_OBJ_EVENT.by_title = this.state.searchtxt
+                  const navigateAction = NavigationActions.navigate({
+                    routeName: 'PublicEvents',
+                    params: { search_text: this.state.searchtxt }
+                  });
+                  this.props.navigation.setParams({
+                    params: { search_text: this.state.searchtxt },
+                    key: 'screen-123',
+                  });
+                  this.props.navigation.dispatch(navigateAction);
+  
+                }
+                else{
+                  Keyboard.dismiss()
+                  store.SEARCHTEXT = this.state.searchtxt,
+                    store.moveToSearchTXT = true
+                  // if(this.props.navigation.state.index != 4 ){
+                  const navigateAction = NavigationActions.navigate({
+                    routeName: 'SearchingScreen',
+                    params: { search_text: this.state.searchtxt }
+                  });
+                  this.props.navigation.setParams({
+                    params: { search_text: this.state.searchtxt },
+                    key: 'screen-123',
+                  });
+                  this.props.navigation.dispatch(navigateAction);
+                }}
+                }
+
+                
             />
           </View>
 

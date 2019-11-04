@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert,Keyboard } from 'react-native';
+import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert, Keyboard } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../source/helpers/Responsive'
@@ -47,8 +47,8 @@ import { NavigationActions } from 'react-navigation';
 @observer export class HeaderRoute2 extends React.Component {
   constructor(props) {
     super(props)
-    this.state={
-      searchtxt:''
+    this.state = {
+      searchtxt: ''
     }
     //  this.te .xtInput=null
   }
@@ -61,69 +61,85 @@ import { NavigationActions } from 'react-navigation';
         }}>
           <Image source={require('../images/menu_newhome2.png')} style={styles.drawerBtn} />
         </TouchableOpacity>
-        
-         {/* this.props.navigation.state.index == 4 ? [] : [ */}
-            {/* // <View style={{ flexDirection: "row" }}> */}
-              <View style={styles.headerTxtCon}>
-                {/* <View style={{ backgroundColor: '#fff', height: '90%', width: '90%', borderRadius: 10, alignItems: 'center', alignContent: 'center' }}> */}
-                <TextInput
-                  // ref={ref =>this.textInput= ref}
-                  onChangeText={(value) => this.setState({ searchtxt: value })}
-                  underlineColorAndroid='transparent'
-                  placeholder={"What are you looking for..."}
-                  value={this.state.searchtxt}
-                  // placeholderTextColor='black'
-                  underlineColorAndroid='transparent'
-                  autoCorrect={false}
-                  // onFocus={() => {
-                  //   const navigateAction = NavigationActions.navigate({
-                  //     routeName: 'SearchingScreen'
-                  //   });
-                  //   navigation.setParams({ otherParam: 'search' });
-                  //   navigation.dispatch(navigateAction);
-                  // }}
-                  style={{
-                    height: wp(10), paddingLeft: 15, paddingVertical: wp('2.5'), backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), ...Platform.select({
-                      ios: { shadowColor: 'gray', shadowOpacity: 0.1, shadowRadius: 1 },
-                      android: { elevation: 1, }
-                    }),
-                  }}
-                />
 
-              </View>
-              <View style={{ backgroundColor: 'red', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5') }}>
-                <Icon
-                  size={wp(7)}
-                  name='search'
-                  type='evilicon'
-                  color='#fff'
-                  containerStyle={{ marginLeft: 0, marginVertical: 3 }}
-                  // containerStyle={styles.searchIcon}
-                  onPress={() => {
-                    // console.log('navigaitonxxx', NavigationActions)
-                    // console.log('searchtext', this.state.searchtxt)
-                    Keyboard.dismiss()
-                    store.SEARCHTEXT=this.state.searchtxt,
-                    store.moveToSearchTXT = true
-                    // if(this.props.navigation.state.index != 4 ){
-                      const navigateAction = NavigationActions.navigate({
-                        routeName: 'SearchingScreen',
-                        params:{search_text:this.state.searchtxt}
-                      });
-                      this.props.navigation.setParams({ 
-                        params: { search_text: this.state.searchtxt },
-                        key: 'screen-123',
-                       });
-                      this.props.navigation.dispatch(navigateAction);
-                    // }
-                    // this.setState({searchtxt:''})
-                  
-                  }}
-                />
-              </View>
+        {/* this.props.navigation.state.index == 4 ? [] : [ */}
+        {/* // <View style={{ flexDirection: "row" }}> */}
+        <View style={styles.headerTxtCon}>
+          {/* <View style={{ backgroundColor: '#fff', height: '90%', width: '90%', borderRadius: 10, alignItems: 'center', alignContent: 'center' }}> */}
+          <TextInput
+            // ref={ref =>this.textInput= ref}
+            onChangeText={(value) => this.setState({ searchtxt: value })}
+            underlineColorAndroid='transparent'
+            placeholder={"What are you looking for..."}
+            value={this.state.searchtxt}
+            // placeholderTextColor='black'
+            underlineColorAndroid='transparent'
+            autoCorrect={false}
+            // onFocus={() => {
+            //   const navigateAction = NavigationActions.navigate({
+            //     routeName: 'SearchingScreen'
+            //   });
+            //   navigation.setParams({ otherParam: 'search' });
+            //   navigation.dispatch(navigateAction);
+            // }}
+            style={{
+              height: wp(10), paddingLeft: 15, paddingVertical: wp('2.5'), backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), ...Platform.select({
+                ios: { shadowColor: 'gray', shadowOpacity: 0.1, shadowRadius: 1 },
+                android: { elevation: 1, }
+              }),
+            }}
+          />
 
-            {/* </View> */}
-          {/* // ] */}
+        </View>
+        <View style={{ backgroundColor: 'red', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5') }}>
+          <Icon
+            size={wp(7)}
+            name='search'
+            type='evilicon'
+            color='#fff'
+            containerStyle={{ marginLeft: 0, marginVertical: 3 }}
+            // containerStyle={styles.searchIcon}
+            onPress={() => {
+              // console.log('navigaitonxxx', NavigationActions)
+              // console.log('searchtext', this.state.searchtxt)
+
+              if (this.props.navigation.state.index == 14) {
+                store.SEARCH_OBJ_EVENT.by_title = this.state.searchtxt
+                const navigateAction = NavigationActions.navigate({
+                  routeName: 'PublicEvents',
+                  params: { search_text: this.state.searchtxt }
+                });
+                this.props.navigation.setParams({
+                  params: { search_text: this.state.searchtxt },
+                  key: 'screen-123',
+                });
+                this.props.navigation.dispatch(navigateAction);
+
+              } else {
+                Keyboard.dismiss()
+                store.SEARCHTEXT = this.state.searchtxt,
+                  store.moveToSearchTXT = true
+                // if(this.props.navigation.state.index != 4 ){
+                const navigateAction = NavigationActions.navigate({
+                  routeName: 'SearchingScreen',
+                  params: { search_text: this.state.searchtxt }
+                });
+                this.props.navigation.setParams({
+                  params: { search_text: this.state.searchtxt },
+                  key: 'screen-123',
+                });
+                this.props.navigation.dispatch(navigateAction);
+                // }
+                // this.setState({searchtxt:''})  
+              }
+
+
+            }}
+          />
+        </View>
+
+        {/* </View> */}
+        {/* // ] */}
         {/* // } */}
 
         {/* <Text style={styles.headerTxt}>{navigation.getParam('otherParam', store.settings.data.menu.home)}</Text> */}
@@ -152,7 +168,7 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: navigation.getParam('otherParam', store.settings.data.menu.home),
         header: (
-          <HeaderRoute2 navigation={navigation}/>
+          <HeaderRoute2 navigation={navigation} />
         )
       }),
     },

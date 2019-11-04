@@ -71,7 +71,7 @@ const RootStack = createStackNavigator(
 
             </View>
             {/* <View style={{backgroundColor:'red',alignContent:'center',alignItems:'center',justifyContent:'center',marginLeft:5,height:wp('10'),width:wp('10'),borderRadius:wp('5')}}> */}
-            {navigation.state.index == 4 ?
+            {navigation.state.index == 4 || navigation.state.index == 14 ?
               [] : [
                 <View style={{ flexDirection: 'row', marginRight: wp('2'), position: 'absolute', right: wp('1') }}>
                   <Icon

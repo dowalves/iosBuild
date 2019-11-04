@@ -13,6 +13,7 @@ import ContactUs from '../ContactUs/ContactUs';
 import AboutUs from '../AboutUs/AboutUs';
 import blogStack from '../Blogs/Blogs';
 import PublicEvents from '../PublicEvents/PublicEvents';
+import PublicEventsW from '../PublicEvents/PublicEventsW';
 import Packages from '../Packages/Packages';
 import ReviewsCon from '../Reviews/ReviewsCon';
 import SavedListing from '../SavedListing/SavedListing';
@@ -42,7 +43,7 @@ const DrawerComp = createDrawerNavigator({
   SavedListing: SavedListing,
   EventsTabs: EventsTabs,
   SearchingScreen: SearchingScreenW,
-  PublicEvents: PublicEvents,
+  PublicEvents: PublicEventsW,
   Categories: Categories,
   Themes: Themes,
 },

@@ -74,8 +74,8 @@ import ListingComponent from '../Home/ListingComponent';
         // console.log('this props',this.props)
         let { orderStore } = Store;
         let { params } = this.props.navigation.state;
-        console.log('this.state.firstDone',this.state.firstDone)
-        console.log('this.props.navigation.state.params.from',this.state.firstDone)
+        // console.log('this.state.firstDone',this.state.firstDone)
+        // console.log('this.props.navigation.state.params.from',this.state.firstDone)
 
         if (this.state.firstDone == false  && this.props.navigation.state.params != undefined) {
             console.log('got inside')

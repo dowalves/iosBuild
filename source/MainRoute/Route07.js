@@ -78,7 +78,7 @@ const RootStack = createStackNavigator(
            
             <View style={{ flexDirection: 'row', marginRight: wp('2'), position: 'absolute', right: wp('0') }}>
               {
-                navigation.state.index==5 || navigation.state.index==4 ?[]:[
+                navigation.state.index==5 || navigation.state.index==4 || navigation.state.index==14?[]:[
                   <Icon
                   size={wp(7)}
                   name='search'

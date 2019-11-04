@@ -54,20 +54,11 @@ class PublicEvents extends Component<Props> {
         console.log('catch===>>>',error);
     }
  }
- async UNSAFE_componentWillReceiveProps(props) {
-  // console.log('ok so I received', props)
-  this.getSearchList()
-}
-
- getSearchList = async () => {
+  getSearchList = async () => {
     let { params } = this.props.navigation.state;
-    // if (this.state.search.length !== 0) {
-    //   store.SEARCH_OBJ_EVENT.by_title = this.state.search;
-    // }
-    // if(store.SEARCH_OBJ_EVENT.by_title.length==0){
-    //   store.SEARCH_OBJ_EVENT.by_title = this.state.search
-    // }
-    
+    if (this.state.search.length !== 0) {
+      store.SEARCH_OBJ_EVENT.by_title = this.state.search;
+    }
     // else {
     //   store.SEARCH_OBJ_EVENT.by_title = this.state.search;
     // }
@@ -175,7 +166,7 @@ class PublicEvents extends Component<Props> {
     let settings = store.settings.data;
     return (
       <View style={{ flex: 1 }}>
-        {/* <View style={{ height: height(10), width: width(100), backgroundColor: store.settings.data.navbar_clr, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ height: height(10), width: width(100), backgroundColor: store.settings.data.navbar_clr, justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ height: height(7), width: width(90), backgroundColor: COLOR_PRIMARY, borderRadius: 5, flexDirection: 'row', alignItems: 'center' }}>
             <TextInput
               style={{ width: width(80), alignSelf: 'stretch', paddingHorizontal: 10 }}
@@ -193,7 +184,7 @@ class PublicEvents extends Component<Props> {
               <Image source={require('../../images/searching-magnifying.png')} style={{ height: height(3), width: width(5), resizeMode: 'contain' }} />
             </TouchableOpacity>
           </View>
-        </View> */}
+        </View>
         <View style={{ height: height(8), width: width(100), backgroundColor: 'rgba(0,0,0,0.9)', flexDirection: 'row', borderColor: 'white', borderWidth: 0, alignItems: 'center' }}>
           <TouchableOpacity style={{ height: height(5), width: width(33.3), flexDirection: 'row', borderRightWidth: 1, borderRightColor: 'rgba(241,241,241,0.2)', justifyContent: 'center', alignItems: 'center' }} onPress={() => {
             this.props.navigation.navigate('EventSearching', { headerTitle: store.LISTING_FILTER_EVENTS.screen_text.screen_title, navigateToScreen: this.navigateToScreen, getSearchList: this.getSearchList })

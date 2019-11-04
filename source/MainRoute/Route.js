@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert,Keyboard } from 'react-native';
+import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert, Keyboard } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../source/helpers/Responsive'
@@ -85,20 +85,36 @@ import { NavigationActions } from 'react-navigation';
             containerStyle={{ marginLeft: 0, marginVertical: 3 }}
             // containerStyle={styles.searchIcon}
             onPress={() => {
-              Keyboard.dismiss()
-              store.SEARCHTEXT = this.state.searchtxt,
-                store.moveToSearchTXT = true
-              // if(this.props.navigation.state.index != 4 ){
-              const navigateAction = NavigationActions.navigate({
-                routeName: 'SearchingScreen',
-                params: { search_text: this.state.searchtxt }
-              });
-              this.props.navigation.setParams({
-                params: { search_text: this.state.searchtxt },
-                key: 'screen-123',
-              });
-              this.props.navigation.dispatch(navigateAction);
-              // this.setState({searchtxt:''})
+              // console.log('this props',this.props)
+              if (this.props.navigation.state.index == 14) {
+                store.SEARCH_OBJ_EVENT.by_title = this.state.searchtxt
+                const navigateAction = NavigationActions.navigate({
+                  routeName: 'PublicEvents',
+                  params: { search_text: this.state.searchtxt }
+                });
+                this.props.navigation.setParams({
+                  params: { search_text: this.state.searchtxt },
+                  key: 'screen-123',
+                });
+                this.props.navigation.dispatch(navigateAction);
+
+              } else {
+                Keyboard.dismiss()
+                store.SEARCHTEXT = this.state.searchtxt,
+                  store.moveToSearchTXT = true
+                // if(this.props.navigation.state.index != 4 ){
+                const navigateAction = NavigationActions.navigate({
+                  routeName: 'SearchingScreen',
+                  params: { search_text: this.state.searchtxt }
+                });
+                this.props.navigation.setParams({
+                  params: { search_text: this.state.searchtxt },
+                  key: 'screen-123',
+                });
+                this.props.navigation.dispatch(navigateAction);
+                // this.setState({searchtxt:''})
+              }
+
             }}
           />
         </View>
@@ -131,7 +147,7 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: navigation.getParam('otherParam', store.settings.data.menu.home),
         header: (
-        <HeaderRoute1 navigation={navigation}/>
+          <HeaderRoute1 navigation={navigation} />
         )
       }),
     },
