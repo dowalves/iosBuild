@@ -257,14 +257,14 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                 </View>
               </TouchableOpacity>
           }
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Themes', data.menu.cats)}>
+          {/* <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Themes', data.menu.cats)}>
             <View style={styles.itemIconCon}>
               <Form name='windowso' size={22} color='white' />
             </View>
             <View style={styles.itemTxtCon}>
               <Text style={styles.itemTxt}>{'Themes'}</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </ScrollView>
         <Modal
           animationInTiming={500}
