@@ -12,6 +12,9 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTLinkingManager.h>
 #import <RNGoogleSignin/RNGoogleSignin.h>
+#import "RNFirebaseNotifications.h"
+#import "RNFirebaseMessaging.h"
+
 @import GoogleMobileAds;
 @import Firebase;
 @implementation AppDelegate
@@ -19,6 +22,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
+  //Add these 3 lines
+//  if(FIRApp.defaultApp == nil){
+//  if(![FIRApp defaultApp]){
+//    [FIRApp configure];
+//
+//  }
+//  }
+  
+//  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+//  [RNFirebaseNotifications configure];
+  
   [GMSServices provideAPIKey:@"AIzaSyA30fMP5nXMS9iH6G7LjdZ47vUzLWbnBM0"];
   //  GMSPlacesClient.provideAPIKey("AIzaSyA30fMP5nXMS9iH6G7LjdZ47vUzLWbnBM0")
 
@@ -60,5 +74,6 @@
   [RCTLinkingManager application:application openURL:url
                sourceApplication:sourceApplication annotation:annotation];
 }
+
 
 @end

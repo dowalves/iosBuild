@@ -201,6 +201,8 @@ allprojects {
     }
 }
 dependencies {
+    implementation project(':react-native-firebase')
+    implementation project(':react-native-fbsdk')
     implementation project(':react-native-restart')
     implementation project(':react-native-webview')
     implementation project(':@react-native-community_google-signin')
@@ -253,6 +255,13 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:17.0.0"
     //firebase
     implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation "com.google.firebase:firebase-messaging:19.0.0"
+
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-auth:18.0.0'
+    implementation 'com.google.firebase:firebase-database:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:19.0.0'
+
     //google maps
     implementation(project(':react-native-maps')){
        exclude group: 'com.google.android.gms', module: 'play-services-base'
@@ -261,6 +270,7 @@ dependencies {
     //google SDK
     implementation 'com.google.android.gms:play-services-base:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
 }
 
 // Run this once to be able to run the application with BUCK

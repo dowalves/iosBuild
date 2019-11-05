@@ -11,10 +11,11 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		177051CEEE6241CBAE1502C6 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13E1067604334BADAE245FB8 /* Entypo.ttf */; };
+		18914F10237038860032D825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18914F0F237038860032D825 /* GoogleService-Info.plist */; };
 		189497F2236AABDE00A61631 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189497F1236AABDE00A61631 /* File.swift */; };
 		1C65446A217D8EB5008A4E56 /* libQBImagePickerController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C654469217D8EB5008A4E56 /* libQBImagePickerController.a */; };
 		1C6544E9217D9156008A4E56 /* libGoogle-Maps-iOS-Utils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C6544E8217D9156008A4E56 /* libGoogle-Maps-iOS-Utils.a */; };
-		1CF7E2B82182ED75005708AF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CF7E28B2182ED75005708AF /* GoogleService-Info.plist */; };
+		1CF7E2B82182ED75005708AF /* GSOLD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CF7E28B2182ED75005708AF /* GSOLD.plist */; };
 		1D7CE158D6DF44F0B90124E6 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3082956CF41D4588BDD927EB /* FontAwesome5_Solid.ttf */; };
 		3064D755092B4657ADEDD56B /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C94AA1528744D4B9A11A8B7 /* Feather.ttf */; };
 		3A599FD090164F74AB22D2D5 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA944715CEE444D2B23E1454 /* FontAwesome5_Regular.ttf */; };
@@ -348,13 +349,15 @@
 		13E1067604334BADAE245FB8 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		16F6F2C800DE4F2A959326DE /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		18914F0F237038860032D825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		189497F0236AABDD00A61631 /* DWT-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DWT-Bridging-Header.h"; sourceTree = "<group>"; };
 		189497F1236AABDE00A61631 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		18B2516D710A4DE48D431185 /* OpenSans.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = OpenSans.ttf; path = ../res/fonts/OpenSans.ttf; sourceTree = "<group>"; };
+		18F2EA14237045A300F5DDC0 /* DWT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DWT.entitlements; path = DWT/DWT.entitlements; sourceTree = "<group>"; };
 		1C25F3CD2150FF6A0000BF77 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		1C654469217D8EB5008A4E56 /* libQBImagePickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libQBImagePickerController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C6544E8217D9156008A4E56 /* libGoogle-Maps-iOS-Utils.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libGoogle-Maps-iOS-Utils.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1CF7E28B2182ED75005708AF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1CF7E28B2182ED75005708AF /* GSOLD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GSOLD.plist; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3082956CF41D4588BDD927EB /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		5C94AA1528744D4B9A11A8B7 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -480,8 +483,10 @@
 		13B07FAE1A68108700A75B9A /* DWT */ = {
 			isa = PBXGroup;
 			children = (
+				18F2EA14237045A300F5DDC0 /* DWT.entitlements */,
+				18914F0F237038860032D825 /* GoogleService-Info.plist */,
 				96FD6CC7223299E30061DD1B /* Images.xcassets */,
-				1CF7E28B2182ED75005708AF /* GoogleService-Info.plist */,
+				1CF7E28B2182ED75005708AF /* GSOLD.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -711,6 +716,9 @@
 								enabled = 1;
 							};
 							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -1074,12 +1082,13 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				529C5A0C1D44498AAB892C9F /* Montserrat-SemiBold.ttf in Resources */,
 				7103D68EB78A407A9CD4994D /* OpenSans.ttf in Resources */,
-				1CF7E2B82182ED75005708AF /* GoogleService-Info.plist in Resources */,
+				1CF7E2B82182ED75005708AF /* GSOLD.plist in Resources */,
 				96FD6CC8223299E40061DD1B /* Images.xcassets in Resources */,
 				7FBC674095044A3EA5DCE8B4 /* AntDesign.ttf in Resources */,
 				177051CEEE6241CBAE1502C6 /* Entypo.ttf in Resources */,
 				7946B9BDA48944489ACE6498 /* EvilIcons.ttf in Resources */,
 				3064D755092B4657ADEDD56B /* Feather.ttf in Resources */,
+				18914F10237038860032D825 /* GoogleService-Info.plist in Resources */,
 				4F576506CAA14B11A64318BD /* FontAwesome.ttf in Resources */,
 				CB73DD3D2B854C5BB19BC0CF /* FontAwesome5_Brands.ttf in Resources */,
 				3A599FD090164F74AB22D2D5 /* FontAwesome5_Regular.ttf in Resources */,
@@ -1225,7 +1234,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = DWT/DWT.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1242,6 +1252,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager/**",
 					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast/**",
 					"$(SRCROOT)/../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 				);
 				INFOPLIST_FILE = DWT/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1255,7 +1266,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.scriptsbundle.DWT;
 				PRODUCT_NAME = DWT;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = DWTAdhoc;
+				PROVISIONING_PROFILE_SPECIFIER = DwtDevProfile;
 				SWIFT_OBJC_BRIDGING_HEADER = "DWT-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1271,7 +1282,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = DWT/DWT.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3D42832GGZ;
@@ -1287,6 +1299,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager/**",
 					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast/**",
 					"$(SRCROOT)/../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 				);
 				INFOPLIST_FILE = DWT/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1300,7 +1313,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.scriptsbundle.DWT;
 				PRODUCT_NAME = DWT;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = DWTAdhoc;
+				PROVISIONING_PROFILE_SPECIFIER = DwtDevProfile;
 				SWIFT_OBJC_BRIDGING_HEADER = "DWT-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

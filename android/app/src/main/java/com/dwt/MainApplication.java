@@ -17,12 +17,23 @@ import com.facebook.appevents.AppEventsLogger;
 //import com.wix.interactable.Interactable;
 import com.airbnb.android.react.lottie.LottiePackage;
 
+import io.invertase.firebase.RNFirebasePackage;
+
+
+
 //import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 //import com.reactnativecommunity.webview.RNCWebViewPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.database.RNFirebaseDatabasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
@@ -62,6 +73,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
+            new FBSDKPackage(),
             new ReactNativeRestartPackage(),
             new RNCWebViewPackage(),
             new RNGoogleSigninPackage(),
@@ -76,7 +89,11 @@ public class MainApplication extends Application implements ReactApplication {
              new LottiePackage(),
             new RNGestureHandlerPackage(),
             new ReanimatedPackage(),
-            new MapsPackage()
+            new MapsPackage(),
+              new RNFirebaseAuthPackage(),
+              new RNFirebaseDatabasePackage(),
+              new RNFirebaseMessagingPackage(),
+              new RNFirebaseNotificationsPackage()
 
       );
     }

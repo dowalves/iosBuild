@@ -1,52 +1,52 @@
 {
   "project_info": {
-    "project_number": "884345030484",
-    "firebase_url": "https://downtown-1536657610039.firebaseio.com",
-    "project_id": "downtown-1536657610039",
-    "storage_bucket": "downtown-1536657610039.appspot.com"
+    "project_number": "359254612575",
+    "firebase_url": "https://downtown-98ace.firebaseio.com",
+    "project_id": "downtown-98ace",
+    "storage_bucket": "downtown-98ace.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:884345030484:android:92190979c00dfa27",
+        "mobilesdk_app_id": "1:359254612575:android:df4c817e4d8321914ed9ea",
         "android_client_info": {
           "package_name": "com.dwt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "884345030484-ehmpm9qte64nq3ecqsg09saupccg7jg1.apps.googleusercontent.com",
+          "client_id": "359254612575-k0diev549ro9ulh57pr97lqa1fqo154c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.dwt",
-            "certificate_hash": "128156f1c61df995342e6eb55b00e1b53547cb98"
+            "certificate_hash": "57d23a2a4fa2d89b44dc544154cfe382a267739a"
           }
         },
         {
-          "client_id": "884345030484-sqn8t1cbrs3u68f7k4m9249i6c83rnk0.apps.googleusercontent.com",
+          "client_id": "359254612575-o5l9kv2r4tsafj93r8v4rr5otg0652u7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBJbsTKNgd7yPAdIQ4Lo7ju50zK9An0z68"
+          "current_key": "AIzaSyDKXiABGxSf5m9pJHWxGn34mYx2U89hvVQ"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "884345030484-sqn8t1cbrs3u68f7k4m9249i6c83rnk0.apps.googleusercontent.com",
+              "client_id": "359254612575-o5l9kv2r4tsafj93r8v4rr5otg0652u7.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "359254612575-4che0isisosmk44qtrgdbnbs7maginjo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.scriptsbundle.DWT"
+              }
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

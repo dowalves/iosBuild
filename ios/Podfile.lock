@@ -5,13 +5,16 @@ PODS:
   - AppAuth/Core (1.2.0)
   - AppAuth/ExternalUserAgent (1.2.0)
   - boost-for-react-native (1.63.0)
+  - Crashlytics (3.14.0):
+    - Fabric (~> 1.10.2)
   - DoubleConversion (1.1.6)
-  - FacebookSDK (5.8.0):
-    - FacebookSDK/CoreKit (= 5.8.0)
-    - FacebookSDK/MarketingKit (= 5.8.0)
-  - FacebookSDK/CoreKit (5.8.0):
+  - Fabric (1.10.2)
+  - FacebookSDK (5.9.0):
+    - FacebookSDK/CoreKit (= 5.9.0)
+    - FacebookSDK/MarketingKit (= 5.9.0)
+  - FacebookSDK/CoreKit (5.9.0):
     - FBSDKCoreKit (~> 5.0)
-  - FacebookSDK/MarketingKit (5.8.0):
+  - FacebookSDK/MarketingKit (5.9.0):
     - FacebookSDK/CoreKit
     - FBSDKMarketingKit (~> 5.0)
   - FBAudienceNetwork (5.1.1)
@@ -33,7 +36,7 @@ PODS:
     - FBSDKLoginKit/Login (= 5.8.0)
   - FBSDKLoginKit/Login (5.8.0):
     - FBSDKCoreKit (~> 5.0)
-  - FBSDKMarketingKit (5.5.0):
+  - FBSDKMarketingKit (5.9.0):
     - FBSDKCoreKit (~> 5.5)
   - FBSDKShareKit (5.8.0):
     - FBSDKShareKit/Share (= 5.8.0)
@@ -161,11 +164,11 @@ PODS:
   - lottie-react-native (3.2.1):
     - lottie-ios (~> 3.1.3)
     - React
-  - nanopb (0.3.901):
-    - nanopb/decode (= 0.3.901)
-    - nanopb/encode (= 0.3.901)
-  - nanopb/decode (0.3.901)
-  - nanopb/encode (0.3.901)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
   - Protobuf (3.10.0)
   - QBImagePickerController (3.4.0)
   - RCTRequired (0.61.2)
@@ -345,6 +348,20 @@ PODS:
   - React-jsinspector (0.61.2)
   - react-native-admob (2.0.0-beta.6):
     - React
+  - react-native-fbsdk (1.0.4):
+    - React
+    - react-native-fbsdk/Core (= 1.0.4)
+    - react-native-fbsdk/Login (= 1.0.4)
+    - react-native-fbsdk/Share (= 1.0.4)
+  - react-native-fbsdk/Core (1.0.4):
+    - FBSDKCoreKit (~> 5.5)
+    - React
+  - react-native-fbsdk/Login (1.0.4):
+    - FBSDKLoginKit (~> 5.5)
+    - React
+  - react-native-fbsdk/Share (1.0.4):
+    - FBSDKShareKit (~> 5.5)
+    - React
   - react-native-geolocation (1.4.2):
     - React
   - react-native-google-maps (0.26.1):
@@ -394,6 +411,15 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - ReactCommon/jscallinvoker (= 0.61.2)
+  - RNFirebase (5.5.6):
+    - Firebase/Core
+    - React
+    - RNFirebase/Crashlytics (= 5.5.6)
+  - RNFirebase/Crashlytics (5.5.6):
+    - Crashlytics
+    - Fabric
+    - Firebase/Core
+    - React
   - RNGestureHandler (1.4.1):
     - React
   - RNGoogleSignin (3.0.3):
@@ -431,6 +457,7 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
   - GoogleSignIn
+  - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTRestart (from `../node_modules/react-native-restart/ios`)
@@ -446,6 +473,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-admob (from `../node_modules/react-native-admob`)
+  - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
@@ -463,6 +491,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNIap (from `../node_modules/react-native-iap`)
@@ -475,6 +504,8 @@ SPEC REPOS:
   trunk:
     - AppAuth
     - boost-for-react-native
+    - Crashlytics
+    - Fabric
     - FacebookSDK
     - FBAudienceNetwork
     - FBSDKCoreKit
@@ -500,7 +531,6 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
-    - lottie-ios
     - nanopb
     - Protobuf
     - QBImagePickerController
@@ -517,6 +547,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
   RCTRequired:
@@ -543,6 +575,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-admob:
     :path: "../node_modules/react-native-admob"
+  react-native-fbsdk:
+    :path: "../node_modules/react-native-fbsdk"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-google-maps:
@@ -575,6 +609,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNFirebase:
+    :path: "../node_modules/react-native-firebase/ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
@@ -593,14 +629,16 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
-  FacebookSDK: 01ce488e7399bae3e2689ed8416e94174836eaf9
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  FacebookSDK: 4c2af71cd691904a1829503fa38f33cbc922b3ae
   FBAudienceNetwork: 56c2dc9b5f075f4a9757d7dc8a83d3972270f645
   FBLazyVector: 68b6a76960fbd8ecd9fb7ce0aadd3329c3340a99
   FBReactNativeSpec: 5a764c60abdc3336a213e5310c40b74741f32839
   FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
   FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
-  FBSDKMarketingKit: 570d0c2778a2166b0cd55b301160d662ccbe8927
+  FBSDKMarketingKit: 9978074f24b325d3d4f479d90906daf23f80cf67
   FBSDKShareKit: abc29e1bb4f9f59f679adf1ae191006d68455f96
   Firebase: bc9cfc7a96c73268656d5aaab453ff1b4b530e0e
   FirebaseAnalytics: 0e3ecff2c5d86070f7d4325e21f1edabfbd558dc
@@ -625,7 +663,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
   lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
   lottie-react-native: b123a79529cc732201091f585c62c89bb4747252
-  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
@@ -640,6 +678,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-admob: cb7f9e5e7d6f1e68bfbf1df8f72b2e23963bc7db
+  react-native-fbsdk: 45e28bbab3e905cbc635c0bdd3444b372e933ae9
   react-native-geolocation: 79c743ad7a2e86617811ef23f49308824e92520c
   react-native-google-maps: 2e2e697dab576abd5809d78cd74e775865b62bf7
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
@@ -656,6 +695,7 @@ SPEC CHECKSUMS:
   React-RCTText: e3ef6191cdb627855ff7fe8fa0c1e14094967fb8
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
+  RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNGoogleSignin: a10b849c165088c737d4465de6c2062f24d06002
   RNIap: 52e1f99b63e7a6dfefdc8c0e3284f89763d8b271
@@ -665,6 +705,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 6f0982f55bf35b095cdfe0625f8ba8e32094356b
+PODFILE CHECKSUM: afe507d323bbbccc164024206872378eecaf150b
 
 COCOAPODS: 1.8.4
