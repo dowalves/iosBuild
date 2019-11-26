@@ -70,7 +70,7 @@ import { NavigationActions } from 'react-navigation';
             // ref={ref =>this.textInput= ref}
             onChangeText={(value) => this.setState({ searchtxt: value })}
             underlineColorAndroid='transparent'
-            placeholder={"What are you looking for..."}
+            placeholder={store.home.homeGet!=null?store.home.homeGet.data!=undefined?store.home.homeGet.data.advanced_search.search_placeholder:'':''}
             value={this.state.searchtxt}
             // placeholderTextColor='black'
             underlineColorAndroid='transparent'

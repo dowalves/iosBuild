@@ -166,6 +166,7 @@ export default class SignIn extends Component<Props> {
                       placeholderTextColor='white'
                       textContentType='emailAddress'
                       keyboardType='email-address'
+                      autoCapitalize={false}
                       underlineColorAndroid='transparent'
                       autoCorrect={true}
                       style={[styles.inputTxt,{textAlign: 'left' }]}

@@ -84,7 +84,12 @@ class ListingComponent extends Component<Props> {
                             color='white'
                             containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                         />
-                        <Text style={{ fontSize: 10, color: 'white', marginLeft: 2, }}>Arkansas, United States</Text>
+                        {
+                            item.listing_location!=null?[
+                            <Text style={{ fontSize: 10, color: 'white', marginLeft: 2, }}>{item.listing_location}</Text>
+
+                            ]:[]
+                        }
 
                           <Text style={[styles.closedBtnTxt,{position:'absolute',right:wp('1')}]}>{item.business_hours_status}</Text>
                     </View>

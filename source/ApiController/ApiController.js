@@ -5,8 +5,11 @@ import { Buffer } from 'buffer';
 
 // change your baseUrl and Domain
 const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
-const PURCHASE_CODE = '1234';
-const CUSTOM_SECURITY = '1234';
+
+const PURCHASE_CODE = 'YOUR PURCHASE CODE';
+const CUSTOM_SECURITY = 'YOUR CUSTOM SECURITY';
+
+
 class Api {
   static headers() {
     return {
@@ -48,17 +51,27 @@ class Api {
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null);
     options.headers = Api.headers()
     // console.log('URL===>>>>>',options);
+    
+  
+
 
     //Authorization for login user/////
     // getting value from asyncStorage
     const email = await AsyncStorage.getItem('email');
     const pass = await AsyncStorage.getItem('password');
-
-    // using buffer
+    // console.log('emaail si',email)
+    // console.log('pass si',pass)
+    // // using buffer
     if (email !== null && pass !== null) {
       const hash = new Buffer(`${email}:${pass}`).toString('base64');
       options.headers['Authorization'] = `Basic ${hash}`;
     }
+
+
+    // options.auth= {
+    //   username: 'usama@gmail.com',
+    //   password: '123'
+    // }
     return fetch(url, options).then(resp => {
       // console.log('Api response is ------------->>>>>>', resp);
 
@@ -95,7 +108,7 @@ class Api {
     // getting value from asyncStorage  ***
     const email = await AsyncStorage.getItem('email');
     const pass = await AsyncStorage.getItem('password');
-    //  console.log('login detail===>>>',email , pass);
+     console.log('login detail===>>>',email , pass);
 
     //Authorization for login user using buffer ***
     if (email !== null && pass !== null) {
@@ -137,7 +150,7 @@ class Api {
     // getting value from asyncStorage  ***
     const email = await AsyncStorage.getItem('email');
     const pass = await AsyncStorage.getItem('password');
-    //  console.log('login detail===>>>',email , pass);
+     console.log('login detail===>>>',email , pass);
 
     //Authorization for login user using buffer ***
     if (email !== null && pass !== null) {
@@ -159,3 +172,4 @@ class Api {
 }
 
 export default Api;
+

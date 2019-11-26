@@ -48,22 +48,27 @@ class ListingComponent extends Component<Props> {
                             color='red'
                             containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                         />
-                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft:2 }}>{item.posted_date}</Text>
+                        <Text style={{ fontSize: 10, color: '#8a8a8a', marginLeft: 2 }}>{item.posted_date}</Text>
                     </View>
 
-                   
+
 
                     <View style={{ width: width(50), alignItems: 'flex-start' }}>
                         <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
                     </View>
 
-                    <View style={{ width: width(50),flexDirection:'row',marginTop:2 }}>
-                        <Text style={styles.subHeadingTxt}>2 Reviews  |</Text>
+                    <View style={{ width: width(50), flexDirection: 'row', marginTop: 2 }}>
+                        {
+                            item.total_reviews != null ?
+                                <Text style={styles.subHeadingTxt}>{item.total_reviews}  |</Text>
+
+                                : null
+                        }
                         <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
                         <Text style={styles.subHeadingTxt}>{item.business_hours_status}</Text>
 
                     </View>
-                    
+
                     {/* <View style={styles.ratingCon}>
                         <View style={styles.gradingCon}>
                             <StarRating
@@ -84,16 +89,24 @@ class ListingComponent extends Component<Props> {
                         />
                         <Text style={styles.ratingTxt}>{item.total_views}</Text>
                     </View> */}
-                    <View style={{ marginTop: 5, width: width(45), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
-                        <Icon
-                            size={18}
-                            name='location'
-                            type='evilicon'
-                            color='red'
-                            containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-                        />
-                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2, }}>Arkansas, United States</Text>
-                    </View>
+                    {
+                        item.listing_location != null ? [
+                            <View style={{ marginTop: 5, width: width(45), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
+                                <Icon
+                                    size={18}
+                                    name='location'
+                                    type='evilicon'
+                                    color='red'
+                                    containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+                                />
+                                <Text style={{ fontSize: 10, color: '#8a8a8a', marginLeft: 2, }}>{item.listing_location}</Text>
+
+
+                            </View>
+                        ] : []
+                    }
+
+
 
                 </View>
             </TouchableOpacity>

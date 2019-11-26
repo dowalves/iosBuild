@@ -95,16 +95,22 @@ class ListingComponentBox extends Component<Props> {
                         />
                         <Text style={styles.ratingTxt}>{item.total_views}</Text>
                     </View> */}
-                    <View style={{ marginTop: 5, width: width(45), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
-                        <Icon
-                            size={18}
-                            name='location'
-                            type='evilicon'
-                            color='red'
-                            containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-                        />
-                        <Text style={{ fontSize: 10, color: '#8a8a8a', marginLeft: 2, }}>Arkansas, United States</Text>
-                    </View>
+                    {
+                        item.listing_location != null ? [
+                            <View style={{ marginTop: 5, width: width(45), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
+                                <Icon
+                                    size={18}
+                                    name='location'
+                                    type='evilicon'
+                                    color='red'
+                                    containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+                                />
+                                <Text style={{ fontSize: 10, color: '#8a8a8a', marginLeft: 2, }}>{item.listing_location}</Text>
+                            </View>
+                        ] : []
+                    }
+
+
 
                 </View>
             </TouchableOpacity>

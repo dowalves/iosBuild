@@ -179,7 +179,9 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     underlineColorAndroid='transparent'
                     value={this.state.searchtxt}
 
-                    placeholder="What are you looking for..."
+                    // placeholder={store.home.homeGet.data.advanced_search.search_placeholder}
+                    placeholder={store.home.homeGet!=null?store.home.homeGet.data!=undefined?store.home.homeGet.data.advanced_search.search_placeholder:'':''}
+
                     placeholderTextColor="#fff"
 
 

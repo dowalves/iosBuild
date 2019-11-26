@@ -94,7 +94,12 @@ class ListingComponent extends Component<Props> {
                             color='red'
                             containerStyle={{ marginHorizontal: 0, marginVertical: 0,marginTop:wp('2'),marginLeft:wp('2') }}
                         />
-                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2,marginTop:wp('2') }}>Arkansas, United States</Text>
+                        {
+                            item.listing_location!=null?[
+                            <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2,marginTop:wp('2') }}>{item.listing_location}</Text>
+
+                            ]:[]
+                        }
 
                         <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2,marginTop:wp('2'),position: 'absolute',right:wp('2'),top:wp('0') }}>{item.business_hours_status}</Text>
 

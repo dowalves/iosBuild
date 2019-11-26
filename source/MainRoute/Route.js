@@ -67,7 +67,8 @@ import { NavigationActions } from 'react-navigation';
             underlineColorAndroid='transparent'
             value={this.state.searchtxt}
 
-            placeholder={"What are you looking for..."}
+            placeholder={store.home.homeGet!=null?store.home.homeGet.data!=undefined?store.home.homeGet.data.advanced_search.search_placeholder:'':''}
+            // placeholder={store.home.homeGet.data.advanced_search.search_placeholder}
             placeholderTextColor='black'
             underlineColorAndroid='transparent'
             autoCorrect={false}

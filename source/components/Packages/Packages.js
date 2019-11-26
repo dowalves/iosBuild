@@ -15,6 +15,9 @@ import { COLOR_PRIMARY, COLOR_SECONDARY, iconsSize } from '../../../styles/commo
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Packages/PackagesStyleSheet';
 import { createStackNavigator } from 'react-navigation';
+
+import { AsyncStorage } from 'react-native';
+
 const theme = {
   primaryBackgroundColor: 'white',
   secondaryBackgroundColor: 'white',
@@ -23,7 +26,7 @@ const theme = {
   accentColor: 'green',
   errorColor: 'red'
 };
-let itemSkewsIos = [];
+let itemSkewsIos = ['dwt_business_plan', 'dwt_premium_plan'];
 let itemSkewsAndroid = [];
 
 let packgeIdIap = '';
@@ -51,15 +54,21 @@ export default class Packages extends Component<Props> {
     header: null,
   };
   inAppPurchase = async (pkgId, pkgType, item, model) => {
-    packageTypeIap = pkgType;
-    packgeIdIap = pkgId;
-    let code = '';
-    if (Platform.OS == 'ios') {
-      code = model.ios.code;
+    isLogged = await this.isLoggedIn()
+    if(isLogged){
+      packageTypeIap = pkgType;
+      packgeIdIap = pkgId;
+      let code = '';
+      if (Platform.OS == 'ios') {
+        code = model.ios.code;
+      }
+      else
+        code = model.android.code;
+      this.requestSubscription(code, pkgId, pkgType);
+    }else{
+      Toast.show('You need to login')
     }
-    else
-      code = model.android.code;
-    this.requestSubscription(code);
+   
 
     // this.setState({ breaker: 0 })
     // try {
@@ -101,7 +110,7 @@ export default class Packages extends Component<Props> {
       });
       // console.warn(itemSkewsIos);
       const products: Product[] = await RNIap.getSubscriptions(itemSkus);
-      console.warn("PRoducts===>", products);
+      console.log("PRoducts===>", products);
       const result = await RNIap.initConnection();
       console.log('result', result);
     } catch (err) {
@@ -137,17 +146,61 @@ export default class Packages extends Component<Props> {
     try {
       RNIap.requestPurchase(sku);
     } catch (err) {
-      console.warn(err.code, err.message);
+      console.log(err.code, err.message);
     }
   }
-  requestSubscription = async (sku) => {
+  requestSubscription = async (sku, id, type) => {
     try {
-      RNIap.requestSubscription(sku);
+      const resxxx = await RNIap.requestSubscription(sku);
+
+
+      console.log('result is ', resxxx)
+      packx = {
+        id: id,
+        type: type
+      }
+      this.iapSave(packx)
+      // RNIap.requestSubscription(sku);
     } catch (err) {
-      alert(err.message);
+      console.log(err.message);
+    }
+  }
+  iapSave = async (packagexx) => {
+    let params = {
+      package_id: packagexx.id,
+      package_type: packagexx.type,
+      source: 'in_app'
+    }
+    try {
+      let response = await ApiController.post('payment', params);
+      console.log('before payment params', JSON.stringify(params))
+
+      if (response.success) {
+        console.log('after payment success', JSON.stringify(response))
+        store.settings.data.package = response.data.package;
+        Toast.show(response.message, Toast.LONG);
+
+        this.props.navigation.push('ListingPostTabCon')
+      } else {
+        this.setState({ loading: false })
+        Toast.show(response.message, Toast.LONG);
+      }
+    } catch (error) {
+      console.log('error====>>>', error);
+      this.setState({ loading: false })
+      Toast.show(error.message);
     }
   }
 
+  isLoggedIn = async () => {
+    const email = await AsyncStorage.getItem('email');
+    const pass = await AsyncStorage.getItem('password');
+
+    if (email != null && pass != null) {
+      return true
+    }
+    return false
+  }
   getPackages = async () => {
     this.setState({ loading: true });
     try {

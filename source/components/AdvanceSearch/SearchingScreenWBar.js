@@ -20,7 +20,7 @@ import styles from '../../../styles/Home';
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import Toast from 'react-native-simple-toast'
-import ListingComponent from '../Home/ListingComponent';
+import ListingComponent from '../Home/SearchListingComponent';
 
 @observer export default class SearchingScreen extends Component<Props> {
     constructor(props) {

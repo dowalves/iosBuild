@@ -27,8 +27,8 @@ class ListingComponent extends Component<Props> {
                     height: 99,
                     width: width(26),
                     // borderRadius: 15,
-                    borderTopRightRadius:15,
-                    borderBottomLeftRadius:15,
+                    borderTopRightRadius: 15,
+                    borderBottomLeftRadius: 15,
                     // borderBottomRightRadius:15,
                     marginLeft: 1,
                     // backgroundColor: 'red',
@@ -62,7 +62,7 @@ class ListingComponent extends Component<Props> {
                     </View>
 
 
-                    <View style={[styles.gradingCon,{marginTop:wp('1')}]}>
+                    <View style={[styles.gradingCon, { marginTop: wp('1') }]}>
                         <StarRating
                             disabled={false}
                             maxStars={5}
@@ -73,9 +73,9 @@ class ListingComponent extends Component<Props> {
                         />
                     </View>
                     <View
-                    style={{height:wp(0.1),width:wp('64'),marginTop:wp('2'),backgroundColor:'#000'}}
+                        style={{ height: wp(0.1), width: wp('64'), marginTop: wp('2'), backgroundColor: '#000' }}
                     />
-                    
+
                     <View style={{ marginTop: wp('1'), width: width(60), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
                         <Icon
                             size={18}
@@ -84,9 +84,14 @@ class ListingComponent extends Component<Props> {
                             color='white'
                             containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                         />
-                        <Text style={{ fontSize: 10, color: 'white', marginLeft: 2, }}>Arkansas, United States</Text>
+                        {
+                            item.listing_location != null ? [
+                                <Text style={{ fontSize: 10, color: 'white', marginLeft: 2, }}>{item.listing_location}</Text>
 
-                          <Text style={[styles.closedBtnTxt,{position:'absolute',right:wp('1')}]}>{item.business_hours_status}</Text>
+                            ] : []
+                        }
+
+                        <Text style={[styles.closedBtnTxt, { position: 'absolute', right: wp('1') }]}>{item.business_hours_status}</Text>
                     </View>
 
                 </View>

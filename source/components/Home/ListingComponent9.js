@@ -48,16 +48,22 @@ class ListingComponent extends Component<Props> {
                         <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
                     </View>
 
-                    <View style={{ marginTop: 1, width: width(45), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
-                        <Icon
-                            size={18}
-                            name='location'
-                            type='evilicon'
-                            color='red'
-                            containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-                        />
-                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2, }}>Arkansas, United States</Text>
-                    </View>
+                    {
+                        item.listing_location!=null?[
+                            <View style={{ marginTop: 1, width: width(45), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
+                            <Icon
+                                size={18}
+                                name='location'
+                                type='evilicon'
+                                color='red'
+                                containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+                            />
+                            
+                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2, }}>{item.listing_location}</Text>
+                        </View>
+                        ]:[]
+                    }
+                  
                     <View style={[styles.gradingCon,{marginTop:wp("1")}]}>
                             <StarRating
                                 disabled={false}
@@ -69,7 +75,12 @@ class ListingComponent extends Component<Props> {
                             />
                         </View>
                     <View style={{ width: width(50),flexDirection:'row',marginTop:wp(3) }}>
-                        <Text style={styles.subHeadingTxt}>2 Reviews  |</Text>
+                    {
+                            item.total_reviews!=null?
+                        <Text style={styles.subHeadingTxt}>{item.total_reviews}  |</Text>
+                            
+                            :null
+                        }
                         <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
                         <Text style={styles.subHeadingTxt}>{item.business_hours_status}</Text>
 
