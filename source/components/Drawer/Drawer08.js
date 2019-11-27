@@ -15,6 +15,7 @@ import blogStack from '../Blogs/Blogs';
 import PublicEvents from '../PublicEvents/PublicEvents';
 import PublicEventsW from '../PublicEvents/PublicEventsW';
 import Packages from '../Packages/Packages';
+import Language from '../Languages/Language';
 import ReviewsCon from '../Reviews/ReviewsCon';
 import SavedListing from '../SavedListing/SavedListing';
 import EventsTabs from '../Events/EventsTabs';
@@ -39,6 +40,7 @@ const DrawerComp = createDrawerNavigator({
   ContactUs: ContactUs,
   blogStack: blogStack,
   Packages: Packages,
+  Language: Language,
   ReviewsCon: ReviewsCon,
   SavedListing: SavedListing,
   EventsTabs: EventsTabs,
@@ -49,7 +51,7 @@ const DrawerComp = createDrawerNavigator({
 
 },
   {
-    order: [ 'Packages', 'EventsTabs','ReviewsCon', 'ListingPostTabCon','SearchingScreen', 'Home', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','Themes','PublicEvents'],
+    order: [ 'Packages','Language', 'EventsTabs','ReviewsCon', 'ListingPostTabCon','SearchingScreen', 'Home', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','Themes','PublicEvents'],
     initialRouteName: 'Home',
     drawerWidth: width(80), 
     drawerPosition: I18nManager.isRTL ? 'right' : 'left',

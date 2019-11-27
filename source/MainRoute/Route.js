@@ -26,6 +26,7 @@ import blogStack from '../components/Blogs/Blogs';
 import BlogDetail from '../components/Blogs/BlogDetail';
 import PublicEvents from '../components/PublicEvents/PublicEvents';
 import Packages from '../components/Packages/Packages';
+import Language from '../components/Languages/Language';
 import ReviewsCon from '../components/Reviews/ReviewsCon';
 import SavedListing from '../components/SavedListing/SavedListing';
 import AdvanceSearch from '../components/AdvanceSearch/AdvanceSearch';
@@ -162,6 +163,7 @@ const RootStack = createStackNavigator(
     Blogs: blogStack,
     BlogDetail: BlogDetail,
     Packages: Packages,
+    Language: Language,
     ReviewsCon: ReviewsCon,
     SavedListing: SavedListing,
     AdvanceSearch: AdvanceSearch,

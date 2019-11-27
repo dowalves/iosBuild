@@ -14,6 +14,7 @@ import styles from '../../../styles/Drawer/SideMenuStyleSheet';
 import LocalDB from '../../LocalDB/LocalDB';
 import Toast from 'react-native-simple-toast';
 import { GoogleSignin } from '@react-native-community/google-signin';
+import {widthPercentageToDP as wp} from '../../helpers/Responsive'
 import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStorage } from 'react-native';
 @observer class SideMenu extends Component {
   constructor(props) {
@@ -233,6 +234,15 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
             </View>
             <View style={styles.itemTxtCon}>
               <Text style={styles.itemTxt}>{data.menu.packages}</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', data.menu.packages)}>
+            <View style={styles.itemIconCon}>
+            <Image source={require('../../images/language.png')} resizeMode="contain" style={{height:wp('5')}} />
+            </View>
+            <View style={styles.itemTxtCon}>
+              <Text style={styles.itemTxt}>Select Language</Text>
             </View>
           </TouchableOpacity>
           {

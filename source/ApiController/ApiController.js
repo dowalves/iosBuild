@@ -6,8 +6,8 @@ import { Buffer } from 'buffer';
 // change your baseUrl and Domain
 const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
 
-const PURCHASE_CODE = 'YOUR PURCHASE CODE';
-const CUSTOM_SECURITY = 'YOUR CUSTOM SECURITY';
+const PURCHASE_CODE = '1234';
+const CUSTOM_SECURITY = '1234';
 
 
 class Api {
