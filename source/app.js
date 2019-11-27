@@ -11,6 +11,7 @@ import Route8 from './MainRoute/Route08';
 import Route9 from './MainRoute/Route09';
 import Route10 from './MainRoute/Route10';
 import Route11 from './MainRoute/Route11';
+import Route12 from './MainRoute/RouteOld';
 import { observer } from 'mobx-react';
 
 import store from './Stores/orderStore';
@@ -139,7 +140,12 @@ export default class AppMain extends Component<Props> {
                                                       [
                                                         <Route11 />
                                                       ] : [
-
+                                                        this.state.current == 12 ?
+                                                        [
+                                                          <Route12 />
+                                                        ] : [
+  
+                                                        ]
                                                       ]
                                                   ]
                                               ]
