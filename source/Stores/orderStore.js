@@ -85,6 +85,8 @@ class orderStore {
     @observable PACKAGES = [];
     // SavedListing 
     @observable SAVED_LISTING = {};
+    @observable language = 'ar';
+    @observable wpml_settings = null;
 }
 
 const store = new orderStore();

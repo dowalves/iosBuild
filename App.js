@@ -19,7 +19,7 @@ export default class App extends Component<Props> {
       color: 'black',
       loading: false
     };
-    I18nManager.forceRTL(false);
+    // I18nManager.forceRTL(false);
   }
   fucn() {
     var timerId = setInterval(() => {
@@ -114,9 +114,19 @@ export default class App extends Component<Props> {
 
     setTimeout(() => { this.setState({ color: store.statusbar_color }) }, 9000)
     // await LocalDB.saveHomepage(1);
+
+
+    Storage.getItem('language').then((value) => {
+      if(value==null){
+      Storage.setItem('language',"en")
+      }
+    })
+
+
+
     Storage.getItem('homepage').then((value) => {
       // if(value==null){
-      Storage.setItem('homepage', 12)
+      Storage.setItem('homepage',1)
       // }
     })
   }

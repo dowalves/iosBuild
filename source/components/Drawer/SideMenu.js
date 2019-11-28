@@ -237,7 +237,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', data.menu.packages)}>
+          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', "Languages")}>
             <View style={styles.itemIconCon}>
             <Image source={require('../../images/language.png')} resizeMode="contain" style={{height:wp('5')}} />
             </View>

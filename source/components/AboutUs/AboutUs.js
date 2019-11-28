@@ -36,7 +36,7 @@ export default class AboutUs extends Component<Props> {
     this.state = {
       name: '',
     }
-    I18nManager.forceRTL(false);
+    // I18nManager.forceRTL(false);
   }
   static navigationOptions = {
     header: null,

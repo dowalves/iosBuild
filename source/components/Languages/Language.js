@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform, StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl
+  Platform, StyleSheet,FlatList, Text, View,ImageBackground, Image, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl
 } from 'react-native';
 
 import { width, height, totalSize } from 'react-native-dimension';
@@ -13,9 +13,11 @@ import store from '../../Stores/orderStore';
 import styles from './style';
 
 import { AsyncStorage } from 'react-native';
-import { widthPercentageToDP as wp } from '../../helpers/Responsive';
-
+import { widthPercentageToDP as wp, heightPercentageToDP } from '../../helpers/Responsive';
+import Storage from '../../LocalDB/storage'
 import * as Animatable from 'react-native-animatable';
+
+import RNRestart from 'react-native-restart'
 
 
 const theme = {
@@ -39,6 +41,21 @@ const swing = {
     opacity: 1,
   },
 };
+
+const lang = [
+
+  {
+    code: "fr",
+    native_name: "French",
+    native_name: "French"
+  },
+  {
+    code: "en",
+    native_name: "English",
+    native_name: "English"
+  }
+
+]
 export default class Language extends Component<Props> {
   constructor(props) {
     super(props);
@@ -59,45 +76,21 @@ export default class Language extends Component<Props> {
     }
   }
   static navigationOptions = {
-    header: null,
+    header: null, 
   };
-  inAppPurchase = async (pkgId, pkgType, item, model) => {
-    isLogged = await this.isLoggedIn()
-    if (isLogged) {
-      packageTypeIap = pkgType;
-      packgeIdIap = pkgId;
-      let code = '';
-      if (Platform.OS == 'ios') {
-        code = model.ios.code;
-      }
-      else
-        code = model.android.code;
-      this.requestSubscription(code, pkgId, pkgType);
-    } else {
-      Toast.show('You need to login')
-    }
 
-
-
-  }
-
-  purchaseUpdateSubscription;
-  purchaseErrorSubscription;
   async componentDidMount() {
-    await this.getPackages()
-
-
-
-
+    console.log("here props are",this.props)
+    // await this.getPackages()
   }
 
-  requestPurchase = async (sku) => {
-    try {
-      RNIap.requestPurchase(sku);
-    } catch (err) {
-      console.log(err.code, err.message);
-    }
-  }
+  // requestPurchase = async (sku) => {
+  //   try {
+  //     RNIap.requestPurchase(sku);
+  //   } catch (err) {
+  //     console.log(err.code, err.message);
+  //   }
+  // }
 
 
 
@@ -154,11 +147,25 @@ export default class Language extends Component<Props> {
       </View>
     );
   }
+  updateLanguage=(item)=>{
+    // if(!=item.code){
+      // console.log('item is',item.code)
+      
+      Storage.setItem('language',item.code)
+      // Storage.getItem('language').then((val)=>{
+      //   console.log('val is',val)
+      // })
+      RNRestart.Restart();
+      
+    // }/
+  }
   render() {
     let main_clr = store.settings.data.main_clr;
-    let data = store.PACKAGES_OBJ;
+    let data = store.wpml_settings;
     return (
-      <View style={[styles.container]}>
+      <ImageBackground 
+      source={require('../../images/bg_language_select.jpg')}
+      style={[styles.container]}>
         {
           this.state.loading ?
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -167,7 +174,7 @@ export default class Language extends Component<Props> {
             :
             <ScrollView
               style={{ alignContent: 'center' }}
-              backgroundColor='#f9f9f9'
+              // backgroundColor='#f9f9f9'
               showsVerticalScrollIndicator={false}
               refreshControl={
                 <RefreshControl
@@ -179,24 +186,31 @@ export default class Language extends Component<Props> {
                 />
               }
             >
-              {
-                data.has_package ?
-                  data.packages.map((item, key) => {
-                    // console.warn('loop');
-                    return (
-                      this._blog(item, key)
-                    )
-                  })
-                  :
-                  <View style={{ height: height(12), marginTop: 20, flexDirection: 'row', width: width(100), alignItems: 'center', backgroundColor: '#feebe6', alignSelf: 'center' }}>
-                    <Image source={require('../../images/profileWarning.png')} style={{ height: height(7), width: width(15), resizeMode: 'contain', marginHorizontal: 20 }} />
-                    <Text style={{ fontSize: totalSize(2), color: COLOR_SECONDARY }}>{data.message}</Text>
-                  </View>
-              }
+              <View style={{marginTop:wp("10"),marginLeft:wp('10')}}>
+                <Text style={{fontSize:wp('5'),fontWeight:'bold'}}>Select your Language</Text>
+              </View>
+              <FlatList
+                data={data.wpml_site_languages}
+                style={{ height: heightPercentageToDP('90'), top: '10%' }}
+                renderItem={({ item }) =>
+                  <TouchableOpacity 
+                  onPress={()=>this.updateLanguage(item)}
+                  style={styles.blogCon}>
+                    <Animatable.View
+                      ref="view"
+                      animation={'bounce'}
+                      style={{ width: width(80), alignItems: 'center', paddingVertical: wp('4') }}>
+                      <Animatable.Text tran animation={swing} style={{ color: '#6E768B', fontSize: wp(4) }}>{item.native_name}</Animatable.Text>
+                    </Animatable.View>
+
+
+                  </TouchableOpacity>
+                }
+              />
             </ScrollView>
         }
 
-      </View>
+      </ImageBackground>
     );
   }
 }

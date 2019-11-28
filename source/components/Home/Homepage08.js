@@ -174,7 +174,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
 
               </View>
               <Text style={{ color: '#fff', fontSize: wp('6'),marginTop:wp('3.5'), fontWeight: 'bold' }}>Find the Best Place</Text>
-              <Text style={{ color: '#fff', fontSize: wp('3') }}>More than 17,000 business listed</Text>
+              <Text style={{ color: '#fff', fontSize: wp('3') }}>More than 18,000 business listed</Text>
 
 
             </View>

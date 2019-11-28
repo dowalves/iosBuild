@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert, Keyboard } from 'react-native';
+import { Platform, StatusBar, Text, TextInput, View, I18nManager,TouchableOpacity, Image, Alert, Keyboard } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../source/helpers/Responsive'
@@ -56,7 +56,7 @@ import { NavigationActions } from 'react-navigation';
     return (
    
         <View style={[styles.overlyHeader, { backgroundColor: 'black' }]}>
-          <TouchableOpacity style={styles.drawerBtnCon} onPress={() => {
+          <TouchableOpacity style={[styles.drawerBtnCon,{  transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}]} onPress={() => {
             this.props.navigation.toggleDrawer()
           }}>
             <Image source={require('../images/menu_newhome.png')} style={styles.drawerBtn} />

@@ -2,13 +2,17 @@ import store from '../Stores/orderStore';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { Buffer } from 'buffer';
+import Storage from '../LocalDB/storage'
 
 // change your baseUrl and Domain
-const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
+const base_url = 'https://dwt-wpml.downtown-directory.com/wp-json/downtown/app';
+// const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
 
-const PURCHASE_CODE = '1234';
-const CUSTOM_SECURITY = '1234';
-
+// const PURCHASE_CODE = '1234';
+// const CUSTOM_SECURITY = '1234';
+ 
+const PURCHASE_CODE = '8797677896889778';
+const CUSTOM_SECURITY = 'mysecretcode111';
 
 class Api {
   static headers() {
@@ -17,6 +21,7 @@ class Api {
       'Custom-Security': CUSTOM_SECURITY,
       'Content-Type': 'application/json',
       'Login-type': store.LOGIN_SOCIAL_TYPE
+      // 'Downtown-Lang-Locale':store.language
     }
   }
 
@@ -59,6 +64,16 @@ class Api {
     // getting value from asyncStorage
     const email = await AsyncStorage.getItem('email');
     const pass = await AsyncStorage.getItem('password');
+    const language_code = await AsyncStorage.getItem('language');
+    // options.headers['Downtown-Lang-Locale'] = `${language_code}`;
+    let nxxx=await Storage.getItem('language')
+    // Storage.getItem('language').then((val)=>{
+      options.headers['Downtown-Lang-Locale'] = nxxx;
+
+    //  })
+    // options.headers['Downtown-Lang-Locale'] = '"ar"';
+
+
     // console.log('emaail si',email)
     // console.log('pass si',pass)
     // // using buffer
@@ -108,7 +123,15 @@ class Api {
     // getting value from asyncStorage  ***
     const email = await AsyncStorage.getItem('email');
     const pass = await AsyncStorage.getItem('password');
-     console.log('login detail===>>>',email , pass);
+    //  console.log('login detail===>>>',email , pass);
+    const language_code = await AsyncStorage.getItem('language');
+    // options.headers['Downtown-Lang-Locale'] = `${language_code}`;
+    let nxxx=await Storage.getItem('language')
+    // Storage.getItem('language').then((val)=>{
+      options.headers['Downtown-Lang-Locale'] = nxxx;
+
+    //  })
+    // options.headers['Downtown-Lang-Locale'] = '"ar"';
 
     //Authorization for login user using buffer ***
     if (email !== null && pass !== null) {
@@ -150,8 +173,18 @@ class Api {
     // getting value from asyncStorage  ***
     const email = await AsyncStorage.getItem('email');
     const pass = await AsyncStorage.getItem('password');
-     console.log('login detail===>>>',email , pass);
+    //  console.log('login detail===>>>',email , pass);
 
+
+    //  const language_code = await AsyncStorage.getItem('language');
+    let nxxx=await Storage.getItem('language')
+    // Storage.getItem('language').then((val)=>{
+      options.headers['Downtown-Lang-Locale'] = nxxx;
+
+    //  })
+    //  options.headers['Downtown-Lang-Locale'] = '"ar"';
+
+ 
     //Authorization for login user using buffer ***
     if (email !== null && pass !== null) {
       const hash = new Buffer(`${email}:${pass}`).toString('base64');

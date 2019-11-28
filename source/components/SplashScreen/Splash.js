@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Alert, BackHandler, ActivityIndicator, Platform, StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import {  Alert, BackHandler, ActivityIndicator,I18nManager, Platform, StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { INDICATOR_COLOR, INDICATOR_SIZE, OVERLAY_COLOR } from '../../../styles/common';
 import { width, height, totalSize } from 'react-native-dimension';
 import styles from '../../../styles/SplashStyleSheet'
@@ -25,9 +25,15 @@ import NetInfo from "@react-native-community/netinfo";
     this.setState({ loading: true })
     let response = await ApiController.post('settings');
     console.log('settings=',response);
+
+    I18nManager.forceRTL(false)
+    // console.log('is rtl',I18nManager.isRTL)
+          
     orderStore.settings = response;
     if (orderStore.settings.success === true) {
+
       orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
+      orderStore.wpml_settings=orderStore.settings.data.wpml_settings
       this.props.navigation.replace('Drawer'); //MainScreen
       this.setState({ loading: false })
     } else {

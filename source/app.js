@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, SafeAreaView, StatusBar, View, BackHandler, Alert } from 'react-native';
+import { Platform, SafeAreaView,I18nManager, StatusBar, View, BackHandler, Alert } from 'react-native';
 import Route from './MainRoute/Route';
 import Route2 from './MainRoute/Route02';
 import Route3 from './MainRoute/Route03';
@@ -13,7 +13,7 @@ import Route10 from './MainRoute/Route10';
 import Route11 from './MainRoute/Route11';
 import Route12 from './MainRoute/RouteOld';
 import { observer } from 'mobx-react';
-
+import RNRestart from 'react-native-restart'
 import store from './Stores/orderStore';
 import Store from './Stores'
 import { MenuProvider } from 'react-native-popup-menu';
@@ -62,6 +62,18 @@ export default class AppMain extends Component<Props> {
               // }
             // })
           // }else{
+            // if(true)
+            // {
+              
+            //   if(!I18nManager.isRTL)
+            //     RNRestart.Restart();
+            // }
+            // if(!data.is_rtl)
+            // {
+            //   if(I18nManager.isRTL)
+            //   RNRestart.Restart();
+              
+            // }
             this.setState({ move: true, current: Number(response.data.home_theme_type) })
           // }
           console.log('resxxx', res)

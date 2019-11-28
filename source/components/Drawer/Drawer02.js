@@ -21,6 +21,7 @@ import SearchingScreen from '../AdvanceSearch/SearchingScreen';
 import Categories from '../Categories/Categories';
 import ListingPostTabCon from '../PostListings/ListingPostTabCon';
 import Themes from '../Themes/Themes';
+import Language from '../Languages/Language';
 
 const DashboardStack = createStackNavigator({
   UserDashboard: UserDashboard,
@@ -44,10 +45,12 @@ const DrawerComp = createDrawerNavigator({
   PublicEvents: PublicEvents,
   Categories: Categories,
   Themes: Themes,
+  Language: Language,
+
 
 },
   {
-    order: [ 'Packages', 'EventsTabs','ReviewsCon', 'ListingPostTabCon','SearchingScreen', 'Home', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','Themes','PublicEvents'],
+    order: [ 'Packages','Language', 'EventsTabs','ReviewsCon', 'ListingPostTabCon','SearchingScreen', 'Home', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','Themes','PublicEvents'],
     initialRouteName: 'Home',
     drawerWidth: width(80), 
     drawerPosition: I18nManager.isRTL ? 'right' : 'left',

@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import { COLOR_GRAY, COLOR_ORANGE } from '../../../styles/common';
 import { withNavigation } from 'react-navigation';
-import styles from '../../../styles/Home';
+import styles from '../../../styles/Home2';
 import store from '../../Stores/orderStore';
 import { widthPercentageToDP as wp } from '../../helpers/Responsive';
 class ListingComponentBox extends Component<Props> {

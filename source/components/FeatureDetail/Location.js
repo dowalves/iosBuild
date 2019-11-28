@@ -20,7 +20,7 @@ import FeatureDetail from './FeatureDetail';
       reportModel: false,
       isClaimVisible: false
     }
-    I18nManager.forceRTL(false);
+    // I18nManager.forceRTL(false);
   }
   setModalVisible = (state,prop) => {
     if (state === 'claim' && prop === false) {
