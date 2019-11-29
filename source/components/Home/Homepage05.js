@@ -167,52 +167,58 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                 onRefresh={this.homeData}
               />
             }>
-            <View style={styles.topViewCon}>
-              {
-                home.categories_enabled ?
-                  <View style={{ width: '100%', alignItems: 'center', position: 'absolute', }}>
-                    <View style={[styles.flatlistCon, { backgroundColor: 'black', paddingLeft: wp('2') }]}>
-                      <FlatList
-                        data={home.categories}
-                        horizontal
-                        renderItem={({ item, key }) =>
-                          <View style={{
-                            height: wp('10'),
-                            marginRight: wp('8'),
-                            // marginBottom: 8,
-                            alignContent: 'center',
-                            alignItems: 'center',
-                            // backgroundColor:'red'
-                            // marginHorizontal: 10,
-                          }}>
 
-                            <TouchableOpacity key={key} style={[styles.flatlistChild]}
-                              onPress={() => {
-                                store.CATEGORY = item,
-                                  store.moveToSearch = true,
-                                  this.navigateToScreen('SearchingScreen', data.menu.adv_search)
-                              }}
-                            >
-                              <Text style={[styles.childTxt, { fontWeight: '500', color: '#D8D8D8' }]}>{item.name}</Text>
+            {
+              home.categories_enabled && home.categories.length != 0 ?
+
+                <View style={styles.topViewCon}>
+                  {
+                    home.categories_enabled ?
+                      <View style={{ width: '100%', alignItems: 'center', position: 'absolute', }}>
+                        <View style={[styles.flatlistCon, { backgroundColor: 'black', paddingLeft: wp('2') }]}>
+                          <FlatList
+                            data={home.categories}
+                            horizontal
+                            renderItem={({ item, key }) =>
+                              <View style={{
+                                height: wp('10'),
+                                marginRight: wp('8'),
+                                // marginBottom: 8,
+                                alignContent: 'center',
+                                alignItems: 'center',
+                                // backgroundColor:'red'
+                                // marginHorizontal: 10,
+                              }}>
+
+                                <TouchableOpacity key={key} style={[styles.flatlistChild]}
+                                  onPress={() => {
+                                    store.CATEGORY = item,
+                                      store.moveToSearch = true,
+                                      this.navigateToScreen('SearchingScreen', data.menu.adv_search)
+                                  }}
+                                >
+                                  <Text style={[styles.childTxt, { fontWeight: '500', color: '#D8D8D8' }]}>{item.name}</Text>
 
 
 
-                            </TouchableOpacity>
+                                </TouchableOpacity>
 
 
-                          </View>
-                        }
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                      // keyExtractor={item => item.email}
-                      />
-                    </View>
-                    <View style={{ flex: 1.3, width: width(100) }}></View>
-                  </View>
-                  :
-                  null
-              }
-            </View>
+                              </View>
+                            }
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                          // keyExtractor={item => item.email}
+                          />
+                        </View>
+                        <View style={{ flex: 1.3, width: width(100) }}></View>
+                      </View>
+                      :
+                      null
+                  }
+                </View> : null
+
+            }
 
 
             {/* {
@@ -232,15 +238,15 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                 null
             } */}
             {
-              home.listings_enabled ?
+              home.featured_enabled ?
                 <View style={{ width: width(90), flexDirection: 'row', alignSelf: 'center', alignItems: 'center', marginTop: Platform.OS === 'ios' ? 15 : 15, marginBottom: 5 }}>
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
-                    <Text style={styles.recList}>{home.section_txt}</Text>
+                    <Text style={styles.recList}>{home.featured_list_txt}</Text>
                   </View>
                   {
                     home.sb_wpml_see_all_title != undefined ?
                       <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-  <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
                         {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
                       </TouchableOpacity>
                       : null
@@ -251,10 +257,10 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                 null
             }
             {
-              home.listings_enabled ?
+              home.featured_enabled ?
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <FlatList
-                    data={home.listings}
+                    data={home.featured_listings.list}
                     numColumns={2}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item, key }) =>
@@ -270,20 +276,20 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
             }
 
             {
-              home.location_enabled ?
+              home.location_enabled && home.location_list.length != 0 ?
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
                     {
                       home.sb_wpml_best_location_title != undefined ? [
-                        <Text style={{ fontSize: 20, color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
+                        <Text style={{ fontSize: 20, fontWeight: '700', color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
 
                       ] : []
                     }
 
                     {
                       home.sb_wpml_see_all_title != undefined ?
-                    <Text style={{ marginVertical: 20, fontSize: 10, color: 'red', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                        <Text style={{ marginVertical: 20, fontSize: 10, color: store.settings.data.main_clr, fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
 
                         : null
                     }
@@ -396,7 +402,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                   {
                     home.sb_wpml_see_all_title != undefined ?
                       <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-  <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: 'red' }]}>{home.sb_wpml_see_all_title}</Text>
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: 'red' }]}>{home.sb_wpml_see_all_title}</Text>
                         {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
                       </TouchableOpacity>
                       : null
