@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 import {
-  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl
+  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl, I18nManager
 } from 'react-native';
 import {
   AdMobBanner,
@@ -176,8 +176,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
     
                   </View>
                  
-                <Text style={{ color: '#fff', fontSize: wp('6'), marginTop: wp('3.5'), fontWeight: 'bold' }}>{home.sb_wpml_find_best_place}</Text>
-                <Text style={{ color: '#fff', fontSize: wp('3') }}>{home.sb_wpml_more_busines_listed}</Text>
+                <Text style={[{ color: '#fff', fontSize: wp('6'), marginTop: wp('3.5'), fontWeight: 'bold' },I18nManager.isRTL?{textAlign:'left'}:{}]}>{home.sb_wpml_find_best_place}</Text>
+                <Text style={[{ color: '#fff', fontSize: wp('3') },I18nManager.isRTL?{textAlign:'left'}:{}]}>{home.sb_wpml_more_busines_listed}</Text>
     
                 </View>
     

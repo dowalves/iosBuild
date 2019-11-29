@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 import {
-  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl
+  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl, I18nManager
 } from 'react-native';
 import {
   AdMobBanner,
@@ -167,17 +167,17 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
               />
             }>
 
-            <View style={{ paddingLeft: wp('5'), paddingTop: wp('5'), marginBottom: wp('5') }}>
+            <View style={[I18nManager.isRTL?{paddingTop: wp('5'), marginBottom: wp('5')}:{ paddingLeft: wp('5'), paddingTop: wp('5'), marginBottom: wp('5') }]}>
 
 
               {
                 home.sb_wpml_find_best_place != undefined ?
-                  <Text style={{ color: '#fff', fontSize: wp('6'), fontWeight: 'bold' }}>{home.sb_wpml_find_best_place}</Text>
+                  <Text style={[{ color: '#fff', fontSize: wp('6'), fontWeight: 'bold' },I18nManager.isRTL?{textAlign:'left'}:{}]}>{home.sb_wpml_find_best_place}</Text>
                   : null
               }
               {
                 home.sb_wpml_more_busines_listed != undefined ?
-                  <Text style={{ color: '#fff', fontSize: wp('3') }}>{home.sb_wpml_more_busines_listed}</Text>
+                  <Text style={[{ color: '#fff', fontSize: wp('3') },I18nManager.isRTL?{textAlign:'left'}:{}]}>{home.sb_wpml_more_busines_listed}</Text>
                   : null
               }
 

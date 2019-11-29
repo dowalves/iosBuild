@@ -75,7 +75,7 @@ import { NavigationActions } from 'react-navigation';
               underlineColorAndroid='transparent'
               autoCorrect={false}
 
-              style={{ height: wp(10), paddingLeft: 15, paddingVertical: wp('2.5'), backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), }}
+              style={[I18nManager.isRTL?{textAlign:'right'}:{},{ height: wp(10), paddingLeft: 15, paddingVertical: wp('2.5'), backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), }]}
             />
 
           </View>
