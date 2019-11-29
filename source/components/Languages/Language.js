@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform, StyleSheet,FlatList, Text, View,ImageBackground, Image, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl
+  Platform, StyleSheet,FlatList, Text, View,ImageBackground, Image, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl, I18nManager
 } from 'react-native';
 
 import { width, height, totalSize } from 'react-native-dimension';
@@ -163,7 +163,8 @@ export default class Language extends Component<Props> {
               // }
             >
               <View style={{marginTop:wp("10"),marginLeft:wp('10')}}>
-                <Text style={{fontSize:wp('5'),fontWeight:'bold'}}>{data.sb_wpml_select_lang_title}</Text>
+                {/* <Text style={[{fontSize:wp('5'),fontWeight:'bold'},I18nManager.isRTL?{textAlign:'left'}:{}]}>اختار اللغة</Text> */}
+                <Text style={[{fontSize:wp('5'),fontWeight:'bold'},I18nManager.isRTL?{textAlign:'left'}:{}]}>{data.sb_wpml_select_lang_title}</Text>
               </View>
               <FlatList
                 data={data.wpml_site_languages}

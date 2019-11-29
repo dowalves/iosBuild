@@ -380,7 +380,7 @@ import ListingComponentBox from './ListingComponentBox2';
                 null
                 */}
             {
-              home.location_enabled ?
+              home.location_enabled && home.location_list.length!=0 ?
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>

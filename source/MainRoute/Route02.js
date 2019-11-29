@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, Text, TextInput, View, TouchableOpacity, Image, Alert, Keyboard } from 'react-native';
+import { Platform, StatusBar, Text, TextInput, View,I18nManager, TouchableOpacity, Image, Alert, Keyboard } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../source/helpers/Responsive'
@@ -56,7 +56,7 @@ import { NavigationActions } from 'react-navigation';
   render() {
     return (
       <View style={[styles.overlyHeader, { backgroundColor: '#f9f9f9' }]}>
-        <TouchableOpacity style={styles.drawerBtnCon} onPress={() => {
+        <TouchableOpacity style={[styles.drawerBtnCon,{  transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}]} onPress={() => {
           this.props.navigation.toggleDrawer()
         }}>
           <Image source={require('../images/menu_newhome2.png')} style={styles.drawerBtn} />
@@ -82,12 +82,12 @@ import { NavigationActions } from 'react-navigation';
             //   navigation.setParams({ otherParam: 'search' });
             //   navigation.dispatch(navigateAction);
             // }}
-            style={{
+            style={[I18nManager.isRTL?{textAlign:'right'}:{},{
               height: wp(10), paddingLeft: 15, paddingVertical: wp('2.5'), backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), ...Platform.select({
                 ios: { shadowColor: 'gray', shadowOpacity: 0.1, shadowRadius: 1 },
                 android: { elevation: 1, }
               }),
-            }}
+            }]}
           />
 
         </View>

@@ -8,7 +8,7 @@ import Store from '../../Stores';
 import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
 import NetInfo from "@react-native-community/netinfo";
-
+import RNRestart from 'react-native-restart'
 
 @observer export default class Splash extends Component<Props> {
   constructor(props) {
@@ -26,7 +26,20 @@ import NetInfo from "@react-native-community/netinfo";
     let response = await ApiController.post('settings');
     console.log('settings=',response);
 
-    I18nManager.forceRTL(false)
+    I18nManager.forceRTL(response.data.is_rtl)
+    if(response.data.is_rtl){
+      if(I18nManager.isRTL){
+
+      }else{
+        RNRestart.Restart()
+      }
+    }else if(response.data.is_rtl==false){
+      if(I18nManager.isRTL){
+        RNRestart.Restart()
+
+      }else{
+      }
+    }
     // console.log('is rtl',I18nManager.isRTL)
           
     orderStore.settings = response;

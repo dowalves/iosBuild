@@ -67,14 +67,14 @@ import { NavigationActions } from 'react-navigation';
             onChangeText={(value) => this.setState({ searchtxt: value })}
             underlineColorAndroid='transparent'
             value={this.state.searchtxt}
-
+            // placeholder={'اختار اللغة'}
             placeholder={store.home.homeGet!=null?store.home.homeGet.data!=undefined?store.home.homeGet.data.advanced_search.search_placeholder:'':''}
             // placeholder={store.home.homeGet.data.advanced_search.search_placeholder}
             placeholderTextColor='black'
             underlineColorAndroid='transparent'
             autoCorrect={false}
 
-            style={{ height: wp(10), paddingLeft: 15, paddingVertical: wp(2.5), backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), }}
+            style={[I18nManager.isRTL?{textAlign:'right'}:{},{ height: wp(10), paddingLeft: 15, paddingVertical: wp(2.5), backgroundColor: '#fff', width: '100%', borderRadius: 8, fontSize: totalSize(1.5), }]}
           />
 
         </View>
