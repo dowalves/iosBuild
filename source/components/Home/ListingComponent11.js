@@ -86,7 +86,7 @@ class ListingComponent extends Component<Props> {
                             <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
                             :null
                         }
-                        <Text style={styles.subHeadingTxt}>{item.business_hours_status}</Text>
+                        <Text style={[styles.subHeadingTxt,{color:item.color_code}]}>{item.business_hours_status}</Text>
 
                     </View>
 

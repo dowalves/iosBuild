@@ -126,7 +126,7 @@ export default class App extends Component<Props> {
 
     Storage.getItem('homepage').then((value) => {
       // if(value==null){
-      Storage.setItem('homepage',5)
+      Storage.setItem('homepage',8)
       // }
     })
   }

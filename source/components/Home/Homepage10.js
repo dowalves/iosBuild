@@ -188,72 +188,75 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
 
 
             <View style={{ backgroundColor: '#fff', borderTopLeftRadius: wp('6'), borderTopRightRadius: wp('6') }}>
+              {
+                home.categories_enabled && home.categories.length != 0 ?
+                  <View style={styles.topViewCon}>
+                    {
+                      home.categories_enabled ?
+                        <View style={{ flex: 1, width: width(100), backgroundColor: 'transparent', alignItems: 'center', position: 'absolute', marginVertical: 1 }}>
+                          <View style={{ flexDirection: "row", width: '100%' }}>
+                            {
+                              home.dwt_app_all_categs_title != undefined ?
+                                <Text style={{ fontSize: wp('5'), fontWeight: 'bold', color: '#000', position: 'absolute', left: wp('5') }}>{home.dwt_app_all_categs_title}</Text>
+                                : null
+                            }
+                            {
+                              home.sb_wpml_see_all_title != undefined ?
+                                <Text style={{ fontSize: 10, fontWeight: 'bold', color: data.main_clr, marginTop: wp('2'), position: 'absolute', right: wp('5') }}>{home.sb_wpml_see_all_title}</Text>
 
-              <View style={styles.topViewCon}>
-                {
-                  home.categories_enabled ?
-                    <View style={{ flex: 1, width: width(100), backgroundColor: 'transparent', alignItems: 'center', position: 'absolute', marginVertical: 1 }}>
-                      <View style={{ flexDirection: "row", width: '100%' }}>
-                        {
-                          home.dwt_app_all_categs_title!=undefined?
-                        <Text style={{ fontSize: wp('5'), fontWeight: 'bold', color: '#000', position: 'absolute', left: wp('5') }}>{home.dwt_app_all_categs_title}</Text>
-                          :null
-                        }
-                        {
-                          home.sb_wpml_see_all_title != undefined ?
-                        <Text style={{ fontSize: 10, fontWeight: 'bold', color: data.main_clr, marginTop: wp('2'), position: 'absolute', right: wp('5') }}>{home.sb_wpml_see_all_title}</Text>
-                   
-                   : null
-                        }
+                                : null
+                            }
 
-                      </View>
+                          </View>
 
-                      <View style={styles.flatlistCon}>
-                        <FlatList
-                          data={home.categories}
-                          renderItem={({ item, key }) =>
-                            <View style={{
-                              marginTop: 15,
-                              marginBottom: 8,
-                              marginRight: 15,
-                              alignContent: 'center',
-                              alignItems: 'center'
-                              // marginHorizontal: 10,
-                            }}>
+                          <View style={styles.flatlistCon}>
+                            <FlatList
+                              data={home.categories}
+                              renderItem={({ item, key }) =>
+                                <View style={{
+                                  marginTop: 15,
+                                  marginBottom: 8,
+                                  marginRight: 15,
+                                  alignContent: 'center',
+                                  alignItems: 'center'
+                                  // marginHorizontal: 10,
+                                }}>
 
-                              <TouchableOpacity key={key} style={styles.flatlistChild}
-                                onPress={() => {
-                                  store.CATEGORY = item,
-                                    store.moveToSearch = true,
-                                    this.navigateToScreen('SearchingScreen', data.menu.adv_search)
-                                }}
-                              >
-                                <Animatable.View
-                                  duration={2000}
-                                  animation="zoomIn"
-                                  iterationCount={1}
-                                  direction="alternate">
-                                  <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
-                                </Animatable.View>
+                                  <TouchableOpacity key={key} style={styles.flatlistChild}
+                                    onPress={() => {
+                                      store.CATEGORY = item,
+                                        store.moveToSearch = true,
+                                        this.navigateToScreen('SearchingScreen', data.menu.adv_search)
+                                    }}
+                                  >
+                                    <Animatable.View
+                                      duration={2000}
+                                      animation="zoomIn"
+                                      iterationCount={1}
+                                      direction="alternate">
+                                      <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
+                                    </Animatable.View>
 
-                                <Text style={[styles.childTxt, { fontWeight: '500', width: wp('18') }]}>{item.name}</Text>
+                                    <Text style={[styles.childTxt, { fontWeight: '500', width: wp('18') }]}>{item.name}</Text>
 
-                              </TouchableOpacity>
+                                  </TouchableOpacity>
 
 
-                            </View>
-                          }
-                          horizontal={true}
-                          showsHorizontalScrollIndicator={false}
-                        // keyExtractor={item => item.email}
-                        />
-                      </View>
-                      <View style={{ flex: 1.3, width: width(100) }}></View>
-                    </View>
-                    :
-                    null
-                }
-              </View>
+                                </View>
+                              }
+                              horizontal={true}
+                              showsHorizontalScrollIndicator={false}
+                            // keyExtractor={item => item.email}
+                            />
+                          </View>
+                          <View style={{ flex: 1.3, width: width(100) }}></View>
+                        </View>
+                        :
+                        null
+                    }
+                  </View> : null
+              }
+
 
               {
                 home.listings_enabled ?
@@ -263,13 +266,13 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     </View>
                     {
                       home.sb_wpml_see_all_title != undefined ?
-                      <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-  <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.sb_wpml_see_all_title}</Text>
-                      {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
-                    </TouchableOpacity>
-                   : null
+                        <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+                          <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                          {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
+                        </TouchableOpacity>
+                        : null
                     }
-                  
+
                   </View>
                   :
                   null

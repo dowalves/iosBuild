@@ -220,7 +220,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     // this.setState({searchtxt:''})
 
                   }}
-                  style={{ backgroundColor: 'red', marginLeft: wp('2'), borderRadius: wp('1.5'), paddingHorizontal: wp('2.5'), alignContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
+                  style={{ backgroundColor: store.settings.data.main_clr, marginLeft: wp('2'), borderRadius: wp('1.5'), paddingHorizontal: wp('2.5'), alignContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
                   <Icon
                     size={wp(5)}
                     name='search'
@@ -238,7 +238,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
 
 
             {
-              home.location_enabled ?
+              home.location_enabled && home.location_list.length!=0 ?
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
@@ -251,7 +251,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
 
                     {
                       home.sb_wpml_see_all_title != undefined ?
-                    <Text style={{ marginVertical: 20, fontSize: 10, color: '#fff', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                        <Text style={{ marginVertical: 20, fontSize: 10, color: '#fff', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
 
                         : null
                     }
@@ -350,7 +350,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     {
                       home.sb_wpml_see_all_title != undefined ?
                         <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-  <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: '#fff' }]}>{home.sb_wpml_see_all_title}</Text>
+                          <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: '#fff' }]}>{home.sb_wpml_see_all_title}</Text>
                           {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
                         </TouchableOpacity>
                         : null
@@ -384,7 +384,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                   {
                     home.sb_wpml_see_all_title != undefined ?
                       <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-  <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: '#fff' }]}>{home.sb_wpml_see_all_title}</Text>
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: '#fff' }]}>{home.sb_wpml_see_all_title}</Text>
                         {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
                       </TouchableOpacity>
                       : null
