@@ -190,58 +190,62 @@ import Carousel from 'react-native-snap-carousel';
               />
             }>
 
+            {
+              home.categories_enabled && home.categories.length != 0 ? [
+                <View style={[styles.topViewCon, { height: wp('15') }]}>
+                  {
+                    home.categories_enabled ?
+                      <View style={{ flex: 1, width: width(100), backgroundColor: 'transparent', alignItems: 'center', position: 'absolute', marginVertical: 1 }}>
+                        <View style={styles.flatlistCon}>
+                          <FlatList
+                            data={home.categories}
+                            renderItem={({ item, key }) =>
+                              <View style={{
+                                marginBottom: 8,
+                                marginRight: 15,
+                                alignContent: 'center',
+                                alignItems: 'center'
+                                // marginHorizontal: 10,
+                              }}>
 
-            <View style={[styles.topViewCon, { height: wp('15') }]}>
-              {
-                home.categories_enabled ?
-                  <View style={{ flex: 1, width: width(100), backgroundColor: 'transparent', alignItems: 'center', position: 'absolute', marginVertical: 1 }}>
-                    <View style={styles.flatlistCon}>
-                      <FlatList
-                        data={home.categories}
-                        renderItem={({ item, key }) =>
-                          <View style={{
-                            marginBottom: 8,
-                            marginRight: 15,
-                            alignContent: 'center',
-                            alignItems: 'center'
-                            // marginHorizontal: 10,
-                          }}>
+                                <TouchableOpacity key={key} style={[styles.flatlistChild, { backgroundColor: '#fff', flexDirection: 'row', width: wp('34'), height: wp('10'), borderRadius: wp('5') }]}
+                                  onPress={() => {
+                                    store.CATEGORY = item,
+                                      store.moveToSearch = true,
+                                      this.navigateToScreen('SearchingScreen', data.menu.adv_search)
+                                  }}
+                                >
+                                  <Animatable.View
+                                    duration={2000}
+                                    animation="zoomIn"
+                                    iterationCount={1}
+                                    direction="alternate">
+                                    <Image style={{ height: height(3), width: width(6), resizeMode: 'contain' }} source={{ uri: item.img }} />
+                                  </Animatable.View>
+                                  {/* <View style={{ height: wp(4), width: wp(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red', position: 'absolute', borderRadius: wp(2), top: 0, right: 0 }}>
+                                    <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>01</Text>
+                                  </View> */}
+                                  <Text style={[styles.childTxt, { fontWeight: '500', width: wp('18') }]}>{item.name}</Text>
 
-                            <TouchableOpacity key={key} style={[styles.flatlistChild, { backgroundColor: '#fff', flexDirection: 'row', width: wp('34'), height: wp('10'), borderRadius: wp('5') }]}
-                              onPress={() => {
-                                store.CATEGORY = item,
-                                  store.moveToSearch = true,
-                                  this.navigateToScreen('SearchingScreen', data.menu.adv_search)
-                              }}
-                            >
-                              <Animatable.View
-                                duration={2000}
-                                animation="zoomIn"
-                                iterationCount={1}
-                                direction="alternate">
-                                <Image style={{ height: height(3), width: width(6), resizeMode: 'contain' }} source={{ uri: item.img }} />
-                              </Animatable.View>
-                              {/* <View style={{ height: wp(4), width: wp(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red', position: 'absolute', borderRadius: wp(2), top: 0, right: 0 }}>
-                                <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>01</Text>
-                              </View> */}
-                              <Text style={[styles.childTxt, { fontWeight: '500', width: wp('18') }]}>{item.name}</Text>
-
-                            </TouchableOpacity>
+                                </TouchableOpacity>
 
 
-                          </View>
-                        }
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                      // keyExtractor={item => item.email}
-                      />
-                    </View>
-                    <View style={{ flex: 1.3, width: width(100) }}></View>
-                  </View>
-                  :
-                  null
-              }
-            </View>
+                              </View>
+                            }
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                          // keyExtractor={item => item.email}
+                          />
+                        </View>
+                        <View style={{ flex: 1.3, width: width(100) }}></View>
+                      </View>
+                      :
+                      null
+                  }
+                </View>
+              ] : []
+            }
+
 
 
             {
@@ -276,7 +280,7 @@ import Carousel from 'react-native-snap-carousel';
                               color='white'
                               containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                             />
-                            <Text style={{ fontSize: wp('3'), color: '#fff' }}>Arkasana, United States</Text>
+                            <Text style={{ fontSize: wp('3'), color: '#fff' }}>{item.listing_location}</Text>
                           </View>
                         </View>
 
@@ -349,13 +353,23 @@ import Carousel from 'react-native-snap-carousel';
                 null
             }
             {
-              home.location_enabled ?
+              home.location_enabled && home.location_list.length!=0 ?
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, color: COLOR_SECONDARY, marginVertical: 15 }}>Best Location</Text>
+                    {
+                      home.sb_wpml_best_location_title != undefined ? [
+                        <Text style={{ fontSize: 20,fontWeight:'700', color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
 
-                    <Text style={{ marginVertical: 20, fontSize: 10, color: 'red', fontWeight: 'bold', position: 'absolute', right: 0 }}>See All</Text>
+                      ] : []
+                    }
+
+                    {
+                      home.sb_wpml_see_all_title != undefined ?
+                        <Text style={{ marginVertical: 20, fontSize: 10, color: 'red', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+
+                        : null
+                    }
 
                   </View>
 
@@ -445,10 +459,16 @@ import Carousel from 'react-native-snap-carousel';
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                       <Text style={styles.recList}>{home.section_txt}</Text>
                     </View>
-                    <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-                      <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>See All</Text>
-                      {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
-                    </TouchableOpacity>
+
+                    {
+                      home.sb_wpml_see_all_title != undefined ?
+                        <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+                          <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                          {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
+                        </TouchableOpacity>
+
+                        : null
+                    }
 
 
                   </View>
@@ -512,10 +532,16 @@ import Carousel from 'react-native-snap-carousel';
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                     <Text style={styles.recList}>{home.latest_events}</Text>
                   </View>
-                  <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-                    <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: 'red' }]}>See All</Text>
-                    {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
-                  </TouchableOpacity>
+
+                  {
+                    home.sb_wpml_see_all_title != undefined ?
+                      <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: 'red' }]}>{home.sb_wpml_see_all_title}</Text>
+                        {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
+                      </TouchableOpacity>
+                      : null
+                  }
+
                 </View>
                 :
                 null

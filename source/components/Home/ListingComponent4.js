@@ -37,7 +37,7 @@ class ListingComponent extends Component<Props> {
                 }}>
                     <ProgressImage indicator={null} source={{ uri: item.image }} style={styles.featuredImg}>
                         <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
-                            <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
+                            <Text style={[styles.closedBtnTxt]}>{item.business_hours_status}</Text>
                         </TouchableOpacity>
                     </ProgressImage>
                 </View>
@@ -101,7 +101,7 @@ class ListingComponent extends Component<Props> {
                             ]:[]
                         }
 
-                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2,marginTop:wp('2'),position: 'absolute',right:wp('2'),top:wp('0') }}>{item.business_hours_status}</Text>
+                        <Text style={{ fontSize: 10, color: item.color_code,marginLeft: 2,marginTop:wp('2'),position: 'absolute',right:wp('2'),top:wp('0') }}>{item.business_hours_status}</Text>
 
                     </View>
 

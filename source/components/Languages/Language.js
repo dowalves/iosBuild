@@ -103,31 +103,7 @@ export default class Language extends Component<Props> {
     }
     return false
   }
-  getPackages = async () => {
-    this.setState({ loading: true });
-    try {
-      var response = await ApiController.post('packages');
-      // console.log('packages are====>>>', response);
 
-      if (response.success) {
-        store.PACKAGES_OBJ = response.data;
-        store.PACKAGES_OBJ.packages.forEach(item => {
-          item.selectedMethod = '';
-          if (item.ios.code.length != 0)
-            itemSkewsIos.push(item.ios.code);
-          if (item.android.code.length != 0)
-            itemSkewsAndroid.push(item.android.code);
-        });
-
-        this.setState({ loading: false })
-      } else {
-        this.setState({ loading: false })
-      }
-    } catch (error) {
-      console.log('error: ', error);
-      this.setState({ loading: false })
-    }
-  }
 
 
 
@@ -176,22 +152,22 @@ export default class Language extends Component<Props> {
               style={{ alignContent: 'center' }}
               // backgroundColor='#f9f9f9'
               showsVerticalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl
-                  colors={['white']}
-                  progressBackgroundColor={store.settings.data.main_clr}
-                  tintColor={store.settings.data.main_clr}
-                  refreshing={this.state.refreshing}
-                  onRefresh={this.getPackages}
-                />
-              }
+              // refreshControl={
+              //   <RefreshControl
+              //     colors={['white']}
+              //     progressBackgroundColor={store.settings.data.main_clr}
+              //     tintColor={store.settings.data.main_clr}
+              //     refreshing={this.state.refreshing}
+              //     onRefresh={this.getPackages}
+                // />
+              // }
             >
               <View style={{marginTop:wp("10"),marginLeft:wp('10')}}>
-                <Text style={{fontSize:wp('5'),fontWeight:'bold'}}>Select your Language</Text>
+                <Text style={{fontSize:wp('5'),fontWeight:'bold'}}>{data.sb_wpml_select_lang_title}</Text>
               </View>
               <FlatList
                 data={data.wpml_site_languages}
-                style={{ height: heightPercentageToDP('90'), top: '10%' }}
+                style={{ height: heightPercentageToDP('90'), top: '5%' }}
                 renderItem={({ item }) =>
                   <TouchableOpacity 
                   onPress={()=>this.updateLanguage(item)}

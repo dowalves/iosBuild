@@ -91,7 +91,7 @@ import { NavigationActions } from 'react-navigation';
           />
 
         </View>
-        <View style={{ backgroundColor: 'red', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5') }}>
+        <View style={{ backgroundColor: store.settings.data.main_clr, alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5') }}>
           <Icon
             size={wp(7)}
             name='search'

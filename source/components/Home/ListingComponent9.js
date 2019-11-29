@@ -9,7 +9,7 @@ import { COLOR_GRAY, COLOR_ORANGE } from '../../../styles/common';
 import { withNavigation } from 'react-navigation';
 import styles from '../../../styles/Home9';
 import store from '../../Stores/orderStore';
-import {widthPercentageToDP as wp} from '../../helpers/Responsive'
+import { widthPercentageToDP as wp } from '../../helpers/Responsive'
 class ListingComponent extends Component<Props> {
     onStarRatingPress(rating) {
         this.setState({
@@ -41,51 +41,55 @@ class ListingComponent extends Component<Props> {
                 </View>
 
                 <View style={styles.txtViewCon}>
-                    
-                   
+
+
 
                     <View style={{ width: width(50), alignItems: 'flex-start' }}>
                         <Text style={styles.txtViewHeading}>{item.listing_title}</Text>
                     </View>
 
                     {
-                        item.listing_location!=null?[
+                        item.listing_location != null ? [
                             <View style={{ marginTop: 1, width: width(45), marginHorizontal: 6, flexDirection: 'row', alignItems: 'center' }}>
-                            <Icon
-                                size={18}
-                                name='location'
-                                type='evilicon'
-                                color='red'
-                                containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-                            />
-                            
-                        <Text style={{ fontSize: 10, color: '#8a8a8a',marginLeft: 2, }}>{item.listing_location}</Text>
-                        </View>
-                        ]:[]
+                                <Icon
+                                    size={18}
+                                    name='location'
+                                    type='evilicon'
+                                    color='red'
+                                    containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+                                />
+
+                                <Text style={{ fontSize: 10, color: '#8a8a8a', marginLeft: 2, }}>{item.listing_location}</Text>
+                            </View>
+                        ] : []
                     }
-                  
-                    <View style={[styles.gradingCon,{marginTop:wp("1")}]}>
-                            <StarRating
-                                disabled={false}
-                                maxStars={5}
-                                starSize={13}
-                                fullStarColor={COLOR_ORANGE}
-                                containerStyle={{ marginHorizontal: 10 }}
-                                rating={item.rating_stars === "" ? 0 : item.rating_stars}
-                            />
-                        </View>
-                    <View style={{ width: width(50),flexDirection:'row',marginTop:wp(3) }}>
-                    {
-                            item.total_reviews!=null?
-                        <Text style={styles.subHeadingTxt}>{item.total_reviews}  |</Text>
-                            
-                            :null
+
+                    <View style={[styles.gradingCon, { marginTop: wp("1") }]}>
+                        <StarRating
+                            disabled={false}
+                            maxStars={5}
+                            starSize={13}
+                            fullStarColor={COLOR_ORANGE}
+                            containerStyle={{ marginHorizontal: 10 }}
+                            rating={item.rating_stars === "" ? 0 : item.rating_stars}
+                        />
+                    </View>
+                    <View style={{ width: width(50), flexDirection: 'row', marginTop: wp(3) }}>
+                        {
+                            item.total_reviews != null && item.total_reviews != "" ?
+                                <Text style={styles.subHeadingTxt}>{item.total_reviews}  |</Text>
+
+                                : null
                         }
-                        <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
+                        {
+                            item.category_name != null && item.category_name != "" ?
+                                <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
+                                : null
+                        }
                         <Text style={styles.subHeadingTxt}>{item.business_hours_status}</Text>
 
                     </View>
-                    
+
                     {/* <View style={styles.ratingCon}>
                         <View style={styles.gradingCon}>
                             <StarRating
@@ -106,7 +110,7 @@ class ListingComponent extends Component<Props> {
                         />
                         <Text style={styles.ratingTxt}>{item.total_views}</Text>
                     </View> */}
-                   
+
 
                 </View>
             </TouchableOpacity>

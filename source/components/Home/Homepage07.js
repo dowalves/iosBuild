@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 import {
-  Platform, SafeAreaView, Text, View, ImageBackground, Keyboard,Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl
+  Platform, SafeAreaView, Text, View, ImageBackground, Keyboard, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl
 } from 'react-native';
 import {
   AdMobBanner,
@@ -168,8 +168,18 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
               />
             }>
             <View style={{ marginLeft: wp('5') }}>
-              <Text style={{ color: '#fff', fontSize: wp('6'), fontWeight: 'bold' }}>Find the Best Place</Text>
-              <Text style={{ color: '#fff', fontSize: wp('3') }}>More than 17,000 business listed</Text>
+
+              {
+                home.sb_wpml_find_best_place != undefined ?
+                  <Text style={{ color: '#fff', fontSize: wp('6'), fontWeight: 'bold' }}>{home.sb_wpml_find_best_place}</Text>
+                  : null
+              }
+              {
+                home.sb_wpml_more_busines_listed != undefined ?
+                  <Text style={{ color: '#fff', fontSize: wp('3') }}>{home.sb_wpml_more_busines_listed}</Text>
+                  : null
+              }
+
 
 
               <View style={{ flexDirection: 'row', marginTop: wp('4') }}>
@@ -180,7 +190,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     value={this.state.searchtxt}
 
                     // placeholder={store.home.homeGet.data.advanced_search.search_placeholder}
-                    placeholder={store.home.homeGet!=null?store.home.homeGet.data!=undefined?store.home.homeGet.data.advanced_search.search_placeholder:'':''}
+                    placeholder={store.home.homeGet != null ? store.home.homeGet.data != undefined ? store.home.homeGet.data.advanced_search.search_placeholder : '' : ''}
 
                     placeholderTextColor="#fff"
 
@@ -189,36 +199,36 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     style={{ color: '#fff', paddingLeft: wp('2'), paddingVertical: wp('2.8'), justifyContent: 'center', alignContent: 'center', alignItems: 'center', fontSize: wp('3') }}
                   />
                 </View>
-                <TouchableOpacity 
-                 onPress={() => {
-                  // console.log('navigaitonxxx', NavigationActions)
-                  // console.log('searchtext', this.state.searchtxt)
-                  Keyboard.dismiss()
-                  store.SEARCHTEXT=this.state.searchtxt,
-                  store.moveToSearchTXT = true
-                  // if(this.props.navigation.state.index != 4 ){
+                <TouchableOpacity
+                  onPress={() => {
+                    // console.log('navigaitonxxx', NavigationActions)
+                    // console.log('searchtext', this.state.searchtxt)
+                    Keyboard.dismiss()
+                    store.SEARCHTEXT = this.state.searchtxt,
+                      store.moveToSearchTXT = true
+                    // if(this.props.navigation.state.index != 4 ){
                     const navigateAction = NavigationActions.navigate({
                       routeName: 'SearchingScreen',
-                      params:{search_text:this.state.searchtxt, from:'home007'}
+                      params: { search_text: this.state.searchtxt, from: 'home007' }
                     });
-                    this.props.navigation.setParams({ 
-                      params: { search_text: this.state.searchtxt , from:'home007'},
+                    this.props.navigation.setParams({
+                      params: { search_text: this.state.searchtxt, from: 'home007' },
                       key: 'screen-123',
-                     });
+                    });
                     this.props.navigation.dispatch(navigateAction);
-                  // }
-                  // this.setState({searchtxt:''})
-                
-                }}
-                style={{ backgroundColor: 'red', marginLeft: wp('2'), borderRadius: wp('1.5'), paddingHorizontal: wp('2.5'), alignContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
+                    // }
+                    // this.setState({searchtxt:''})
+
+                  }}
+                  style={{ backgroundColor: 'red', marginLeft: wp('2'), borderRadius: wp('1.5'), paddingHorizontal: wp('2.5'), alignContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
                   <Icon
                     size={wp(5)}
                     name='search'
                     type='evilicon'
                     color='#fff'
-                    containerStyle={{ marginLeft: 0, }} 
-                   
-                    />
+                    containerStyle={{ marginLeft: 0, }}
+
+                  />
                 </TouchableOpacity>
               </View>
 
@@ -232,9 +242,21 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff', marginVertical: 15 }}>Best Location</Text>
+                    {
+                      home.sb_wpml_best_location_title != undefined ? [
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff', marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
 
-                    <Text style={{ marginVertical: 20, fontSize: 10, color: '#fff', fontWeight: 'bold', position: 'absolute', right: 0 }}>See All</Text>
+                      ] : []
+                    }
+
+                    {
+                      home.sb_wpml_see_all_title != undefined ?
+                    <Text style={{ marginVertical: 20, fontSize: 10, color: '#fff', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+
+                        : null
+                    }
+
+
 
                   </View>
 
@@ -324,10 +346,16 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                       <Text style={styles.recList}>{home.section_txt}</Text>
                     </View>
-                    <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-                      <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: '#fff' }]}>See All</Text>
-                      {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
-                    </TouchableOpacity>
+
+                    {
+                      home.sb_wpml_see_all_title != undefined ?
+                        <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+  <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: '#fff' }]}>{home.sb_wpml_see_all_title}</Text>
+                          {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
+                        </TouchableOpacity>
+                        : null
+                    }
+
 
 
                   </View>
@@ -352,10 +380,16 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                     <Text style={styles.recList}>{home.latest_events}</Text>
                   </View>
-                  <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-                    <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: '#fff' }]}>See All</Text>
-                    {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
-                  </TouchableOpacity>
+
+                  {
+                    home.sb_wpml_see_all_title != undefined ?
+                      <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
+  <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: '#fff' }]}>{home.sb_wpml_see_all_title}</Text>
+                        {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
+                      </TouchableOpacity>
+                      : null
+                  }
+
                 </View>
                 :
                 null

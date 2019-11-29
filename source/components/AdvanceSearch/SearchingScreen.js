@@ -62,16 +62,16 @@ import ListingComponent from '../Home/SearchListingComponent';
     //    }
     // console.log('ok so I received next props', nextProps)
     // console.log('ok so I received prev props', prevState)
-       
+
     // return null;
     //  }
     //  componentDidUpdate(prevProps,prevState){
-        // console.log('ok so I received prev props', prevProps)
-        // console.log('ok so I received prev state', prevState)
-        // if(prevProps.)
-        // this.getSearchList()
+    // console.log('ok so I received prev props', prevProps)
+    // console.log('ok so I received prev state', prevState)
+    // if(prevProps.)
+    // this.getSearchList()
     // }
-     
+
     interstitial = () => {
         let data = store.settings.data;
         try {
@@ -134,7 +134,7 @@ import ListingComponent from '../Home/SearchListingComponent';
         store.CATEGORY = {};
         store.LOCATION = {};
         store.SEARCH_OBJ = {};
-        store.SEARCHTEXT=""
+        store.SEARCHTEXT = ""
         await this.setState({
             search: ''
         })
@@ -374,7 +374,7 @@ import ListingComponent from '../Home/SearchListingComponent';
                             null
                     }
                 </View>
-              
+
             </View>
         );
     }

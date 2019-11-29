@@ -75,13 +75,17 @@ class ListingComponent extends Component<Props> {
                         />
                     </View>
                     <View style={{ width: width(50), flexDirection: 'row', marginTop: wp(3) }}>
-                    {
-                            item.total_reviews!=null?
-                            <Text style={styles.subHeadingTxt}>{item.total_reviews}  |</Text>
-                            
+                        {
+                            item.total_reviews != null && item.total_reviews != "" ?
+                                <Text style={styles.subHeadingTxt}>{item.total_reviews}  |</Text>
+
+                                : null
+                        }
+                        {
+                            item.category_name != null && item.category_name != "" ?
+                            <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
                             :null
                         }
-                        <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
                         <Text style={styles.subHeadingTxt}>{item.business_hours_status}</Text>
 
                     </View>

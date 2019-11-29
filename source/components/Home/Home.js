@@ -32,7 +32,7 @@ import ApiController from '../../ApiController/ApiController';
 import ListingComponent from './ListingComponent';
 import EventComponent from './EventComponent';
 import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpers/Responsive'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../helpers/Responsive'
 import LocalDB from '../../LocalDB/LocalDB';
 @observer export default class Home extends Component<Props> {
   constructor(props) {
@@ -87,7 +87,7 @@ import LocalDB from '../../LocalDB/LocalDB';
   }
   componentDidMount = async () => {
     await this.interstitial()
-    
+
   }
   interstitial = () => {
     let data = store.settings.data;
@@ -169,48 +169,14 @@ import LocalDB from '../../LocalDB/LocalDB';
                 onRefresh={this.homeData}
               />
             }>
-            <View style={styles.topViewCon}>
-              {/* <View style={styles.InnerRadius}> */}
-              {/* <View style={styles.imageCon}> */}
-              {/* <ImageBackground indicator={null} source={{ uri: home.search_section.image }} style={{ flex: 1, resizeMode: 'contain' }}>
-                    <View style={{ height: height(40), alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
-                      <View style={styles.findTxtCon}>
-                        <Text style={styles.firTxt}>{home.search_section.main_title}</Text>
-                      </View>
-                      <Text style={styles.secTxt}>{home.search_section.sub_title}</Text>
-                      <View style={styles.searchCon}>
-                        <TextInput
-                          onChangeText={(value) => this.setState({ email: value })}
-                          underlineColorAndroid='transparent'
-                          placeholder={home.search_section.placeholder}
-                          // placeholderTextColor='black'
-                          underlineColorAndroid='transparent'
-                          autoCorrect={false}
-                          onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
-                          style={styles.txtInput}
-                        />
-                        <Icon
-                          size={30}
-                          name='search'
-                          type='evilicon'
-                          color='black'
-                          containerStyle={{ marginLeft: 0, marginVertical: 10 }}
-                          // containerStyle={styles.searchIcon}
-                          onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
-                        /> */}
-              {/* <Image
-                          source={require('../../images/search_black.png')}
-                          style={styles.searchIcon}
-                          onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
-                        /> */}
-              {/* </View>
-                    </View>
-                  </ImageBackground> */}
-              {/* </View> */}
-              {/* </View> */}
-            </View>
+            {home.categories_enabled && home.categories.length != 0 ?
+              <View style={styles.topViewCon} />
+              : null
+            }
+
+
             {
-              home.categories_enabled ?
+              home.categories_enabled && home.categories.length != 0 ?
                 <View style={{ flex: 1, width: width(100), backgroundColor: 'transparent', alignItems: 'center', position: 'absolute', marginVertical: 1 }}>
                   <View style={styles.flatlistCon}>
                     <FlatList
@@ -239,13 +205,13 @@ import LocalDB from '../../LocalDB/LocalDB';
                               direction="alternate">
                               <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
                             </Animatable.View>
-                            <View style={{ height: width(4), width: width(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red', position: 'absolute', borderRadius: width(2), top: 0, right: 0 }}>
+                            <View style={{ height: width(4), width: width(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: store.settings.data.main_clr, position: 'absolute', borderRadius: width(2), top: 0, right: 0 }}>
                               <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>01</Text>
                             </View>
 
                           </TouchableOpacity>
 
-                          <Text style={[styles.childTxt, { fontWeight: '500' ,width:wp('18')}]}>{item.name}</Text>
+                          <Text style={[styles.childTxt, { fontWeight: '500', width: wp('18') }]}>{item.name}</Text>
 
                         </View>
                       }
@@ -265,10 +231,15 @@ import LocalDB from '../../LocalDB/LocalDB';
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                     <Text style={styles.recList}>{home.section_txt}</Text>
                   </View>
-                  <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-                    <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>See All</Text>
-                    {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
-                  </TouchableOpacity>
+                  {
+                    home.sb_wpml_see_all_title != undefined ? [
+                      <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                        {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
+                      </TouchableOpacity>
+                    ] : []
+                  }
+
                 </View>
                 :
                 null
@@ -296,7 +267,12 @@ import LocalDB from '../../LocalDB/LocalDB';
                   <View style={{ marginHorizontal: 20, width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
                     <Text style={{ marginVertical: 20, fontSize: 20, color: COLOR_PRIMARY, fontWeight: 'bold' }}>{home.featured_list_txt}</Text>
 
-                    <Text style={{ marginVertical: 20, fontSize: 10, color: COLOR_PRIMARY, fontWeight: 'bold', position: 'absolute', right: 0 }}>See All</Text>
+                    {
+                      home.sb_wpml_see_all_title != undefined ? [
+                        <Text style={{ marginVertical: 20, fontSize: 10, color: COLOR_PRIMARY, fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+
+                      ] : []
+                    }
 
                   </View>
 
@@ -326,16 +302,20 @@ import LocalDB from '../../LocalDB/LocalDB';
                             <View style={{ backgroundColor: '#fff', borderRadius: 5, width: '97%', alignSelf: 'center', position: 'absolute', bottom: 3 }}>
                               <Text style={{ fontSize: 11, color: 'gray', marginHorizontal: 7, marginTop: 10, width: width(45) }}>{item.category_name}</Text>
                               <Text style={{ fontSize: 13, fontWeight: 'bold', color: COLOR_SECONDARY, marginHorizontal: 7, marginTop: 3, marginBottom: 5 }}>{item.listing_title}</Text>
-                              <View style={{ marginBottom: 8, width: width(45), marginHorizontal: 5, flexDirection: 'row', alignItems: 'center' }}>
-                                <Icon
-                                  size={18}
-                                  name='location'
-                                  type='evilicon'
-                                  color='red'
-                                  containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
-                                />
-                                <Text style={{ fontSize: 10, color: '#8a8a8a' }}>Arkasana, United States</Text>
-                              </View>
+                              {
+                                item.listing_location != undefined ?
+                                  <View style={{ marginBottom: 8, width: width(45), marginHorizontal: 5, flexDirection: 'row', alignItems: 'center' }}>
+                                    <Icon
+                                      size={18}
+                                      name='location'
+                                      type='evilicon'
+                                      color='red'
+                                      containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+                                    />
+                                    <Text style={{ fontSize: 10, color: '#8a8a8a' }}>{item.listing_location}</Text>
+                                  </View> : null
+                              }
+
                             </View>
 
                             {/* <View style={{ height: height(4), width: width(55), borderTopColor: '#cccccc', flexDirection: 'row', borderTopWidth: 0.3 }}>
@@ -395,12 +375,26 @@ import LocalDB from '../../LocalDB/LocalDB';
               home.location_enabled ?
                 <View style={{ marginHorizontal: 20 }}>
 
-                  <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20,  color: COLOR_SECONDARY, marginVertical: 15 }}>Best Location</Text>
+                  {
+                    home.location_list.length != 0 ? [
+                      <View style={{ width: width(90), marginTop: 10, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+                        {
+                          home.sb_wpml_best_location_title != undefined ? [
+                            <Text style={styles.recList}>{home.sb_wpml_best_location_title}</Text>
 
-                    <Text style={{ marginVertical: 20, fontSize: 10, color: 'red', fontWeight: 'bold', position: 'absolute', right: 0 }}>See All</Text>
+                          ] : []
+                        }
 
-                  </View>
+                        {
+                          home.sb_wpml_see_all_title != undefined ? [
+                            <Text style={{ marginVertical: 20, fontSize: 10, color: store.settings.data.main_clr, fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                          ] : []
+                        }
+
+                      </View>
+                    ] : []
+                  }
+
 
                   <View style={{ flexWrap: 'wrap', flexDirection: 'row', alignItems: 'center' }}>
 
@@ -418,7 +412,7 @@ import LocalDB from '../../LocalDB/LocalDB';
                                   this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                               }}>
                               {/* <View style={{ height: 10 }} /> */}
-                              <View style={{  width: width(43.5), paddingHorizontal: wp('5'), paddingVertical: wp('3'), backgroundColor: '#fff', borderRadius: wp(3), }}>
+                              <View style={{ width: width(43.5), paddingHorizontal: wp('5'), paddingVertical: wp('3'), backgroundColor: '#fff', borderRadius: wp(3), }}>
                                 <Avatar
                                   size="medium"
                                   rounded
@@ -486,10 +480,16 @@ import LocalDB from '../../LocalDB/LocalDB';
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                     <Text style={styles.recList}>{home.latest_events}</Text>
                   </View>
-                  <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-                    <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold',color:'red' }]}>See All</Text>
-                    {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
-                  </TouchableOpacity>
+                  {
+                    home.sb_wpml_see_all_title != undefined ? [
+                      <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
+
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                        {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
+                      </TouchableOpacity>
+                    ] : []
+                  }
+
                 </View>
                 :
                 null

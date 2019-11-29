@@ -59,12 +59,15 @@ class ListingComponent extends Component<Props> {
 
                     <View style={{ width: width(50), flexDirection: 'row', marginTop: 2 }}>
                         {
-                            item.total_reviews != null ?
+                            item.total_reviews != null && item.total_reviews != "" ?
                                 <Text style={styles.subHeadingTxt}>{item.total_reviews}  |</Text>
-
                                 : null
                         }
-                        <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
+                        {
+                            item.category_name != null && item.category_name != "" ?
+                                <Text style={styles.subHeadingTxt}>{item.category_name}    |</Text>
+                                : null
+                        }
                         <Text style={styles.subHeadingTxt}>{item.business_hours_status}</Text>
 
                     </View>

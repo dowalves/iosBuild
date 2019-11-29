@@ -167,17 +167,23 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                 onRefresh={this.homeData}
               />
             }>
-            <View style={{ marginLeft: wp('5'),zIndex:101 }}>
-            
-
-              <View style={{height:wp('20'),width:wp('30'),borderBottomRightRadius:wp('2'),borderTopRightRadius:wp('2'),backgroundColor:data.main_clr,position:'absolute',left:wp('-5')}}>
-
-              </View>
-              <Text style={{ color: '#fff', fontSize: wp('6'),marginTop:wp('3.5'), fontWeight: 'bold' }}>Find the Best Place</Text>
-              <Text style={{ color: '#fff', fontSize: wp('3') }}>More than 18,000 business listed</Text>
+               {
+                home.sb_wpml_find_best_place!=undefined && home.sb_wpml_more_busines_listed!=undefined?[
+                  <View style={{ marginLeft: wp('5'), zIndex: 101 }}>
 
 
-            </View>
+                  <View style={{ height: wp('20'), width: wp('30'), borderBottomRightRadius: wp('2'), borderTopRightRadius: wp('2'), backgroundColor: data.main_clr, position: 'absolute', left: wp('-5') }}>
+    
+                  </View>
+                 
+                <Text style={{ color: '#fff', fontSize: wp('6'), marginTop: wp('3.5'), fontWeight: 'bold' }}>{home.sb_wpml_find_best_place}</Text>
+                <Text style={{ color: '#fff', fontSize: wp('3') }}>{home.sb_wpml_more_busines_listed}</Text>
+    
+                </View>
+    
+                ]:[]
+              }
+          
             {
               home.listings_enabled ?
                 <View style={{ backgroundColor: '#2e3034', width: '100%', marginTop: wp('5'), alignSelf: 'center', alignItems: 'center', paddingBottom: wp('5') }}>
@@ -186,7 +192,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                       <Text style={styles.recList}>{home.section_txt}</Text>
                     </View>
                     <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-                      <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: '#fff' }]}>See All</Text>
+                      {
+                        home.sb_wpml_see_all_title?
+                      <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: '#fff' }]}>{home.sb_wpml_see_all_title}</Text>
+                        :null
+                      }
                       {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
                     </TouchableOpacity>
 
@@ -215,9 +225,17 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20,  color: '#fff', marginVertical: 15 }}>Best Location</Text>
-
-                    <Text style={{ marginVertical: 20, fontSize: 10, color: '#fff', fontWeight: 'bold', position: 'absolute', right: 0 }}>See All</Text>
+                    {
+                      home.sb_wpml_best_location_title != undefined ? [
+                        <Text style={{ fontSize: wp('5'), fontWeight:'700',color: '#fff', marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
+                        // <Text style={{ fontSize: wp('5'), fontWeight:'700',color: '#fff', marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
+                      ] : []
+                    }
+                    {
+                      home.sb_wpml_see_all_title != undefined ?
+                        <Text style={{ marginVertical: 20, fontSize: 10, color: '#fff', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                        : null
+                    }
 
                   </View>
 
@@ -300,7 +318,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                 null
             }
 
-          
+
             {
               home.events_enabled ?
                 <View style={styles.cate_con}>
@@ -308,7 +326,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     <Text style={styles.recList}>{home.latest_events}</Text>
                   </View>
                   <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-                    <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: '#fff' }]}>See All</Text>
+                      {
+                        home.sb_wpml_see_all_title!=undefined?
+                      <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: '#fff' }]}>{home.sb_wpml_see_all_title}</Text>
+                        :null
+                      }
                     {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
                   </TouchableOpacity>
                 </View>

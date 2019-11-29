@@ -9,16 +9,16 @@ import styles from '../../../styles/SearchListingStyle';
 class ListingComponent extends Component<Props> {
     onStarRatingPress(rating) {
         this.setState({
-        //   starCount: rating
+            //   starCount: rating
         });
     }
     render() {
         let item = this.props.item;
         let status = this.props.listStatus;
         // console.log('iamge uri==>>',item.image);
-        
+
         return (
-            <TouchableOpacity style={[styles.featuredFLItem,{ width: status? width(95) : width(90) }]} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
+            <TouchableOpacity style={[styles.featuredFLItem, { width: status ? width(95) : width(90) }]} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
                 <ImageBackground source={{ uri: item.image }} style={styles.featuredImg}>
                     <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
                         <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
@@ -35,7 +35,7 @@ class ListingComponent extends Component<Props> {
                                 starSize={13}
                                 fullStarColor={COLOR_ORANGE}
                                 containerStyle={{ marginHorizontal: 10 }}
-                                rating={item.rating_stars.length === 0 ? 0 : item.rating_stars}
+                                rating={item.rating_stars == null ? 0 : item.rating_stars.length === 0 ? 0 : item.rating_stars}
                             />
                         </View>
                         <Icon

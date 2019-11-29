@@ -32,7 +32,7 @@ import ApiController from '../../ApiController/ApiController';
 import ListingComponentBox from './ListingComponentBox6';
 import EventComponent from './EventComponent';
 import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpers/Responsive'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../helpers/Responsive'
 @observer export default class Home extends Component<Props> {
   constructor(props) {
     super(props);
@@ -48,7 +48,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpe
     this.props.navigation.setParams({ otherParam: title });
     this.props.navigation.dispatch(navigateAction);
   }
-   UNSAFE_componentWillMount = async () => {
+  UNSAFE_componentWillMount = async () => {
     // calling homeData func
     store.SEARCH_OBJ = {};
     this.setState({ loading: true })
@@ -169,8 +169,8 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpe
             }>
             {/* <View style={styles.topViewCon}>
               {/* <View style={styles.InnerRadius}> */}
-              {/* <View style={styles.imageCon}> */}
-              {/* <ImageBackground indicator={null} source={{ uri: home.search_section.image }} style={{ flex: 1, resizeMode: 'contain' }}>
+            {/* <View style={styles.imageCon}> */}
+            {/* <ImageBackground indicator={null} source={{ uri: home.search_section.image }} style={{ flex: 1, resizeMode: 'contain' }}>
                     <View style={{ height: height(40), alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
                       <View style={styles.findTxtCon}>
                         <Text style={styles.firTxt}>{home.search_section.main_title}</Text>
@@ -196,16 +196,16 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpe
                           // containerStyle={styles.searchIcon}
                           onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
                         /> */}
-              {/* <Image
+            {/* <Image
                           source={require('../../images/search_black.png')}
                           style={styles.searchIcon}
                           onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
                         /> */}
-              {/* </View>
+            {/* </View>
                     </View>
                   </ImageBackground> */}
-              {/* </View> */}
-              {/* </View> */}
+            {/* </View> */}
+            {/* </View> */}
             {/* </View>  */}
             {/* {
               home.categories_enabled ?
@@ -259,10 +259,16 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpe
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                     <Text style={styles.recList}>{home.section_txt}</Text>
                   </View>
-                  <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-                    <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>See All</Text>
-                    {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
-                  </TouchableOpacity>
+
+                  {
+                    home.sb_wpml_see_all_title != undefined ?
+                      <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                        {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
+                      </TouchableOpacity>
+                      : null
+                  }
+
                 </View>
                 :
                 null
@@ -271,7 +277,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpe
               home.listings_enabled ?
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <FlatList
-                  numColumns={2}
+                    numColumns={2}
                     data={home.listings}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item, key }) =>
@@ -285,16 +291,26 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpe
                 :
                 null
             }
-         
-           
+
+
             {
               home.location_enabled ?
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20,  color: COLOR_SECONDARY, marginVertical: 15 }}>Best Location</Text>
+                    {
+                      home.sb_wpml_best_location_title != undefined ? [
+                        <Text style={{ fontSize: 20, color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
 
-                    <Text style={{ marginVertical: 20, fontSize: 10, color: 'red', fontWeight: 'bold', position: 'absolute', right: 0 }}>See All</Text>
+                      ] : []
+                    }
+
+                    {
+                      home.sb_wpml_see_all_title != undefined ?
+                        <Text style={{ marginVertical: 20, fontSize: 10, color: 'red', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+
+                        : null
+                    }
 
                   </View>
 
@@ -314,7 +330,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpe
                                   this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                               }}>
                               {/* <View style={{ height: 10 }} /> */}
-                              <View style={{  width: width(43.5), paddingHorizontal: wp('5'), paddingVertical: wp('3'), backgroundColor: '#fff', borderRadius: wp(3), }}>
+                              <View style={{ width: width(43.5), paddingHorizontal: wp('5'), paddingVertical: wp('3'), backgroundColor: '#fff', borderRadius: wp(3), }}>
                                 <Avatar
                                   size="medium"
                                   rounded
@@ -382,10 +398,16 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from '../../helpe
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                     <Text style={styles.recList}>{home.latest_events}</Text>
                   </View>
-                  <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-                    <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold',color:'red' }]}>See All</Text>
-                    {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
-                  </TouchableOpacity>
+
+                  {
+                    home.sb_wpml_see_all_title != undefined ?
+                      <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: 'red' }]}>{home.sb_wpml_see_all_title}</Text>
+                        {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
+                      </TouchableOpacity>
+                      : null
+                  }
+
                 </View>
                 :
                 null
