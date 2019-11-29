@@ -176,8 +176,15 @@ export default class Language extends Component<Props> {
                     <Animatable.View
                       ref="view"
                       animation={'bounce'}
-                      style={{ width: width(80), alignItems: 'center', paddingVertical: wp('4') }}>
-                      <Animatable.Text tran animation={swing} style={{ color: '#6E768B', fontSize: wp(4) }}>{item.native_name}</Animatable.Text>
+                      style={{ flexDirection:'row',alignContent:'space-between',width: width(80), alignItems: 'center', paddingVertical: wp('4') }}>
+                      <Animatable.Text tran animation={swing} style={{ color: '#6E768B', fontSize: wp(4),marginLeft:wp('10') }}>{item.native_name}</Animatable.Text>
+                      <View style={{width:'30%',position:'absolute',right:wp('2'),alignContent:'center',alignItems:'center'}}>
+                      <Image
+                        source={require('../../images/global.png')}
+                        style={{height:wp('10'),width:wp('10')}}
+                      />
+                      </View>
+                      
                     </Animatable.View>
 
 
