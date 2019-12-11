@@ -236,15 +236,19 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
               <Text style={styles.itemTxt}>{data.menu.packages}</Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', "Languages")}>
-            <View style={styles.itemIconCon}>
-              <Image source={require('../../images/language.png')} resizeMode="contain" style={{ height: wp('5') }} />
-            </View>
-            <View style={styles.itemTxtCon}>
-              <Text style={styles.itemTxt}>{data.menu.dwt_app_selct_language}</Text>
-            </View>
-          </TouchableOpacity>
+          {
+            data.menu.dwt_app_selct_language!=undefined?[
+              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', "Languages")}>
+              <View style={styles.itemIconCon}>
+                <Image source={require('../../images/language.png')} resizeMode="contain" style={{ height: wp('5') }} />
+              </View>
+              <View style={styles.itemTxtCon}>
+                <Text style={styles.itemTxt}>{data.menu.dwt_app_selct_language}</Text>
+              </View>
+            </TouchableOpacity>
+            ]:[]
+          }
+        
           {
             login.loginStatus === false ?
               <View>

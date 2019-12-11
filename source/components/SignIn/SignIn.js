@@ -15,6 +15,7 @@ import styles from '../../../styles/SignIn'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
+import Storage from '../../LocalDB/storage'
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 export default class SignIn extends Component<Props> {
   constructor(props) {
@@ -23,8 +24,8 @@ export default class SignIn extends Component<Props> {
     super(props);
     this.state = {
       loading: false,
-      password: 'admin',//12345
-      email: 'melisa@gmail.com',//usama@gmail.com
+      password: '',//12345
+      email: '',//usama@gmail.com
     }
   }
   static navigationOptions = {
@@ -82,14 +83,14 @@ export default class SignIn extends Component<Props> {
   }
   //// Custom Social Login methode
   socialLogin = async (email, name, password) => {
-    if (this.state.email.length > 0 && this.state.password.length > 0) {
-      var Email, Password;
-      Email = this.state.email;
-      Password = this.state.password;
-    } else {
-      Email = email;
-      Password = password;
-    }
+    // if (this.state.email.length > 0 && this.state.password.length > 0) {
+    var Email, Password;
+    // Email = this.state.email;
+    // Password = this.state.password;
+    // } else {
+    Email = email;
+    Password = password;
+    // }
     let { orderStore } = Store;
     this.setState({ loading: true })
     let params = {
@@ -98,9 +99,13 @@ export default class SignIn extends Component<Props> {
       type: 'social'
     }
     //API Calling
+
     let response = await ApiController.post('login', params)
     // console.log('login user =', response);
     if (response.success === true) {
+      Storage.setItem('email', email)
+      Storage.setItem('password', '123')
+
       this.setState({ loading: false })
       await LocalDB.saveProfile(Email, Password, response.data);
       orderStore.login.loginStatus = true;
@@ -108,29 +113,48 @@ export default class SignIn extends Component<Props> {
       this.props.navigation.push('Drawer')
     }
   }
+  validate = () => {
+    if (this.state.email == '' || this.state.password == '') {
+      Toast.show('Cannot leave any field empty');
+      return false
+    }
+    return true
+  }
   //// Login Post 
   login = async () => {
-    let { orderStore } = Store;
-    this.setState({ loading: true })
-    let params = {
-      email: this.state.email,
-      password: this.state.password
+    let isValid = this.validate()
+    // console.log('is ',isValid)
+    if (isValid==true) {
+      let { orderStore } = Store;
+      this.setState({ loading: true })
+      let params = {
+        email: this.state.email,
+        password: this.state.password
+      }
+      //Api calling
+      let response = await ApiController.post('login', params)
+      console.log('login user =', response);
+      if (response.success === true) {
+        store.LOGIN_TYPE = 'local';
+        Storage.setItem('email', this.state.email)
+        Storage.setItem('password', this.state.password)
+
+        await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
+
+       
+
+
+        orderStore.login.loginStatus = true;
+        orderStore.login.loginResponse = response;
+        orderStore.settings.data.package = response.data.package;
+        this.setState({ loading: false })
+        this.props.navigation.push('Drawer');
+      } else {
+        this.setState({ loading: false })
+        Toast.show(response.message);
+      }
     }
-    //Api calling
-    let response = await ApiController.post('login', params)
-    console.log('login user =', response);
-    if (response.success === true) {
-      store.LOGIN_TYPE = 'local';
-      await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
-      orderStore.login.loginStatus = true;
-      orderStore.login.loginResponse = response;
-      orderStore.settings.data.package = response.data.package;
-      this.setState({ loading: false })
-      this.props.navigation.push('Drawer');
-    } else {
-      this.setState({ loading: false })
-      Toast.show(response.message);
-    }
+
   }
   render() {
     let { orderStore } = Store;
@@ -169,7 +193,7 @@ export default class SignIn extends Component<Props> {
                       autoCapitalize={false}
                       underlineColorAndroid='transparent'
                       autoCorrect={true}
-                      style={[styles.inputTxt,{textAlign: 'left' }]}
+                      style={[styles.inputTxt, { textAlign: 'left' }]}
                     />
                   </View>
                 </View>
@@ -186,7 +210,8 @@ export default class SignIn extends Component<Props> {
                       secureTextEntry={true}
                       placeholderTextColor='white'
                       underlineColorAndroid='transparent'
-                      autoCorrect={true}
+                      // autoCorrect={true}
+                      autoCapitalize='none'
                       style={styles.inputTxt}
                     />
                   </View>

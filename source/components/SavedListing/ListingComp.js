@@ -6,7 +6,7 @@ import StarRating from 'react-native-star-rating';
 import { COLOR_GRAY, COLOR_ORANGE } from '../../../styles/common';
 import { withNavigation } from 'react-navigation';
 import store from '../../Stores/orderStore';
-import styles from '../../../styles/Home';
+import styles from '../../../styles/HomeOld';
 class ListingComp extends Component<Props> {
     onStarRatingPress(rating) {
         this.setState({

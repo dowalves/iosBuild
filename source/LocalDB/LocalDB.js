@@ -3,7 +3,7 @@ import { AsyncStorage, Alert } from "react-native"
 class LocalDB {
 
     static async saveProfile(email, password, data) {
-        console.warn('data==>>', data);
+        console.warn('data==>>', email+"  "+password);
         try {
             await AsyncStorage.setItem('email', email);
             await AsyncStorage.setItem('password', password);
@@ -57,8 +57,8 @@ class LocalDB {
     static async getUserProfile() {
         let item = {};
         try {
-            var emial = await AsyncStorage.getItem('email') || null;
-            var password = await AsyncStorage.getItem('password') || null;
+            // var emial = await AsyncStorage.getItem('email') || null;
+            // var password = await AsyncStorage.getItem('password') || null;
             item = await AsyncStorage.getItem('profile') || null;
             const userProfile = JSON.parse(item);
             return userProfile;
