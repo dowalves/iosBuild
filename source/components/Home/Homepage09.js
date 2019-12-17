@@ -167,16 +167,16 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
               />
             }>
 
-            <View style={[I18nManager.isRTL?{}:{ marginLeft: wp('5'), }]}>
+            <View style={[I18nManager.isRTL ? {} : { marginLeft: wp('5'), }]}>
 
               {
                 home.sb_wpml_find_best_place != undefined ?
-                  <Text style={[{ color: '#000', fontSize: wp('6'), fontWeight: 'bold' },I18nManager.isRTL?{textAlign:'left'}:{}]}>{home.sb_wpml_find_best_place}</Text>
+                  <Text style={[{ color: '#000', fontSize: wp('6'), fontWeight: 'bold' }, I18nManager.isRTL ? { textAlign: 'left' } : {}]}>{home.sb_wpml_find_best_place}</Text>
                   : null
               }
               {
                 home.sb_wpml_more_busines_listed != undefined ?
-                  <Text style={[{ color: '#000', fontSize: wp('3') },I18nManager.isRTL?{textAlign:'left'}:{}]}>{home.sb_wpml_more_busines_listed}</Text>
+                  <Text style={[{ color: '#000', fontSize: wp('3') }, I18nManager.isRTL ? { textAlign: 'left' } : {}]}>{home.sb_wpml_more_busines_listed}</Text>
                   : null
               }
 
@@ -219,9 +219,15 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                                     direction="alternate">
                                     <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
                                   </Animatable.View>
-                                  <View style={{ height: width(4), width: width(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red', position: 'absolute', borderRadius: width(2), top: 0, right: 0 }}>
-                                    <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>01</Text>
-                                  </View>
+                                  {
+                                    item.count != undefined ?
+                                      <View style={{ height: width(4), width: width(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red', position: 'absolute', borderRadius: width(2), top: 0, right: 0 }}>
+                                        <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>{item.count}</Text>
+                                      </View>
+
+                                      : null
+                                  }
+
 
                                 </TouchableOpacity>
 

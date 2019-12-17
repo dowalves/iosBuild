@@ -205,9 +205,12 @@ import LocalDB from '../../LocalDB/LocalDB';
                               direction="alternate">
                               <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
                             </Animatable.View>
-                            <View style={{ height: width(4), width: width(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: store.settings.data.main_clr, position: 'absolute', borderRadius: width(2), top: 0, right: 0 }}>
-                              <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>01</Text>
-                            </View>
+                            {
+                              item.count != undefined ?
+                                <View style={{ height: width(4), width: width(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: store.settings.data.main_clr, position: 'absolute', borderRadius: width(2), top: 0, right: 0 }}>
+                                  <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>{item.count}</Text>
+                                </View> : null
+                            }
 
                           </TouchableOpacity>
 

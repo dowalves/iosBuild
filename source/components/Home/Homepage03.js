@@ -321,9 +321,14 @@ import Carousel from 'react-native-snap-carousel';
                                     direction="alternate">
                                     <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
                                   </Animatable.View>
-                                  <View style={{ height: wp(4), width: wp(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red', position: 'absolute', borderRadius: wp(2), top: 0, right: 0 }}>
-                                    <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>01</Text>
-                                  </View>
+                                  {
+                                    item.count != undefined ?
+                                      <View style={{ height: wp(4), width: wp(4), alignContent: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red', position: 'absolute', borderRadius: wp(2), top: 0, right: 0 }}>
+                                        <Text style={{ color: '#fff', fontSize: width(1.6), fontWeight: 'bold' }}>{item.count}</Text>
+                                      </View>
+                                      : null
+                                  }
+
 
                                 </TouchableOpacity>
 
@@ -418,13 +423,13 @@ import Carousel from 'react-native-snap-carousel';
                 null
                 */}
             {
-              home.location_enabled && home.location_list.length!=0?
+              home.location_enabled && home.location_list.length != 0 ?
                 <View style={{ marginHorizontal: 20 }}>
 
                   <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
                     {
                       home.sb_wpml_best_location_title != undefined ? [
-                        <Text style={{ fontSize: 20, fontWeight:'700',color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
+                        <Text style={{ fontSize: 20, fontWeight: '700', color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
 
                       ] : []
                     }
