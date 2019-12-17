@@ -4,11 +4,8 @@ import AppMain from './source/app';
 import { MenuProvider } from 'react-native-popup-menu';
 import store from './source/Stores/orderStore';
 import Store from './source/Stores';
-console.disableYellowBox = true
 import firebase, { NotificationOpen, Notification } from 'react-native-firebase';
 
-import ApiController from './source/ApiController/ApiController';
-import { nav_header_color } from './styles/common';
 import LocalDB from '../DownTown/source/LocalDB/LocalDB'
 import Storage from '../DownTown/source/LocalDB/storage'
 
@@ -35,7 +32,8 @@ export default class App extends Component<Props> {
     await this.subToTopic();
     await this.createNotificationListeners(); 
 
-
+    let { orderStore } = Store;
+    
     /////////////////////////////////
     const channel = new firebase.notifications.Android.Channel(
       'channelId',
@@ -73,7 +71,7 @@ export default class App extends Component<Props> {
           } else {
             this.notificationListenerANDROID = firebase.notifications().onNotification(notification => {
               //Showing local notification Android
-              // console.log('notification===>>>', notification);
+              console.log('notification===>>>', notification);
               const localNotification = new firebase.notifications.Notification({
                 sound: 'default',
                 show_in_foreground: true
@@ -161,7 +159,7 @@ export default class App extends Component<Props> {
     * */
     firebase.notifications().onNotification((notification) => {
       const { title, body } = notification;
-      // this.showAlert(title, body);
+      this.showAlert(title, body);
       console.log('inside onNotificaion', title);
     });
 
@@ -171,7 +169,7 @@ export default class App extends Component<Props> {
     firebase.notifications().onNotificationOpened((notificationOpen) => {
       const { title, body } = notificationOpen.notification;
 
-      // this.showAlert(title, body);
+      this.showAlert(title, body);
       console.log('inside onNotificaion Opened', title);
     });
 
@@ -180,12 +178,54 @@ export default class App extends Component<Props> {
     * */
     const notificationOpen = await firebase.notifications().getInitialNotification();
     if (notificationOpen) {
-      // const { title, body } = notificationOpen.notification;
-      // this.showAlert(title, body);
-      // console.log('inside onInitial Notificaion', title);
+      const { title, body } = notificationOpen.notification;
+      this.showAlert(title, body);
+      console.log('inside onInitial Notificaion', title);
     }
 
   }
+  // async createNotificationListeners() {
+  //   // console.warn('called');
+
+
+
+  //   firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+  //     // Process your notification as required
+  //     // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+  //     console.log('inside onNotificationDisplayed');
+  //   });
+
+
+  //   /*
+  //   * Triggered when a particular notification has been received in foreground
+  //   * */
+  //   firebase.notifications().onNotification((notification) => {
+  //     const { title, body } = notification;
+  //     // this.showAlert(title, body);
+  //     console.log('inside onNotificaion', title);
+  //   });
+
+  //   /*
+  //   * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+  //   * */
+  //   firebase.notifications().onNotificationOpened((notificationOpen) => {
+  //     const { title, body } = notificationOpen.notification;
+
+  //     // this.showAlert(title, body);
+  //     console.log('inside onNotificaion Opened', title);
+  //   });
+
+  //   /*
+  //   * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+  //   * */
+  //   const notificationOpen = await firebase.notifications().getInitialNotification();
+  //   if (notificationOpen) {
+  //     // const { title, body } = notificationOpen.notification;
+  //     // this.showAlert(title, body);
+  //     // console.log('inside onInitial Notificaion', title);
+  //   }
+
+  // }
   render() {
     return (
       <MenuProvider>

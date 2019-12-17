@@ -204,52 +204,89 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
               <Text style={styles.itemTxt}>{data.menu.adv_search}</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('PublicEvents', data.menu.events)}>
-            <View style={styles.itemIconCon}>
-              <Form name='calendar' size={22} color='white' />
-            </View>
-            <View style={styles.itemTxtCon}>
-              <Text style={styles.itemTxt}>{data.menu.events}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('blogStack', data.menu.blog)}>
-            <View style={styles.itemIconCon}>
-              <Form name='profile' size={22} color='white' />
-            </View>
-            <View style={styles.itemTxtCon}>
-              <Text style={styles.itemTxt}>{data.menu.blog}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Categories', data.menu.cats)}>
-            <View style={styles.itemIconCon}>
-              <Form name='windowso' size={22} color='white' />
-            </View>
-            <View style={styles.itemTxtCon}>
-              <Text style={styles.itemTxt}>{data.menu.cats}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Packages', data.menu.packages)}>
-            <View style={styles.itemIconCon}>
-              <Form name='rocket1' size={22} color='white' />
-            </View>
-            <View style={styles.itemTxtCon}>
-              <Text style={styles.itemTxt}>{data.menu.packages}</Text>
-            </View>
-          </TouchableOpacity>
           {
-            data.menu.dwt_app_selct_language!=undefined?[
-              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', "Languages")}>
-              <View style={styles.itemIconCon}>
-                <Image source={require('../../images/language.png')} resizeMode="contain" style={{ height: wp('5') }} />
-              </View>
-              <View style={styles.itemTxtCon}>
-                <Text style={styles.itemTxt}>{data.menu.dwt_app_selct_language}</Text>
-              </View>
-            </TouchableOpacity>
-            ]:[]
+            data.menu_options.sb_event_menu_opt ?
+              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('PublicEvents', data.menu.events)}>
+                <View style={styles.itemIconCon}>
+                  <Form name='calendar' size={22} color='white' />
+                </View>
+                <View style={styles.itemTxtCon}>
+                  <Text style={styles.itemTxt}>{data.menu.events}</Text>
+                </View>
+              </TouchableOpacity> : null}
+          {
+            data.menu_options.sb_blog_menu_opt ?
+              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('blogStack', data.menu.blog)}>
+                <View style={styles.itemIconCon}>
+                  <Form name='profile' size={22} color='white' />
+                </View>
+                <View style={styles.itemTxtCon}>
+                  <Text style={styles.itemTxt}>{data.menu.blog}</Text>
+                </View>
+              </TouchableOpacity> : null
           }
-        
+
           {
+            data.menu_options.sb_categories_menu_opt ?
+              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Categories', data.menu.cats)}>
+                <View style={styles.itemIconCon}>
+                  <Form name='windowso' size={22} color='white' />
+                </View>
+                <View style={styles.itemTxtCon}>
+                  <Text style={styles.itemTxt}>{data.menu.cats}</Text>
+                </View>
+              </TouchableOpacity> : null
+          }
+          {
+            data.menu_options.sb_packages_menu_opt ?
+              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Packages', data.menu.packages)}>
+                <View style={styles.itemIconCon}>
+                  <Form name='rocket1' size={22} color='white' />
+                </View>
+                <View style={styles.itemTxtCon}>
+                  <Text style={styles.itemTxt}>{data.menu.packages}</Text>
+                </View>
+              </TouchableOpacity> : null
+          }
+
+          {
+            data.menu.dwt_app_selct_language != undefined ? [
+              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', "Languages")}>
+                <View style={styles.itemIconCon}>
+                  <Image source={require('../../images/language.png')} resizeMode="contain" style={{ height: wp('5') }} />
+                </View>
+                <View style={styles.itemTxtCon}>
+                  <Text style={styles.itemTxt}>{data.menu.dwt_app_selct_language}</Text>
+                </View>
+              </TouchableOpacity>
+            ] : []
+          }
+          {
+            data.menu_options.sb_about_us_menu_opt ? [
+              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('AboutUs', data.menu.about)}>
+                <View style={styles.itemIconCon}>
+                  <Image source={require('../../images/aboutus_white.png')} resizeMode="contain" style={{ height: wp('5') }} />
+                </View>
+                <View style={styles.itemTxtCon}>
+                  <Text style={styles.itemTxt}>{data.menu.about}</Text>
+                </View>
+              </TouchableOpacity>
+            ] : []
+          }
+          {
+            data.menu_options.sb_contact_us_menu_opt  ? [
+              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ContactUs', data.menu.contact)}>
+                <View style={styles.itemIconCon}>
+                  <Image source={require('../../images/contactus_white.png')} resizeMode="contain" style={{ height: wp('5') }} />
+                </View>
+                <View style={styles.itemTxtCon}>
+                  <Text style={styles.itemTxt}>{data.menu.contact}</Text>
+                </View>
+              </TouchableOpacity>
+            ] : []
+          }
+          {
+             data.menu_options.sb_loging_register_menu_opt!=undefined && data.menu_options.sb_loging_register_menu_opt?
             login.loginStatus === false ?
               <View>
                 <TouchableOpacity style={styles.drawerItem} onPress={() => this.props.navigation.replace('MainScreen')}>
@@ -270,6 +307,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                   <Text style={styles.itemTxt}>{data.menu.logout}</Text>
                 </View>
               </TouchableOpacity>
+              : null
           }
           {/* <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Themes', data.menu.cats)}>
             <View style={styles.itemIconCon}>

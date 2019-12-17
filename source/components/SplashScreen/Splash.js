@@ -9,6 +9,8 @@ import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
 import NetInfo from "@react-native-community/netinfo";
 import RNRestart from 'react-native-restart'
+import LocalDb from '../../LocalDB/LocalDB';
+import firebase from 'react-native-firebase';
 
 @observer export default class Splash extends Component<Props> {
   constructor(props) {
@@ -56,8 +58,36 @@ import RNRestart from 'react-native-restart'
   componentWillMount=async()=>{
     if(NetInfo.isConnected){
        await this.splash(true)
+       await this.manageFcmToken();}
+
     }
-  }
+  
+
+  manageFcmToken = async()=>{
+    //console.warn("inside");
+  
+    let {orderStore} = Store;
+    const fcmToken = await firebase.messaging().getToken();
+    console.log('fcmtoken',fcmToken)
+    // if (fcmToken) { 
+    //   const userData = await LocalDb.getUserProfile();
+    // //  console.warn(userData.id)          
+    //     const params = {firebase_id:fcmToken,user_id:userData.id};
+        
+      //  console.warn("home Params==>",JSON.stringify(params));
+  
+      //   const response  = await Api.post('home',params);
+      //   console.log("Home response===>",response);
+      //  // console.warn("Response==>",JSON.stringify(response));
+      //    if(response.success === true)
+      //     orderStore.fcmToken = fcmToken;
+      //   else
+      //    { if(response.message.length!=0)
+      //      Toast.show(response.message);}
+       } 
+      
+  
+  
   // componentDidMount() {
   //   NetInfo.isConnected.addEventListener(
   //     'connectionChange',

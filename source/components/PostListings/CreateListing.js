@@ -35,7 +35,7 @@ const inputSize = totalSize(1.5);
 
     componentWillMount = async () => {
         let data = store.GET_LISTING.data.create_listing;
-        if (data.category.dropdown.length > 0 && data.category.value !== "" ) {
+        if (data.category.dropdown.length > 0 && data.category.value !== "") {
             await this.getAmenities(data.category.value)
         }
         await this.setState({
@@ -44,7 +44,7 @@ const inputSize = totalSize(1.5);
             cate_name: data.category.name || data.category.placeholder,
             phone: data.phone.value,
             weburl: data.weburl.value,
-        })        
+        })
     }
     selectCategory = (itemValue) => {
         let data = store.GET_LISTING.data.create_listing;
@@ -57,19 +57,19 @@ const inputSize = totalSize(1.5);
     }
     getAmenities = async (cate_id) => {
         if (cate_id !== '') {
-            this.setState({ cate_id: cate_id,loading: true, is_picker: Platform.OS === 'ios'? false : false })
-            let response = await ApiController.post('get-amenities', { category_id: cate_id, listing_id: store.LISTING_UPDATE? store.LIST_ID:'' });
+            this.setState({ cate_id: cate_id, loading: true, is_picker: Platform.OS === 'ios' ? false : false })
+            let response = await ApiController.post('get-amenities', { category_id: cate_id, listing_id: store.LISTING_UPDATE ? store.LIST_ID : '' });
             // console.log('ameninites====>>>',response);
-            
+
             if (response.success) {
                 store.AMENITIES = response.data;
                 if (store.LISTING_UPDATE) {
                     store.AMENITIES.amenities.forEach(item => {
-                        if ( item.status ) {
+                        if (item.status) {
                             item.checkStatus = true;
                             item.added = true;
                             this.state.amenities.push(item.id);
-                        }else{
+                        } else {
                             item.checkStatus = false;
                             item.added = false;
                         }
@@ -80,13 +80,13 @@ const inputSize = totalSize(1.5);
                         item.added = false;
                     })
                 }
-                
+
                 this.setState({ loading: false })
             } else {
                 store.AMENITIES.amenities = [];
                 this.setState({ loading: false })
             }
-        } 
+        }
     }
     selectAmenities = async (amenity) => {
         store.AMENITIES.amenities.forEach(item => {
@@ -124,7 +124,7 @@ const inputSize = totalSize(1.5);
             <View style={{ flex: 1, alignItems: 'center' }}>
                 <ScrollView
                     showsVerticalScrollIndicator={false}>
-                    <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10,alignItems:'flex-start' }}>
+                    <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems: 'flex-start' }}>
                         <Text style={{ marginVertical: 7, fontSize: 14, fontWeight: 'bold', color: 'black' }}>{data.title.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
                         <View style={{ height: height(6), width: width(90), flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                             <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
@@ -142,7 +142,7 @@ const inputSize = totalSize(1.5);
                             />
                         </View>
                     </View>
-                    <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems:'flex-start' }}>
+                    <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems: 'flex-start' }}>
                         <Text style={{ fontSize: 14, marginVertical: 7, color: 'black', fontWeight: 'bold' }}>{data.category.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
                         {
                             Platform.OS === 'android' ?
@@ -165,7 +165,7 @@ const inputSize = totalSize(1.5);
                                 </View>
                                 :
                                 <TouchableOpacity style={{ height: height(6), width: width(90), alignItems: 'center', flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }} onPress={() => this.setState({ is_picker: !this.state.is_picker })}>
-                                    <View style={{ width: width(80), alignItems:'flex-start' }}>
+                                    <View style={{ width: width(80), alignItems: 'flex-start' }}>
                                         <Text style={{ marginHorizontal: 8, fontSize: 15, color: COLOR_SECONDARY }}>{this.state.cate_name}</Text>
                                     </View>
                                     <IconDrop name="md-arrow-dropdown" size={24} color="#c4c4c4" />
@@ -181,24 +181,24 @@ const inputSize = totalSize(1.5);
                                             <ActivityIndicator size='large' color={store.settings.data.navbar_clr} animating={true} />
                                         </View>
                                         :
-                                        <View style={{ alignItems:'flex-start' }}>
+                                        <View style={{ alignItems: 'flex-start' }}>
                                             <Text style={{ marginVertical: 7, fontSize: 14, fontWeight: 'bold', color: 'black' }}>Amenities</Text>
-                                            <View style={{ width: width(90), flexDirection: 'row',borderRadius: 4, backgroundColor: COLOR_SECTIONS }}>
+                                            <View style={{ width: width(90), flexDirection: 'row', borderRadius: 4, backgroundColor: COLOR_SECTIONS }}>
                                                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignSelf: 'center' }}>
-                                                    {   
+                                                    {
                                                         store.AMENITIES.amenities !== [] ?
                                                             store.AMENITIES.amenities.map((item, key) => {
                                                                 return (
                                                                     <View style={{ width: width(45) }}>
                                                                         <CheckBox
-                                                                        key={key}
-                                                                        title={item.name}
-                                                                        checkedColor={main_clr}
-                                                                        containerStyle={{ marginRight: 0, borderWidth: 0, backgroundColor: 'transparent' }}
-                                                                        size={18}
-                                                                        checked={item.checkStatus}
-                                                                        onPress={() => { this.selectAmenities(item) }}
-                                                                    />
+                                                                            key={key}
+                                                                            title={item.name}
+                                                                            checkedColor={main_clr}
+                                                                            containerStyle={{ marginRight: 0, borderWidth: 0, backgroundColor: 'transparent' }}
+                                                                            size={18}
+                                                                            checked={item.checkStatus}
+                                                                            onPress={() => { this.selectAmenities(item) }}
+                                                                        />
                                                                     </View>
                                                                 );
                                                             })
@@ -261,7 +261,7 @@ const inputSize = totalSize(1.5);
                             </View>
                         </View>
                     </View> */}
-                    <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems:'flex-start' }}>
+                    <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems: 'flex-start' }}>
                         <Text style={{ marginVertical: 7, fontSize: 14, fontWeight: 'bold', color: 'black' }}>{data.phone.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
                         <View style={{ height: height(6), width: width(90), flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                             <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
@@ -282,7 +282,7 @@ const inputSize = totalSize(1.5);
                     </View>
                     {
                         store.GET_LISTING.data.is_weblink ?
-                            <View style={{ marginHorizontal: 10, marginTop: 10, alignItems:'flex-start' }}>
+                            <View style={{ marginHorizontal: 10, marginTop: 10, alignItems: 'flex-start' }}>
                                 <Text style={{ marginVertical: 7, fontSize: 14, fontWeight: 'bold', color: 'black' }}>Website URL</Text>
                                 <View style={{ height: height(6), width: width(90), flexDirection: 'row', marginBottom: 15, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                                     <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
@@ -327,7 +327,7 @@ const inputSize = totalSize(1.5);
                                     this.selectCategory(itemValue),
                                         await this.getAmenities(itemValue)
                                 }}>
-                                 <Picker.Item label={data.category.placeholder} value='' />
+                                <Picker.Item label={data.category.placeholder} value='' />
                                 {
                                     data.category.dropdown.map((item, key) => {
                                         return (

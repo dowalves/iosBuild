@@ -87,6 +87,8 @@ class orderStore {
     @observable SAVED_LISTING = {};
     @observable language = 'ar';
     @observable wpml_settings = null;
+    @observable ContactUs = '';
+    @observable AboutUs = '';
 }
 
 const store = new orderStore();

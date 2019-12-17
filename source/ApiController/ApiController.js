@@ -6,10 +6,13 @@ import base64 from 'react-native-base64'
 import { Base64 } from 'js-base64';
 
 // change your baseUrl and Domain
-const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
-const PURCHASE_CODE = '1234';
-const CUSTOM_SECURITY = '1234';
+// const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
+// const PURCHASE_CODE = '1234';
+// const CUSTOM_SECURITY = '1234';
 
+const base_url = 'https://dwt-wpml.downtown-directory.com/wp-json/downtown/app';
+const PURCHASE_CODE = '8797677896889778';
+const CUSTOM_SECURITY = 'mysecretcode111';
 
 
 class Api {
