@@ -68,7 +68,7 @@ import firebase from 'react-native-firebase';
   
     let {orderStore} = Store;
     const fcmToken = await firebase.messaging().getToken();
-    console.log('fcmtoken',fcmToken)
+    // console.log('fcmtoken',fcmToken)
     // if (fcmToken) { 
     //   const userData = await LocalDb.getUserProfile();
     // //  console.warn(userData.id)          

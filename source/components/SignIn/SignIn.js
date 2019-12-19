@@ -105,6 +105,8 @@ export default class SignIn extends Component<Props> {
     if (response.success === true) {
       Storage.setItem('email', email)
       Storage.setItem('password', '123')
+      Storage.setItem('issocial', true)
+
 
       this.setState({ loading: false })
       await LocalDB.saveProfile(Email, Password, response.data);
@@ -138,6 +140,7 @@ export default class SignIn extends Component<Props> {
         store.LOGIN_TYPE = 'local';
         Storage.setItem('email', this.state.email)
         Storage.setItem('password', this.state.password)
+        Storage.setItem('issocial', false)
 
         await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
 

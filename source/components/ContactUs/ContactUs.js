@@ -134,20 +134,34 @@ export default class ContactUs extends Component<Props> {
       store.ContactUs = response.data;
       if (response.data.contact_us.required.name) {
         this.setState({ nameB: true })
+      }else{
+        this.setState({ nameB: false })
+
       }
       if (response.data.contact_us.required.number) {
         this.setState({ numberB: true })
+      }else{
+        this.setState({ numberB: false })
+
       }
       if (response.data.contact_us.required.msg) {
         this.setState({ msgB: true })
+      }else{
+        this.setState({ msgB: false })
 
       }
       if (response.data.contact_us.required.email) {
         this.setState({ emailB: true })
+      }else{
+        this.setState({ emailB: false })
+
       }
       if (response.data.contact_us.required.subject) {
         this.setState({ subjectB: true })
 
+      }else{
+        this.setState({ subjectB: false })
+        
       }
 
       this.setState({ loading: false,formSubmitted:false })

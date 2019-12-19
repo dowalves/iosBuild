@@ -167,7 +167,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
               />
             }>
 
-            <View style={[I18nManager.isRTL ? {} : { marginLeft: wp('5'), }]}>
+            <View style={[I18nManager.isRTL ? {marginLeft: wp('5')} : { marginLeft: wp('5'), }]}>
 
               {
                 home.sb_wpml_find_best_place != undefined ?

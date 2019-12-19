@@ -116,14 +116,15 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
             login.loginStatus === true ?
               null
               :
-              <TouchableOpacity style={styles.drawerItem} onPress={() => this.setState({ isAlert: true })}>
-                <View style={styles.itemIconCon}>
-                  <Form name='form' size={22} color='white' />
-                </View>
-                <View style={styles.itemTxtCon}>
-                  <Text style={styles.itemTxt}>{'Create Listing'}</Text>
-                </View>
-              </TouchableOpacity>
+              data.menu_options.sb_listing_menu_opt ?
+                <TouchableOpacity style={styles.drawerItem} onPress={() => this.setState({ isAlert: true })}>
+                  <View style={styles.itemIconCon}>
+                    <Form name='form' size={22} color='white' />
+                  </View>
+                  <View style={styles.itemTxtCon}>
+                    <Text style={styles.itemTxt}>{data.menu.create_listing}</Text>
+                  </View>
+                </TouchableOpacity> : null
           }
           {
             login.loginStatus === true ?
@@ -144,21 +145,23 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                 </TouchableOpacity>
                 {this.state.isCollapsed === true ?
                   <View style={{ width: width(65), alignItems: 'flex-start', justifyContent: 'center', alignSelf: 'flex-end' }}>
-                    <TouchableOpacity style={styles.drawerItem} onPress={
-                      data.package.has_package ?
-                        this.navigateToScreen('ListingPostTabCon', data.menu.create_listing)
-                        :
-                        () => {
-                          this.setState({ isAlert: true })
-                        }
-                    }>
-                      <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
-                        <Form name='form' size={22} color='white' />
-                      </View>
-                      <View style={styles.itemTxtCon}>
-                        <Text style={styles.itemTxt}>{data.menu.create_listing}</Text>
-                      </View>
-                    </TouchableOpacity>
+                    {
+                      data.menu_options.sb_listing_menu_opt ?
+                        <TouchableOpacity style={styles.drawerItem} onPress={
+                          data.package.has_package ?
+                            this.navigateToScreen('ListingPostTabCon', data.menu.create_listing)
+                            :
+                            () => {
+                              this.setState({ isAlert: true })
+                            }
+                        }>
+                          <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
+                            <Form name='form' size={22} color='white' />
+                          </View>
+                          <View style={styles.itemTxtCon}>
+                            <Text style={styles.itemTxt}>{data.menu.create_listing}</Text>
+                          </View>
+                        </TouchableOpacity> : null}
                     <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Dashboard', data.menu.dashboard)}>
                       <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
                         <Form name='setting' size={22} color='white' />
@@ -250,16 +253,18 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
           }
 
           {
-            data.menu.dwt_app_selct_language != undefined ? [
-              <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', "Languages")}>
-                <View style={styles.itemIconCon}>
-                  <Image source={require('../../images/language.png')} resizeMode="contain" style={{ height: wp('5') }} />
-                </View>
-                <View style={styles.itemTxtCon}>
-                  <Text style={styles.itemTxt}>{data.menu.dwt_app_selct_language}</Text>
-                </View>
-              </TouchableOpacity>
-            ] : []
+            data.menu_options.sb_language_menu_opt != undefined ?
+              data.menu_options.sb_language_menu_opt ?
+                [
+                  <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', "Languages")}>
+                    <View style={styles.itemIconCon}>
+                      <Image source={require('../../images/language.png')} resizeMode="contain" style={{ height: wp('5') }} />
+                    </View>
+                    <View style={styles.itemTxtCon}>
+                      <Text style={styles.itemTxt}>{data.menu.dwt_app_selct_language}</Text>
+                    </View>
+                  </TouchableOpacity>
+                ] : [] : null
           }
           {
             data.menu_options.sb_about_us_menu_opt ? [
@@ -274,7 +279,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
             ] : []
           }
           {
-            data.menu_options.sb_contact_us_menu_opt  ? [
+            data.menu_options.sb_contact_us_menu_opt ? [
               <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ContactUs', data.menu.contact)}>
                 <View style={styles.itemIconCon}>
                   <Image source={require('../../images/contactus_white.png')} resizeMode="contain" style={{ height: wp('5') }} />
@@ -286,27 +291,27 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
             ] : []
           }
           {
-             data.menu_options.sb_loging_register_menu_opt!=undefined && data.menu_options.sb_loging_register_menu_opt?
-            login.loginStatus === false ?
-              <View>
-                <TouchableOpacity style={styles.drawerItem} onPress={() => this.props.navigation.replace('MainScreen')}>
+            data.menu_options.sb_loging_register_menu_opt != undefined && data.menu_options.sb_loging_register_menu_opt ?
+              login.loginStatus === false ?
+                <View>
+                  <TouchableOpacity style={styles.drawerItem} onPress={() => this.props.navigation.replace('MainScreen')}>
+                    <View style={styles.itemIconCon}>
+                      <Form name='lock' size={22} color='white' />
+                    </View>
+                    <View style={styles.itemTxtCon}>
+                      <Text style={styles.itemTxt}>{data.menu.register}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                :
+                <TouchableOpacity style={styles.drawerItem} onPress={() => this.asyncDelUserInfo()}>
                   <View style={styles.itemIconCon}>
-                    <Form name='lock' size={22} color='white' />
+                    <Image source={require('../../images/logout.png')} style={{ height: height(2.3), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
                   </View>
                   <View style={styles.itemTxtCon}>
-                    <Text style={styles.itemTxt}>{data.menu.register}</Text>
+                    <Text style={styles.itemTxt}>{data.menu.logout}</Text>
                   </View>
                 </TouchableOpacity>
-              </View>
-              :
-              <TouchableOpacity style={styles.drawerItem} onPress={() => this.asyncDelUserInfo()}>
-                <View style={styles.itemIconCon}>
-                  <Image source={require('../../images/logout.png')} style={{ height: height(2.3), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
-                </View>
-                <View style={styles.itemTxtCon}>
-                  <Text style={styles.itemTxt}>{data.menu.logout}</Text>
-                </View>
-              </TouchableOpacity>
               : null
           }
           {/* <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Themes', data.menu.cats)}>

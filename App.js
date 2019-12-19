@@ -8,7 +8,8 @@ import firebase, { NotificationOpen, Notification } from 'react-native-firebase'
 
 import LocalDB from '../DownTown/source/LocalDB/LocalDB'
 import Storage from '../DownTown/source/LocalDB/storage'
-
+import { observer } from 'mobx-react';
+@observer
 export default class App extends Component<Props> {
   constructor(props) {
     super(props);
@@ -30,10 +31,10 @@ export default class App extends Component<Props> {
   }
   async componentDidMount() {
     await this.subToTopic();
-    await this.createNotificationListeners(); 
+    await this.createNotificationListeners();
 
     let { orderStore } = Store;
-    
+
     /////////////////////////////////
     const channel = new firebase.notifications.Android.Channel(
       'channelId',
@@ -44,7 +45,7 @@ export default class App extends Component<Props> {
 
     firebase.messaging().hasPermission()
       .then(enabled => {
-      
+
         if (enabled) {
           firebase.messaging().getToken().then(token => {
             orderStore.DEVICE_TOKEN = token
@@ -115,16 +116,27 @@ export default class App extends Component<Props> {
 
 
     Storage.getItem('language').then((value) => {
-      if(value==null){
-      Storage.setItem('language',"en")
+      if (value == null) {
+        Storage.setItem('language', "en")
+      }
+    })
+
+    Storage.getItem('issocial').then((value) => {
+      if (value != undefined) {
+        if (value != null) {
+          if(value==true){
+            orderStore.LOGIN_SOCIAL_TYPE='social'
+          }
+        } else {
+
+        }
       }
     })
 
 
-
     Storage.getItem('homepage').then((value) => {
       // if(value==null){
-      Storage.setItem('homepage',8)
+      Storage.setItem('homepage', 8)
       // }
     })
   }
