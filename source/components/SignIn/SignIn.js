@@ -116,8 +116,10 @@ export default class SignIn extends Component<Props> {
     }
   }
   validate = () => {
+    let { orderStore } = Store;
+
     if (this.state.email == '' || this.state.password == '') {
-      Toast.show('Cannot leave any field empty');
+      Toast.show(orderStore.settings.data.main_screen.validation);
       return false
     }
     return true
@@ -196,7 +198,7 @@ export default class SignIn extends Component<Props> {
                       autoCapitalize={false}
                       underlineColorAndroid='transparent'
                       autoCorrect={true}
-                      style={[styles.inputTxt, { textAlign: 'left' }]}
+                      style={[styles.inputTxt ]}
                     />
                   </View>
                 </View>

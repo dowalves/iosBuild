@@ -273,7 +273,9 @@ import ListingComponentBox from './ListingComponentBox2';
                             <View style={{ backgroundColor: '#fff', borderRadius: 5, width: '97%', alignSelf: 'center', position: 'absolute', bottom: 3 }}>
                               <Text style={{ fontSize: 11, color: 'gray', marginHorizontal: 7, marginTop: 10, width: width(45) }}>{item.category_name}</Text>
                               <Text style={{ fontSize: 13, fontWeight: 'bold', color: COLOR_SECONDARY, marginHorizontal: 7, marginTop: 3, marginBottom: 5 }}>{item.listing_title}</Text>
-                              <View style={{ marginBottom: 8, width: width(45), marginHorizontal: 5, flexDirection: 'row', alignItems: 'center' }}>
+                              {
+                                item.listing_location!=""?
+                                <View style={{ marginBottom: 8, width: width(45), marginHorizontal: 5, flexDirection: 'row', alignItems: 'center' }}>
                                 <Icon
                                   size={18}
                                   name='location'
@@ -281,8 +283,8 @@ import ListingComponentBox from './ListingComponentBox2';
                                   color='red'
                                   containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                                 />
-                                <Text style={{ fontSize: 10, color: '#8a8a8a' }}>Arkasana, United States</Text>
-                              </View>
+                                <Text style={{ fontSize: 10, color: '#8a8a8a' }}>{item.listing_location}</Text>
+                              </View>:null}
                             </View>
 
                             {/* <View style={{ height: height(4), width: width(55), borderTopColor: '#cccccc', flexDirection: 'row', borderTopWidth: 0.3 }}>

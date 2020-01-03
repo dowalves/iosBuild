@@ -256,7 +256,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
             data.menu_options.sb_language_menu_opt != undefined ?
               data.menu_options.sb_language_menu_opt ?
                 [
-                  <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', "Languages")}>
+                  <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Language', data.menu.dwt_app_selct_language)}>
                     <View style={styles.itemIconCon}>
                       <Image source={require('../../images/language.png')} resizeMode="contain" style={{ height: wp('5') }} />
                     </View>

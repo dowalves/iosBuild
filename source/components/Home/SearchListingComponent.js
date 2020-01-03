@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+import { Text, View, I18nManager,ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { width } from 'react-native-dimension';
 import { Icon } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import { COLOR_GRAY, COLOR_ORANGE } from '../../../styles/common';
 import { withNavigation } from 'react-navigation';
 import styles from '../../../styles/SearchListingStyle';
+import {widthPercentageToDP as wp} from '../../helpers/Responsive'
 class ListingComponent extends Component<Props> {
     onStarRatingPress(rating) {
         this.setState({
@@ -24,6 +25,18 @@ class ListingComponent extends Component<Props> {
                         <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
                     </TouchableOpacity>
                 </ImageBackground>
+                {
+                    item.is_featured == '1' ?
+                        <Image
+                            style={{height:wp('9'),width:wp('9'), position: 'absolute', right: wp(0), }}
+                            resizeMode="contain"
+                            source={
+                                I18nManager.isRTL?require('../../images/left-star.png'):
+                                require('../../images/right_Star.png')}
+
+                        /> : null
+                }
+
                 <View style={styles.txtViewCon}>
                     <Text style={styles.subHeadingTxt}>{item.category_name}</Text>
                     <Text style={styles.txtViewHeading}>{item.listing_title}</Text>

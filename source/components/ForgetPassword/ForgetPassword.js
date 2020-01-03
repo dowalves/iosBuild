@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, View, Button, Image, ImageBackground, TouchableOpacity, ActivityIndicator, TextInput
+  Text, View, Button, Image,I18nManager, ImageBackground, TouchableOpacity, ActivityIndicator, TextInput
 } from 'react-native';
 import { INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION } from '../../../styles/common';
 import Icon from 'react-native-vector-icons/Octicons';
@@ -79,7 +79,7 @@ import ApiController from '../../ApiController/ApiController';
                     keyboardType='email-address'
                     underlineColorAndroid='transparent'
                     autoCorrect={true}
-                    style={styles.inputTxt}
+                    style={[styles.inputTxt,{textAlign: I18nManager.isRTL ? 'right' : 'left'}]}
                   />
                 </View>
               </View>

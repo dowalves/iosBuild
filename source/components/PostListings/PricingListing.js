@@ -78,7 +78,7 @@ const inputSize = totalSize(1.5);
         })
         await this.selectBusinessHours(parseInt(data.business_hours.value));
     }
-    selectPriceType = (itemValue) => {        
+    selectPriceType = (itemValue) => {
         let data = store.GET_LISTING.data.create_listing;
         this.setState({ price_id: itemValue })
         data.price_type.dropdown.forEach(item => {
@@ -136,7 +136,7 @@ const inputSize = totalSize(1.5);
             }
         });
     }
-    selectBusinessHours = async (value) => {        
+    selectBusinessHours = async (value) => {
         switch (value) {
             case 0:
                 this.setState({ hour_NA: true, hour_24: false, hour_selected: false });
@@ -186,7 +186,7 @@ const inputSize = totalSize(1.5);
                     showsVerticalScrollIndicator={false}>
                     {
                         store.GET_LISTING.data.is_price_range ?
-                            <View style={{ alignItems:'flex-start' }}>
+                            <View style={{ alignItems: 'flex-start' }}>
                                 <Text style={{ color: COLOR_SECONDARY, marginVertical: 7, fontSize: 14, fontWeight: 'bold', marginTop: 15 }}>{data.price_type.main_title}</Text>
                                 <View style={{ width: width(95), borderRadius: 4, backgroundColor: COLOR_SECTIONS }}>
                                     <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10 }}>
@@ -196,7 +196,7 @@ const inputSize = totalSize(1.5);
                                                 <View style={{ height: height(6), width: width(90), marginTop: 15, backgroundColor: 'white', alignItems: 'center', flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                                                     <Picker
                                                         selectedValue={parseInt(this.state.price_id)}
-                                                        style={{ height: height(6),width: width(90), color:'gray' }}
+                                                        style={{ height: height(6), width: width(90), color: 'gray' }}
                                                         onValueChange={(itemValue, itemIndex) =>
                                                             this.setState({ price_id: itemValue })
                                                         }>
@@ -212,37 +212,54 @@ const inputSize = totalSize(1.5);
                                                 </View>
                                                 :
                                                 <TouchableOpacity style={{ height: height(6), width: width(90), marginTop: 15, backgroundColor: 'white', alignItems: 'center', flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }} onPress={() => this.setState({ is_pricePicker: !this.state.is_pricePicker })}>
-                                                    <View style={{ width: width(78), alignItems:'flex-start' }}>
+                                                    <View style={{ width: width(78), alignItems: 'flex-start' }}>
                                                         <Text style={{ marginHorizontal: 8, fontSize: 14 }}>{this.state.price_name}</Text>
                                                     </View>
                                                     <IconDrop name="md-arrow-dropdown" size={24} color="#c4c4c4" />
                                                 </TouchableOpacity>
                                         }
                                     </View>
-                                    <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems:'flex-start' }}>
+                                    <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems: 'flex-start' }}>
                                         <Text style={{ fontSize: 14, marginVertical: 7, color: 'black', }}>{data.currency_type.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
                                         {
                                             Platform.OS === 'android' ?
                                                 <View style={{ height: height(6), width: width(90), backgroundColor: 'white', alignItems: 'center', flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                                                     <Picker
                                                         selectedValue={parseInt(this.state.currency_id)}
-                                                        style={{ height: height(6),width: width(90), color:'gray' }}
-                                                        onValueChange={(itemValue, itemIndex) =>
-                                                            this.setState({ currency_id: itemValue })
+                                                        style={{ height: height(6), width: width(90), color: 'gray' }}
+                                                        onValueChange={(itemValue, itemIndex) => {
+                                                        //     console.log('itemval-itemindex',itemValue+"-"+)
+                                                        //    if(itemValue!=undefined){
+                                                        //     let valx = itemValue
+                                                        //     console.log('valx',valx)
+                                                        //     if (itemValue.includes('|')) {
+                                                        //         let temp = itemValue.split('|')
+                                                        //         valx = temp[0]
+                                                        //     }
+                                                        //     console.log('currency', valx)
+                                                        //    }
+                                                           this.setState({ currency_id: itemValue })
+
+                                                        
+                                                        }
                                                         }>
                                                         <Picker.Item label={data.currency_type.placeholder} value='' />
                                                         {
                                                             data.currency_type.dropdown.map((item, key) => {
-                                                                return (
-                                                                    <Picker.Item key={key} label={item.name} value={item.id} />
-                                                                );
+                                                               
+                                                                        return (
+
+                                                                            <Picker.Item key={key} label={item.name} value={item.id_currency} />
+                                                                        );
+                                                             
+
                                                             })
                                                         }
                                                     </Picker>
                                                 </View>
                                                 :
                                                 <TouchableOpacity style={{ height: height(6), width: width(90), backgroundColor: 'white', alignItems: 'center', flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }} onPress={() => this.setState({ is_currencyPicker: !this.state.is_currencyPicker })}>
-                                                     <View style={{ width: width(78), alignItems:'flex-start' }}>
+                                                    <View style={{ width: width(78), alignItems: 'flex-start' }}>
                                                         <Text style={{ marginHorizontal: 8, fontSize: 14 }}>{this.state.currency_name}</Text>
                                                     </View>
                                                     <IconDrop name="md-arrow-dropdown" size={24} color="#c4c4c4" />
@@ -250,7 +267,7 @@ const inputSize = totalSize(1.5);
                                         }
                                     </View>
                                     <View style={{ flexDirection: 'row', marginHorizontal: 10, marginBottom: 20 }}>
-                                        <View style={{ marginVertical: 5, marginTop: 10, alignItems:'flex-start', alignItems:'flex-start' }}>
+                                        <View style={{ marginVertical: 5, marginTop: 10, alignItems: 'flex-start', alignItems: 'flex-start' }}>
                                             <Text style={{ marginVertical: 7, fontSize: 14, color: 'black' }}>{data.price_from.main_title}</Text>
                                             <View style={{ height: height(6), width: width(43), backgroundColor: COLOR_PRIMARY, flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                                                 <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
@@ -269,7 +286,7 @@ const inputSize = totalSize(1.5);
                                                 />
                                             </View>
                                         </View>
-                                        <View style={{ marginVertical: 5, marginTop: 10, marginLeft: 10, alignItems:'flex-start' }}>
+                                        <View style={{ marginVertical: 5, marginTop: 10, marginLeft: 10, alignItems: 'flex-start' }}>
                                             <Text style={{ marginVertical: 7, fontSize: 14, color: 'black' }}>{data.price_to.main_title}</Text>
                                             <View style={{ height: height(6), width: width(44), flexDirection: 'row', backgroundColor: COLOR_PRIMARY, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                                                 <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
@@ -296,7 +313,7 @@ const inputSize = totalSize(1.5);
                     }
                     {
                         store.GET_LISTING.data.is_business_hours ?
-                            <View style={{ marginTop: 30, alignItems:'flex-start' }}>
+                            <View style={{ marginTop: 30, alignItems: 'flex-start' }}>
                                 <Text style={{ color: COLOR_SECONDARY, marginVertical: 7, fontSize: 14, fontWeight: 'bold', marginHorizontal: 10 }}>Select Your Business Hours</Text>
                                 <View style={{ flexDirection: 'row', width: width(90) }}>
                                     <CheckBox
@@ -340,14 +357,14 @@ const inputSize = totalSize(1.5);
                     {
                         this.state.hour_selected ?
                             <View style={{ width: width(95), borderRadius: 4, backgroundColor: COLOR_SECTIONS }}>
-                                <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems:'flex-start' }}>
+                                <View style={{ marginHorizontal: 10, marginVertical: 5, marginTop: 10, alignItems: 'flex-start' }}>
                                     <Text style={{ fontSize: 14, marginVertical: 7, color: 'black' }}>{data.timezone.main_title}<Text style={{ color: 'red' }}>*</Text></Text>
                                     {
                                         Platform.OS === 'android' ?
                                             <View style={{ height: height(6), width: width(90), backgroundColor: 'white', alignItems: 'center', flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                                                 <Picker
                                                     selectedValue={this.state.timezone}
-                                                    style={{ height: height(6),width: width(90), color:'gray' }}
+                                                    style={{ height: height(6), width: width(90), color: 'gray' }}
                                                     onValueChange={(itemValue, itemIndex) =>
                                                         this.setState({ timezone: itemValue })
                                                     }>
@@ -363,7 +380,7 @@ const inputSize = totalSize(1.5);
                                             </View>
                                             :
                                             <TouchableOpacity style={{ height: height(6), width: width(90), backgroundColor: 'white', alignItems: 'center', flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }} onPress={() => this.setState({ is_timezonePicker: !this.state.is_timezonePicker })}>
-                                                <View style={{ width: width(78), alignItems:'flex-start'}}>
+                                                <View style={{ width: width(78), alignItems: 'flex-start' }}>
                                                     <Text style={{ marginHorizontal: 8, fontSize: 14 }}>{this.state.timezone}</Text>
                                                 </View>
                                                 <IconDrop name="md-arrow-dropdown" size={24} color="#c4c4c4" />
@@ -373,7 +390,7 @@ const inputSize = totalSize(1.5);
                                 <ScrollView
                                     horizontal={true}
                                     showsHorizontalScrollIndicator={false}
-                                    style={{ marginHorizontal: 10, marginBottom: 5, width: width(90), backgroundColor:'#ffffff', marginTop: 10 }}
+                                    style={{ marginHorizontal: 10, marginBottom: 5, width: width(90), backgroundColor: '#ffffff', marginTop: 10 }}
                                 >
                                     {
                                         data.days.dropdown.map((item, key) => {
@@ -388,7 +405,7 @@ const inputSize = totalSize(1.5);
                                     }
                                 </ScrollView>
                                 <View style={{ flexDirection: 'row', marginHorizontal: 10 }}>
-                                    <View style={{ marginVertical: 5, marginTop: 10, alignItems:'flex-start' }}>
+                                    <View style={{ marginVertical: 5, marginTop: 10, alignItems: 'flex-start' }}>
                                         <Text style={{ marginVertical: 7, fontSize: 14 }}>{'From'}</Text>
                                         <DatePicker
                                             style={{ height: height(6), width: width(44), alignSelf: 'stretch', backgroundColor: 'white', paddingHorizontal: 10, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}
@@ -422,7 +439,7 @@ const inputSize = totalSize(1.5);
                                             onDateChange={async (date) => { await this.setDaysTiming(date, 'start'), this.setState({ dateFrom: date }) }}
                                         />
                                     </View>
-                                    <View style={{ marginVertical: 5, marginTop: 10, marginLeft: 10, alignItems:'flex-start' }}>
+                                    <View style={{ marginVertical: 5, marginTop: 10, marginLeft: 10, alignItems: 'flex-start' }}>
                                         <Text style={{ marginVertical: 7, fontSize: 14 }}>{'To'}</Text>
                                         <DatePicker
                                             style={{ height: height(6), width: width(44), alignSelf: 'stretch', backgroundColor: 'white', paddingHorizontal: 10, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}
@@ -472,7 +489,7 @@ const inputSize = totalSize(1.5);
                     }
                     <View>
                         {/* <View style={{ width: width(95), backgroundColor: '#eff3f6' }}> */}
-                        <View style={{ marginHorizontal: 10, marginBottom: 20, marginTop: 10, alignItems:'flex-start' }}>
+                        <View style={{ marginHorizontal: 10, marginBottom: 20, marginTop: 10, alignItems: 'flex-start' }}>
                             <Text style={{ color: COLOR_SECONDARY, marginVertical: 7, fontSize: 14, fontWeight: 'bold' }}>Social Media Addresses</Text>
                             <View style={{ height: height(6), width: width(90), marginTop: 5, flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6, backgroundColor: 'white' }}>
                                 <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
@@ -568,10 +585,10 @@ const inputSize = totalSize(1.5);
                                 <Image source={require('../../images/clear-button.png')} style={{ height: height(2), width: width(3), resizeMode: 'contain' }} />
                             </TouchableOpacity>
                         </View>
-                        <View style={{ flex: 1,alignItems:'center' }}>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
                             <Picker
                                 selectedValue={this.state.price_id}
-                                style={{ height: height(6), width: width(100), color:'gray' }}
+                                style={{ height: height(6), width: width(100), color: 'gray' }}
                                 onValueChange={(itemValue, itemIndex) => {
                                     this.selectPriceType(itemValue)
                                 }}>
@@ -602,10 +619,10 @@ const inputSize = totalSize(1.5);
                                 <Image source={require('../../images/clear-button.png')} style={{ height: height(2), width: width(3), resizeMode: 'contain' }} />
                             </TouchableOpacity>
                         </View>
-                        <View style={{ flex: 1,alignItems:'center' }}>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
                             <Picker
                                 selectedValue={this.state.currency_id}
-                                style={{ height: height(6), width: width(100), color:'gray'}}
+                                style={{ height: height(6), width: width(100), color: 'gray' }}
                                 onValueChange={(itemValue, itemIndex) => {
                                     this.selectCurrencyType(itemValue)
                                 }}>
@@ -636,10 +653,10 @@ const inputSize = totalSize(1.5);
                                 <Image source={require('../../images/clear-button.png')} style={{ height: height(2), width: width(3), resizeMode: 'contain' }} />
                             </TouchableOpacity>
                         </View>
-                        <View style={{ flex: 1,alignItems:'center' }}>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
                             <Picker
                                 selectedValue={this.state.timezone}
-                                style={{height: height(6), width: width(100), color:'gray'}}
+                                style={{ height: height(6), width: width(100), color: 'gray' }}
                                 onValueChange={(itemValue, itemIndex) =>
                                     this.setState({ timezone: itemValue })
                                 }>

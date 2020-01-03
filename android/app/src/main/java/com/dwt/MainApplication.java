@@ -24,6 +24,7 @@ import io.invertase.firebase.RNFirebasePackage;
 //import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.geolocation.GeolocationPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
@@ -73,6 +74,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new GeolocationPackage(),
             new RNFirebasePackage(),
             new FBSDKPackage(),
             new ReactNativeRestartPackage(),

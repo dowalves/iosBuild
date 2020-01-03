@@ -167,7 +167,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
                     autoFocus={false}
                     keyboardAppearance='default'
                     keyboardType='default'
-                    style={styles.inputTxt}
+                    style={[styles.inputTxt,{textAlign: I18nManager.isRTL ? 'right' : 'left'}]}
                   />
                 </View>
               </View>
@@ -185,7 +185,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
                     keyboardType='email-address'
                     underlineColorAndroid='transparent'
                     autoCorrect={true}
-                    style={styles.inputTxt}
+                    style={[styles.inputTxt,{textAlign: I18nManager.isRTL ? 'right' : 'left'}]}
                   />
                 </View>
               </View>

@@ -10,7 +10,9 @@ import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
-import Geolocation from 'react-native-geolocation-service';
+// import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
+
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/AdvanceSearch/AdvanceSearchStyleSheet';
@@ -156,46 +158,55 @@ export default class AdvanceSearch extends Component<Props> {
   }
   getCurrentPosition = async () => {
     this.setState({ currentLoc: true })
-    try {
-      if (Platform.OS === 'android') {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        )
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          Geolocation.getCurrentPosition(func = async (position) => {
-            // console.log('getCurrentPosition=', position);
-            await this.getAddress(position.coords.latitude, position.coords.longitude);
-            await this.setState({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-            this.setState({ currentLoc: false })
-            console.log(this.state.latitude)
-          },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
-        }
-        else {
-          this.setState({ currentLoc: false })
-        }
-      } else {
-        Geolocation.getCurrentPosition(func = async (position) => {
-          // console.log('getCurrentPosition========>>>>>>', position);
-          await this.getAddress(position.coords.latitude, position.coords.longitude);
-          await this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          this.setState({ currentLoc: false })
-          console.log(this.state.latitude)
-        },
-          (error) => this.setState({ error: error.message }),
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
-      }
-    }
-    catch (err) {
-      console.warn(err)
-    }
+    Geolocation.getCurrentPosition(async position => {
+      await this.getAddress(position.coords.latitude, position.coords.longitude);
+      await this.setState({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      this.setState({ currentLoc: false })
+    });
+
+    // try {
+    //   if (Platform.OS === 'android') {
+    //     const granted = await PermissionsAndroid.request(
+    //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    //     )
+    //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //       Geolocation.getCurrentPosition(func = async (position) => {
+    //         // console.log('getCurrentPosition=', position);
+    //         await this.getAddress(position.coords.latitude, position.coords.longitude);
+    //         await this.setState({
+    //           latitude: position.coords.latitude,
+    //           longitude: position.coords.longitude,
+    //         });
+    //         this.setState({ currentLoc: false })
+    //         console.log(this.state.latitude)
+    //       },
+    //         (error) => this.setState({ error: error.message }),
+    //         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
+    //     }
+    //     else {
+    //       this.setState({ currentLoc: false })
+    //     }
+    //   } else {
+    //     Geolocation.getCurrentPosition(func = async (position) => {
+    //       // console.log('getCurrentPosition========>>>>>>', position);
+    //       await this.getAddress(position.coords.latitude, position.coords.longitude);
+    //       await this.setState({
+    //         latitude: position.coords.latitude,
+    //         longitude: position.coords.longitude,
+    //       });
+    //       this.setState({ currentLoc: false })
+    //       console.log(this.state.latitude)
+    //     },
+    //       (error) => this.setState({ error: error.message }),
+    //       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
+    //   }
+    // }
+    // catch (err) {
+    //   console.warn(err)
+    // }
   }
   getAddress = async (lat, long) => {
     let api_key = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';

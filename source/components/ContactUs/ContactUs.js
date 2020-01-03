@@ -87,7 +87,7 @@ export default class ContactUs extends Component<Props> {
       || (this.state.subjectB && this.state.subject == '')
     ) {
       this.setState({ formSubmitted: true })
-      Toast.show('Required fields are missing')
+      Toast.show(store.ContactUs.contact_us.heading.app_contact_form_validaton)
       return false
     }
     return true
@@ -193,7 +193,7 @@ export default class ContactUs extends Component<Props> {
                   onRefresh={this.refreshPage}
                 />
               }>
-              <View style={{ height: heightPercentageToDP(85), backgroundColor: COLOR_TRANSPARENT_BLACK, alignItems: 'center' }}>
+              <View style={{ height: heightPercentageToDP(88), backgroundColor: COLOR_TRANSPARENT_BLACK, alignItems: 'center' }}>
                 <View style={{ height: height(20), width: width(100) }}>
                   <Text style={[styles.logoTxt, { width: wp('100'), height: wp('10'), fontWeight: '800', marginTop: wp('10') }]}>{store.ContactUs.contact_us.form.app_contact_us_form_title}</Text>
 
@@ -218,7 +218,7 @@ export default class ContactUs extends Component<Props> {
                       placeholderTextColor='white'
                       underlineColorAndroid='transparent'
                       autoCorrect={false}
-                      style={this.state.formSubmitted && this.state.nameB && this.state.name == '' ? { height: height(6), width: width(45), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { height: height(6), width: width(45), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }}
+                      style={[I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'},      this.state.formSubmitted && this.state.nameB && this.state.name == '' ? { height: height(6), width: width(45), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { height: height(6), width: width(45), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }]}
                     />
                     <TextInput
                       onChangeText={(value) => this.setState({ email: value, formSubmitted: false })}
@@ -229,7 +229,7 @@ export default class ContactUs extends Component<Props> {
                       placeholderTextColor='white'
                       underlineColorAndroid='transparent'
                       autoCorrect={false}
-                      style={this.state.formSubmitted && this.state.emailB && this.state.email == '' ? { height: height(6), width: width(45), marginLeft: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { height: height(6), width: width(45), marginLeft: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }}
+                      style={[I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'},this.state.formSubmitted && this.state.emailB && this.state.email == '' ? { height: height(6), width: width(45), marginLeft: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { height: height(6), width: width(45), marginLeft: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }]}
                     />
                   </View>
                   <View style={{ height: height(6), marginVertical: 5, flexDirection: 'row', alignItems: 'center' }}>
@@ -241,7 +241,7 @@ export default class ContactUs extends Component<Props> {
                       placeholderTextColor='white'
                       underlineColorAndroid='transparent'
                       autoCorrect={false}
-                      style={this.state.formSubmitted && this.state.numberB && this.state.number == '' ? { height: height(6), width: width(45), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { height: height(6), width: width(45), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }}
+                      style={[I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'},this.state.formSubmitted && this.state.numberB && this.state.number == '' ? { height: height(6), width: width(45), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { height: height(6), width: width(45), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }]}
                     />
                     <TextInput
                       onChangeText={(value) => this.setState({ subject: value, formSubmitted: false })}
@@ -251,7 +251,7 @@ export default class ContactUs extends Component<Props> {
                       placeholderTextColor='white'
                       underlineColorAndroid='transparent'
                       autoCorrect={false}
-                      style={this.state.formSubmitted && this.state.subjectB && this.state.subject == '' ? { height: height(6), width: width(45), marginLeft: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { height: height(6), width: width(45), marginLeft: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }}
+                      style={[I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'},this.state.formSubmitted && this.state.subjectB && this.state.subject == '' ? { height: height(6), width: width(45), marginLeft: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { height: height(6), width: width(45), marginLeft: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }]}
                     />
                   </View>
                   <View style={{ height: height(12), marginVertical: 5, flexDirection: 'row', alignItems: 'center' }}>
@@ -263,7 +263,7 @@ export default class ContactUs extends Component<Props> {
                       placeholderTextColor='white'
                       underlineColorAndroid='transparent'
                       autoCorrect={false}
-                      style={this.state.formSubmitted && this.state.msgB && this.state.msg == '' ? { alignSelf: 'stretch', width: width(95), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { alignSelf: 'stretch', width: width(95), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }}
+                      style={[I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'},this.state.formSubmitted && this.state.msgB && this.state.msg == '' ? { alignSelf: 'stretch', width: width(95), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'red', borderWidth: 1, borderRadius: 3 } : { alignSelf: 'stretch', width: width(95), marginRight: 10, backgroundColor: 'rgba(211,211,211,0.3)', paddingLeft: 10, color: COLOR_PRIMARY, fontSize: totalSize(subHeadingTxt), borderColor: 'gray', borderWidth: 1, borderRadius: 3 }]}
                     />
                   </View>
 
