@@ -240,7 +240,7 @@ export default class WriteReview extends Component<Props> {
                     <View style={styles.cameraCon}>
                       <TouchableOpacity style={styles.cameraSubCon} onPress={() => this.multiImagePicker()}>
                         <Image source={require('../../images/camera.png')} style={styles.cameraIcon} />
-                        <Text style={styles.cameraBtnTxt}>Select Pics</Text>
+                        <Text style={styles.cameraBtnTxt}>{data.write_reviews.for_chosse_img}</Text>
                       </TouchableOpacity>
                       <View style={styles.tickBtnCon}>
                         {

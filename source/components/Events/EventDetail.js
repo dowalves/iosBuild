@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, View, Image, TouchableOpacity,FlatList, ActivityIndicator,ScrollView, TextInput, Modal} from 'react-native';
+  Text, View, Image, TouchableOpacity,FlatList, ActivityIndicator,ScrollView, TextInput, Modal, I18nManager} from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { width, height, totalSize } from 'react-native-dimension';
 import MapView, { Polyline, Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -59,7 +59,7 @@ import Toast from 'react-native-simple-toast';
     let response = await ApiController.post('event-comments', parameter);
     // console.log('response===>>', response);
 
-    if (response.success) {
+    if (response.success!=undefined && response.success && response.data.comments!=null) {
       store.EVENTS.has_comments = true;
       comments.push(response.data.comments);
       await this.setState({ is_comment: false, comment: '' })
@@ -209,8 +209,8 @@ import Toast from 'react-native-simple-toast';
                       digitTxtColor={COLOR_PRIMARY}
                       timeTxtColor='#000000'
                       digitBgColor={data.main_clr}
-                      timeToShow={['D', 'H', 'M', 'S']}
-                      label={'Days' / 'Hours' / 'Minutes' / 'Seconds'}
+                      // timeToShow={['D', 'H', 'M', 'S']}
+                      // label={`${titles.days}` / 'Hourx' / 'Minutex' / 'Seconds'}
                       // onFinish={() => alert('finished')}
                       // onPress={() => alert('hello')}
                       size={15}
@@ -353,7 +353,7 @@ import Toast from 'react-native-simple-toast';
                                 underlineColorAndroid='transparent'
                                 multiLine={true}
                                 autoCorrect={false}
-                                style={styles.textInput}
+                                style={[styles.textInput,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
                               />
                             </View>
                             {

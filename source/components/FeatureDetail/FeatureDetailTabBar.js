@@ -94,7 +94,7 @@ class FeatureDetailTabBar extends Component<Props> {
     if (response.data.listing_detial.has_reviews_score) {
       this.state.routes.push({ key: 'review', title: response.data.listing_detial.reviews.tab_txt });
     }
-    this.state.routes.push({ key: 'writeReview', title: this.state.write });
+    this.state.routes.push({ key: 'writeReview', title: response.data.listing_detial.write_reviews.tab_txt });
   }
   _renderLabel = ({ route }) => (
     <Text style={{ fontSize: 13, color: COLOR_SECONDARY }}>{route.title}</Text>

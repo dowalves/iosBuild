@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, View, Image, TouchableOpacity, ActivityIndicator, TextInput, FlatList, Platform
+  Text, View, Image,I18nManager, TouchableOpacity, ActivityIndicator, TextInput, FlatList, Platform
 } from 'react-native';
 import {
   AdMobBanner,
@@ -22,7 +22,8 @@ import styles from '../../../styles/Categories/CategoriesStyleSheet';
     this.state = {
       loading: false,
       searchCate: [],
-      name: ''
+      name: '',
+      placeholderx:''
     }
   }
   static navigationOptions = { header: null };
@@ -56,6 +57,7 @@ import styles from '../../../styles/Categories/CategoriesStyleSheet';
       //API calling
       let response = await ApiController.post('categories');
       orderStore.categories = response.data.categories;
+      this.setState({placeholderx:response.data.search_input})
       console.log('responsecategory=', response);
       if (response.success === true) {
         this.setState({ loading: false })
@@ -117,12 +119,12 @@ import styles from '../../../styles/Categories/CategoriesStyleSheet';
                 <TextInput
                   onChangeText={(value) => this.setState({ name: value })}
                   value={this.state.name}
-                  placeholder='Search Categories'
+                  placeholder={this.state.placeholderx}
                   placeholderTextColor='gray'
                   underlineColorAndroid='transparent'
                   autoCorrect={false}
                   autoFocus={true}
-                  style={styles.TextInput}
+                  style={[styles.TextInput,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
                 />
                 <TouchableOpacity onPress={() => {
                   if (this.state.searchCate.length > 0) {

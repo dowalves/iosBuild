@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Platform, StyleSheet, Text, View, Button, Image, TouchableOpacity,
-  ScrollView, TextInput, ActivityIndicator
+  ScrollView, TextInput, ActivityIndicator, I18nManager
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
@@ -168,7 +168,7 @@ export default class BlogDetail extends Component<Props> {
                               multiline={true}
                               underlineColorAndroid='transparent'
                               autoCorrect={true}
-                              style={{ height: height(20), textAlignVertical: 'top',textAlign:'left',padding: 10,width: width(90), alignSelf: 'center', fontSize: totalSize(subHeadingTxt), borderColor: COLOR_GRAY, borderWidth: 0.5, borderRadius: 5 }}
+                              style={[{ height: height(20), textAlignVertical: 'top',textAlign:'left',padding: 10,width: width(90), alignSelf: 'center', fontSize: totalSize(subHeadingTxt), borderColor: COLOR_GRAY, borderWidth: 0.5, borderRadius: 5 },I18nManager.isRTL?{textAlign:"right"}:{textAlign:'left'}]}
                             />
                             {
                               settings.is_demo_mode?

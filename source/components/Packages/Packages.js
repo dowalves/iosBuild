@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform, StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl
+  Platform, StyleSheet, Text, View, Image,I18nManager, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl
 } from 'react-native';
 import stripe from 'tipsi-stripe';
 import RNPaypal from 'react-native-paypal-lib';
@@ -173,10 +173,10 @@ export default class Packages extends Component<Props> {
     }
     try {
       let response = await ApiController.post('payment', params);
-      console.log('before payment params', JSON.stringify(params))
+      // console.log('before payment params', JSON.stringify(params))
 
       if (response.success) {
-        console.log('after payment success', JSON.stringify(response))
+        // console.log('after payment success', JSON.stringify(response))
         store.settings.data.package = response.data.package;
         Toast.show(response.message, Toast.LONG);
 
@@ -205,7 +205,7 @@ export default class Packages extends Component<Props> {
     this.setState({ loading: true });
     try {
       var response = await ApiController.post('packages');
-      console.log('packages are====>>>', response);
+      // console.log('packages are====>>>', response);
 
       if (response.success) {
         store.PACKAGES_OBJ = response.data;
@@ -565,6 +565,8 @@ export default class Packages extends Component<Props> {
                     <View style={{ height: height(6), width: width(70), flexDirection: 'row', alignItems: 'center' }}>
                       <Picker
                         selectedValue={item.selectedMethod}
+                      
+                        // itemStyle={[I18nManager.isRTL?{textAlign:'left'}:{}]}
                         style={{ height: height(6), width: width(70), color: 'white' }}
                         onValueChange={async (itemValue, itemIndex) => {
                           // await this.setState({ payment_methodes: item.payments_methods, pkg_id: item.package_id, pkg_type: item.package_type, amount: item.package_info.price, currency: item.package_info.currency }),
@@ -573,7 +575,7 @@ export default class Packages extends Component<Props> {
                         {
                           item.payments_methods.map((item, key) => {
                             return (
-                              <Picker.Item key={key} label={item.value} value={item.key} />
+                              <Picker.Item  key={key} label={item.value} value={item.key} />
                             );
                           })
                         }
@@ -649,15 +651,17 @@ export default class Packages extends Component<Props> {
             </View>
             <View style={{ flex: 1 }}>
               <Picker
+                
                 selectedValue={this.state.payment_type}
-                style={{ height: height(6), width: width(100) }}
+                // itemStyle={[I18nManager.isRTL?{textAlign:'right'}:{textAlign:'right'},{backgroundColor:'red'}]}
+                style={[{ height: height(6), width: width(100) }]}
                 onValueChange={async (itemValue, itemIndex) => {
                   this.callerPaymentMethodes(itemValue)
                 }}>
                 {
                   this.state.payment_methodes.map((item, key) => {
                     return (
-                      <Picker.Item key={key} label={item.value} value={item.key} />
+                      <Picker.Item  key={key} label={item.value} value={item.key} />
                     );
                   })
                 }
