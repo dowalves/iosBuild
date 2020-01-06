@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Text, View, TextInput, TouchableOpacity, Picker, ScrollView, ActivityIndicator, Image } from 'react-native';
+import { Platform, Text, View, I18nManager,TextInput, TouchableOpacity, Picker, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -138,7 +138,7 @@ const inputSize = totalSize(1.5);
                                 placeholderTextColor='gray'
                                 underlineColorAndroid='transparent'
                                 autoCorrect={true}
-                                style={{ height: height(6), width: width(77), fontSize: inputSize, backgroundColor: 'transparent', paddingHorizontal: 10 }}
+                                style={[{ height: height(6), width: width(77), fontSize: inputSize, backgroundColor: 'transparent', paddingHorizontal: 10 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
                             />
                         </View>
                     </View>
@@ -276,7 +276,7 @@ const inputSize = totalSize(1.5);
                                 placeholderTextColor='gray'
                                 underlineColorAndroid='transparent'
                                 autoCorrect={true}
-                                style={{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 }}
+                                style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
                             />
                         </View>
                     </View>
@@ -296,7 +296,7 @@ const inputSize = totalSize(1.5);
                                         placeholderTextColor='gray'
                                         underlineColorAndroid='transparent'
                                         autoCorrect={true}
-                                        style={{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 }}
+                                        style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
                                     />
                                 </View>
                             </View>

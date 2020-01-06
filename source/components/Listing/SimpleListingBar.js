@@ -56,7 +56,7 @@ import { withNavigation } from 'react-navigation';
                                 />
                                 <Text style={styles.subHeadingTxt}>{item.posted_date}</Text>
                                 <View style={{ marginHorizontal: 5, height: 10, width: 1, borderWidth: 0.3, borderColor: '#c4c4c4' }}></View>
-                                <View style={{ flexDirection: 'row' }}>
+                                {/* <View style={{ flexDirection: 'row' }}>
                                     <Icon
                                         size={20}
                                         name='eye'
@@ -65,7 +65,7 @@ import { withNavigation } from 'react-navigation';
                                         containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
                                     />
                                     <Text style={styles.ratingTxt}>{item.total_views}</Text>
-                                </View>
+                                </View> */}
                             </View>
                         </View>
                         <TouchableOpacity style={{ flex: 1, height: height(13) }}>

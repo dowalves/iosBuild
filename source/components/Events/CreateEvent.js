@@ -3,7 +3,7 @@
 //**********************//
 
 import React, { Component } from 'react';
-import { Text, View, Image, ImageBackground, Platform, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Picker } from 'react-native';
+import { Text, View, Image, ImageBackground,I18nManager, Platform, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { width, height, totalSize } from 'react-native-dimension';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -245,7 +245,8 @@ class CreateEvent extends Component<Props> {
     });
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: 'Create Event',
+    
+    headerTitle: store.MY_EVENTS.data.create,
     headerTintColor: COLOR_PRIMARY,
     headerStyle: {
       backgroundColor: store.settings.data.main_clr
@@ -412,7 +413,7 @@ class CreateEvent extends Component<Props> {
                 placeholderTextColor='gray'
                 underlineColorAndroid='transparent'
                 autoCorrect={false}
-                style={styles.textInput}
+                style={[styles.textInput,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
               />
             </View>
             <View style={styles.textInputCon}>
@@ -460,7 +461,7 @@ class CreateEvent extends Component<Props> {
                 keyboardType='phone-pad'
                 underlineColorAndroid='transparent'
                 autoCorrect={false}
-                style={styles.textInput}
+                style={[styles.textInput,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
               />
             </View>
             <View style={styles.textInputCon}>
@@ -472,7 +473,7 @@ class CreateEvent extends Component<Props> {
                 placeholderTextColor='gray'
                 underlineColorAndroid='transparent'
                 autoCorrect={false}
-                style={styles.textInput}
+                style={[styles.textInput,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
               />
             </View>
             <View style={styles.aboutInputCon}>
@@ -486,7 +487,7 @@ class CreateEvent extends Component<Props> {
                 autoCorrect={true}
                 multiline={true}
                 scrollEnabled={true}
-                style={styles.aboutInputText}
+                style={[styles.aboutInputText,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
               />
             </View>
             <View style={styles.textInputCon}>
@@ -634,7 +635,7 @@ class CreateEvent extends Component<Props> {
                 placeholderTextColor='gray'
                 underlineColorAndroid='transparent'
                 autoCorrect={true}
-                style={styles.textInput}
+                style={[styles.textInput,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
               />
             </View>
             {

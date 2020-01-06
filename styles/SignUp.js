@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'center'
   },
+  appleBtn: { height: height(5.5), width: width(50) },
   bckImgCon: {
     flex: 0.5,
     justifyContent: 'flex-end'

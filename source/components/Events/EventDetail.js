@@ -170,22 +170,7 @@ import Toast from 'react-native-simple-toast';
                   null
               }
               <View style={styles.subCon}>
-                {/* {
-              eventDetail.event_detial.has_gallery === true ?
-                <View style={{ height: height(13), flexDirection: 'row' }}>
-                  <FlatList
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    data={eventDetail.event_detial.gallery_images}
-                    renderItem={({ item }) =>
-                      <TouchableOpacity style={{ alignSelf: 'center' }} onPress={() => { this.setState({ modalVisible: true }) }}>
-                        <Image source={{ uri: item.small_img }} style={styles.imageItem} />
-                      </TouchableOpacity>
-                    }
-                  />
-                </View>
-                : null
-            } */}
+             
                 <View style={styles.tableCon}>
                   <View style={styles.tableRowCon}>
                     <Text style={[styles.tableHeaderText, { fontSize: totalSize(S2), marginRight: 100 }]}>{eventDetail.event_detial.event_title}</Text>
@@ -209,10 +194,9 @@ import Toast from 'react-native-simple-toast';
                       digitTxtColor={COLOR_PRIMARY}
                       timeTxtColor='#000000'
                       digitBgColor={data.main_clr}
-                      // timeToShow={['D', 'H', 'M', 'S']}
-                      // label={`${titles.days}` / 'Hourx' / 'Minutex' / 'Seconds'}
-                      // onFinish={() => alert('finished')}
-                      // onPress={() => alert('hello')}
+                      timeToShow={['D', 'H', 'M', 'S']}
+                      label={`${titles.days}` / 'Hourx' / 'Minutex' / 'Seconds'}
+                      onFinish={() => alert('finished')}
                       size={15}
                     />
                   </View>
@@ -245,11 +229,9 @@ import Toast from 'react-native-simple-toast';
                     mapType={"standard"}
                     loadingEnabled={true}
                     loadingIndicatorColor={'#ffffff'}
-                    // loadingBackgroundColor = 'transparent'
                     moveOnMarkerPress={false}
                     style={styles.map}
                     region={region}
-                  // onRegionChange={this.onRegionChange.bind(this)}
                   >
                     <MapView.Marker
                       coordinate={

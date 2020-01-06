@@ -43,14 +43,14 @@ class ListingComp extends Component<Props> {
                                 rating={item.rating_stars === "" ? 0 : item.rating_stars}
                             />
                         </View>
-                        <Icon
+                        {/* <Icon
                             size={20}
                             name='eye'
                             type='evilicon'
                             color='#8a8a8a'
                             containerStyle={{ marginLeft: 0, marginVertical: 3 }}
                         />
-                        <Text style={styles.ratingTxt}>{item.total_views}</Text>
+                        <Text style={styles.ratingTxt}>{item.total_views}</Text> */}
                     </View>
                     <View style={{ marginTop: 2, width: width(45), marginHorizontal: 8, flexDirection: 'row', alignItems: 'center' }}>
                         <Icon

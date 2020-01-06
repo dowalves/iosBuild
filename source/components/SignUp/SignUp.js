@@ -17,6 +17,10 @@ import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import { SignInWithAppleButton } from 'react-native-apple-authentication'
+
+import {widthPercentageToDP as wp} from '../../helpers/Responsive'
+
 @observer export default class SignUp extends Component<Props> {
   constructor(props) {
     let { orderStore } = Store;
@@ -51,7 +55,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
     }).done();
   }
   // FaceBook SignUp 
-  fbLogin = async() => {
+  fbLogin = async () => {
     // Attempt a login using the Facebook login dialog asking for default permissions.
     LoginManager.logInWithPermissions(['public_profile', 'email']).then(
       functionFun = (result) => {
@@ -131,6 +135,13 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
       Toast.show(response.message, Toast.LONG);
     }
   }
+
+  appleSignIn = (result) => {
+    console.log('Resssult', result);
+  };
+
+
+
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
@@ -167,7 +178,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
                     autoFocus={false}
                     keyboardAppearance='default'
                     keyboardType='default'
-                    style={[styles.inputTxt,{textAlign: I18nManager.isRTL ? 'right' : 'left'}]}
+                    style={[styles.inputTxt, { textAlign: I18nManager.isRTL ? 'right' : 'left' }]}
                   />
                 </View>
               </View>
@@ -185,7 +196,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
                     keyboardType='email-address'
                     underlineColorAndroid='transparent'
                     autoCorrect={true}
-                    style={[styles.inputTxt,{textAlign: I18nManager.isRTL ? 'right' : 'left'}]}
+                    style={[styles.inputTxt, { textAlign: I18nManager.isRTL ? 'right' : 'left' }]}
                   />
                 </View>
               </View>
@@ -203,7 +214,7 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
                     placeholderTextColor='white'
                     underlineColorAndroid='transparent'
                     autoCorrect={false}
-                    style={[styles.inputTxt,{textAlign: I18nManager.isRTL ? 'right' : 'left'}]}
+                    style={[styles.inputTxt, { textAlign: I18nManager.isRTL ? 'right' : 'left' }]}
                   />
                 </View>
               </View>
@@ -236,6 +247,15 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
                     null
                 }
               </View>
+         
+              {/* <View style={{marginTop:wp('2')}}>
+                {SignInWithAppleButton(styles.appleBtn, this.appleSignIn)}
+              </View> */}
+
+              {/* <View style={styles.fgBtn}>
+               
+
+              </View> */}
               <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
                 {!this.state.loading ? null :
                   <ActivityIndicator size={INDICATOR_SIZE} color={store.settings.data.navbar_clr} animating={true} hidesWhenStopped={true} />}
