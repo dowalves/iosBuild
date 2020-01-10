@@ -88,33 +88,44 @@ import {widthPercentageToDP as wp} from '../../helpers/Responsive'
     }
   }
   //// Custom Social Login methode
-  socialSignUp = async (email, name, password) => {
-    if (this.state.email.length > 0 && this.state.password.length > 0) {
-      var Email, Password;
-      Email = this.state.email;
-      Password = this.state.password;
-    } else {
-      Email = email;
-      Password = password;
+    //// Custom Social Login methode
+    socialSignUp = async (email, name, password) => {
+      if (this.state.email.length > 0 && this.state.password.length > 0) {
+        var Email, Password;
+        Email = this.state.email;
+        Password = this.state.password;
+      } else {
+        Email = email;
+        Password = password;
+      }
+      let { orderStore } = Store;
+      this.setState({ loading: true })
+      let params = {
+        name: name,
+        email: email,
+        type: 'social'
+      }
+      //API Calling
+      let response = await ApiController.post('login', params)
+      // console.log('login user =', response);
+      if (response.success === true) {
+        await LocalDB.saveProfile(Email, Password, response.data);
+    
+        let responseSetting = await ApiController.post('settings')
+  
+        orderStore.settings = responseSetting;
+        if (orderStore.settings.success === true) {
+  
+          orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
+          orderStore.wpml_settings = orderStore.settings.data.wpml_settings
+  
+        }
+        this.setState({ loading: false })
+        orderStore.login.loginStatus = true;
+        orderStore.login.loginResponse = response;
+        this.props.navigation.replace('Drawer')
+      }
     }
-    let { orderStore } = Store;
-    this.setState({ loading: true })
-    let params = {
-      name: name,
-      email: email,
-      type: 'social'
-    }
-    //API Calling
-    let response = await ApiController.post('login', params)
-    // console.log('login user =', response);
-    if (response.success === true) {
-      this.setState({ loading: false })
-      await LocalDB.saveProfile(Email, Password, response.data);
-      orderStore.login.loginStatus = true;
-      orderStore.login.loginResponse = response;
-      this.props.navigation.replace('Drawer')
-    }
-  }
   register = async () => {
     this.setState({ loading: true })
     let params = {

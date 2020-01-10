@@ -103,13 +103,25 @@ export default class SignIn extends Component<Props> {
     let response = await ApiController.post('login', params)
     // console.log('login user =', response);
     if (response.success === true) {
-      Storage.setItem('email', email)
-      Storage.setItem('password', '123')
+      // Storage.setItem('email', Email)
+      // Storage.setItem('password', Password)
+      await LocalDB.saveProfile(Email, Password, response.data);
+
       Storage.setItem('issocial', true)
 
 
+      let responseSetting = await ApiController.post('settings')
+
+      orderStore.settings = responseSetting;
+      if (orderStore.settings.success === true) {
+
+        orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
+        orderStore.wpml_settings = orderStore.settings.data.wpml_settings
+   
+      }
+
+
       this.setState({ loading: false })
-      await LocalDB.saveProfile(Email, Password, response.data);
       orderStore.login.loginStatus = true;
       orderStore.login.loginResponse = response;
       this.props.navigation.push('Drawer')

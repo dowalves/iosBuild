@@ -47,7 +47,7 @@ export default class AppMain extends Component<Props> {
     // API calling...
     this.setState({ loading: true })
     let response = await ApiController.post('settings');
-    console.log('settings in app..js=', response);
+    // console.log('settings in app..js=', response);
     // orderStore.settings = response;
     if (response.success === true) {
       // Storage.getItem('homepageChangeCounter').then((res) => {
@@ -76,7 +76,7 @@ export default class AppMain extends Component<Props> {
             // }
             this.setState({ move: true, current: Number(response.data.home_theme_type) })
           // }
-          console.log('resxxx', res)
+          // console.log('resxxx', res)
         // }else{
           // Storage.setItem('homepageChangeCounter',0)
           // this.setState({ move: true, current: Number(response.data.home_theme_type) })

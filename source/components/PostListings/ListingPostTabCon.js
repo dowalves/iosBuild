@@ -20,7 +20,7 @@ export default class ListingTabCon extends Component<Props> {
     }
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: 'Create Listing',
+    headerTitle: store.settings.data.menu.create_listing,
     headerTintColor: COLOR_PRIMARY,
     headerStyle: {
       backgroundColor: store.settings.data.main_clr

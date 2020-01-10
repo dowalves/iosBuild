@@ -172,12 +172,12 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
 
               {
                 home.sb_wpml_find_best_place != undefined ?
-                  <Text style={[{ color: '#fff', fontSize: wp('6'), fontWeight: 'bold' },I18nManager.isRTL?{textAlign:'left'}:{}]}>{home.sb_wpml_find_best_place}</Text>
+                  <Text style={[{ color: '#fff', fontSize: wp('6'), fontWeight: 'bold' },I18nManager.isRTL?{textAlign:'left',marginLeft:wp('5')}:{}]}>{home.sb_wpml_find_best_place}</Text>
                   : null
               }
               {
                 home.sb_wpml_more_busines_listed != undefined ?
-                  <Text style={[{ color: '#fff', fontSize: wp('3') },I18nManager.isRTL?{textAlign:'left'}:{}]}>{home.sb_wpml_more_busines_listed}</Text>
+                  <Text style={[{ color: '#fff', fontSize: wp('3') },I18nManager.isRTL?{textAlign:'left',marginLeft:wp('5')}:{}]}>{home.sb_wpml_more_busines_listed}</Text>
                   : null
               }
 
