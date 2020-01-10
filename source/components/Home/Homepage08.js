@@ -269,7 +269,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                                   <Image
                                     source={require('../../images/right-arrow-white.png')}
                                     resizeMode="contain"
-                                    style={{ height: 10, width: 10, position: 'absolute', right: 10, top: 12 }}
+                                    style={[{ height: 10, width: 10, position: 'absolute', right: 10, top: 12 },I18nManager.isRTL?{transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]}:{}]}
                                   />
                                 </View>
                                 {/* <Text style={{ fontSize: totalSize(1.7), color: COLOR_SECONDARY, marginTop: 4 }}>{'View All'}</Text> */}

@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import {
-  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl
+  Platform, SafeAreaView, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, RefreshControl, I18nManager
 } from 'react-native';
 import {
   AdMobBanner,
@@ -180,7 +180,7 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                           underlineColorAndroid='transparent'
                           autoCorrect={false}
                           onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
-                          style={styles.txtInput}
+                          style={[styles.txtInput,I18nManager.isRTL?{textAlign:'right'}:{right:'left'}]}
                         />
                         <Icon
                           size={30}

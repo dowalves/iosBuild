@@ -167,7 +167,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
               />
             }>
 
-            <View style={[I18nManager.isRTL?{marginBottom: wp('5')}:{ paddingLeft: wp('5'), marginBottom: wp('5') }]}>
+            <View style={[I18nManager.isRTL?{marginLeft:wp('5'),marginBottom: wp('5')}:{ paddingLeft: wp('5'), marginBottom: wp('5') }]}>
 
 
               {
