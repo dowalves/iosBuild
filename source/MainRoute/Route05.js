@@ -68,7 +68,7 @@ const RootStack = createStackNavigator(
               <Image source={require('../images/menu_newhome.png')} style={styles.drawerBtn} />
             </TouchableOpacity>
             <View style={[styles.headerTxtCon, { alignItems: 'center', alignContent: 'center', justifyContent: 'center' }]}>
-              <Text style={{ fontSize: wp('4.5'), fontWeight: 'bold', color: '#fff', marginLeft: wp(-10) }}>Down Town</Text>
+          <Text style={{ fontSize: wp('4.5'), fontWeight: 'bold', color: '#fff', marginLeft: wp(-10) }}>{store.settings.data.app_title.sb_hom_scren_fiv_title}</Text>
               {
                 navigation.state.index == 4 || navigation.state.index == 14 ? [] : [
                   <View style={{ backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: 5, height: wp('10'), width: wp('10'), borderRadius: wp('5'), position: 'absolute', right: wp('1') }}>

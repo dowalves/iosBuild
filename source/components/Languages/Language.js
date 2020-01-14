@@ -180,7 +180,8 @@ export default class Language extends Component<Props> {
                       <Animatable.Text tran animation={swing} style={{ color: '#6E768B', fontSize: wp(4),marginLeft:wp('10') }}>{item.native_name}</Animatable.Text>
                       <View style={{width:'30%',position:'absolute',right:wp('2'),alignContent:'center',alignItems:'center'}}>
                       <Image
-                        source={require('../../images/global.png')}
+                        source={{uri:item.lang_flag}}
+                        resizeMode="contain"
                         style={{height:wp('10'),width:wp('10')}}
                       />
                       </View>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform, StyleSheet, Text, View, Image,I18nManager, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl
+  Platform, StyleSheet, Text, View, Image, I18nManager, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl
 } from 'react-native';
 import stripe from 'tipsi-stripe';
 import RNPaypal from 'react-native-paypal-lib';
@@ -55,7 +55,7 @@ export default class Packages extends Component<Props> {
   };
   inAppPurchase = async (pkgId, pkgType, item, model) => {
     isLogged = await this.isLoggedIn()
-    if(isLogged){
+    if (isLogged) {
       packageTypeIap = pkgType;
       packgeIdIap = pkgId;
       let code = '';
@@ -65,10 +65,10 @@ export default class Packages extends Component<Props> {
       else
         code = model.android.code;
       this.requestSubscription(code, pkgId, pkgType);
-    }else{
+    } else {
       Toast.show('You need to login')
     }
-   
+
 
     // this.setState({ breaker: 0 })
     // try {
@@ -393,6 +393,20 @@ export default class Packages extends Component<Props> {
                 null
             }
             {
+              'listings_expiry' in item ?
+                <View key={key} style={styles.stripCon}>
+                  {
+                    item.listings_expiry.status ?
+                      <Icon name="checkcircle" size={iconsSize} color='#70CD73' />
+                      :
+                      <Icon name="closecircle" size={iconsSize} color={'red'} />
+                  }
+                  <Text style={styles.text}>{item.listings_expiry.title}: {item.listings_expiry.value}</Text>
+                </View>
+                :
+                null
+            }
+            {
               'featured' in item ?
                 <View key={key} style={styles.stripCon}>
                   {
@@ -565,7 +579,7 @@ export default class Packages extends Component<Props> {
                     <View style={{ height: height(6), width: width(70), flexDirection: 'row', alignItems: 'center' }}>
                       <Picker
                         selectedValue={item.selectedMethod}
-                      
+
                         // itemStyle={[I18nManager.isRTL?{textAlign:'left'}:{}]}
                         style={{ height: height(6), width: width(70), color: 'white' }}
                         onValueChange={async (itemValue, itemIndex) => {
@@ -575,7 +589,7 @@ export default class Packages extends Component<Props> {
                         {
                           item.payments_methods.map((item, key) => {
                             return (
-                              <Picker.Item  key={key} label={item.value} value={item.key} />
+                              <Picker.Item key={key} label={item.value} value={item.key} />
                             );
                           })
                         }
@@ -651,7 +665,7 @@ export default class Packages extends Component<Props> {
             </View>
             <View style={{ flex: 1 }}>
               <Picker
-                
+
                 selectedValue={this.state.payment_type}
                 // itemStyle={[I18nManager.isRTL?{textAlign:'right'}:{textAlign:'right'},{backgroundColor:'red'}]}
                 style={[{ height: height(6), width: width(100) }]}
@@ -661,7 +675,7 @@ export default class Packages extends Component<Props> {
                 {
                   this.state.payment_methodes.map((item, key) => {
                     return (
-                      <Picker.Item  key={key} label={item.value} value={item.key} />
+                      <Picker.Item key={key} label={item.value} value={item.key} />
                     );
                   })
                 }
