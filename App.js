@@ -6,8 +6,8 @@ import store from './source/Stores/orderStore';
 import Store from './source/Stores';
 import firebase, { NotificationOpen, Notification } from 'react-native-firebase';
 
-import LocalDB from '../DownTown/source/LocalDB/LocalDB'
-import Storage from '../DownTown/source/LocalDB/storage'
+import LocalDB from './source/LocalDB/LocalDB'
+import Storage from './source/LocalDB/storage'
 import { observer } from 'mobx-react';
 @observer
 export default class App extends Component<Props> {

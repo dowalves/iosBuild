@@ -49,6 +49,7 @@ import firebase from 'react-native-firebase';
 
       orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
       orderStore.wpml_settings=orderStore.settings.data.wpml_settings
+    
       this.props.navigation.replace('Drawer'); //MainScreen
       this.setState({ loading: false })
     } else {

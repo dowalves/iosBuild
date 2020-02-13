@@ -180,7 +180,7 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                           underlineColorAndroid='transparent'
                           autoCorrect={false}
                           onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
-                          style={[styles.txtInput,I18nManager.isRTL?{textAlign:'right'}:{right:'left'}]}
+                          style={[styles.txtInput,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
                         />
                         <Icon
                           size={30}
@@ -330,35 +330,7 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                 :
                 null
             }
-            {/*
-              home.location_enabled ?
-                <View style={{ marginHorizontal: 15 }}>
-                  <Text style={{ fontSize: 15, color: COLOR_SECONDARY, marginVertical: 15 }}>Locations</Text>
-                  {
-                    home.location_list.map((item, key) => {
-                      return (
-                        <TouchableOpacity style={{ height: height(11), width: width(90), marginRight: 5, borderRadius: 0, flexDirection: 'row', elevation: 2, shadowOpacity: 0.2, alignSelf: 'center', backgroundColor: '#fff', marginVertical: 5, alignItems: 'center' }}>
-                          <Avatar
-                            size="medium"
-                            rounded
-                            source={{ uri: item.location_image }}
-                            containerStyle={{ alignSelf: 'center', resizeMode: 'contain', marginHorizontal: 10, elevation: 2, shadowOpacity: 0.2 }}
-                            // onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: item.user_id, user_name: item.user_name })}
-                            activeOpacity={1}
-                          />
-                          <View style={{ height: height(10), width: width(53), marginHorizontal: 5, justifyContent: 'center', alignItems: 'flex-start' }}>
-                            <Text style={{ fontSize: totalSize(2), color: COLOR_SECONDARY }}>{item.location_name}</Text>
-                            <Text style={{ fontSize: totalSize(1.7), color: COLOR_SECONDARY, marginTop: 4 }}>{item.location_ads}</Text>
-                          </View>
-                          <Icon size={27} color='black' name='chevrons-right' type='feather' containerStyle={{ marginHorizontal: 10 }} />
-                        </TouchableOpacity>
-                      )
-                    })
-                  }
-                </View>
-                :
-                null
-                */}
+         
             {
               home.location_enabled ?
                 <View style={{ marginHorizontal: 20 }}>
