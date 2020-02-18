@@ -9,21 +9,27 @@ const titles = 1.8;
 const fieldCOLOR = 'rgba(211,211,211,0.3)';
 const styles = StyleSheet.create({
   container: {
+    // height:'100%',width:'100%',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white'
   },
   containerImg: {
-    flex: 1,
+    height:'100%',width:'100%',
+    // flex: 1,
     alignSelf: 'stretch'
   },
   ImgSubCon: {
     flex: 1,
+    // height:'100%',width:'100%',
+    justifyContent:'center',
+    alignContent:'center',alignItems:'center'
     // backgroundColor: COLOR_TRANSPARENT_BLACK
   },
   subConView: {
-    flex: 1,
+    // flex: 1,
+    height:'100%',width:'100%',
     alignSelf: 'center',
     justifyContent: 'flex-start',
     alignItems: 'center',

@@ -89,6 +89,11 @@ class orderStore {
     @observable wpml_settings = null;
     @observable ContactUs = '';
     @observable AboutUs = '';
+    @observable boolvar=false;
+
+    setBoolvar(val){
+        this.boolvar=val
+    }
 }
 
 const store = new orderStore();

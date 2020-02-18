@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import {
-  Platform, Text, View, TouchableOpacity, ScrollView, ActivityIndicator, Image, PermissionsAndroid, PermissionsIos
+  Platform, Text, View, TouchableOpacity, ScrollView, ActivityIndicator, Image,
+  FlatList,
+  PermissionsAndroid, PermissionsIos
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
+import ModalDropdown from 'react-native-modal-dropdown';
+
 import { Slider, CheckBox } from 'react-native-elements';
 import Modal from "react-native-modal";
 import { width, height, totalSize } from 'react-native-dimension';
@@ -17,7 +21,7 @@ import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/AdvanceSearch/AdvanceSearchStyleSheet';
 let _this = null;
-
+@observer
 export default class AdvanceSearch extends Component<Props> {
   constructor(props) {
     super(props);
@@ -39,9 +43,14 @@ export default class AdvanceSearch extends Component<Props> {
       focus: false,
       streetLocation: false,
       isSliderActive: false,
+      data: null,
+      recallRender: false,
     }
     this.props.navigation.setParams({ getCurrentPosition: this.getCurrentPosition });
     // navigation.state.params.func()
+  }
+  componentDidUpdate = () => {
+    if (this.state.recallRender) { this.setState({ recallRender: false }) }
   }
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
@@ -69,7 +78,7 @@ export default class AdvanceSearch extends Component<Props> {
   componentDidMount() {
     _this = this;
   }
-  search = (key, value, list, state) => {
+  search = async (key, value, list, state) => {
     let { params } = this.props.navigation.state;
     if (this.state.seachText.length !== 0) {
       store.SEARCH_OBJ.by_title = this.state.seachText;
@@ -91,11 +100,47 @@ export default class AdvanceSearch extends Component<Props> {
       store.SEARCH_OBJ.e_distance = this.state.radius;
     }
     if (key === 'l_category') {
-      list.forEach(item => {
+      list.forEach(async item => {
         if (item.value === value) {
           store.SEARCH_OBJ.l_category = item.key;
+
+          // console.log('here item is',item)
+          // if(item.key!=""){
+          //   let response = await ApiController.post('listing-filters',{sel_categ:item.key} );
+
+          //   if (response.success) {
+          //     store.SEARCHING.LISTING_FILTER = response;
+          // // creating new array named as options
+          // store.SEARCHING.LISTING_FILTER.data.all_filters.forEach(item => {
+          //   if (item.type === 'dropdown') {
+          //     item.options = [];
+          //     item.option_dropdown.forEach(val => {
+          //       item.options.push({ value: val.value })
+          //     });
+          //   }
+          // });
+          // // Adding states to buttons....
+          // store.SEARCHING.LISTING_FILTER.data.status.checkStatus = false;
+          // if (store.SEARCHING.LISTING_FILTER.data.is_rated_enabled) {
+          //   store.SEARCHING.LISTING_FILTER.data.rated.option_dropdown.forEach(item => {
+          //     item.checkStatus = false;
+          //   });
+          // }
+          // // adding states to checkBoxes
+          // store.SEARCHING.LISTING_FILTER.data.sorting.option_dropdown.forEach(item => {
+          //   item.checkStatus = false;
+          // });
+          // // sorting object for events sorting
+          // store.EVENTS_SORTING = store.SEARCHING.LISTING_FILTER.data.sorting;
+          // }
+          // console.log('ok res is',response)
+
+          // }
         }
       })
+
+
+
     }
     if (key === 'l_price_type') {
       list.forEach(item => {
@@ -128,6 +173,8 @@ export default class AdvanceSearch extends Component<Props> {
       params.navigateToScreen('SearchingScreen', 'Advance Search');
     }
   }
+
+
   placesComplete = async (text, state) => {
     if (text === '' && state === 'road') {
       this.setState({ predictions: [], focus: false })
@@ -233,10 +280,66 @@ export default class AdvanceSearch extends Component<Props> {
         }
       })
   }
+
+  checkamenties = async (item, key, type) => {
+    // console.log('item',JSON.stringify(item))
+    // console.log('key',key)
+    // console.log('data',JSON.stringify(this.state.data))
+    if (type === 'l_category') {
+      this.setState({loadingAmenties:true})
+      // console.log('old data',JSON.stringify(this.state.data))
+
+      if (key != "") {
+        let response = await ApiController.post('listing-filters', { sel_categ: key });
+
+        if (response.success) {
+          // console.log('new data',JSON.stringify(response.data))
+          store.SEARCHING.LISTING_FILTER = response;
+          // creating new array named as options
+          // console.log('all filter store before adding options array',JSON.stringify(store.SEARCHING.LISTING_FILTER.data.all_filters))
+
+
+          store.SEARCHING.LISTING_FILTER.data.all_filters.forEach(item => {
+            if (item.type === 'dropdown') {
+              item.options = [];
+              item.option_dropdown.forEach(val => {
+                item.options.push({ value: val.value })
+              });
+            }
+          });
+          this.setState({ recallRender: true,loadingAmenties:false })
+          // console.log('all filter store AFTER adding options array',JSON.stringify(store.SEARCHING.LISTING_FILTER.data.all_filters))
+
+
+
+
+          // this.setState({ data: response.data })
+          // let newdata={}
+          // for(x=0;x<this.state.data.all_filters.length;x++){
+          //   if(this.state.data.all_filters[x].type_name=='l_category'){
+          //     if
+          //   }
+          // }
+          //  store.SEARCHING.LISTING_FILTER = {...response};
+        }
+      }
+    }
+  }
+
+  componentWillMount() {
+    // let data = 
+    this.setState({
+      data: store.SEARCHING.LISTING_FILTER.data
+    })
+  }
   render() {
+    if (this.state.recallRender)
+      console.log("rerendered forcefully")
+    // console.log('asdasdf');
     let data = store.SEARCHING.LISTING_FILTER.data;
     let settings = store.settings.data;
-    console.warn('filters=>>>', data.all_filters);
+    // console.warn('filters=>>>', JSON.stringify(data.all_filters));
+    // console.warn('store=>>>', JSON.stringify(store.SEARCHING.LISTING_FILTER));
 
     return (
       <View style={styles.container}>
@@ -246,16 +349,20 @@ export default class AdvanceSearch extends Component<Props> {
             :
             <View style={styles.ImgSubCon}>
               <ScrollView
-                showsVerticalScrollIndicator={false}
-                ref={ref => this.scrollView = ref}
-                onContentSizeChange={(contentWidth, contentHeight) => {
-                  this.scrollView.scrollToEnd({ animated: true });
-                }}>
-                <View style={styles.subConView}>
-                  {
-                    data.all_filters.map((item, key) => {
-                      return (
-                        item.type === 'input' ?
+                contentContainerStyle={{ flexGrow: 1 }}
+              // style={{height:'80%',width:'100%'}}
+              // showsVerticalScrollIndicator={false}
+              // ref={ref => this.scrollView = ref}
+              // onContentSizeChange={(contentWidth, contentHeight) => {
+              //   this.scrollView.scrollToEnd({ animated: true });
+              // }}
+              >
+                {/* <View style={[styles.subConView]}> */}
+                {
+                  data.all_filters.map((item, key) => {
+                    switch (item.type) {
+                      case 'input':
+                        return (
                           <View key={key} style={styles.textInputCon}>
                             {
                               item.type_name === 'street_address' ?
@@ -305,8 +412,10 @@ export default class AdvanceSearch extends Component<Props> {
                                 />
                             }
                           </View>
-                          :
-                          <View key={key} style={styles.pickerCon}>
+                        )
+                      case 'dropdown':
+                        return (
+                          <View style={[styles.pickerCon, { alignSelf: 'center' }]}>
                             <Dropdown
                               label={item.placeholder}
                               labelFontSize={14}
@@ -315,132 +424,265 @@ export default class AdvanceSearch extends Component<Props> {
                               value={item.type_name === 'l_category' && store.moveToSearch ? store.CATEGORY.name : ''}
                               textColor={COLOR_SECONDARY}
                               itemColor='gray'
-                              onChangeText={(value) => { this.search(item.type_name, value, item.option_dropdown), store.moveToSearch ? store.CATEGORY = {} : null, store.moveToSearch = false }}
+                              onChangeText={(value, index) => {
+                                // console.log('val & key', value + "..." + item.option_dropdown[index].key)
+                                this.search(item.type_name, value, item.option_dropdown),
+                                  store.moveToSearch ? store.CATEGORY = {} : null,
+                                  store.moveToSearch = false
+                                this.checkamenties(item, item.option_dropdown[index].key, item.type_name)
+
+
+                              }}
                               data={item.options}
                             />
+                            {
+                              this.state.loadingAmenties && item.type_name === 'l_category' ?
+                                <ActivityIndicator 
+                                style={{position:'absolute',right:width(10)}}
+                                color={settings.navbar_clr} size='small' animating={true} />
+                                : null
+                            }
+
+
                           </View>
-                      );
-                    })
-                  }
-                  {
-                    data.is_status_enabled ?
-                      <View style={{ flex: 1, width: width(90), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                        <Text style={{ fontSize: totalSize(1.9), color: COLOR_SECONDARY, marginVertical: 5 }}>{data.status.title}</Text>
-                        <TouchableOpacity style={{ borderRadius: 20, backgroundColor: data.status.checkStatus ? settings.main_clr : '#c4c4c4' }} onPress={() => { data.status.checkStatus = !data.status.checkStatus, this.search(data.status.type_name, data.status) }}>
-                          <Text style={{ fontSize: totalSize(1.8), color: data.status.checkStatus ? COLOR_PRIMARY : COLOR_SECONDARY, marginVertical: 5, marginHorizontal: 10 }}>{data.status.placeholder}</Text>
-                        </TouchableOpacity>
+                        )
+                      case 'checkbox':
+                        return (
+                          item.option_dropdown.length > 0 ?
+                            <View style={{ alignSelf: 'center', marginTop: width(4) }}>
+                              <Text style={{ fontSize: width(4) }}>{item.placeholder}</Text>
+
+                              <View style={{
+                                width: '90%',
+                                // backgroundColor:'red',
+                                flexDirection: 'row',
+                                flexWrap: 'wrap',
+                                alignSelf: 'center'
+                              }}>
+
+                                {
+                                  item.option_dropdown.map((item, key) => (
+
+                                    <CheckBox
+                                      checkedColor={store.settings.data.navbar_clr}
+                                      uncheckedColor={COLOR_GRAY}
+                                      title={item.value}
+                                      key={key}
+                                      // checked
+                                      // checked={item.is_checked
+                                      //false
+
+                                      //false
+                                      // }
+                                      containerStyle={{
+                                        width: '44%',
+                                        padding: 0,
+                                        margin: 0,
+                                        borderWidth: 0,
+                                        borderRadius: 0,
+                                        backgroundColor: null,
+                                        marginTop: 10,
+                                        marginStart: -0.5,
+                                      }}
+                                      size={15}
+                                      textStyle={{
+                                        fontWeight: 'normal',
+                                      }}
+                                      key={key}
+                                      onPress={() => {
+                                        // let checkBoxClone = [...this.state.pageThree];
+                                        // console.warn(JSON.stringify(item.name));
+                                        // checkBoxClone[index].values[key].is_checked = !item.is_checked;
+                                        // checkBoxClone[index].showError = false;
+                                        //  console.warn(JSON.stringify(this.state.pageThree[index].values[key].name)); 
+                                        // checkBoxClone.values[key].isChecked = !item.isChecked;
+                                        // this.setState({ pageThree: checkBoxClone });
+
+                                      }}
+
+
+                                    >
+                                    </CheckBox>
+
+                                  )
+                                  )}
+                              </View>
+                            </View> : null
+                          // <View style={{ marginTop: width(5),backgroundColor:'red', }}>
+                          //   <Text style={{ fontSize: width(4) }}>{item.placeholder}</Text>
+                          //   <FlatList
+                          //     // numColumns={2}
+                          //     horizontal
+                          //     style={{ backgroundColor:'yellow'}}
+                          //     data={[{key:1,value:'one'},{key:2,value:'two'}]}
+                          //     renderItem={({ item, key }) =>
+                          //     <View >
+                          //       <CheckBox
+                          //         checkedColor={store.settings.data.navbar_clr}
+                          //         uncheckedColor={COLOR_GRAY}
+                          //         title={item.value}
+                          //         key={key}
+                          //         checked={item.is_checked}
+                          //         // containerStyle={{ width: width(40) }}
+                          //         // size={16}
+
+                          //         onPress={() => {
+                          //           let checkBoxClone = [...this.state.pageThree];
+                          //           // console.warn(JSON.stringify(item.name));
+                          //           checkBoxClone[index].values[key].is_checked = !item.is_checked;
+                          //           checkBoxClone[index].showError = false;
+                          //           //  console.warn(JSON.stringify(this.state.pageThree[index].values[key].name)); 
+                          //           // checkBoxClone.values[key].isChecked = !item.isChecked;
+                          //           this.setState({ pageThree: checkBoxClone });
+
+                          //         }}>
+                          //       </CheckBox>
+                          //       </View>
+                          //     }
+                          //   />
+
+                          // </View>
+                        )
+                      default:
+                        return (
+
+                          <View />
+                        )
+                    }
+                    // return (
+                    //   item.type === 'input' ?
+
+                    //     :
+                    //     item.type === 'dropdown' ?
+                    //      :
+                    //       null
+                    //     item.type === 'checkbox' ?
+                    //     [
+                    //     
+                    //     ]
+                    // :null
+                    // );
+                  })
+                }
+                {
+                  data.is_status_enabled ?
+                    <View style={{ alignSelf: 'center', flex: 1, width: width(90), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                      <Text style={{ fontSize: totalSize(1.9), color: COLOR_SECONDARY, marginVertical: 5 }}>{data.status.title}</Text>
+                      <TouchableOpacity style={{ borderRadius: 20, backgroundColor: data.status.checkStatus ? settings.main_clr : '#c4c4c4' }} onPress={() => { data.status.checkStatus = !data.status.checkStatus, this.search(data.status.type_name, data.status) }}>
+                        <Text style={{ fontSize: totalSize(1.8), color: data.status.checkStatus ? COLOR_PRIMARY : COLOR_SECONDARY, marginVertical: 5, marginHorizontal: 10 }}>{data.status.placeholder}</Text>
+                      </TouchableOpacity>
+                    </View>
+                    :
+                    null
+                }
+                {
+                  data.is_rated_enabled ?
+                    <View style={{ alignSelf: 'center', flex: 1, marginTop: 10, width: width(90), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                      <Text style={{ fontSize: totalSize(1.9), color: COLOR_SECONDARY, marginVertical: 5 }}>{data.rated.title}</Text>
+                      <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {
+                          data.rated.option_dropdown.length > 0 ?
+                            data.rated.option_dropdown.map((item, key) => {
+                              return (
+                                <TouchableOpacity key={key} style={{ borderRadius: 20, backgroundColor: item.checkStatus ? settings.main_clr : '#ccc', marginRight: 5 }} onPress={() => { this.search(data.rated.type_name, item.value, data.rated.option_dropdown) }}>
+                                  <Text style={{ fontSize: totalSize(1.8), color: item.checkStatus ? COLOR_PRIMARY : COLOR_SECONDARY, marginVertical: 5, marginHorizontal: 10 }}>{item.value}</Text>
+                                </TouchableOpacity>
+                              )
+                            })
+                            : null
+                        }
+                      </View>
+                    </View>
+                    :
+                    null
+                }
+                {
+                  data.is_current_loc_enabled ?
+                    this.state.currentLoc ?
+                      <View style={{ alignSelf: 'center', width: width(100), alignItems: 'center', marginVertical: 20 }}>
+                        <ActivityIndicator color={settings.navbar_clr} size='large' animating={true} />
                       </View>
                       :
-                      null
-                  }
-                  {
-                    data.is_rated_enabled ?
-                      <View style={{ flex: 1, marginTop: 10, width: width(90), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                        <Text style={{ fontSize: totalSize(1.9), color: COLOR_SECONDARY, marginVertical: 5 }}>{data.rated.title}</Text>
-                        <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
-                          {
-                            data.rated.option_dropdown.length > 0 ?
-                              data.rated.option_dropdown.map((item, key) => {
-                                return (
-                                  <TouchableOpacity key={key} style={{ borderRadius: 20, backgroundColor: item.checkStatus ? settings.main_clr : '#ccc', marginRight: 5 }} onPress={() => { this.search(data.rated.type_name, item.value, data.rated.option_dropdown) }}>
-                                    <Text style={{ fontSize: totalSize(1.8), color: item.checkStatus ? COLOR_PRIMARY : COLOR_SECONDARY, marginVertical: 5, marginHorizontal: 10 }}>{item.value}</Text>
-                                  </TouchableOpacity>
-                                )
-                              })
-                              : null
-                          }
-                        </View>
+                      <View style={{ width: width(100), alignItems: 'center' }}>
+                        <TextInput
+                          onChangeText={(value) => this.placesComplete(value, 'street')}
+                          underlineColorAndroid='transparent'
+                          label={data.current_location}
+                          value={this.state.currentLocation}
+                          mode='flat'
+                          underlineColor='#c4c4c4'
+                          placeholder={data.current_location}
+                          placeholderTextColor={COLOR_GRAY}
+                          autoFocus={false}
+                          style={styles.textInput}
+                        />
+                        {
+                          this.state.streetLocation === true && this.state.predictions.length > 0 ?
+                            <View style={{ width: width(90), backgroundColor: 'white', marginVertical: 5, elevation: 3 }}>
+                              <ScrollView>
+                                {
+                                  this.state.predictions.map((item, key) => {
+                                    return (
+                                      <TouchableOpacity key={key} style={{ height: height(6), width: width(90), justifyContent: 'center', marginBottom: 0.5, backgroundColor: 'white', borderBottomWidth: 0.5, borderColor: COLOR_GRAY }}
+                                        onPress={() => { this.setState({ currentLocation: item.description, streetLocation: false, isSliderActive: true }), this.getLatLong(item.description) }}
+                                      >
+                                        <Text style={{ marginHorizontal: 10 }}>{item.description}</Text>
+                                      </TouchableOpacity>
+                                    );
+                                  })
+                                }
+                              </ScrollView>
+                            </View>
+                            : null
+                        }
+                        {
+                          this.state.isSliderActive ?
+                            <View style={styles.sliderTitle}>
+                              <View style={styles.subConSliderTitle}>
+                                <View style={{ height: height(3), width: width(45) }}>
+                                  <Text style={styles.radiusLabel}>{data.current_radius} :</Text>
+                                </View>
+                                <View style={{ height: height(3), width: width(45), alignItems: 'flex-end' }}>
+                                  <Text style={styles.numberLabel}>{Math.round(this.state.radius)}</Text>
+                                </View>
+                              </View>
+                              <Slider
+                                value={0}
+                                // step={20,40,60,80,100}
+                                onValueChange={(value) => this.setState({ radius: value })}
+                                // onSlidingComplete={(value)=>console.warn(value)}
+                                animateTransitions={true}
+                                debugTouchArea={false}
+                                minimumValue={0}
+                                maximumValue={100}
+                                minimumTrackTintColor={store.settings.data.navbar_clr}
+                                maximumTrackTintColor='rgba(211,211,211,0.3)'
+                                // maximumTrackImage={require('../../images/twitter.png')}
+                                // minimumTrackImage={require('../../images/twitter.png')}
+                                // thumbImage={require('../../images/twitter.png')}
+                                // trackImage={require('../../images/twitter.png')}
+                                trackStyle={{ backgroundColor: 'gray' }}
+                                thumbStyle={{ backgroundColor: store.settings.data.navbar_clr }}
+                                // thumbTintColor= {COLOR_ORANGE}
+                                thumbTouchSize={{ width: width(4), height: height(4) }}
+                                style={{ alignSelf: 'stretch' }}
+                              />
+                              <View style={{ height: height(3), width: width(90), flexDirection: 'row' }}>
+                                <View style={{ height: height(3), width: width(45) }}>
+                                  <Text style={{ fontSize: totalSize(1.5), paddingLeft: 5, color: settings.navbar_clr }}>0 {data.radius_unit}</Text>
+                                </View>
+                                <View style={{ height: height(3), width: width(45), alignItems: 'flex-end' }}>
+                                  <Text style={{ fontSize: totalSize(1.5), color: settings.navbar_clr }}>100 {data.radius_unit}</Text>
+                                </View>
+                              </View>
+                            </View>
+                            : null
+                        }
                       </View>
-                      :
-                      null
-                  }
-                  {
-                    data.is_current_loc_enabled ?
-                      this.state.currentLoc ?
-                        <View style={{ width: width(100), alignItems: 'center', marginVertical: 20 }}>
-                          <ActivityIndicator color={settings.navbar_clr} size='large' animating={true} />
-                        </View>
-                        :
-                        <View style={{ width: width(100), alignItems: 'center' }}>
-                          <TextInput
-                            onChangeText={(value) => this.placesComplete(value, 'street')}
-                            underlineColorAndroid='transparent'
-                            label={data.current_location}
-                            value={this.state.currentLocation}
-                            mode='flat'
-                            underlineColor='#c4c4c4'
-                            placeholder={data.current_location}
-                            placeholderTextColor={COLOR_GRAY}
-                            autoFocus={false}
-                            style={styles.textInput}
-                          />
-                          {
-                            this.state.streetLocation === true && this.state.predictions.length > 0 ?
-                              <View style={{ width: width(90), backgroundColor: 'white', marginVertical: 5, elevation: 3 }}>
-                                <ScrollView>
-                                  {
-                                    this.state.predictions.map((item, key) => {
-                                      return (
-                                        <TouchableOpacity key={key} style={{ height: height(6), width: width(90), justifyContent: 'center', marginBottom: 0.5, backgroundColor: 'white', borderBottomWidth: 0.5, borderColor: COLOR_GRAY }}
-                                          onPress={() => { this.setState({ currentLocation: item.description, streetLocation: false, isSliderActive: true }), this.getLatLong(item.description) }}
-                                        >
-                                          <Text style={{ marginHorizontal: 10 }}>{item.description}</Text>
-                                        </TouchableOpacity>
-                                      );
-                                    })
-                                  }
-                                </ScrollView>
-                              </View>
-                              : null
-                          }
-                          {
-                            this.state.isSliderActive ?
-                              <View style={styles.sliderTitle}>
-                                <View style={styles.subConSliderTitle}>
-                                  <View style={{ height: height(3), width: width(45) }}>
-                                    <Text style={styles.radiusLabel}>{data.current_radius} :</Text>
-                                  </View>
-                                  <View style={{ height: height(3), width: width(45), alignItems: 'flex-end' }}>
-                                    <Text style={styles.numberLabel}>{Math.round(this.state.radius)}</Text>
-                                  </View>
-                                </View>
-                                <Slider
-                                  value={0}
-                                  // step={20,40,60,80,100}
-                                  onValueChange={(value) => this.setState({ radius: value })}
-                                  // onSlidingComplete={(value)=>console.warn(value)}
-                                  animateTransitions={true}
-                                  debugTouchArea={false}
-                                  minimumValue={0}
-                                  maximumValue={100}
-                                  minimumTrackTintColor={store.settings.data.navbar_clr}
-                                  maximumTrackTintColor='rgba(211,211,211,0.3)'
-                                  // maximumTrackImage={require('../../images/twitter.png')}
-                                  // minimumTrackImage={require('../../images/twitter.png')}
-                                  // thumbImage={require('../../images/twitter.png')}
-                                  // trackImage={require('../../images/twitter.png')}
-                                  trackStyle={{ backgroundColor: 'gray' }}
-                                  thumbStyle={{ backgroundColor: store.settings.data.navbar_clr }}
-                                  // thumbTintColor= {COLOR_ORANGE}
-                                  thumbTouchSize={{ width: width(4), height: height(4) }}
-                                  style={{ alignSelf: 'stretch' }}
-                                />
-                                <View style={{ height: height(3), width: width(90), flexDirection: 'row' }}>
-                                  <View style={{ height: height(3), width: width(45) }}>
-                                    <Text style={{ fontSize: totalSize(1.5), paddingLeft: 5, color: settings.navbar_clr }}>0 {data.radius_unit}</Text>
-                                  </View>
-                                  <View style={{ height: height(3), width: width(45), alignItems: 'flex-end' }}>
-                                    <Text style={{ fontSize: totalSize(1.5), color: settings.navbar_clr }}>100 {data.radius_unit}</Text>
-                                  </View>
-                                </View>
-                              </View>
-                              : null
-                          }
-                        </View>
-                      :
-                      null
-                  }
-                </View>
+                    :
+                    null
+                }
+                {/* </View> */}
               </ScrollView>
               <TouchableOpacity style={[styles.btnCon, { backgroundColor: store.settings.data.navbar_clr }]} onPress={() => { this.search(null, null, null, 'search') }}>
                 <Text style={styles.btnText}>{data.filter_btn}</Text>
