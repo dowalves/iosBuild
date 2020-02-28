@@ -21,6 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [FIRApp configure];
   NSURL *jsCodeLocation;
   //Add these 3 lines
 //  if(FIRApp.defaultApp == nil){
@@ -55,7 +56,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  [FIRApp configure];
+//  [FIRApp configure];
   return YES;
 
 }

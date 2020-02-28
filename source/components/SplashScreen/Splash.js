@@ -26,7 +26,7 @@ import firebase from 'react-native-firebase';
     // API calling...
     this.setState({ loading: true })
     let response = await ApiController.post('settings');
-    // console.log('settings=',response);
+    console.log('settings=',response);
 
     I18nManager.forceRTL(response.data.is_rtl)
     if(response.data.is_rtl){

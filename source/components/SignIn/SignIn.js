@@ -17,6 +17,17 @@ import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
 import Storage from '../../LocalDB/storage'
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+
+import  firebase  from 'react-native-firebase';
+import appleAuth, {
+  AppleButton,
+  AppleAuthRequestScope,
+  AppleAuthRequestOperation,
+} from '@invertase/react-native-apple-authentication';
+
+
+
+
 export default class SignIn extends Component<Props> {
   constructor(props) {
     let { orderStore } = Store;
@@ -83,6 +94,9 @@ export default class SignIn extends Component<Props> {
   }
   //// Custom Social Login methode
   socialLogin = async (email, name, password) => {
+    console.log('email',email)
+    console.log('pass',password)
+    console.log('name',name)
     // if (this.state.email.length > 0 && this.state.password.length > 0) {
     var Email, Password;
     // Email = this.state.email;
@@ -125,6 +139,9 @@ export default class SignIn extends Component<Props> {
       orderStore.login.loginStatus = true;
       orderStore.login.loginResponse = response;
       this.props.navigation.push('Drawer')
+    }else{
+      this.setState({ loading: false })
+
     }
   }
   validate = () => {
@@ -173,6 +190,46 @@ export default class SignIn extends Component<Props> {
     }
 
   }
+
+  onAppleButtonPress = async () => {
+    // 1). start a apple sign-in request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: AppleAuthRequestOperation.LOGIN,
+      requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
+    });
+    // 2). if the request was successful, extract the token and nonce
+    const { identityToken, nonce,email,fullName } = appleAuthRequestResponse;
+  
+  
+    // can be null in some scenarios
+    if (identityToken) {
+      // 3). create a Firebase `AppleAuthProvider` credential
+      const appleCredential = firebase.auth.AppleAuthProvider.credential(identityToken, nonce);
+  
+      // 4). use the created `AppleAuthProvider` credential to start a Firebase auth request,
+      //     in this example `signInWithCredential` is used, but you could also call `linkWithCredential`
+      //     to link the account to an existing user
+      const userCredential = await  firebase.auth().signInWithCredential(appleCredential);
+  
+      // user is now signed in, any Firebase `onAuthStateChanged` listeners you have will trigger
+      console.log(`Firebase authenticated via Apple, UID: ${JSON.stringify(userCredential.user)}`);
+     
+      if(userCredential.user.email!=null){
+        if(userCredential.user.displayName!=null)
+        this.socialLogin(userCredential.user.email,userCredential.user.displayName,'apple@321')
+        else
+        this.socialLogin(userCredential.user.email,userCredential.user.email,'apple@321')
+
+      }
+      // console.log('EMAIL:',userCredential.user.email)
+      // console.log('full:',userCredential.user.displayName)
+      // console.log(`Firebase authenticated via Apple additional, UID: ${JSON.stringify(userCredential.additionalUserInfo)}`);
+    } else {
+      // handle this - retry?
+    }
+  }
+  
+
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
@@ -265,6 +322,20 @@ export default class SignIn extends Component<Props> {
                   }
 
                 </View>
+                {
+                Platform.OS == 'ios' && data.registerBtn_show.apple ?
+                <AppleButton
+                cornerRadius={5}
+                style={{ width: width(42), height: height(5.5), marginTop: 5 }}
+                buttonStyle={AppleButton.Style.BLACK}
+                buttonType={AppleButton.Type.CONTINUE}
+                onPress={() => this.onAppleButtonPress()}
+              />
+
+                
+                  :
+                  null
+              }
                 <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
                   {!this.state.loading ? null :
                     <ActivityIndicator size={INDICATOR_SIZE} color={store.settings.data.navbar_clr} animating={true} hidesWhenStopped={true} />}

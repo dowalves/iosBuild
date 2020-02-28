@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
 import {
   Platform, Text, View, TouchableOpacity, ScrollView, ActivityIndicator, Image,
-  FlatList,
-  PermissionsAndroid, PermissionsIos
+
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
-import ModalDropdown from 'react-native-modal-dropdown';
 
 import { Slider, CheckBox } from 'react-native-elements';
-import Modal from "react-native-modal";
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
 import { observer } from 'mobx-react';
-import Store from '../../Stores';
-// import Geolocation from 'react-native-geolocation-service';
 import Geolocation from '@react-native-community/geolocation';
 
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/AdvanceSearch/AdvanceSearchStyleSheet';
 let _this = null;
+
 @observer
 export default class AdvanceSearch extends Component<Props> {
   constructor(props) {
@@ -45,6 +41,7 @@ export default class AdvanceSearch extends Component<Props> {
       isSliderActive: false,
       data: null,
       recallRender: false,
+      checkamenties: false
     }
     this.props.navigation.setParams({ getCurrentPosition: this.getCurrentPosition });
     // navigation.state.params.func()
@@ -99,6 +96,22 @@ export default class AdvanceSearch extends Component<Props> {
       store.SEARCH_OBJ.e_long = this.state.longitude;
       store.SEARCH_OBJ.e_distance = this.state.radius;
     }
+    
+    for(var j=0;j<store.SEARCHING.LISTING_FILTER.data.all_filters.length;j++){
+      if(store.SEARCHING.LISTING_FILTER.data.all_filters[j].type=='checkbox'){
+        store.SEARCH_OBJ.amenties=[]
+
+        for(var x=0; x<store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown.length;x++){
+          if(store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].checked==true){
+            // if(store.SEARCH_OBJ.amenties==undefined){
+            // }
+            store.SEARCH_OBJ.amenties.push(store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].key)
+          }
+        }
+      }
+      // console.log('store.SEARCHING.LISTING_FILTER.data.all_filters',store.SEARCHING.LISTING_FILTER.data.all_filters[j])
+    }
+    console.log('search obj',store.SEARCH_OBJ)
     if (key === 'l_category') {
       list.forEach(async item => {
         if (item.value === value) {
@@ -286,7 +299,7 @@ export default class AdvanceSearch extends Component<Props> {
     // console.log('key',key)
     // console.log('data',JSON.stringify(this.state.data))
     if (type === 'l_category') {
-      this.setState({loadingAmenties:true})
+      this.setState({ loadingAmenties: true })
       // console.log('old data',JSON.stringify(this.state.data))
 
       if (key != "") {
@@ -306,8 +319,16 @@ export default class AdvanceSearch extends Component<Props> {
                 item.options.push({ value: val.value })
               });
             }
+            if (item.type === 'checkbox') {
+              item.options = [];
+              item.option_dropdown.forEach(val => {
+                item.options.push({ key: val.key, value: val.value, checked: false })
+              });
+              item.option_dropdown = item.options
+            }
           });
-          this.setState({ recallRender: true,loadingAmenties:false })
+
+          this.setState({ recallRender: true, loadingAmenties: false })
           // console.log('all filter store AFTER adding options array',JSON.stringify(store.SEARCHING.LISTING_FILTER.data.all_filters))
 
 
@@ -437,9 +458,9 @@ export default class AdvanceSearch extends Component<Props> {
                             />
                             {
                               this.state.loadingAmenties && item.type_name === 'l_category' ?
-                                <ActivityIndicator 
-                                style={{position:'absolute',right:width(10)}}
-                                color={settings.navbar_clr} size='small' animating={true} />
+                                <ActivityIndicator
+                                  style={{ position: 'absolute', right: width(10) }}
+                                  color={settings.navbar_clr} size='small' animating={true} />
                                 : null
                             }
 
@@ -461,15 +482,15 @@ export default class AdvanceSearch extends Component<Props> {
                               }}>
 
                                 {
-                                  item.option_dropdown.map((item, key) => (
+                                  item.option_dropdown.map((itemx, key, index) => (
 
                                     <CheckBox
                                       checkedColor={store.settings.data.navbar_clr}
                                       uncheckedColor={COLOR_GRAY}
-                                      title={item.value}
+                                      title={itemx.value}
                                       key={key}
                                       // checked
-                                      // checked={item.is_checked
+                                      checked={itemx.checked}
                                       //false
 
                                       //false
@@ -490,13 +511,18 @@ export default class AdvanceSearch extends Component<Props> {
                                       }}
                                       key={key}
                                       onPress={() => {
-                                        // let checkBoxClone = [...this.state.pageThree];
-                                        // console.warn(JSON.stringify(item.name));
+                                        // let checkBoxClone = item.option_dropdown;
+                                        // console.warn('index'+JSON.stringify(index) +" item"+JSON.stringify(itemx)+" key"+JSON.stringify(key));
                                         // checkBoxClone[index].values[key].is_checked = !item.is_checked;
                                         // checkBoxClone[index].showError = false;
                                         //  console.warn(JSON.stringify(this.state.pageThree[index].values[key].name)); 
                                         // checkBoxClone.values[key].isChecked = !item.isChecked;
-                                        // this.setState({ pageThree: checkBoxClone });
+                                        // this.setState({ recallRender: true });
+
+                                        itemx.checked = !itemx.checked
+
+                                        
+
 
                                       }}
 

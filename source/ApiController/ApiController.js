@@ -9,11 +9,14 @@ import Storage from '../LocalDB/storage'
 // const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
 // const PURCHASE_CODE = '1234';
 // const CUSTOM_SECURITY = '1234';
-
+// const base_url = 'https://bawounyi.com/wp-json/downtown/app';
+// const PURCHASE_CODE = 'a59e8a69-8486-4af4-aa37-c9821c87cac2';
+// const CUSTOM_SECURITY = '129485';
 
 const base_url = 'https://dwt-wpml.downtown-directory.com/wp-json/downtown/app';
 const PURCHASE_CODE = '12345';
 const CUSTOM_SECURITY = 'my111';
+
 class Api {
   static headers() {
     return {

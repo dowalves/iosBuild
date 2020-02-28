@@ -112,7 +112,7 @@ import ListingComponent from '../Home/SearchListingComponent';
         // console.log('paramsPPP===>>>', store.SEARCH_OBJ);
         try {
             this.setState({ loading: true })
-            console.log('before listing search api call store is', store)
+            // console.log('before listing search api call store is', store)
             //API calling
             let response = await ApiController.post('listing-search', store.SEARCH_OBJ);
             orderStore.SEARCHING.LISTING_SEARCH = response;

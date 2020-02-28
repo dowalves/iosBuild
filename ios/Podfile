@@ -114,7 +114,7 @@ target 'DWT' do
 
     pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
-
+    pod 'Firebase/Auth'
     pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
 
     pod 'react-native-apple-authentication', :path => '../node_modules/react-native-apple-authentication'

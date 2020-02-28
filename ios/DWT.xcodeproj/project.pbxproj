@@ -11,6 +11,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		177051CEEE6241CBAE1502C6 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13E1067604334BADAE245FB8 /* Entypo.ttf */; };
+		18691E4123FD59AD00F346E1 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18691E4023FD59AD00F346E1 /* AuthenticationServices.framework */; };
 		18914F10237038860032D825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18914F0F237038860032D825 /* GoogleService-Info.plist */; };
 		189497F2236AABDE00A61631 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189497F1236AABDE00A61631 /* File.swift */; };
 		1C65446A217D8EB5008A4E56 /* libQBImagePickerController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C654469217D8EB5008A4E56 /* libQBImagePickerController.a */; };
@@ -349,6 +350,7 @@
 		13E1067604334BADAE245FB8 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		16F6F2C800DE4F2A959326DE /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		18691E4023FD59AD00F346E1 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		18914F0F237038860032D825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		189497F0236AABDD00A61631 /* DWT-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DWT-Bridging-Header.h"; sourceTree = "<group>"; };
 		189497F1236AABDE00A61631 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18691E4123FD59AD00F346E1 /* AuthenticationServices.framework in Frameworks */,
 				96F25E772281792C00905477 /* liblottie-ios.a in Frameworks */,
 				1C6544E9217D9156008A4E56 /* libGoogle-Maps-iOS-Utils.a in Frameworks */,
 				1C65446A217D8EB5008A4E56 /* libQBImagePickerController.a in Frameworks */,
@@ -548,6 +551,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18691E4023FD59AD00F346E1 /* AuthenticationServices.framework */,
 				96962EA122E1EE00002A2402 /* StoreKit.framework */,
 				96F25E762281792C00905477 /* liblottie-ios.a */,
 				1C6544E8217D9156008A4E56 /* libGoogle-Maps-iOS-Utils.a */,
@@ -1260,7 +1264,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.0.6;
+				MARKETING_VERSION = 2.0.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1269,7 +1273,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.scriptsbundle.DWT;
 				PRODUCT_NAME = DWT;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = DWTDevelopment;
+				PROVISIONING_PROFILE_SPECIFIER = DwtDevProfileNewest;
 				SWIFT_OBJC_BRIDGING_HEADER = "DWT-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1286,7 +1290,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DWT/DWT.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3D42832GGZ;
@@ -1308,7 +1312,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.0.6;
+				MARKETING_VERSION = 2.0.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1317,7 +1321,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.scriptsbundle.DWT;
 				PRODUCT_NAME = DWT;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = DWTDevelopment;
+				PROVISIONING_PROFILE_SPECIFIER = DWTDistribution;
 				SWIFT_OBJC_BRIDGING_HEADER = "DWT-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

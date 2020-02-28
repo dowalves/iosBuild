@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   buttonView: {
-    height: Platform.OS==='ios'? height(45):height(50),
+    height: Platform.OS==='ios'? height(47):height(50),
     alignItems: 'center',
   },
   userImg: {

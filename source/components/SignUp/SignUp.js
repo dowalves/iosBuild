@@ -17,9 +17,16 @@ import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import { SignInWithAppleButton } from 'react-native-apple-authentication'
+// import { SignInWithAppleButton } from 'react-native-apple-authentication'
 
-import {widthPercentageToDP as wp} from '../../helpers/Responsive'
+import { widthPercentageToDP as wp } from '../../helpers/Responsive'
+import firebase from 'react-native-firebase';
+import appleAuth, {
+  AppleButton,
+  AppleAuthRequestScope,
+  AppleAuthRequestOperation,
+} from '@invertase/react-native-apple-authentication';
+
 
 @observer export default class SignUp extends Component<Props> {
   constructor(props) {
@@ -32,7 +39,8 @@ import {widthPercentageToDP as wp} from '../../helpers/Responsive'
       email: '',
       password: '',
     }
-    // I18nManager.forceRTL(true);
+   
+    I18nManager.forceRTL(true);
   }
   static navigationOptions = {
     header: null
@@ -42,6 +50,77 @@ import {widthPercentageToDP as wp} from '../../helpers/Responsive'
       iosClientId: '191792720370-rc4ospf26req749phf3d4l4sfj74gmf4.apps.googleusercontent.com'
     })
   }
+
+  componentDidMount() {
+    /**
+     * subscribe to credential updates.This returns a function which can be used to remove the event listener
+     * when the component unmounts.
+     */
+    // if (Platform.OS == 'ios') {
+    //   this.authCredentialListener = appleAuth.onCredentialRevoked(async () => {
+    //     console.warn('Credential Revoked');
+    //     this.fetchAndUpdateCredentialState().catch(error =>
+    //       this.setState({ credentialStateForUser: `Error: ${error.code}` }),
+    //     );
+    //   });
+
+    //   this.fetchAndUpdateCredentialState()
+    //     .then(res => console.log('cre state for user ',res))
+    //     .catch(error => this.setState({ credentialStateForUser: `Error: ${error.code}` }))
+    // }
+
+  }
+
+  fetchAndUpdateCredentialState = async () => {
+    if (this.user === null) {
+      console.log('credentialStateForUser', credentialStateForUser)
+      this.setState({ credentialStateForUser: 'N/A' });
+    } else {
+
+      const credentialState = await appleAuth.getCredentialStateForUser(this.user);
+      if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
+        console.log('credentialStateForUser', credentialState)
+
+        this.setState({ credentialStateForUser: 'AUTHORIZED' });
+      } else {
+        console.log('credentialStateForUser', credentialState)
+
+        this.setState({ credentialStateForUser: credentialState });
+      }
+    }
+  }
+  async handleAppleSignIn() {
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: AppleAuthRequestOperation.LOGIN,
+        requestedScopes: [
+          AppleAuthRequestScope.EMAIL,
+          AppleAuthRequestScope.FULL_NAME,
+        ],
+      });
+
+      console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+      console.log('email', appleAuthRequestResponse.email)
+      //authorization state request
+      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+      console.log('credentialState', credentialState)
+      console.log('credentialState', AppleAuthCredentialState.AUTHORIZED)
+
+      if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
+        //user is authorized
+      }
+
+
+    } catch (error) {
+      if (error.code === AppleAuthError.CANCELED) {
+        console.warn('User canceled Apple Sign in.');
+      } else {
+        console.log(error);
+      }
+    }
+  }
+
+
   // Google SignUp
   handleGoogleSignIn = () => {
     GoogleSignin.signIn().then(func = async (user) => {
@@ -88,44 +167,47 @@ import {widthPercentageToDP as wp} from '../../helpers/Responsive'
     }
   }
   //// Custom Social Login methode
-    //// Custom Social Login methode
-    socialSignUp = async (email, name, password) => {
-      if (this.state.email.length > 0 && this.state.password.length > 0) {
-        var Email, Password;
-        Email = this.state.email;
-        Password = this.state.password;
-      } else {
-        Email = email;
-        Password = password;
-      }
-      let { orderStore } = Store;
-      this.setState({ loading: true })
-      let params = {
-        name: name,
-        email: email,
-        type: 'social'
-      }
-      //API Calling
-      let response = await ApiController.post('login', params)
-      // console.log('login user =', response);
-      if (response.success === true) {
-        await LocalDB.saveProfile(Email, Password, response.data);
-    
-        let responseSetting = await ApiController.post('settings')
-  
-        orderStore.settings = responseSetting;
-        if (orderStore.settings.success === true) {
-  
-          orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
-          orderStore.wpml_settings = orderStore.settings.data.wpml_settings
-  
-        }
-        this.setState({ loading: false })
-        orderStore.login.loginStatus = true;
-        orderStore.login.loginResponse = response;
-        this.props.navigation.replace('Drawer')
-      }
+  //// Custom Social Login methode
+  socialSignUp = async (email, name, password) => {
+    if (this.state.email.length > 0 && this.state.password.length > 0) {
+      var Email, Password;
+      Email = this.state.email;
+      Password = this.state.password;
+    } else {
+      Email = email;
+      Password = password;
     }
+    let { orderStore } = Store;
+    this.setState({ loading: true })
+    let params = {
+      name: name,
+      email: email,
+      type: 'social'
+    }
+    //API Calling
+    let response = await ApiController.post('login', params)
+    // console.log('login user =', response);
+    if (response.success === true) {
+      await LocalDB.saveProfile(Email, Password, response.data);
+
+      let responseSetting = await ApiController.post('settings')
+
+      orderStore.settings = responseSetting;
+      if (orderStore.settings.success === true) {
+
+        orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
+        orderStore.wpml_settings = orderStore.settings.data.wpml_settings
+
+      }
+      this.setState({ loading: false })
+      orderStore.login.loginStatus = true;
+      orderStore.login.loginResponse = response;
+      this.props.navigation.replace('Drawer')
+    }else{
+      this.setState({ loading: false })
+
+    }
+  }
   register = async () => {
     this.setState({ loading: true })
     let params = {
@@ -140,6 +222,18 @@ import {widthPercentageToDP as wp} from '../../helpers/Responsive'
       store.LOGIN_TYPE = 'local';
       await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
       store.login.loginResponse = response;
+      // await LocalDB.saveProfile(Email, Password, response.data);
+
+      let responseSetting = await ApiController.post('settings')
+
+      store.settings = responseSetting;
+      if (store.settings.success === true) {
+
+        store.statusbar_color = store.settings.data.navbar_clr;
+        store.wpml_settings = store.settings.data.wpml_settings
+
+      }
+      
       this.props.navigation.replace('Drawer');
     } else {
       this.setState({ loading: false })
@@ -153,6 +247,41 @@ import {widthPercentageToDP as wp} from '../../helpers/Responsive'
 
 
 
+    onAppleButtonPress  = async ()=> {
+    // 1). start a apple sign-in request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: AppleAuthRequestOperation.LOGIN,
+      requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
+    });
+  
+    // 2). if the request was successful, extract the token and nonce
+    const { identityToken, nonce, email } = appleAuthRequestResponse;
+    console.log('EMAIL:', email)
+  
+    // can be null in some scenarios
+    if (identityToken) {
+      // 3). create a Firebase `AppleAuthProvider` credential
+      const appleCredential = firebase.auth.AppleAuthProvider.credential(identityToken, nonce);
+  
+      // 4). use the created `AppleAuthProvider` credential to start a Firebase auth request,
+      //     in this example `signInWithCredential` is used, but you could also call `linkWithCredential`
+      //     to link the account to an existing user
+      const userCredential = await firebase.auth().signInWithCredential(appleCredential);
+      if(userCredential.user.email!=null){
+        if(userCredential.user.displayName!=null)
+        this.socialSignUp(userCredential.user.email,userCredential.user.displayName,'apple@321')
+        else
+        this.socialSignUp(userCredential.user.email,userCredential.user.email,'apple@321')
+      }
+      // user is now signed in, any Firebase `onAuthStateChanged` listeners you have will trigger
+      // console.log(`Firebase authenticated via Apple, UID: ${JSON.stringify(userCredential.user)}`);
+      
+      // console.log(`Firebase authenticated via Apple additional, UID: ${JSON.stringify(userCredential.additionalUserInfo)}`);
+    } else {
+      // handle this - retry?
+    }
+  }
+  
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
@@ -257,8 +386,36 @@ import {widthPercentageToDP as wp} from '../../helpers/Responsive'
                     :
                     null
                 }
+
+
               </View>
-         
+              {/* {
+                  data.registerBtn_show.apple ?
+                  <Text>Or</Text>:null
+              } */}
+             
+              {
+                Platform.OS == 'ios' && data.registerBtn_show.apple ?
+                  <AppleButton
+                    cornerRadius={5}
+                    style={{ width: width(42), height: height(5.5), marginTop: 5 }}
+                    buttonStyle={AppleButton.Style.BLACK}
+                    buttonType={AppleButton.Type.CONTINUE}
+                    onPress={() =>this.onAppleButtonPress()}
+                  />
+
+                  :
+                  null
+              }
+
+
+              
+                {!this.state.loading ? null :
+              <View style={{ flex: 1,marginTop:5, alignContent: 'center', justifyContent: 'center',alignSelf:'center' }}>
+                {/* {!this.state.loading ? null : */}
+                  <ActivityIndicator size={INDICATOR_SIZE} color={store.settings.data.navbar_clr} animating={true} hidesWhenStopped={true} />
+              </View>
+                }
               {/* <View style={{marginTop:wp('2')}}>
                 {SignInWithAppleButton(styles.appleBtn, this.appleSignIn)}
               </View> */}
@@ -267,10 +424,7 @@ import {widthPercentageToDP as wp} from '../../helpers/Responsive'
                
 
               </View> */}
-              <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-                {!this.state.loading ? null :
-                  <ActivityIndicator size={INDICATOR_SIZE} color={store.settings.data.navbar_clr} animating={true} hidesWhenStopped={true} />}
-              </View>
+
             </View>
             <View style={styles.footer}>
               <Text style={styles.expTxt}>{data.main_screen.already_account} </Text>
