@@ -6,16 +6,22 @@ import base64 from 'react-native-base64'
 import { Base64 } from 'js-base64';
 import Storage from '../LocalDB/storage'
 // change your baseUrl and Domain
-// const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
-// const PURCHASE_CODE = '1234';
-// const CUSTOM_SECURITY = '1234';
+const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
+const PURCHASE_CODE = '1234';
+const CUSTOM_SECURITY = '1234';
+
+// const base_url = 'https://2smo.net/overwatch112/wp-json/downtown/app';
+// const PURCHASE_CODE = '2c21d3e0-a507-4f18-9356-c8f8cd421573';
+// const CUSTOM_SECURITY = '13378';
 // const base_url = 'https://bawounyi.com/wp-json/downtown/app';
 // const PURCHASE_CODE = 'a59e8a69-8486-4af4-aa37-c9821c87cac2';
 // const CUSTOM_SECURITY = '129485';
-
-const base_url = 'https://dwt-wpml.downtown-directory.com/wp-json/downtown/app';
-const PURCHASE_CODE = '12345';
-const CUSTOM_SECURITY = 'my111';
+// const base_url = 'https://2smo.net/overwatch112/wp-json/downtown/app';
+// const PURCHASE_CODE = '2c21d3e0-a507-4f18-9356-c8f8cd421573';
+// const CUSTOM_SECURITY = '13378';
+// const base_url = 'https://dwt-wpml.downtown-directory.com/wp-json/downtown/app';
+// const PURCHASE_CODE = '12345';
+// const CUSTOM_SECURITY = 'my111';
 
 class Api {
   static headers() {
