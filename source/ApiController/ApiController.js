@@ -6,10 +6,20 @@ import base64 from 'react-native-base64'
 import { Base64 } from 'js-base64';
 import Storage from '../LocalDB/storage'
 // change your baseUrl and Domain
+// const base_url = 'https://diadiemninhthuan.vn/wp-json/downtown/app';
+// const PURCHASE_CODE = '97ddc73c-ebd8-4030-8137-c58acead2cba';
+// const CUSTOM_SECURITY = 'a123456';
 const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
 const PURCHASE_CODE = '1234';
 const CUSTOM_SECURITY = '1234';
 
+
+// const base_url = 'https://www.findex.com.co/wp-json/downtown/app';
+// const PURCHASE_CODE = 'aaf2043c-9db6-4e00-8028-42ac2fb4fca5';
+// const CUSTOM_SECURITY = 'albert12';
+// const base_url = 'https://uudai.diadiemninhthuan.vn/wp-json/downtown/app';
+// const PURCHASE_CODE = '97ddc73c-ebd8-4030-8137-c58acead2cba';
+// const CUSTOM_SECURITY = '97ddc73c-ebd8-4030-8137-c58acead2cba';
 // const base_url = 'https://2smo.net/overwatch112/wp-json/downtown/app';
 // const PURCHASE_CODE = '2c21d3e0-a507-4f18-9356-c8f8cd421573';
 // const CUSTOM_SECURITY = '13378';

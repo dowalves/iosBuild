@@ -77,6 +77,7 @@ export default class AdvanceSearch extends Component<Props> {
   }
   search = async (key, value, list, state) => {
     let { params } = this.props.navigation.state;
+    store.moveToSearchTXT = false
     if (this.state.seachText.length !== 0) {
       store.SEARCH_OBJ.by_title = this.state.seachText;
     } else {
@@ -96,13 +97,13 @@ export default class AdvanceSearch extends Component<Props> {
       store.SEARCH_OBJ.e_long = this.state.longitude;
       store.SEARCH_OBJ.e_distance = this.state.radius;
     }
-    
-    for(var j=0;j<store.SEARCHING.LISTING_FILTER.data.all_filters.length;j++){
-      if(store.SEARCHING.LISTING_FILTER.data.all_filters[j].type=='checkbox'){
-        store.SEARCH_OBJ.amenties=[]
 
-        for(var x=0; x<store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown.length;x++){
-          if(store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].checked==true){
+    for (var j = 0; j < store.SEARCHING.LISTING_FILTER.data.all_filters.length; j++) {
+      if (store.SEARCHING.LISTING_FILTER.data.all_filters[j].type == 'checkbox') {
+        store.SEARCH_OBJ.amenties = []
+
+        for (var x = 0; x < store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown.length; x++) {
+          if (store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].checked == true) {
             // if(store.SEARCH_OBJ.amenties==undefined){
             // }
             store.SEARCH_OBJ.amenties.push(store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].key)
@@ -111,7 +112,7 @@ export default class AdvanceSearch extends Component<Props> {
       }
       // console.log('store.SEARCHING.LISTING_FILTER.data.all_filters',store.SEARCHING.LISTING_FILTER.data.all_filters[j])
     }
-    console.log('search obj',store.SEARCH_OBJ)
+    console.log('search obj', store.SEARCH_OBJ)
     if (key === 'l_category') {
       list.forEach(async item => {
         if (item.value === value) {
@@ -189,11 +190,12 @@ export default class AdvanceSearch extends Component<Props> {
 
 
   placesComplete = async (text, state) => {
+    // console.log('here')
     if (text === '' && state === 'road') {
-      this.setState({ predictions: [], focus: false })
+      this.setState({ location:'',predictions: [], focus: false })
     } else {
       if (text === '' && state === 'street') {
-        this.setState({ predictions: [], streetLocation: false, isSliderActive: false })
+        this.setState({ currentLocation:'',predictions: [], streetLocation: false, isSliderActive: false })
       }
     }
     if (text.length > 0 && state === 'road') {
@@ -203,19 +205,23 @@ export default class AdvanceSearch extends Component<Props> {
         this.setState({ currentLocation: text, streetLocation: true })
       }
     }
-    // const API_KEY = 'AIzaSyDVcpaziLn_9wTNCWIG6K09WKgzJQCW2tI'; // new
-    const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
-    fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&key=' + API_KEY)
-      .then((response) => response.json())
-      .then(func = async (responseJson) => {
-        // console.log('result Places AutoComplete===>>', responseJson);
-        if (responseJson.status === 'OK') {
-          await this.setState({ predictions: responseJson.predictions })
-        }
-      }).catch((error) => {
-        console.log('error', error);
-      });
+
+    if (text != '') {
+      const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
+      fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&types=address' + '&key=' + API_KEY)
+        .then((response) => response.json())
+        .then(func = async (responseJson) => {
+          // console.log('result Places AutoComplete===>>', responseJson);
+          if (responseJson.status === 'OK') {
+            await this.setState({ predictions: responseJson.predictions })
+          }
+        }).catch((error) => {
+          console.log('error', error);
+        });
+    }
   }
+  // const API_KEY = 'AIzaSyDVcpaziLn_9wTNCWIG6K09WKgzJQCW2tI'; // new
+
   getCurrentPosition = async () => {
     this.setState({ currentLoc: true })
     Geolocation.getCurrentPosition(async position => {
@@ -426,6 +432,7 @@ export default class AdvanceSearch extends Component<Props> {
                                   onChangeText={(value) => this.setState({ seachText: value })}
                                   underlineColorAndroid='transparent'
                                   label={item.title}
+                                  value={this.state.seachText}
                                   mode='flat'
                                   placeholder={item.placeholder}
                                   placeholderTextColor='#c4c4c4'
@@ -521,7 +528,7 @@ export default class AdvanceSearch extends Component<Props> {
 
                                         itemx.checked = !itemx.checked
 
-                                        
+
 
 
                                       }}
@@ -650,7 +657,10 @@ export default class AdvanceSearch extends Component<Props> {
                                   this.state.predictions.map((item, key) => {
                                     return (
                                       <TouchableOpacity key={key} style={{ height: height(6), width: width(90), justifyContent: 'center', marginBottom: 0.5, backgroundColor: 'white', borderBottomWidth: 0.5, borderColor: COLOR_GRAY }}
-                                        onPress={() => { this.setState({ currentLocation: item.description, streetLocation: false, isSliderActive: true }), this.getLatLong(item.description) }}
+                                        onPress={() => {
+                                          console.log('on[rxx called')
+                                          this.setState({ currentLocation: item.description, streetLocation: false, isSliderActive: true }), this.getLatLong(item.description)
+                                        }}
                                       >
                                         <Text style={{ marginHorizontal: 10 }}>{item.description}</Text>
                                       </TouchableOpacity>

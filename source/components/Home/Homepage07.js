@@ -205,7 +205,14 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     // console.log('searchtext', this.state.searchtxt)
                     Keyboard.dismiss()
                     store.SEARCHTEXT = this.state.searchtxt,
+
+                    store.SEARCH_OBJ = {};
+
                       store.moveToSearchTXT = true
+
+                      store.moveToSearch = false,
+                     
+                      store.moveToSearchLoc=false
                     // if(this.props.navigation.state.index != 4 ){
                     const navigateAction = NavigationActions.navigate({
                       routeName: 'SearchingScreen',
@@ -272,7 +279,14 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                             <TouchableOpacity style={{ height: height(16), width: width(43), marginRight: width(3), marginVertical: 5, alignItems: 'center', }}
                               onPress={() => {
                                 store.LOCATION = item,
+
+                            store.SEARCH_OBJ = {};
+
                                   store.moveToSearchLoc = true,
+
+                                  store.moveToSearch = false,
+                                  store.moveToSearchTXT=false
+                                 
                                   this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                               }}>
                               {/* <View style={{ height: 10 }} /> */}

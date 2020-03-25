@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Text, View, TextInput, I18nManager,TouchableOpacity, Picker, ScrollView, ActivityIndicator, Image, ImageBackground } from 'react-native';
+import { Platform, Text, View, TextInput, I18nManager, TouchableOpacity, Picker, ScrollView, ActivityIndicator, Image, ImageBackground } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Coupon from 'react-native-vector-icons/FontAwesome';
@@ -12,11 +12,19 @@ import Location from 'react-native-vector-icons/EvilIcons';
 import MapIcon from 'react-native-vector-icons/AntDesign'
 import { COLOR_PRIMARY, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
 import { observer } from 'mobx-react';
+import Geolocation from '@react-native-community/geolocation';
+
+
+
 import store from '../../Stores/orderStore';
 import Modal from "react-native-modal";
 import ApiController from '../../ApiController/ApiController';
 import Toast from 'react-native-simple-toast';
 import { withNavigation } from 'react-navigation';
+
+
+
+
 const inputSize = totalSize(1.5);
 
 @observer class LocationListing extends Component<Props> {
@@ -77,11 +85,67 @@ const inputSize = totalSize(1.5);
             country_id: data.custom_loc.value,
             // is_featured: store.GET_LISTING.data.featured_already
         })
+        if(data.latt.value==''){
+            this.getCurrentPosition()
+        }
         if (data.custom_loc.value !== "") {
             await this.selectLocation(data.custom_loc.value, false)
         }
     }
-    getLatLong = async (address) => {
+    // getLatLong = async (address) => {
+    //     this.setState({ listingLoc: address })
+    //     const API_KEY = 'pk.eyJ1IjoiZ2xpeGVuZCIsImEiOiJjazNueGk1MHgxOHd1M2xubXA2a3F1ZjhrIn0.PwzeDhioLVSDVa-4_UyWtQ';  //old play4team
+    //     // const API_KEY = '46c366d82550cc';  //old play4team
+    //     // const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
+    //     let newaddress=""
+    //     if (address.includes('#')) {
+    //      newaddress=   address.replace('#', ',')
+    //     }
+    //     let newurl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + newaddress + '.json?access_token=' + API_KEY
+    //     console.log(newurl)
+    //     fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/'+address+'.json?access_token=' + API_KEY)
+    //         // fetch('https://us1.locationiq.com/v1/search.php?key=46c366d82550cc&q=' + address +'&format=json')
+    //         .then((response) => response.json())
+    //         .then(async (responseJson) => {
+    //             console.warn('latLong', responseJson);
+    //             if (responseJson.status === 'OK') {
+    //                 await this.setState({
+    //                     latitude: responseJson.results[0].geometry.location.lat,
+    //                     longitude: responseJson.results[0].geometry.location.lng,
+    //                     predictions: []
+    //                 })
+    //                 console.warn(this.state.latitude, this.state.longitude);
+    //             }
+    //         })
+    // }
+
+
+    getCurrentPosition = async () =>{
+        Geolocation.getCurrentPosition(async position => {
+            await this.getAddress(position.coords.latitude, position.coords.longitude);
+            await this.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+            // this.setState({ currentLoc: false })
+          });
+      
+    }
+
+    getAddress = async (lat, long) => {
+        let api_key = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';
+        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + long + '&key=' + api_key)
+          .then((response) => response.json())
+          .then(func = async (responseJson) => {
+            if (responseJson.status === 'OK') {
+              var res = responseJson.results[0].address_components;
+              await this.setState({ listingLoc: res[0].long_name + ', ' + res[2].long_name})
+            }
+          })
+      }
+
+
+     getLatLong = async (address) => {
         this.setState({ listingLoc: address })
         let api_key = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';
         fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + api_key)
@@ -102,9 +166,10 @@ const inputSize = totalSize(1.5);
         if (text.length > 0) {
             // const API_KEY = 'AIzaSyDVcpaziLn_9wTNCWIG6K09WKgzJQCW2tI'; // new
             const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
-            fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&key=' + API_KEY)
+            // const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
+            fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&types=address' + '&key=' + API_KEY)
                 .then((response) => response.json())
-                .then(func = async (responseJson) => {
+                .then(async (responseJson) => {
                     // console.log('result Places AutoComplete===>>', responseJson);
                     if (responseJson.status === 'OK') {
                         await this.setState({ predictions: responseJson.predictions })
@@ -384,7 +449,7 @@ const inputSize = totalSize(1.5);
                                             placeholderTextColor='gray'
                                             underlineColorAndroid='transparent'
                                             autoCorrect={true}
-                                            style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
+                                            style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 }, I18nManager.isRTL ? { textAlign: 'right' } : { textAlign: 'left' }]}
                                         />
                                     </View>
                                 </View>
@@ -401,7 +466,7 @@ const inputSize = totalSize(1.5);
                                             placeholderTextColor='gray'
                                             underlineColorAndroid='transparent'
                                             autoCorrect={true}
-                                            style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
+                                            style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 }, I18nManager.isRTL ? { textAlign: 'right' } : { textAlign: 'left' }]}
                                         />
                                     </View>
                                 </View>
@@ -418,7 +483,7 @@ const inputSize = totalSize(1.5);
                                             placeholderTextColor='gray'
                                             underlineColorAndroid='transparent'
                                             autoCorrect={true}
-                                            style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
+                                            style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 }, I18nManager.isRTL ? { textAlign: 'right' } : { textAlign: 'left' }]}
                                         />
                                     </View>
                                 </View>
@@ -473,7 +538,7 @@ const inputSize = totalSize(1.5);
                                         placeholderTextColor='gray'
                                         underlineColorAndroid='transparent'
                                         autoCorrect={true}
-                                        style={[{ height: height(15), width: width(90), fontSize: inputSize, backgroundColor: 'transparent', paddingHorizontal: 10, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
+                                        style={[{ height: height(15), width: width(90), fontSize: inputSize, backgroundColor: 'transparent', paddingHorizontal: 10, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }, I18nManager.isRTL ? { textAlign: 'right' } : { textAlign: 'left' }]}
                                     />
                                 </View>
                             </View>
@@ -724,7 +789,7 @@ const inputSize = totalSize(1.5);
                                             </View>
                                             :
                                             <TouchableOpacity style={{ height: height(6), width: width(90), backgroundColor: 'white', alignItems: 'center', flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6, marginVertical: 5 }} onPress={() => this.setState({ is_townPicker: !this.state.is_townPicker })}>
-                                                  <View style={{ alignItems: 'flex-start', width: width(78) }}>
+                                                <View style={{ alignItems: 'flex-start', width: width(78) }}>
                                                     <Text style={{ marginHorizontal: 8 }}>{this.state.selectTown}</Text>
                                                 </View>
                                                 <IconDrop name="md-arrow-dropdown" size={24} color="#c4c4c4" />

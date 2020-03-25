@@ -395,7 +395,7 @@ PODS:
     - React
   - react-native-maps (0.26.1):
     - React
-  - react-native-netinfo (4.6.1):
+  - react-native-netinfo (4.7.0):
     - React
   - react-native-simple-toast (0.1.1):
     - React
@@ -743,7 +743,7 @@ SPEC CHECKSUMS:
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-google-maps: 2e2e697dab576abd5809d78cd74e775865b62bf7
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
-  react-native-netinfo: 16c6408c311572f17f9ffc3fa12614489307b6cf
+  react-native-netinfo: 3dd993921571d01b78a8f91f1caaffcab7a1e1c7
   react-native-simple-toast: 3e821c055485f03c6f6fa9b9431c1081ba46d37a
   react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
@@ -772,4 +772,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: bff12cfb96c566186b1b75d39ea98727f7b72d2d
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.0

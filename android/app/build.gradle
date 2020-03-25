@@ -201,6 +201,7 @@ allprojects {
     }
 }
 dependencies {
+    implementation project(':react-native-pure-jwt')
     implementation project(':@react-native-community_geolocation')
     implementation project(':react-native-firebase')
     implementation project(':react-native-fbsdk')

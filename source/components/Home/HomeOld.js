@@ -28,6 +28,10 @@ import ApiController from '../../ApiController/ApiController';
 import ListingComponent from './ListingComponentOld';
 import EventComponent from './EventComponent';
 import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
+
+import jwt from "react-native-pure-jwt";
+
+
 @observer export default class Home extends Component<Props> {
   constructor(props) {
     super(props);
@@ -45,6 +49,28 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
   }
   UNSAFE_componentWillMount = async () => {
     // calling homeData func
+
+    jwt
+    .sign({
+    amount: 250, // The amount you need the customer to pay. 250 is the minimum.
+    serviceType: "My Service Type", // This is a free text and it's will appear to the customer in the payment page.
+    msisdn: "9647835077880", // The merchant wallet number in string form
+    orderId: 'YOUR ORDER ID', // Free text, you need to write your invoice id from your DB, U will use in the redirection
+    redirectUrl: "https://YOUR-WEBSITE.com/payment/redirect", // Your GET URL that ZC will redirect to after the payment got completed
+    iat: 100000, // Time for the JWT token
+    exp: 100000 + 60 * 60 * 4 // Time for the JWT token
+      }, // body
+      "$2y$10$xlGUesweJh93EosHlaqMFeHh2nTOGxnGKILKCQvlSgKfmhoHzF12G", // secret
+      {
+        alg: "HS256"
+      }
+    )
+    .then((token)=>{
+      console.log('token',token)
+    }) // token as the only argument
+    .catch(console.error); // possible errors
+  
+
     store.SEARCH_OBJ = {};
     this.setState({ loading: true })
     let response = await ApiController.post('listing-filters');
@@ -173,14 +199,14 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                       <Text style={styles.secTxt}>{home.search_section.sub_title}</Text>
                       <View style={styles.searchCon}>
                         <TextInput
-                          onChangeText={(value) => this.setState({ email: value })}
+                          onChangeText={(value) => this.setState({ searchtxt: value })}
                           underlineColorAndroid='transparent'
                           placeholder={home.search_section.placeholder}
                           // placeholderTextColor='black'
                           underlineColorAndroid='transparent'
                           autoCorrect={false}
-                          onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
-                          style={[styles.txtInput,I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
+                          // onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
+                          style={[styles.txtInput, I18nManager.isRTL ? { textAlign: 'right' } : { textAlign: 'left' }]}
                         />
                         <Icon
                           size={30}
@@ -189,7 +215,25 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                           color='black'
                           containerStyle={{ marginLeft: 0, marginVertical: 10 }}
                           // containerStyle={styles.searchIcon}
-                          onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
+                          onPress={() => {
+                            store.SEARCHTEXT = this.state.searchtxt,
+                            store.moveToSearchTXT = true
+                            store.moveToSearchLoc=false
+                            store.moveToSearch=false
+                            store.SEARCH_OBJ = {};
+
+                            // if(this.props.navigation.state.index != 4 ){
+                            const navigateAction = NavigationActions.navigate({
+                              routeName: 'SearchingScreen',
+                              params: { search_text: this.state.searchtxt }
+                            });
+                            this.props.navigation.setParams({
+                              params: { search_text: this.state.searchtxt },
+                              key: 'screen-123',
+                            });
+                            this.props.navigation.dispatch(navigateAction);
+                          }}
+                        // onPress={() => this.navigateToScreen('SearchingScreen', 'search')}
                         />
                         {/* <Image
                           source={require('../../images/search_black.png')}
@@ -212,7 +256,10 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                         <TouchableOpacity key={key} style={styles.flatlistChild}
                           onPress={() => {
                             store.CATEGORY = item,
-                              store.moveToSearch = true,
+                            store.SEARCH_OBJ = {};
+                            store.moveToSearchTXT = false
+                            store.moveToSearchLoc=false
+                            store.moveToSearch = true,
                               this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                           }}
                         >
@@ -279,7 +326,7 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                     {
                       home.featured_listings.list.map((item, key) => {
                         return (
-                          <TouchableOpacity style={{ width: width(55), backgroundColor: 'white', borderRadius: 5, marginRight: 10, marginBottom: 30 }} onPress={() => { store.LIST_ID=item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
+                          <TouchableOpacity style={{ width: width(55), backgroundColor: 'white', borderRadius: 5, marginRight: 10, marginBottom: 30 }} onPress={() => { store.LIST_ID = item.listing_id, this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
                             <Image indicator={null} source={{ uri: item.image }} style={{ height: 160, width: width(55), borderTopLeftRadius: 5, borderTopRightRadius: 5 }} />
                             <View style={{ height: height(5), width: width(32), position: 'absolute' }}>
                               <View>
@@ -330,18 +377,21 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
                 :
                 null
             }
-         
+
             {
               home.location_enabled ?
                 <View style={{ marginHorizontal: 20 }}>
-                  <Text style={{ fontSize: 14, fontWeight:'500', color: COLOR_SECONDARY, marginVertical: 15 }}>Locations</Text>
+                  <Text style={{ fontSize: 14, fontWeight: '500', color: COLOR_SECONDARY, marginVertical: 15 }}>Locations</Text>
                   <View style={{ flexWrap: 'wrap', flexDirection: 'row', alignItems: 'center' }}>
                     {
                       home.location_list.map((item, key) => {
                         return (
                           <TouchableOpacity style={{ height: height(16), width: width(43), marginRight: this.isOdd(key) ? width(3) : 0, marginVertical: 5, alignItems: 'center' }}
                             onPress={() => {
-                                store.LOCATION = item,
+                              store.LOCATION = item,
+                               store.SEARCH_OBJ = {};
+                               store.moveToSearchTXT = false
+                               store.moveToSearch = false,
                                 store.moveToSearchLoc = true,
                                 this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                             }}>

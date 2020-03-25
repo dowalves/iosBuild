@@ -256,7 +256,7 @@ class CreateEvent extends Component<Props> {
     if (text.length > 0) {
       // const API_KEY = 'AIzaSyDVcpaziLn_9wTNCWIG6K09WKgzJQCW2tI'; // new
       const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
-      fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&key=' + API_KEY)
+      fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text+'&types=address' + '&key=' + API_KEY)
         .then((response) => response.json())
         .then(func = async (responseJson) => {
           // console.log('result Places AutoComplete===>>', responseJson);

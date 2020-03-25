@@ -32,6 +32,7 @@ import ListingComponent from './ListingComponent11';
 import EventComponent from './EventComponent';
 import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../helpers/Responsive'
+
 @observer export default class Home extends Component<Props> {
   constructor(props) {
     super(props);
@@ -49,6 +50,10 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
   }
   componentWillMount = async () => {
     // calling homeData func
+
+    
+
+
     store.SEARCH_OBJ = {};
     this.setState({ loading: true })
     let response = await ApiController.post('listing-filters');
@@ -212,7 +217,13 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                                    <TouchableOpacity key={key} style={styles.flatlistChild}
                                      onPress={() => {
                                        store.CATEGORY = item,
-                                         store.moveToSearch = true,
+                            store.SEARCH_OBJ = {};
+
+                                         store.moveToSearch = true
+
+                                      
+                                         store.moveToSearchTXT=false,
+                                         store.moveToSearchLoc=false
                                          this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                                      }}
                                    >

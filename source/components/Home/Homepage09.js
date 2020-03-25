@@ -208,7 +208,14 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                                 <TouchableOpacity key={key} style={styles.flatlistChild}
                                   onPress={() => {
                                     store.CATEGORY = item,
+
+                            store.SEARCH_OBJ = {};
+
                                       store.moveToSearch = true,
+
+                                      
+                                      store.moveToSearchTXT=false,
+                                      store.moveToSearchLoc=false
                                       this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                                   }}
                                 >

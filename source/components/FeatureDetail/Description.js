@@ -27,6 +27,10 @@ import Report from './Report'
 import styles from '../../../styles/DescriptionStyleSheet';
 import FeatureDetail from './FeatureDetail';
 import { withNavigation } from 'react-navigation';
+
+import openMap from 'react-native-open-maps';
+
+
 const SECTIONS = [
   {
     title: 'First',
@@ -112,20 +116,24 @@ class Description extends Component<Props> {
   }
   getDirection = async () => {
     data = store.home.FEATURE_DETAIL.data.listing_detial;
-    if (Platform.OS === 'android') {
-      var url = "geo:"+data.location.latt+","+data.location.long;
-    } else {
-      var url = "http://maps.apple.com/?ll="+data.location.latt+","+data.location.long;
-    }
-    Linking.canOpenURL(url)
-      .then((supported) => {
-        if (!supported) {
-          console.log("Can't handle url: " + url);
-        } else {
-          return Linking.openURL(url);
-        }
-      })
-      .catch((err) => console.error('An error occurred', err));
+
+    openMap({ query:""+data.location.latt+","+ data.location.long});
+
+    // data = store.home.FEATURE_DETAIL.data.listing_detial;
+    // if (Platform.OS === 'android') {
+    //   var url = "geo:"+data.location.latt+","+data.location.long;
+    // } else {
+    //   var url = "http://maps.apple.com/?ll="+data.location.latt+","+data.location.long;
+    // }
+    // Linking.canOpenURL(url)
+    //   .then((supported) => {
+    //     if (!supported) {
+    //       console.log("Can't handle url: " + url);
+    //     } else {
+    //       return Linking.openURL(url);
+    //     }
+    //   })
+    //   .catch((err) => console.error('An error occurred', err));
   }
   countDown(eventDate) {
     var eventDate = new Date(eventDate);

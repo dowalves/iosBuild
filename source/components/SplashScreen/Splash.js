@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Alert, BackHandler, ActivityIndicator,I18nManager, Platform, StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { Alert, BackHandler, ActivityIndicator, I18nManager, Platform, StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { INDICATOR_COLOR, INDICATOR_SIZE, OVERLAY_COLOR } from '../../../styles/common';
 import { width, height, totalSize } from 'react-native-dimension';
 import styles from '../../../styles/SplashStyleSheet'
@@ -16,7 +16,8 @@ import firebase from 'react-native-firebase';
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      nointernet: false
     }
   }
   static navigationOptions = { header: null };
@@ -26,69 +27,80 @@ import firebase from 'react-native-firebase';
     // API calling...
     this.setState({ loading: true })
     let response = await ApiController.post('settings');
-    console.log('settings=',response);
+    console.log('settings=', response);
 
     I18nManager.forceRTL(response.data.is_rtl)
-    if(response.data.is_rtl){
-      if(I18nManager.isRTL){
+    if (response.data.is_rtl) {
+      if (I18nManager.isRTL) {
 
-      }else{
+      } else {
         RNRestart.Restart()
       }
-    }else if(response.data.is_rtl==false){
-      if(I18nManager.isRTL){
+    } else if (response.data.is_rtl == false) {
+      if (I18nManager.isRTL) {
         RNRestart.Restart()
 
-      }else{
+      } else {
       }
     }
     // console.log('is rtl',I18nManager.isRTL)
-          
+
     orderStore.settings = response;
     if (orderStore.settings.success === true) {
 
       orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
-      orderStore.wpml_settings=orderStore.settings.data.wpml_settings
-    
+      orderStore.wpml_settings = orderStore.settings.data.wpml_settings
+
       this.props.navigation.replace('Drawer'); //MainScreen
       this.setState({ loading: false })
     } else {
       Toast.show('Check your internet and try again', Toast.LONG);
     }
   }
-  componentWillMount=async()=>{
-    if(NetInfo.isConnected){
-       await this.splash(true)
-       await this.manageFcmToken();}
+  componentWillMount = async () => {
+    // if (NetInfo.isConnected) {
 
-    }
-  
+    // }
+    // else {
+    // }
+    // NetInfo.isConnected.fetch().then(async isConnected => {
+    //   if (isConnected) {
+        await this.splash(true)
+        await this.manageFcmToken();
+    //   } else {
+    //     this.setState({ nointernet: true })
 
-  manageFcmToken = async()=>{
+    //   }
+    // });
+
+  }
+
+
+  manageFcmToken = async () => {
     //console.warn("inside");
-  
-    let {orderStore} = Store;
+
+    let { orderStore } = Store;
     const fcmToken = await firebase.messaging().getToken();
     // console.log('fcmtoken',fcmToken)
     // if (fcmToken) { 
     //   const userData = await LocalDb.getUserProfile();
     // //  console.warn(userData.id)          
     //     const params = {firebase_id:fcmToken,user_id:userData.id};
-        
-      //  console.warn("home Params==>",JSON.stringify(params));
-  
-      //   const response  = await Api.post('home',params);
-      //   console.log("Home response===>",response);
-      //  // console.warn("Response==>",JSON.stringify(response));
-      //    if(response.success === true)
-      //     orderStore.fcmToken = fcmToken;
-      //   else
-      //    { if(response.message.length!=0)
-      //      Toast.show(response.message);}
-       } 
-      
-  
-  
+
+    //  console.warn("home Params==>",JSON.stringify(params));
+
+    //   const response  = await Api.post('home',params);
+    //   console.log("Home response===>",response);
+    //  // console.warn("Response==>",JSON.stringify(response));
+    //    if(response.success === true)
+    //     orderStore.fcmToken = fcmToken;
+    //   else
+    //    { if(response.message.length!=0)
+    //      Toast.show(response.message);}
+  }
+
+
+
   // componentDidMount() {
   //   NetInfo.isConnected.addEventListener(
   //     'connectionChange',
@@ -98,7 +110,7 @@ import firebase from 'react-native-firebase';
   alert() {
     this.setState({ loading: true, alertStatus: true })
     Alert.alert(
-      'No Internet',
+      'Connection Error',
       'Check your internet connection and try again',
       [
         // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
@@ -115,6 +127,7 @@ import firebase from 'react-native-firebase';
     });
   }
   render() {
+
     return (
       <View style={styles.container}>
         <ImageBackground source={require('../../images/bk_ground.jpg')} style={styles.imgCon}>

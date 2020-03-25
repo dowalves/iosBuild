@@ -99,7 +99,7 @@ import ListingComponent from '../Home/SearchListingComponent';
         // } else {
         //     // store.SEARCH_OBJ.by_title = this.state.search;
         // }
-
+        // console.log('store.moveto search',store.moveToSearch)
         if (store.moveToSearchTXT === true) {
             store.SEARCH_OBJ.by_title = store.SEARCHTEXT;
         }
@@ -112,7 +112,7 @@ import ListingComponent from '../Home/SearchListingComponent';
         // console.log('paramsPPP===>>>', store.SEARCH_OBJ);
         try {
             this.setState({ loading: true })
-            // console.log('before listing search api call store is', store)
+            console.log('before listing search api call store is', JSON.stringify(store.SEARCH_OBJ))
             //API calling
             let response = await ApiController.post('listing-search', store.SEARCH_OBJ);
             orderStore.SEARCHING.LISTING_SEARCH = response;

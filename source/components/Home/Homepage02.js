@@ -187,7 +187,11 @@ import ListingComponentBox from './ListingComponentBox2';
                           onPress={() => {
                             console.log('here category', item)
                             store.CATEGORY = item,
+                            store.SEARCH_OBJ = {};
+
                               store.moveToSearch = true,
+                              store.moveToSearchTXT=false,
+                              store.moveToSearchLoc=false
                               this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                           }}
                         >
@@ -414,7 +418,12 @@ import ListingComponentBox from './ListingComponentBox2';
                             <TouchableOpacity style={{ height: height(16), width: width(43), marginRight: width(3), marginVertical: 5, alignItems: 'center' }}
                               onPress={() => {
                                 store.LOCATION = item,
+                            store.SEARCH_OBJ = {};
+
                                   store.moveToSearchLoc = true,
+                                  store.moveToSearch = false,
+                                  store.moveToSearchTXT=false
+                                 
                                   this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                               }}>
                               {/* <View style={{ height: 10 }} /> */}

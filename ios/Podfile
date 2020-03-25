@@ -120,6 +120,8 @@ target 'DWT' do
     pod 'react-native-apple-authentication', :path => '../node_modules/react-native-apple-authentication'
     use_native_modules!
 
+    pod 'RNPureJwt', :path => '../node_modules/react-native-pure-jwt'
+
   end
 
   # very important to have, unless you removed React dependencies for Libraries
