@@ -112,50 +112,23 @@ export default class AdvanceSearch extends Component<Props> {
       }
       // console.log('store.SEARCHING.LISTING_FILTER.data.all_filters',store.SEARCHING.LISTING_FILTER.data.all_filters[j])
     }
-    console.log('search obj', store.SEARCH_OBJ)
+    // console.log('search obj', store.SEARCH_OBJ)
     if (key === 'l_category') {
       list.forEach(async item => {
         if (item.value === value) {
           store.SEARCH_OBJ.l_category = item.key;
-
-          // console.log('here item is',item)
-          // if(item.key!=""){
-          //   let response = await ApiController.post('listing-filters',{sel_categ:item.key} );
-
-          //   if (response.success) {
-          //     store.SEARCHING.LISTING_FILTER = response;
-          // // creating new array named as options
-          // store.SEARCHING.LISTING_FILTER.data.all_filters.forEach(item => {
-          //   if (item.type === 'dropdown') {
-          //     item.options = [];
-          //     item.option_dropdown.forEach(val => {
-          //       item.options.push({ value: val.value })
-          //     });
-          //   }
-          // });
-          // // Adding states to buttons....
-          // store.SEARCHING.LISTING_FILTER.data.status.checkStatus = false;
-          // if (store.SEARCHING.LISTING_FILTER.data.is_rated_enabled) {
-          //   store.SEARCHING.LISTING_FILTER.data.rated.option_dropdown.forEach(item => {
-          //     item.checkStatus = false;
-          //   });
-          // }
-          // // adding states to checkBoxes
-          // store.SEARCHING.LISTING_FILTER.data.sorting.option_dropdown.forEach(item => {
-          //   item.checkStatus = false;
-          // });
-          // // sorting object for events sorting
-          // store.EVENTS_SORTING = store.SEARCHING.LISTING_FILTER.data.sorting;
-          // }
-          // console.log('ok res is',response)
-
-          // }
         }
       })
-
-
-
     }
+
+    if (key === 'l_location') {
+      list.forEach(async item => {
+        if (item.value === value) {
+          store.SEARCH_OBJ.l_location = item.key;
+        }
+      })
+    }
+
     if (key === 'l_price_type') {
       list.forEach(item => {
         if (item.value === value) {
@@ -449,7 +422,7 @@ export default class AdvanceSearch extends Component<Props> {
                               labelFontSize={14}
                               dropdownPosition={-5.5}
                               itemCount={5}
-                              value={item.type_name === 'l_category' && store.moveToSearch ? store.CATEGORY.name : ''}
+                              value={item.type_name === 'l_category' && store.moveToSearch ? store.CATEGORY.name : item.type_name === 'l_location' && store.moveToSearch ? store.CATEGORY.name:''}
                               textColor={COLOR_SECONDARY}
                               itemColor='gray'
                               onChangeText={(value, index) => {
@@ -457,7 +430,9 @@ export default class AdvanceSearch extends Component<Props> {
                                 this.search(item.type_name, value, item.option_dropdown),
                                   store.moveToSearch ? store.CATEGORY = {} : null,
                                   store.moveToSearch = false
-                                this.checkamenties(item, item.option_dropdown[index].key, item.type_name)
+                                if(item.type_name!='l_location'){
+                                  this.checkamenties(item, item.option_dropdown[index].key, item.type_name)
+                                }
 
 
                               }}
