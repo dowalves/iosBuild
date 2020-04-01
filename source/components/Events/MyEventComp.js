@@ -22,6 +22,7 @@ class MyEventComp extends Component<Props> {
     render = () => {
         let item = this.props.item;
         let data = store.MY_EVENTS.data;
+    
         return (
             <View style={{ flex:1 }}>
                 <TouchableOpacity style={{ elevation: 5, backgroundColor: item.checkStatus?'rgba(0,0,0,0.5)':COLOR_PRIMARY,marginVertical: 5, borderRadius: 5, marginHorizontal: 5, width: width(95), shadowColor: 'gray', shadowOpacity: 0.2, shadowRadius: 2, alignSelf: 'center', flexDirection: 'row' }}
@@ -63,19 +64,19 @@ class MyEventComp extends Component<Props> {
                                             <MenuOption onSelect={async () => { await this.props.upDateGet(item.event_id) }}>
                                                 <View style={{ flexDirection: 'row', }}>
                                                     <Image source={require('../../images/pencil-edit-button.png')} style={{ height: height(2.5), width: width(4), marginHorizontal: 5, resizeMode: 'contain' }} />
-                                                    <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>Edit</Text>
+                                                    <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>{data.e_edit}</Text>
                                                 </View>
                                             </MenuOption>
                                             <MenuOption onSelect={async () => { await this.props._deleteEvent(item.event_id) }}>
                                                 <View style={{ flexDirection: 'row', }}>
                                                     <Image source={require('../../images/x-button.png')} style={{ height: height(2.5), width: width(4), marginHorizontal: 5, resizeMode: 'contain' }} />
-                                                    <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>Delete</Text>
+                                                    <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>{data.e_delete}</Text>
                                                 </View>
                                             </MenuOption>
                                             <MenuOption onSelect={async () => { await this.props._expiredEvents(item.event_id) }}>
                                                 <View style={{ flexDirection: 'row', }}>
                                                     <Image source={require('../../images/error-triangle.png')} style={{ height: height(2.5), width: width(4), marginHorizontal: 5, resizeMode: 'contain' }} />
-                                                    <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>Expired</Text>
+                                                    <Text style={{ fontSize: totalSize(1.4), marginHorizontal: 5, color: 'black' }}>{data.e_expire}</Text>
                                                 </View>
                                             </MenuOption>
                                         </View>

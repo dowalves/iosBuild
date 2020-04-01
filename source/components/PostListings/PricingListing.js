@@ -314,10 +314,10 @@ const inputSize = totalSize(1.5);
                     {
                         store.GET_LISTING.data.is_business_hours ?
                             <View style={{ marginTop: 30, alignItems: 'flex-start' }}>
-                                <Text style={{ color: COLOR_SECONDARY, marginVertical: 7, fontSize: 14, fontWeight: 'bold', marginHorizontal: 10 }}>Select Your Business Hours</Text>
+                                <Text style={{ color: COLOR_SECONDARY, marginVertical: 7, fontSize: 14, fontWeight: 'bold', marginHorizontal: 10 }}>{store.GET_LISTING.data.create_listing.business_hours.main_title}</Text>
                                 <View style={{ flexDirection: 'row', width: width(90) }}>
                                     <CheckBox
-                                        title='N/A'
+                                        title={store.GET_LISTING.data.create_listing.business_hours.dropdown[0].text}
                                         checkedColor={main_clr}
                                         textStyle={{ marginRight: 0, marginLeft: 3 }}
                                         checkedIcon='dot-circle-o'
@@ -328,7 +328,7 @@ const inputSize = totalSize(1.5);
                                         onPress={() => { this.selectBusinessHours(0) }}
                                     />
                                     <CheckBox
-                                        title='Open 24/7'
+                                        title={store.GET_LISTING.data.create_listing.business_hours.dropdown[1].text}
                                         checkedColor={main_clr}
                                         checkedIcon='dot-circle-o'
                                         uncheckedIcon='circle-o'
@@ -339,7 +339,7 @@ const inputSize = totalSize(1.5);
                                         onPress={() => { this.selectBusinessHours(1) }}
                                     />
                                     <CheckBox
-                                        title='Selective Hours'
+                                        title={store.GET_LISTING.data.create_listing.business_hours.dropdown[0].text}
                                         checkedColor={main_clr}
                                         checkedIcon='dot-circle-o'
                                         uncheckedIcon='circle-o'
