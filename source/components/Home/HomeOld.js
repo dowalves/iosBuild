@@ -29,7 +29,6 @@ import ListingComponent from './ListingComponentOld';
 import EventComponent from './EventComponent';
 import { COLOR_PRIMARY, COLOR_SECONDARY } from '../../../styles/common';
 
-import jwt from "react-native-pure-jwt";
 
 
 @observer export default class Home extends Component<Props> {
@@ -50,25 +49,25 @@ import jwt from "react-native-pure-jwt";
   UNSAFE_componentWillMount = async () => {
     // calling homeData func
 
-    jwt
-    .sign({
-    amount: 250, // The amount you need the customer to pay. 250 is the minimum.
-    serviceType: "My Service Type", // This is a free text and it's will appear to the customer in the payment page.
-    msisdn: "9647835077880", // The merchant wallet number in string form
-    orderId: 'YOUR ORDER ID', // Free text, you need to write your invoice id from your DB, U will use in the redirection
-    redirectUrl: "https://YOUR-WEBSITE.com/payment/redirect", // Your GET URL that ZC will redirect to after the payment got completed
-    iat: 100000, // Time for the JWT token
-    exp: 100000 + 60 * 60 * 4 // Time for the JWT token
-      }, // body
-      "$2y$10$xlGUesweJh93EosHlaqMFeHh2nTOGxnGKILKCQvlSgKfmhoHzF12G", // secret
-      {
-        alg: "HS256"
-      }
-    )
-    .then((token)=>{
-      console.log('token',token)
-    }) // token as the only argument
-    .catch(console.error); // possible errors
+    // jwt
+    // .sign({
+    // amount: 250, // The amount you need the customer to pay. 250 is the minimum.
+    // serviceType: "My Service Type", // This is a free text and it's will appear to the customer in the payment page.
+    // msisdn: "9647835077880", // The merchant wallet number in string form
+    // orderId: 'YOUR ORDER ID', // Free text, you need to write your invoice id from your DB, U will use in the redirection
+    // redirectUrl: "https://YOUR-WEBSITE.com/payment/redirect", // Your GET URL that ZC will redirect to after the payment got completed
+    // iat: 100000, // Time for the JWT token
+    // exp: 100000 + 60 * 60 * 4 // Time for the JWT token
+    //   }, // body
+    //   "$2y$10$xlGUesweJh93EosHlaqMFeHh2nTOGxnGKILKCQvlSgKfmhoHzF12G", // secret
+    //   {
+    //     alg: "HS256"
+    //   }
+    // )
+    // .then((token)=>{
+    //   console.log('token',token)
+    // }) // token as the only argument
+    // .catch(console.error); // possible errors
   
 
     store.SEARCH_OBJ = {};
@@ -381,7 +380,7 @@ import jwt from "react-native-pure-jwt";
             {
               home.location_enabled ?
                 <View style={{ marginHorizontal: 20 }}>
-                  <Text style={{ fontSize: 14, fontWeight: '500', color: COLOR_SECONDARY, marginVertical: 15 }}>Locations</Text>
+                  <Text style={{ fontSize: 14, fontWeight: '500', color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
                   <View style={{ flexWrap: 'wrap', flexDirection: 'row', alignItems: 'center' }}>
                     {
                       home.location_list.map((item, key) => {
@@ -398,7 +397,7 @@ import jwt from "react-native-pure-jwt";
                             <View style={{ height: 30 }} />
                             <View style={{ height: height(12), width: width(43.5), justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderRadius: 5, shadowOpacity: 0.2, elevation: 2 }}>
                               <Text style={{ fontSize: totalSize(2), color: COLOR_SECONDARY, marginTop: 8 }}>{item.location_name}</Text>
-                              <Text style={{ fontSize: totalSize(1.7), color: COLOR_SECONDARY, marginTop: 4 }}>{'View All'}</Text>
+                              <Text style={{ fontSize: totalSize(1.7), color: COLOR_SECONDARY, marginTop: 4 }}>{home.sb_wpml_see_all_title}</Text>
                               {/* <Text style={{ fontSize: totalSize(1.7), color: COLOR_SECONDARY, marginTop: 4 }}>{item.location_ads}</Text> */}
                             </View>
                             <View style={{ height: height(10), width: width(22), position: 'absolute' }}>

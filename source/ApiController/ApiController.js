@@ -13,10 +13,15 @@ const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downto
 const PURCHASE_CODE = '1234';
 const CUSTOM_SECURITY = '1234';
 
-
 // const base_url = 'https://www.findex.com.co/wp-json/downtown/app';
 // const PURCHASE_CODE = 'aaf2043c-9db6-4e00-8028-42ac2fb4fca5';
 // const CUSTOM_SECURITY = 'albert12';
+
+// const base_url = 'https://mombossmarket.space/wp-json/downtown/app';
+// const PURCHASE_CODE = '4de1719a-9dc2-41f9-a106-e7596aa427e9';
+// const CUSTOM_SECURITY = 'jFgxTChLfEwFpgXX';
+
+
 // const base_url = 'https://uudai.diadiemninhthuan.vn/wp-json/downtown/app';
 // const PURCHASE_CODE = '97ddc73c-ebd8-4030-8137-c58acead2cba';
 // const CUSTOM_SECURITY = '97ddc73c-ebd8-4030-8137-c58acead2cba';

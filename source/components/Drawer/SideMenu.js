@@ -162,38 +162,52 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                             <Text style={styles.itemTxt}>{data.menu.create_listing}</Text>
                           </View>
                         </TouchableOpacity> : null}
-                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Dashboard', data.menu.dashboard)}>
+                  { 
+            data.menu_options.sb_prof_dashboard_menu_opt ?
+
+                   <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Dashboard', data.menu.dashboard)}>
                       <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
                         <Form name='setting' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
                         <Text style={styles.itemTxt}>{data.menu.dashboard}</Text>
                       </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ReviewsCon', data.menu.reviews)}>
+                    </TouchableOpacity>:null}
+                 { 
+            data.menu_options.sb_prof_review_menu_opt ?
+                 
+                 <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ReviewsCon', data.menu.reviews)}>
                       <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
                         <Form name='staro' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
                         <Text style={styles.itemTxt}>{data.menu.reviews}</Text>
                       </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('EventsTabs', data.menu.my_events)}>
+                    </TouchableOpacity>:null}
+                 { 
+            data.menu_options.sb_prof_event_menu_opt ?
+                 
+                 <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('EventsTabs', data.menu.my_events)}>
                       <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]} >
                         <Form name='calendar' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
                         <Text style={styles.itemTxt}>{data.menu.my_events}</Text>
                       </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('SavedListing', data.menu.saved_listings)}>
+                    </TouchableOpacity>:null
+                    
+                    }
+                 {   
+            data.menu_options.sb_prof_save_list_menu_opt ?
+                 
+                 <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('SavedListing', data.menu.saved_listings)}>
                       <View style={[styles.itemIconCon, { width: width(10), alignItems: 'flex-start', alignSelf: 'flex-start' }]}>
                         <Form name='hearto' size={22} color='white' />
                       </View>
                       <View style={styles.itemTxtCon}>
                         <Text style={styles.itemTxt}>{data.menu.saved_listings}</Text>
                       </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>:null}
                   </View>
                   : null}
               </View>

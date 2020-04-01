@@ -283,7 +283,7 @@ const inputSize = totalSize(1.5);
                     {
                         store.GET_LISTING.data.is_weblink ?
                             <View style={{ marginHorizontal: 10, marginTop: 10, alignItems: 'flex-start' }}>
-                                <Text style={{ marginVertical: 7, fontSize: 14, fontWeight: 'bold', color: 'black' }}>Website URL</Text>
+                                <Text style={{ marginVertical: 7, fontSize: 14, fontWeight: 'bold', color: 'black' }}>{data.weburl.main_title}</Text>
                                 <View style={{ height: height(6), width: width(90), flexDirection: 'row', marginBottom: 15, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 }}>
                                     <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
                                         <Icon name="link" size={24} color="#c4c4c4" />
