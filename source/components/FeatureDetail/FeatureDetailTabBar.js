@@ -94,7 +94,11 @@ class FeatureDetailTabBar extends Component<Props> {
     if (response.data.listing_detial.has_reviews_score) {
       this.state.routes.push({ key: 'review', title: response.data.listing_detial.reviews.tab_txt });
     }
-    this.state.routes.push({ key: 'writeReview', title: response.data.listing_detial.write_reviews.tab_txt });
+    if (response.data.listing_detial.has_write_review) {
+      this.state.routes.push({ key: 'writeReview', title: response.data.listing_detial.write_reviews.tab_txt });
+
+    }
+
   }
   _renderLabel = ({ route }) => (
     <Text style={{ fontSize: 13, color: COLOR_SECONDARY }}>{route.title}</Text>
@@ -178,6 +182,7 @@ class FeatureDetailTabBar extends Component<Props> {
                       if (route.key === 'aditionalDetail' && store.home.FEATURE_DETAIL.data.listing_detial.has_add_fields) {
                         return <AditionalDetails />;
                       } else {
+                        if(route.key === 'writeReview' && store.home.FEATURE_DETAIL.data.listing_detial.has_write_review)
                         return <WriteReview />
                       }
                     }
@@ -186,7 +191,7 @@ class FeatureDetailTabBar extends Component<Props> {
               }
             }
           }
-          WriteReview
+          // WriteReview
         }}
         swipeEnabled={true}
         animationEnabled={true}

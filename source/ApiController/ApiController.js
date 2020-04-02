@@ -13,6 +13,10 @@ const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downto
 const PURCHASE_CODE = '1234';
 const CUSTOM_SECURITY = '1234';
 
+// const base_url = 'https://teachyou.in/wp-json/downtown/app';
+// const PURCHASE_CODE = 'cfa4dfce-c802-4def-b049-0db3d84d57a1';
+// const CUSTOM_SECURITY = '9102';
+
 // const base_url = 'https://www.findex.com.co/wp-json/downtown/app';
 // const PURCHASE_CODE = 'aaf2043c-9db6-4e00-8028-42ac2fb4fca5';
 // const CUSTOM_SECURITY = 'albert12';
