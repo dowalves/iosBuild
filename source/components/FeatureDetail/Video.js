@@ -50,7 +50,7 @@ import { WebView } from 'react-native-webview';
             <View style={styles.container}>
                 <FeatureDetail callModel={this.setModalVisible} />
                 <WebView
-                    useWebKit={false}
+                    useWebKit={true}
                     source={{ uri: 'https://www.youtube.com/embed/' + data.video.video_id + '?rel=0&autoplay=0&showinfo=0&controls=0' }}
                     style={{ height: height(40), width: width(90), marginTop: 20 }}
                     javaScriptEnabled={true}

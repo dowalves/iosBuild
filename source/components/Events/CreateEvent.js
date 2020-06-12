@@ -1,7 +1,3 @@
-//***********************//
-//****  Usama Butt  ****//
-//**********************//
-
 import React, { Component } from 'react';
 import { Text, View, Image, ImageBackground,I18nManager, Platform, ActivityIndicator, TouchableOpacity, ScrollView, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
@@ -12,7 +8,6 @@ import Modal from "react-native-modal";
 import * as Progress from 'react-native-progress';
 import ApiController from '../../ApiController/ApiController';
 import Toast from 'react-native-simple-toast';
-// import {RichTextEditor, RichTextToolbar} from 'react-native-zss-rich-text-editor';
 import DatePicker from 'react-native-datepicker';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_DARK_GRAY } from '../../../styles/common';
 import store from '../../Stores/orderStore';

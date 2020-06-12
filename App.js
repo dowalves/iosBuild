@@ -22,7 +22,7 @@ export default class App extends Component<Props> {
     };
 
     this.unsubscribe = NetInfo.addEventListener(state => {
-
+      // console.log('here1')
       if (!state.isConnected && state.details === null && !state.isInternetReachable)
         this.setState({ isInternetAvailable: false });
       else
@@ -45,11 +45,10 @@ export default class App extends Component<Props> {
   }
   async componentDidMount() {
     NetInfo.isConnected.fetch().then(async isConnected => {
+      // console.log('here2',isConnected)
+
       if (isConnected) {
-
-
-
-
+        this.setState({ isInternetAvailable: true })
 
         await this.subToTopic();
         await this.createNotificationListeners();
@@ -162,6 +161,7 @@ export default class App extends Component<Props> {
         })
 
       } else {
+        // console.log('xyz')
         this.setState({ isInternetAvailable: false })
 
       }

@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "359254612575-d2hlc01pv6e223k9hhh08es94puvun96.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dwt",
+            "certificate_hash": "5930d76fa185a86a2c09ef9b4b6e6cd890a2342a"
+          }
+        },
+        {
+          "client_id": "359254612575-81kkp5rbe51sg2clrmgkcdntri6r50og.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dwt",
+            "certificate_hash": "6127e7cf4be389a78578f87d9dae125829554aab"
+          }
+        },
+        {
           "client_id": "359254612575-k0diev549ro9ulh57pr97lqa1fqo154c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

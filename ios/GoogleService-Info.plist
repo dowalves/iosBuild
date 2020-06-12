@@ -9,7 +9,7 @@
   <key>ANDROID_CLIENT_ID</key>
   <string>359254612575-k0diev549ro9ulh57pr97lqa1fqo154c.apps.googleusercontent.com</string>
   <key>API_KEY</key>
-  <string>AIzaSyDsckUp7ABjcvaz0N5oQwP-nP2iOFiAscw</string>
+  <string>AIzaSyD6fjJ2Ld0J2Ky88XEspffiu9T9XJ5x8jQ</string>
   <key>GCM_SENDER_ID</key>
   <string>359254612575</string>
   <key>PLIST_VERSION</key>
@@ -31,7 +31,7 @@
   <key>IS_SIGNIN_ENABLED</key>
   <true></true>
   <key>GOOGLE_APP_ID</key>
-  <string>1:359254612575:ios:c0f2730c055232f14ed9ea</string>
+  <string>1:359254612575:ios:137fee81760207bd4ed9ea</string>
   <key>DATABASE_URL</key>
   <string>https://downtown-98ace.firebaseio.com</string>
 </dict>

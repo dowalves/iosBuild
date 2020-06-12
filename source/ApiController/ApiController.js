@@ -6,41 +6,11 @@ import base64 from 'react-native-base64'
 import { Base64 } from 'js-base64';
 import Storage from '../LocalDB/storage'
 // change your baseUrl and Domain
-// const base_url = 'https://diadiemninhthuan.vn/wp-json/downtown/app';
-// const PURCHASE_CODE = '97ddc73c-ebd8-4030-8137-c58acead2cba';
-// const CUSTOM_SECURITY = 'a123456';
-const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
-const PURCHASE_CODE = '1234';
-const CUSTOM_SECURITY = '1234';
 
-// const base_url = 'https://teachyou.in/wp-json/downtown/app';
-// const PURCHASE_CODE = 'cfa4dfce-c802-4def-b049-0db3d84d57a1';
-// const CUSTOM_SECURITY = '9102';
+const base_url = 'YOUR BASE URL';
+const PURCHASE_CODE = 'YOUR PURCHASE CODE';
+const CUSTOM_SECURITY = 'YOUR CUSTOM SECURITY';
 
-// const base_url = 'https://www.findex.com.co/wp-json/downtown/app';
-// const PURCHASE_CODE = 'aaf2043c-9db6-4e00-8028-42ac2fb4fca5';
-// const CUSTOM_SECURITY = 'albert12';
-
-// const base_url = 'https://mombossmarket.space/wp-json/downtown/app';
-// const PURCHASE_CODE = '4de1719a-9dc2-41f9-a106-e7596aa427e9';
-// const CUSTOM_SECURITY = 'jFgxTChLfEwFpgXX';
-
-
-// const base_url = 'https://uudai.diadiemninhthuan.vn/wp-json/downtown/app';
-// const PURCHASE_CODE = '97ddc73c-ebd8-4030-8137-c58acead2cba';
-// const CUSTOM_SECURITY = '97ddc73c-ebd8-4030-8137-c58acead2cba';
-// const base_url = 'https://2smo.net/overwatch112/wp-json/downtown/app';
-// const PURCHASE_CODE = '2c21d3e0-a507-4f18-9356-c8f8cd421573';
-// const CUSTOM_SECURITY = '13378';
-// const base_url = 'https://bawounyi.com/wp-json/downtown/app';
-// const PURCHASE_CODE = 'a59e8a69-8486-4af4-aa37-c9821c87cac2';
-// const CUSTOM_SECURITY = '129485';
-// const base_url = 'https://2smo.net/overwatch112/wp-json/downtown/app';
-// const PURCHASE_CODE = '2c21d3e0-a507-4f18-9356-c8f8cd421573';
-// const CUSTOM_SECURITY = '13378';
-// const base_url = 'https://dwt-wpml.downtown-directory.com/wp-json/downtown/app';
-// const PURCHASE_CODE = '12345';
-// const CUSTOM_SECURITY = 'my111';
 
 class Api {
   static headers() {

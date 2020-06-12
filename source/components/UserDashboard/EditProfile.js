@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Platform, Text, View, Image, TouchableOpacity, AsyncStorage, ScrollView, TextInput, Picker, ActivityIndicator } from 'react-native';
 import Modal from "react-native-modal";
 import { CheckBox, Icon } from 'react-native-elements'
-// import {RichTextEditor, RichTextToolbar} from 'react-native-zss-rich-text-editor';
 import { width, height, totalSize } from 'react-native-dimension';
 import ImagePicker from 'react-native-image-crop-picker';
 import * as Progress from 'react-native-progress';

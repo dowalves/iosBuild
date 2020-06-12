@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Platform, Text, View, Image, TouchableOpacity, ScrollView, TextInput, Picker } from 'react-native';
 import Modal from "react-native-modal";
 import { CheckBox, Icon } from 'react-native-elements'
-// import {RichTextEditor, RichTextToolbar} from 'react-native-zss-rich-text-editor';
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_DARK_GRAY } from '../../../styles/common';
 import { observer } from 'mobx-react';

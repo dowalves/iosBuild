@@ -112,11 +112,12 @@ import ListingComponent from '../Home/SearchListingComponent';
         // console.log('paramsPPP===>>>', store.SEARCH_OBJ);
         try {
             this.setState({ loading: true })
-            console.log('before listing search api call store is', JSON.stringify(store.SEARCH_OBJ))
+            // console.log('before listing search api call store is', JSON.stringify(store.SEARCH_OBJ))
             //API calling
             let response = await ApiController.post('listing-search', store.SEARCH_OBJ);
             orderStore.SEARCHING.LISTING_SEARCH = response;
             if (response.success === true) {
+                // orderStore.SEARCH_OBJ=null
                 // console.log('listSeacrh===>', store.SEARCHING.LISTING_SEARCH);
                 this.setState({ loading: false })
             } else {

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>DWT</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,10 +26,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.googleusercontent.apps.191792720370-rc4ospf26req749phf3d4l4sfj74gmf4</string>
+			<string>com.googleusercontent.apps.359254612575-4che0isisosmk44qtrgdbnbs7maginjo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.191792720370-rc4ospf26req749phf3d4l4sfj74gmf4</string>
+				<string>com.googleusercontent.apps.359254612575-4che0isisosmk44qtrgdbnbs7maginjo</string>
 			</array>
 		</dict>
 		<dict>
@@ -58,7 +58,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>326690391441547</string>
 	<key>FacebookDisplayName</key>
@@ -80,11 +80,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera.</string>
+	<string>DWT  app requires access to the camera to take photos of listing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>DWT needs to access your location to find nearest events and listings</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>DWT app requires access to the photo library to add photos to listings</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-SemiBold.ttf</string>

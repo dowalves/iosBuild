@@ -12,7 +12,7 @@ import styles from '../../../styles/SignUp'
 import Icon from 'react-native-vector-icons/Octicons';
 import IconLock from 'react-native-vector-icons/SimpleLineIcons';
 import IconUser from 'react-native-vector-icons/FontAwesome';
-import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
@@ -39,16 +39,24 @@ import appleAuth, {
       email: '',
       password: '',
     }
-   
+
     I18nManager.forceRTL(true);
   }
   static navigationOptions = {
     header: null
   };
   componentWillMount() {
+    // GoogleSignin.configure({
+    //   iosClientId: '191792720370-rc4ospf26req749phf3d4l4sfj74gmf4.apps.googleusercontent.com'
+    // })
+
     GoogleSignin.configure({
-      iosClientId: '191792720370-rc4ospf26req749phf3d4l4sfj74gmf4.apps.googleusercontent.com'
-    })
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
+      webClientId: '359254612575-o5l9kv2r4tsafj93r8v4rr5otg0652u7.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+      iosClientId: '359254612575-4che0isisosmk44qtrgdbnbs7maginjo.apps.googleusercontent.com', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+      forceCodeForRefreshToken: true,
+    });
   }
 
   componentDidMount() {
@@ -122,16 +130,33 @@ import appleAuth, {
 
 
   // Google SignUp
-  handleGoogleSignIn = () => {
-    GoogleSignin.signIn().then(func = async (user) => {
-      //Calling local func for login through google
+  handleGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
       store.LOGIN_SOCIAL_TYPE = 'social';
       store.LOGIN_TYPE = 'google';
-      await this.socialSignUp(user.user.email, user.user.name, 'apple@321');
-      console.log('Google login', user);
-    }).catch((err) => {
-      console.warn(err);
-    }).done();
+      await this.socialSignUp(userInfo.user.email, userInfo.user.name, 'apple@321');
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        Toast.show(error + '');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        Toast.show(error + '');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Toast.show(error + '');
+      } else {
+        Toast.show(error + '');
+      }
+    }
+
+
+    // GoogleSignin.signIn().then(func = async (user) => {
+    //   //Calling local func for login through google
+
+    //   console.log('Google login', user);
+    // }).catch((err) => {
+    //   console.warn(err);
+    // }).done();
   }
   // FaceBook SignUp 
   fbLogin = async () => {
@@ -203,7 +228,7 @@ import appleAuth, {
       orderStore.login.loginStatus = true;
       orderStore.login.loginResponse = response;
       this.props.navigation.replace('Drawer')
-    }else{
+    } else {
       this.setState({ loading: false })
 
     }
@@ -233,7 +258,7 @@ import appleAuth, {
         store.wpml_settings = store.settings.data.wpml_settings
 
       }
-      
+
       this.props.navigation.replace('Drawer');
     } else {
       this.setState({ loading: false })
@@ -247,41 +272,51 @@ import appleAuth, {
 
 
 
-    onAppleButtonPress  = async ()=> {
+  onAppleButtonPress = async () => {
     // 1). start a apple sign-in request
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: AppleAuthRequestOperation.LOGIN,
       requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
     });
-  
+
     // 2). if the request was successful, extract the token and nonce
     const { identityToken, nonce, email } = appleAuthRequestResponse;
     console.log('EMAIL:', email)
-  
+
     // can be null in some scenarios
+    // try{
     if (identityToken) {
       // 3). create a Firebase `AppleAuthProvider` credential
       const appleCredential = firebase.auth.AppleAuthProvider.credential(identityToken, nonce);
-  
+      console.log(`this line ran successfully `, appleCredential);
+      console.log(`Firebase object is `, firebase);
+
       // 4). use the created `AppleAuthProvider` credential to start a Firebase auth request,
       //     in this example `signInWithCredential` is used, but you could also call `linkWithCredential`
       //     to link the account to an existing user
       const userCredential = await firebase.auth().signInWithCredential(appleCredential);
-      if(userCredential.user.email!=null){
-        if(userCredential.user.displayName!=null)
-        this.socialSignUp(userCredential.user.email,userCredential.user.displayName,'apple@321')
+      console.log(`usr is `, userCredential);
+
+      if (userCredential.user.email != null) {
+        if (userCredential.user.displayName != null)
+          this.socialSignUp(userCredential.user.email, userCredential.user.displayName, 'apple@321')
         else
-        this.socialSignUp(userCredential.user.email,userCredential.user.email,'apple@321')
+          this.socialSignUp(userCredential.user.email, userCredential.user.email, 'apple@321')
       }
       // user is now signed in, any Firebase `onAuthStateChanged` listeners you have will trigger
       // console.log(`Firebase authenticated via Apple, UID: ${JSON.stringify(userCredential.user)}`);
-      
+
       // console.log(`Firebase authenticated via Apple additional, UID: ${JSON.stringify(userCredential.additionalUserInfo)}`);
     } else {
       // handle this - retry?
     }
+    // }
+    // catch(excep){
+    //   console.log('error',error)
+    // }
+
   }
-  
+
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
@@ -393,7 +428,7 @@ import appleAuth, {
                   data.registerBtn_show.apple ?
                   <Text>Or</Text>:null
               } */}
-             
+
               {
                 Platform.OS == 'ios' && data.registerBtn_show.apple ?
                   <AppleButton
@@ -401,21 +436,52 @@ import appleAuth, {
                     style={{ width: width(42), height: height(5.5), marginTop: 5 }}
                     buttonStyle={AppleButton.Style.BLACK}
                     buttonType={AppleButton.Type.CONTINUE}
-                    onPress={() =>this.onAppleButtonPress()}
+                    onPress={() => this.onAppleButtonPress()}
                   />
+                  // <TouchableOpacity
+                  // onPress={() => this.onAppleButtonPress()}
 
+                  //   style={[{width: width(42), height: height(5.5), marginTop: 5,flexDirection:'row',borderRadius:wp(1)},{backgroundColor:"black"}]}>
+                  //   <View
+                  //     style={[{
+                  //       flex: .7,
+                  //         heigh:wp(12),
+
+                  //       alignItems: "center",
+                  //       justifyContent: "center",
+                  //       paddingStart: wp(1),
+                  //       paddingEnd: 5,
+                  //       borderRadius:wp(1)
+                  //     },{backgroundColor:'black'}]}
+                  //   >
+                  //     <Image source={require('../../images/apple_logo_white.png')}
+                  //       style={{ resizeMode: 'cover', width: 23, height: 23, }}
+
+                  //     >
+                  //     </Image>
+                  //   </View >
+
+
+                  //   <View
+                  //     style={[{  
+
+                  //       height:wp(12),
+                  //       justifyContent: 'center',},{backgroundColor:"black"}]}>
+                  //     <Text style={[ { color:'white',marginStart: 5, alignSelf: 'flex-start' }]}>Sign in with Apple</Text>
+                  //   </View>
+                  // </TouchableOpacity>
                   :
                   null
               }
 
 
-              
-                {!this.state.loading ? null :
-              <View style={{ flex: 1,marginTop:5, alignContent: 'center', justifyContent: 'center',alignSelf:'center' }}>
-                {/* {!this.state.loading ? null : */}
+
+              {!this.state.loading ? null :
+                <View style={{ flex: 1, marginTop: 5, alignContent: 'center', justifyContent: 'center', alignSelf: 'center' }}>
+                  {/* {!this.state.loading ? null : */}
                   <ActivityIndicator size={INDICATOR_SIZE} color={store.settings.data.navbar_clr} animating={true} hidesWhenStopped={true} />
-              </View>
-                }
+                </View>
+              }
               {/* <View style={{marginTop:wp('2')}}>
                 {SignInWithAppleButton(styles.appleBtn, this.appleSignIn)}
               </View> */}

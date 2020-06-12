@@ -24,6 +24,7 @@ import appleAuth, {
   AppleAuthRequestScope,
   AppleAuthRequestOperation,
 } from '@invertase/react-native-apple-authentication';
+import { widthPercentageToDP as wp } from '../../helpers/Responsive'
 
 
 
@@ -43,22 +44,52 @@ export default class SignIn extends Component<Props> {
     header: null
   };
   componentWillMount = async () => {
+    // GoogleSignin.configure({
+    //   iosClientId: '191792720370-rc4ospf26req749phf3d4l4sfj74gmf4.apps.googleusercontent.com'
+    // })
+
     GoogleSignin.configure({
-      iosClientId: '191792720370-rc4ospf26req749phf3d4l4sfj74gmf4.apps.googleusercontent.com'
-    })
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
+      webClientId: '359254612575-o5l9kv2r4tsafj93r8v4rr5otg0652u7.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+      iosClientId: '359254612575-4che0isisosmk44qtrgdbnbs7maginjo.apps.googleusercontent.com', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+      forceCodeForRefreshToken: true,
+    });
   }
   //// Google Login Methode 
   handleGoogleSignIn = async () => {
-    console.log('Google login');
-    GoogleSignin.signIn().then(fun = async (user) => {
-      console.log('Google login', user);
-      //Calling local func for login through google
+    // // console.log('Google login');
+    // await GoogleSignin.hasPlayServices();
+    // // const userInfo = await GoogleSignin.signIn();
+    // GoogleSignin.signIn().then(fun = async (user) => {
+    //   console.log('Google login', user);
+    //   //Calling local func for login through google
+    //   store.LOGIN_SOCIAL_TYPE = 'social';
+    //   store.LOGIN_TYPE = 'google';
+    //   await this.socialLogin(user.user.email, user.user.name, 'apple@321');
+    // }).catch((err) => {
+    //   console.warn(err);
+    // }).done();
+
+    try {
+      console.log("here")
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
       store.LOGIN_SOCIAL_TYPE = 'social';
       store.LOGIN_TYPE = 'google';
-      await this.socialLogin(user.user.email, user.user.name, 'apple@321');
-    }).catch((err) => {
-      console.warn(err);
-    }).done();
+      await this.socialLogin(userInfo.user.email, userInfo.user.name, 'apple@321');
+    } catch (error) {
+      console.log(error.code)
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        Toast.show(error + '');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        Toast.show(error + '');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Toast.show(error + '');
+      } else {
+        Toast.show(error + '');
+      }
+    }
   }
   fbsdk = () => {
     // Attempt a login using the Facebook login dialog asking for default permissions.
@@ -205,6 +236,7 @@ export default class SignIn extends Component<Props> {
     if (identityToken) {
       // 3). create a Firebase `AppleAuthProvider` credential
       const appleCredential = firebase.auth.AppleAuthProvider.credential(identityToken, nonce);
+      console.log(`this line ran successfully `,appleCredential);
   
       // 4). use the created `AppleAuthProvider` credential to start a Firebase auth request,
       //     in this example `signInWithCredential` is used, but you could also call `linkWithCredential`
@@ -332,7 +364,38 @@ export default class SignIn extends Component<Props> {
                 onPress={() => this.onAppleButtonPress()}
               />
 
-                
+              // <TouchableOpacity
+              // onPress={() => this.onAppleButtonPress()}
+
+              //   style={[{width: width(42), height: height(5.5), marginTop: 5,flexDirection:'row',borderRadius:wp(1)},{backgroundColor:"black"}]}>
+              //   <View
+              //     style={[{
+              //       flex: .7,
+              //         heigh:wp(12),
+                 
+              //       alignItems: "center",
+              //       justifyContent: "center",
+              //       paddingStart: wp(1),
+              //       paddingEnd: 5,
+              //       borderRadius:wp(1)
+              //     },{backgroundColor:'black'}]}
+              //   >
+              //     <Image source={require('../../images/apple_logo_white.png')}
+              //       style={{ resizeMode: 'cover', width: 23, height: 23, }}
+
+              //     >
+              //     </Image>
+              //   </View >
+               
+
+              //   <View
+              //     style={[{  
+                 
+              //       height:wp(12),
+              //       justifyContent: 'center',},{backgroundColor:"black"}]}>
+              //     <Text style={[ { color:'white',marginStart: 5, alignSelf: 'flex-start' }]}>Sign in with Apple</Text>
+              //   </View>
+              // </TouchableOpacity>
                   :
                   null
               }

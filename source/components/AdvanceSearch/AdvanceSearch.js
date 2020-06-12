@@ -101,22 +101,28 @@ export default class AdvanceSearch extends Component<Props> {
     for (var j = 0; j < store.SEARCHING.LISTING_FILTER.data.all_filters.length; j++) {
       if (store.SEARCHING.LISTING_FILTER.data.all_filters[j].type == 'checkbox') {
         store.SEARCH_OBJ.amenties = []
-
+        var amentieschecked =false
         for (var x = 0; x < store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown.length; x++) {
           if (store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].checked == true) {
             // if(store.SEARCH_OBJ.amenties==undefined){
             // }
+            amentieschecked=true
             store.SEARCH_OBJ.amenties.push(store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].key)
           }
         }
+        if(amentieschecked==false){
+          store.SEARCH_OBJ.amenties=undefined
+        }
+      
       }
       // console.log('store.SEARCHING.LISTING_FILTER.data.all_filters',store.SEARCHING.LISTING_FILTER.data.all_filters[j])
     }
     // console.log('search obj', store.SEARCH_OBJ)
+    // console.log('jey is',key)
     if (key === 'l_category') {
       list.forEach(async item => {
         if (item.value === value) {
-          store.SEARCH_OBJ.l_category = item.key;
+          store.SEARCH_OBJ.l_category = +item.key;
         }
       })
     }
@@ -331,6 +337,7 @@ export default class AdvanceSearch extends Component<Props> {
     this.setState({
       data: store.SEARCHING.LISTING_FILTER.data
     })
+    store.SEARCH_OBJ={}
   }
   render() {
     if (this.state.recallRender)
@@ -406,7 +413,8 @@ export default class AdvanceSearch extends Component<Props> {
                                   underlineColorAndroid='transparent'
                                   label={item.title}
                                   value={this.state.seachText}
-                                  mode='flat'
+                                  theme={{colors:{primary:'#c4c4c4'}}}
+                                  selectionColor='#000'
                                   placeholder={item.placeholder}
                                   placeholderTextColor='#c4c4c4'
                                   style={styles.textInput}

@@ -12,17 +12,21 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTLinkingManager.h>
 #import <RNGoogleSignin/RNGoogleSignin.h>
-#import "RNFirebaseNotifications.h"
-#import "RNFirebaseMessaging.h"
+
+#import <Firebase.h>
 
 @import GoogleMobileAds;
-@import Firebase;
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [FIRApp configure];
+  [GMSServices provideAPIKey:@"AIzaSyA30fMP5nXMS9iH6G7LjdZ47vUzLWbnBM0"];
+
   NSURL *jsCodeLocation;
+    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  
+  [FIRApp configure];
+
   //Add these 3 lines
 //  if(FIRApp.defaultApp == nil){
 //  if(![FIRApp defaultApp]){
@@ -34,13 +38,12 @@
 //  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
 //  [RNFirebaseNotifications configure];
   
-  [GMSServices provideAPIKey:@"AIzaSyA30fMP5nXMS9iH6G7LjdZ47vUzLWbnBM0"];
   //  GMSPlacesClient.provideAPIKey("AIzaSyA30fMP5nXMS9iH6G7LjdZ47vUzLWbnBM0")
 
   //Google sdk ads
   [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
   
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"DWT"

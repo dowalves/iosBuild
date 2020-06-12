@@ -118,7 +118,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     lintOptions {
         checkReleaseBuilds false
     }
@@ -134,8 +134,8 @@ android {
         applicationId "com.dwt"
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 14
-        versionName "2.0.8`"
+        versionCode 17
+        versionName "2.1.1"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         // ndk {
@@ -201,12 +201,11 @@ allprojects {
     }
 }
 dependencies {
-    implementation project(':react-native-pure-jwt')
+    implementation project(':react-native-webview')
     implementation project(':@react-native-community_geolocation')
     implementation project(':react-native-firebase')
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-restart')
-    implementation project(':react-native-webview')
     implementation project(':@react-native-community_google-signin')
     implementation project(':@react-native-community_netinfo')
     implementation project(':react-native-vector-icons')
@@ -281,10 +280,6 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
-}
-project.afterEvaluate {
-    apply from: '../../node_modules/react-native-zss-rich-text-editor/htmlCopy.gradle';
-    copyEditorHtmlToAppAssets(file('../../node_modules/react-native-zss-rich-text-editor'))
 }
 apply plugin: 'com.google.gms.google-services'
 // com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

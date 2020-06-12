@@ -24,7 +24,7 @@ import io.invertase.firebase.RNFirebasePackage;
 //import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
-import com.zaguiini.RNPureJwt.RNPureJwtPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -38,7 +38,7 @@ import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
+// import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.sbugert.rnadmob.RNAdMobPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.dooboolab.RNIap.RNIapPackage;
@@ -75,12 +75,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNPureJwtPackage(),
+            new RNCWebViewPackage(),
             new GeolocationPackage(),
             new RNFirebasePackage(),
             new FBSDKPackage(),
             new ReactNativeRestartPackage(),
-            new RNCWebViewPackage(),
+            // new RNCWebViewPackage(),
             new RNGoogleSigninPackage(),
             new NetInfoPackage(),
             new VectorIconsPackage(),
