@@ -54,7 +54,7 @@ class FeatureDetailTabBar extends Component<Props> {
       let parameter = {
         listing_id: params.listId    // params.listId
       }
-      let response = await ApiController.post('listing-detial', parameter);
+      let response = await ApiController.post('listing-detial/', parameter);
       console.log('listing details=====>>>>',response);
       if (response.success === true) {
         await this.route(response);

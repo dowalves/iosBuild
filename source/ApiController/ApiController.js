@@ -7,10 +7,19 @@ import { Base64 } from 'js-base64';
 import Storage from '../LocalDB/storage'
 // change your baseUrl and Domain
 
-const base_url = 'YOUR BASE URL';
-const PURCHASE_CODE = 'YOUR PURCHASE CODE';
-const CUSTOM_SECURITY = 'YOUR CUSTOM SECURITY';
+const base_url = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
+const PURCHASE_CODE = '1234';
+const CUSTOM_SECURITY = '1234';
 
+//jrickybt
+// const base_url = 'https://www.sitioslatinos.com/wp-json/downtown/app';
+// const PURCHASE_CODE = '6c727eff-daa7-462b-83e7-7e6556be57f4';
+// const CUSTOM_SECURITY = 'Sitioslatinos73+';
+
+
+// const base_url = 'https://www.kapumart.com/wp-json/downtown/app';
+// const PURCHASE_CODE = '2749dde0-8d55-4d91-8216-db6e810de5a4';
+// const CUSTOM_SECURITY = 'a123456';
 
 class Api {
   static headers() {
