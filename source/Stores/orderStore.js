@@ -90,6 +90,11 @@ class orderStore {
     @observable ContactUs = '';
     @observable AboutUs = '';
     @observable boolvar=false;
+    @observable reloadCreateListing=false;
+
+     setReloadCreateListing(val){
+        this.reloadCreateListing=val
+    }
 
     setBoolvar(val){
         this.boolvar=val

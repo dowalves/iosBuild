@@ -21,6 +21,7 @@
       android:allowBackup="true"
       android:supportsRtl="true"
       android:usesCleartextTraffic="true"
+      android:requestLegacyExternalStorage="true"
       tools:targetApi="29"
       android:theme="@style/AppTheme">
        <!-- <activity

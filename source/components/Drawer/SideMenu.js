@@ -38,6 +38,10 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
     const navigateAction = NavigationActions.navigate({
       routeName: route
     });
+    if(route=='ListingPostTabCon'){
+      console.log('setting it tru')
+      store.setReloadCreateListing(true)
+    }
     this.props.navigation.setParams({ otherParam: title });
     this.props.navigation.dispatch(navigateAction);
   }
@@ -83,6 +87,8 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
     let { orderStore } = Store;
     let data = orderStore.settings.data;
     let login = orderStore.login;
+
+  
     return (
       <View style={[styles.container, { backgroundColor: data.sidebar_clr }]}>
         <ScrollView>

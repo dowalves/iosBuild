@@ -59,6 +59,9 @@ const DrawerComp = createDrawerNavigator({
     contentComponent: props => <SideMenu {...props} />,
     useNativeAnimations: true,
     drawerBackgroundColor: COLOR_TRANSPARENT_BLACK,
+    defaultNavigationOptions:{
+      unmountInactiveRoutes:true
+    },
     contentOptions: {
       activeTintColor: COLOR_PRIMARY,
       activeBackgroundColor: COLOR_ORANGE,

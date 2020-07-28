@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Text, View, TextInput, I18nManager, TouchableOpacity, Picker, ScrollView, ActivityIndicator, Image, ImageBackground } from 'react-native';
+import { Platform, Text, View, TextInput, I18nManager,PermissionsAndroid ,TouchableOpacity, Picker, ScrollView, ActivityIndicator, Image, ImageBackground } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Coupon from 'react-native-vector-icons/FontAwesome';
@@ -85,7 +85,7 @@ const inputSize = totalSize(1.5);
             country_id: data.custom_loc.value,
             // is_featured: store.GET_LISTING.data.featured_already
         })
-        if(data.latt.value==''){
+        if (data.latt.value == '') {
             this.getCurrentPosition()
         }
         if (data.custom_loc.value !== "") {
@@ -120,32 +120,45 @@ const inputSize = totalSize(1.5);
     // }
 
 
-    getCurrentPosition = async () =>{
-        Geolocation.getCurrentPosition(async position => {
-            await this.getAddress(position.coords.latitude, position.coords.longitude);
-            await this.setState({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-            // this.setState({ currentLoc: false })
-          });
-      
+    getCurrentPosition = async () => {
+
+        try {
+
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+            )
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                Geolocation.getCurrentPosition(async position => {
+                    await this.getAddress(position.coords.latitude, position.coords.longitude);
+                    await this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                    });
+                    // this.setState({ currentLoc: false })
+                });
+            } else {
+
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 
     getAddress = async (lat, long) => {
         let api_key = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';
         fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + long + '&key=' + api_key)
-          .then((response) => response.json())
-          .then(func = async (responseJson) => {
-            if (responseJson.status === 'OK') {
-              var res = responseJson.results[0].address_components;
-              await this.setState({ listingLoc: res[0].long_name + ', ' + res[2].long_name})
-            }
-          })
-      }
+            .then((response) => response.json())
+            .then(func = async (responseJson) => {
+                if (responseJson.status === 'OK') {
+                    var res = responseJson.results[0].address_components;
+                    await this.setState({ listingLoc: res[0].long_name + ', ' + res[2].long_name })
+                }
+            })
+    }
 
 
-     getLatLong = async (address) => {
+    getLatLong = async (address) => {
         this.setState({ listingLoc: address })
         let api_key = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';
         fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + api_key)
@@ -351,7 +364,7 @@ const inputSize = totalSize(1.5);
         } else {
             store.LISTING_OBJ.is_update = ''
         }
-        console.log('storePrice', store.LISTING_OBJ);
+        // console.log('storePrice', store.LISTING_OBJ);
     }
     clearStore = async () => {
         //clear mobx store

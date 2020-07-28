@@ -108,7 +108,7 @@ import ListingComponentBox from './ListingComponentBox2';
       this.setState({ loading: true })
       //API calling
       let response = await ApiController.post('home');
-      console.log('responseHome==>>>>>', response);
+      // console.log('responseHome==>>>>>', response);
       if (response.success) {
         store.home.homeGet = response;
         this.setState({ loading: false })

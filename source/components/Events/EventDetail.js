@@ -194,6 +194,10 @@ import Toast from 'react-native-simple-toast';
                       digitTxtColor={COLOR_PRIMARY}
                       timeTxtColor='#000000'
                       digitBgColor={data.main_clr}
+                      daysx={titles.days}
+                      hoursx={titles.hours}
+                      minutesx={titles.mintes}
+                      secondsx={titles.seconds}
                       timeToShow={['D', 'H', 'M', 'S']}
                       label={`${titles.days}` / 'Hourx' / 'Minutex' / 'Seconds'}
                       onFinish={() => alert('finished')}

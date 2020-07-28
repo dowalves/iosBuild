@@ -18,7 +18,7 @@ export default class App extends Component<Props> {
     this.state = {
       color: 'black',
       loading: false,
-      isInternetAvailable: false
+      isInternetAvailable: true
     };
 
     this.unsubscribe = NetInfo.addEventListener(state => {
@@ -137,7 +137,13 @@ export default class App extends Component<Props> {
 
         Storage.getItem('language').then((value) => {
           if (value == null) {
-            Storage.setItem('language', "en")
+            if(store.wpml_settings!=undefined){
+              Storage.setItem('language', "en")
+
+            }else{
+              Storage.setItem('language', store.wpml_settings.wpml_site_no_languages)
+
+            }
           }
         })
 

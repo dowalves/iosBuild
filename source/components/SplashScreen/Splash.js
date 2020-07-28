@@ -37,11 +37,11 @@ import firebase from 'react-native-firebase';
         RNRestart.Restart()
       }
     } else if (response.data.is_rtl == false) {
-      if (I18nManager.isRTL) {
-        RNRestart.Restart()
+    //  ` // if (I18nManager.isRTL) {
+    //   //   RNRestart.Restart()
 
-      } else {
-      }
+    //   // } else {
+    //   // }`
     }
     // console.log('is rtl',I18nManager.isRTL)
 

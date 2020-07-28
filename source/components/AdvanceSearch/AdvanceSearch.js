@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Platform, Text, View, TouchableOpacity, ScrollView, ActivityIndicator, Image,
-
+  PermissionsAndroid
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -202,7 +202,17 @@ export default class AdvanceSearch extends Component<Props> {
   // const API_KEY = 'AIzaSyDVcpaziLn_9wTNCWIG6K09WKgzJQCW2tI'; // new
 
   getCurrentPosition = async () => {
+
+    try{
+
+    
     this.setState({ currentLoc: true })
+
+    const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+          )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+
     Geolocation.getCurrentPosition(async position => {
       await this.getAddress(position.coords.latitude, position.coords.longitude);
       await this.setState({
@@ -211,6 +221,12 @@ export default class AdvanceSearch extends Component<Props> {
       });
       this.setState({ currentLoc: false })
     });
+  }else{
+    this.setState({ currentLoc: false })
+  }
+  } catch (err) {
+      console.log(err)
+    }
 
     // try {
     //   if (Platform.OS === 'android') {

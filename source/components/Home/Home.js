@@ -109,7 +109,7 @@ import LocalDB from '../../LocalDB/LocalDB';
       this.setState({ loading: true })
       //API calling
       let response = await ApiController.post('home');
-      console.log('responseHome==>>>>>', response);
+      // console.log('responseHome==>>>>>', response);
       if (response.success) {
         store.home.homeGet = response;
         this.setState({ loading: false })
@@ -193,8 +193,11 @@ import LocalDB from '../../LocalDB/LocalDB';
 
                           <TouchableOpacity key={key} style={styles.flatlistChild}
                             onPress={() => {
-                              store.CATEGORY = item,
-                                store.moveToSearch = true,
+                               store.CATEGORY = item,
+                            store.SEARCH_OBJ = {};
+                            store.moveToSearchTXT = false
+                            store.moveToSearchLoc=false
+                            store.moveToSearch = true,
                                 this.navigateToScreen('SearchingScreen', data.menu.adv_search)
                             }}
                           >

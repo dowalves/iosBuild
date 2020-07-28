@@ -108,6 +108,10 @@ import { NavigationActions } from 'react-navigation';
                   Keyboard.dismiss()
                   store.SEARCHTEXT = this.state.searchtxt,
                     store.moveToSearchTXT = true
+                    store.moveToSearchLoc=false
+                    store.moveToSearch=false
+                    store.SEARCH_OBJ = {};
+  
                   // if(this.props.navigation.state.index != 4 ){
                   const navigateAction = NavigationActions.navigate({
                     routeName: 'SearchingScreen',
