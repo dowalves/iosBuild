@@ -90,7 +90,6 @@ target 'DWT' do
 
     pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
-    pod 'react-native-admob', :path => '../node_modules/react-native-admob'
 
     pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 

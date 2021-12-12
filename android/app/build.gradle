@@ -207,7 +207,6 @@ dependencies {
     implementation project(':react-native-restart')
     implementation project(':@react-native-community_google-signin')
     implementation project(':react-native-vector-icons')
-    implementation project(':react-native-admob')
     implementation project(':react-native-image-crop-picker')
     // implementation project(':react-native-fbads')
     implementation project(':react-native-iap')
