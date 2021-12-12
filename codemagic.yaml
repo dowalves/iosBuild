@@ -3,7 +3,7 @@ workflows:
         name: React Native App
         environment:
             vars:
-                XCODE_WORKSPACE: "APP.xcworkspace"
+                XCODE_WORKSPACE: "APP"
                 XCODE_SCHEME: "APP.xcworkspace"
             node: latest
         scripts:
