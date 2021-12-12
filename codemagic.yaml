@@ -2,6 +2,9 @@ workflows:
     react-native:
         name: React Native App
         environment:
+            vars:
+                XCODE_WORKSPACE: "xcodeproj"
+                XCODE_SCHEME: "DWT.xcodeproj"
             node: latest
         scripts:
             - npm install
