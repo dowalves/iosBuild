@@ -11,9 +11,6 @@ workflows:
             - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
             - |
                 # build Android
-                cd android
-                chmod +x gradlew
-                ./gradlew assembleDebug
             - |
                 # build iOS
                 cd ios
