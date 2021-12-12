@@ -12,11 +12,11 @@ workflows:
         script: |
           set -e # exit on first failed command
 
-          echo ${CERTIFICATE?} | base64 --decode > /tmp/certificate.p12
+          echo ${CERTIFICATE?} | base64 --decode > /tmp/iAppsDeveloperAdHocCertificate.p12
           keychain initialize
           keychain add-certificates \
-              --certificate /tmp/certificate.p12 \
-              --certificate-password ${CERTIFICATE_PASSWORD?}
+              --certificate /tmp/iAppsDeveloperAdHocCertificate.p12 \
+              --certificate-password
       - name: Increment build number
         script: agvtool new-version -all $BUILD_NUMBER
       - name: Set up code signing settings on Xcode project
