@@ -26,33 +26,35 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.googleusercontent.apps.359254612575-4che0isisosmk44qtrgdbnbs7maginjo</string>
+			<string>com.googleusercontent.apps.23412412-f2iatrscrrdf20ao2dinif86elilvrkn</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.359254612575-4che0isisosmk44qtrgdbnbs7maginjo</string>
+				<string>com.googleusercontent.apps.23412412-f2iatrscrrdf20ao2dinif86elilvrkn</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.scriptsbundle.DWT</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.scriptsbundle.DWT</string>
+				<string>fb710975642759222</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb326690391441547</string>
-			</array>
+			<array/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array/>
 		</dict>
@@ -60,7 +62,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
-	<string>326690391441547</string>
+	<string>71097564275922</string>
 	<key>FacebookDisplayName</key>
 	<string>DWT</string>
 	<key>GADApplicationIdentifier</key>
@@ -105,6 +107,8 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Quicksand-Bold.ttf</string>
+		<string>Rabar_013.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
@@ -121,6 +125,9 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

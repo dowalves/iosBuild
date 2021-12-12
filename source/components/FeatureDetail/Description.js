@@ -27,6 +27,7 @@ import Report from './Report'
 import styles from '../../../styles/DescriptionStyleSheet';
 import FeatureDetail from './FeatureDetail';
 import { withNavigation } from 'react-navigation';
+import MapIcon from 'react-native-vector-icons/FontAwesome5'
 
 import openMap from 'react-native-open-maps';
 
@@ -96,6 +97,12 @@ class Description extends Component<Props> {
       Linking.openURL(url);
     }
   }
+
+  social_service = (url) => {
+    if (url !== "") {
+        Linking.openURL(url);
+    }
+}
   setModalVisible = (state, prop) => {
     if (state === 'claim' && prop === false) {
       this.setState({ reportModel: false, isClaimVisible: true })
@@ -243,6 +250,86 @@ class Description extends Component<Props> {
               </TouchableOpacity>
               : null
           }
+
+    {
+      
+      <View style={{ alignItems: 'center' }}>
+                
+                    <View style={{ height: height(7), flexDirection: 'row', marginVertical: 5, marginHorizontal: 20 ,marginTop:15}}>
+                      
+                        <Icon
+                            raised //reverse
+                            size={14}
+                            name='facebook'
+                            type='font-awesome'
+    
+                            containerStyle={{ marginHorizontal: 0,  }}
+                            onPress={() => this.social_service(data.fb)}
+                            underlayColor='rgba(255,0,0,0.3)'
+                        />
+                        <Icon
+                            raised //reverse
+                            size={14}
+                            name='twitter'
+                            type='entypo'
+    
+                            // containerStyle={{ marginHorizontal: 0 }}
+                            onPress={() => this.social_service(data.tw)}
+                            underlayColor='rgba(255,0,0,0.3)'
+                        />
+                        <Icon
+                            raised //reverse
+                            size={14}
+                            name='google-'
+                            type='entypo'
+    
+                            // containerStyle={{ marginHorizontal: 0 }}
+                            onPress={() => this.social_service(data.google)}
+                            underlayColor='rgba(255,0,0,0.3)'
+                        />
+                         
+                        
+                        <Icon
+                            raised //reverse
+                            size={14}
+                            name='linkedin'
+                            type='entypo'
+    
+                            // containerStyle={{ marginHorizontal: 0 }}
+                            onPress={() => this.social_service(data.linkedin)}
+                            underlayColor='rgba(255,0,0,0.3)'
+                        />
+                        <Icon
+                            raised //reverse
+                            size={14}
+                            name='youtube'
+                            type='entypo'
+    
+                            // containerStyle={{ marginHorizontal: 0 }}
+                            onPress={() => this.social_service(data.youtube)}
+                            underlayColor='rgba(255,0,0,0.3)'
+                        />
+                         <Icon
+                            raised //reverse
+                            size={14}
+                            name='instagram'
+                            type='entypo'
+    
+                            // containerStyle={{ marginHorizontal: 0 }}
+                            onPress={() => this.social_service(data.insta)}
+                            underlayColor='rgba(255,0,0,0.3)'
+                        />
+                    </View>
+                </View>
+
+  }
+
+
+
+
+
+
+
           {
             data.web_url.length > 0 ?
               <TouchableOpacity style={styles.labelCon} onPress={() => this.webSite(data.web_url)}>

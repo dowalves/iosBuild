@@ -297,7 +297,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
               home.location_enabled  && home.location_list.length!=0?
                 <View style={{ marginHorizontal: 20 }}>
 
-                  <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+                  <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' ,justifyContent:"space-between"}}>
                     {
                       home.sb_wpml_best_location_title != undefined ? [
                         <Text style={{ fontSize: 20,fontWeight:'700', color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
@@ -307,7 +307,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
 
                     {
                       home.sb_wpml_see_all_title != undefined ?
-                        <Text style={{ marginVertical: 20, fontSize: 10, color: store.settings.data.main_clr, fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                      <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+
+                      <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                      {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
+                    </TouchableOpacity>
 
                         : null
                     }

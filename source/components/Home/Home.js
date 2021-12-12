@@ -270,12 +270,16 @@ import LocalDB from '../../LocalDB/LocalDB';
             {
               home.featured_enabled && home.featured_listings.has_featured_listings ?
                 <View style={{ width: width(100), marginTop: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#232323' }}>
-                  <View style={{ marginHorizontal: 20, width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+                  <View style={{ marginHorizontal: 20, width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center',justifyContent:"space-between" }}>
                     <Text style={{ marginVertical: 20, fontSize: 20, color: COLOR_PRIMARY, fontWeight: 'bold' }}>{home.featured_list_txt}</Text>
 
                     {
                       home.sb_wpml_see_all_title != undefined ? [
-                        <Text style={{ marginVertical: 20, fontSize: 10, color: COLOR_PRIMARY, fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                      //  <TouchableOpacity style={ {borderColor: store.settings.data.navbar_clr,}} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+
+                      //   <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: COLOR_PRIMARY }]}>{home.sb_wpml_see_all_title}</Text>
+                      //   {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
+                      // </TouchableOpacity>
 
                       ] : []
                     }
@@ -383,7 +387,7 @@ import LocalDB from '../../LocalDB/LocalDB';
 
                   {
                     home.location_list.length != 0 ? [
-                      <View style={{ width: width(90), marginTop: 10, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+                      <View style={{ width: width(90), marginTop: 10, flexDirection: 'row', justifyContent:"space-between" }}>
                         {
                           home.sb_wpml_best_location_title != undefined ? [
                             <Text style={styles.recList}>{home.sb_wpml_best_location_title}</Text>
@@ -393,7 +397,11 @@ import LocalDB from '../../LocalDB/LocalDB';
 
                         {
                           home.sb_wpml_see_all_title != undefined ? [
-                            <Text style={{ marginVertical: 20, fontSize: 10, color: store.settings.data.main_clr, fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                            <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+
+                        <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                        {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
+                      </TouchableOpacity>
                           ] : []
                         }
 

@@ -129,13 +129,13 @@ PODS:
     - GoogleDataTransport (~> 6.0)
     - nanopb (~> 0.3.901)
   - GoogleIDFASupport (3.14.0)
-  - GoogleMaps (3.2.0):
-    - GoogleMaps/Maps (= 3.2.0)
-  - GoogleMaps/Base (3.2.0)
-  - GoogleMaps/Maps (3.2.0):
+  - GoogleMaps (3.5.0):
+    - GoogleMaps/Maps (= 3.5.0)
+  - GoogleMaps/Base (3.5.0)
+  - GoogleMaps/Maps (3.5.0):
     - GoogleMaps/Base
-  - GooglePlaces (3.2.0):
-    - GoogleMaps/Base (= 3.2.0)
+  - GooglePlaces (3.5.0):
+    - GoogleMaps/Base (= 3.5.0)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
@@ -372,11 +372,11 @@ PODS:
     - React
   - react-native-geolocation (2.0.2):
     - React
-  - react-native-google-maps (0.26.1):
+  - react-native-google-maps (0.27.1):
     - Google-Maps-iOS-Utils (= 2.1.0)
-    - GoogleMaps (= 3.2.0)
+    - GoogleMaps (= 3.5.0)
     - React
-  - react-native-maps (0.26.1):
+  - react-native-maps (0.27.1):
     - React
   - react-native-netinfo (4.7.0):
     - React
@@ -432,11 +432,11 @@ PODS:
     - React
   - RNGestureHandler (1.6.1):
     - React
-  - RNGoogleSignin (4.0.3):
+  - RNGoogleSignin (5.0.0):
     - GoogleSignIn (~> 5.0.0)
-    - React
-  - RNIap (3.5.9):
-    - React
+    - React-Core
+  - RNIap (6.0.0):
+    - React-Core
   - RNImageCropPicker (0.26.2):
     - QBImagePickerController
     - React-Core
@@ -645,9 +645,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   FBLazyVector: 68b6a76960fbd8ecd9fb7ce0aadd3329c3340a99
   FBReactNativeSpec: 5a764c60abdc3336a213e5310c40b74741f32839
   FBSDKCoreKit: 8ad31cd09f793d1d7e84cf20fd6cebfe80ad318d
@@ -672,8 +672,8 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 9a8a16f79feffc7f42096743de2a7c4815e84020
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
-  GoogleMaps: 5046d7edfe381c1a0b20fdaf293915a375c3122b
-  GooglePlaces: 41bc2e480816b1234a48f4bec92e1c886f37cfe1
+  GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
+  GooglePlaces: be6f19fe8aa6ff0b5bcccfa1b8805cc977ea1450
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
@@ -698,8 +698,8 @@ SPEC CHECKSUMS:
   react-native-admob: cb7f9e5e7d6f1e68bfbf1df8f72b2e23963bc7db
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
-  react-native-google-maps: 2e2e697dab576abd5809d78cd74e775865b62bf7
-  react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
+  react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
+  react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-netinfo: 3dd993921571d01b78a8f91f1caaffcab7a1e1c7
   react-native-simple-toast: 3e821c055485f03c6f6fa9b9431c1081ba46d37a
   react-native-webview: a5bae02fab4b01b856bc4d2bc5c8a4966d8a700b
@@ -716,14 +716,14 @@ SPEC CHECKSUMS:
   RNAppleAuthentication: 954b347c26ffb638265c828a5003ce1fa6971120
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
-  RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
-  RNIap: 52e1f99b63e7a6dfefdc8c0e3284f89763d8b271
+  RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
+  RNIap: 332c406df4d99de55c08403f829c3ce4437176c8
   RNImageCropPicker: 9d1a7eea4f8368fc479cbd2bf26459bd3c74d9aa
   RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: b5b941da0ac411f3fed5110569db3a82d5fcbc45
+PODFILE CHECKSUM: 35dc54ceac5c94974f9a618356b989f099027ad4
 
-COCOAPODS: 1.9.0
+COCOAPODS: 1.10.0

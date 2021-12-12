@@ -224,7 +224,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
               home.location_enabled && home.location_list.length!=0?
                 <View style={{ marginHorizontal: 20 }}>
 
-                  <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+                  <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' ,justifyContent:"space-between"}}>
                     {
                       home.sb_wpml_best_location_title != undefined ? [
                         <Text style={{ fontSize: wp('5'), fontWeight:'700',color: '#fff', marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
@@ -233,7 +233,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                     }
                     {
                       home.sb_wpml_see_all_title != undefined ?
-                        <Text style={{ marginVertical: 20, fontSize: 10, color: '#fff', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                      <TouchableOpacity style={[styles.readMoreBtnCon, { borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+
+                      <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', color: "#fff" }]}>{home.sb_wpml_see_all_title}</Text>
+                      {/* <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text> */}
+                    </TouchableOpacity>
                         : null
                     }
 
@@ -245,6 +249,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
                       style={{ marginHorizontal: 0 }}>
+                        
                       {
                         home.location_list.map((item, key) => {
                           return (

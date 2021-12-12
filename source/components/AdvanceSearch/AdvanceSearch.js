@@ -15,6 +15,8 @@ import Geolocation from '@react-native-community/geolocation';
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/AdvanceSearch/AdvanceSearchStyleSheet';
+import Toast from 'react-native-simple-toast';
+
 let _this = null;
 
 @observer
@@ -101,19 +103,19 @@ export default class AdvanceSearch extends Component<Props> {
     for (var j = 0; j < store.SEARCHING.LISTING_FILTER.data.all_filters.length; j++) {
       if (store.SEARCHING.LISTING_FILTER.data.all_filters[j].type == 'checkbox') {
         store.SEARCH_OBJ.amenties = []
-        var amentieschecked =false
+        var amentieschecked = false
         for (var x = 0; x < store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown.length; x++) {
           if (store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].checked == true) {
             // if(store.SEARCH_OBJ.amenties==undefined){
             // }
-            amentieschecked=true
+            amentieschecked = true
             store.SEARCH_OBJ.amenties.push(store.SEARCHING.LISTING_FILTER.data.all_filters[j].option_dropdown[x].key)
           }
         }
-        if(amentieschecked==false){
-          store.SEARCH_OBJ.amenties=undefined
+        if (amentieschecked == false) {
+          store.SEARCH_OBJ.amenties = undefined
         }
-      
+
       }
       // console.log('store.SEARCHING.LISTING_FILTER.data.all_filters',store.SEARCHING.LISTING_FILTER.data.all_filters[j])
     }
@@ -171,10 +173,10 @@ export default class AdvanceSearch extends Component<Props> {
   placesComplete = async (text, state) => {
     // console.log('here')
     if (text === '' && state === 'road') {
-      this.setState({ location:'',predictions: [], focus: false })
+      this.setState({ location: '', predictions: [], focus: false })
     } else {
       if (text === '' && state === 'street') {
-        this.setState({ currentLocation:'',predictions: [], streetLocation: false, isSliderActive: false })
+        this.setState({ currentLocation: '', predictions: [], streetLocation: false, isSliderActive: false })
       }
     }
     if (text.length > 0 && state === 'road') {
@@ -190,7 +192,7 @@ export default class AdvanceSearch extends Component<Props> {
       fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&types=address' + '&key=' + API_KEY)
         .then((response) => response.json())
         .then(func = async (responseJson) => {
-          // console.log('result Places AutoComplete===>>', responseJson);
+          console.log('result Places AutoComplete===>>', responseJson);
           if (responseJson.status === 'OK') {
             await this.setState({ predictions: responseJson.predictions })
           }
@@ -203,28 +205,33 @@ export default class AdvanceSearch extends Component<Props> {
 
   getCurrentPosition = async () => {
 
-    try{
+    try {
 
-    
-    this.setState({ currentLoc: true })
 
-    const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-          )
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      this.setState({ currentLoc: true })
 
-    Geolocation.getCurrentPosition(async position => {
-      await this.getAddress(position.coords.latitude, position.coords.longitude);
-      await this.setState({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      });
-      this.setState({ currentLoc: false })
-    });
-  }else{
-    this.setState({ currentLoc: false })
-  }
-  } catch (err) {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      )
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+
+        Geolocation.getCurrentPosition(async position => {
+          await this.getAddress(position.coords.latitude, position.coords.longitude);
+          await this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          this.setState({ currentLoc: false })
+        }, (error) => {
+          Toast.show(error.message)
+          this.setState({ currentLoc: false })
+
+          // Toast.show(error.message)
+        });
+      } else {
+        this.setState({ currentLoc: false })
+      }
+    } catch (err) {
       console.log(err)
     }
 
@@ -353,7 +360,7 @@ export default class AdvanceSearch extends Component<Props> {
     this.setState({
       data: store.SEARCHING.LISTING_FILTER.data
     })
-    store.SEARCH_OBJ={}
+    store.SEARCH_OBJ = {}
   }
   render() {
     if (this.state.recallRender)
@@ -429,7 +436,7 @@ export default class AdvanceSearch extends Component<Props> {
                                   underlineColorAndroid='transparent'
                                   label={item.title}
                                   value={this.state.seachText}
-                                  theme={{colors:{primary:'#c4c4c4'}}}
+                                  theme={{ colors: { primary: '#c4c4c4' } }}
                                   selectionColor='#000'
                                   placeholder={item.placeholder}
                                   placeholderTextColor='#c4c4c4'
@@ -446,7 +453,7 @@ export default class AdvanceSearch extends Component<Props> {
                               labelFontSize={14}
                               dropdownPosition={-5.5}
                               itemCount={5}
-                              value={item.type_name === 'l_category' && store.moveToSearch ? store.CATEGORY.name : item.type_name === 'l_location' && store.moveToSearch ? store.CATEGORY.name:''}
+                              value={item.type_name === 'l_category' && store.moveToSearch ? store.CATEGORY.name : item.type_name === 'l_location' && store.moveToSearch ? store.CATEGORY.name : ''}
                               textColor={COLOR_SECONDARY}
                               itemColor='gray'
                               onChangeText={(value, index) => {
@@ -454,7 +461,7 @@ export default class AdvanceSearch extends Component<Props> {
                                 this.search(item.type_name, value, item.option_dropdown),
                                   store.moveToSearch ? store.CATEGORY = {} : null,
                                   store.moveToSearch = false
-                                if(item.type_name!='l_location'){
+                                if (item.type_name != 'l_location') {
                                   this.checkamenties(item, item.option_dropdown[index].key, item.type_name)
                                 }
 

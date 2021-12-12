@@ -135,6 +135,8 @@ const inputSize = totalSize(1.5);
                         longitude: position.coords.longitude,
                     });
                     // this.setState({ currentLoc: false })
+                },(error) =>{
+                    Toast.show(error.message)
                 });
             } else {
 

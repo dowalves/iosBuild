@@ -22,6 +22,8 @@
 		1D7CE158D6DF44F0B90124E6 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3082956CF41D4588BDD927EB /* FontAwesome5_Solid.ttf */; };
 		3064D755092B4657ADEDD56B /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C94AA1528744D4B9A11A8B7 /* Feather.ttf */; };
 		3A599FD090164F74AB22D2D5 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA944715CEE444D2B23E1454 /* FontAwesome5_Regular.ttf */; };
+		3DA571AB7CCF4BA7AD967F3B /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8D5A9D1D6B149008339426B /* Quicksand-Bold.ttf */; };
+		48271B80649D462EA828F041 /* Rabar_013.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5690B7C6597F41619AEB7B18 /* Rabar_013.ttf */; };
 		4877930331AF4E1298C51D71 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA4FAAA70758415896B609E4 /* Ionicons.ttf */; };
 		4D2E3BA2D8BD41509FC8333B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E71AAA54E79A4A83A626EEAD /* Foundation.ttf */; };
 		4F576506CAA14B11A64318BD /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD60458F0C764F12850DFABC /* FontAwesome.ttf */; };
@@ -80,6 +82,7 @@
 		1CF7E28B2182ED75005708AF /* GSOLD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GSOLD.plist; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3082956CF41D4588BDD927EB /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		5690B7C6597F41619AEB7B18 /* Rabar_013.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Rabar_013.ttf; path = ../res/fonts/Rabar_013.ttf; sourceTree = "<group>"; };
 		5C94AA1528744D4B9A11A8B7 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		6C05A1FFE1AE4F50BE609D46 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		75BE9135803E4EEC9C08A985 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -96,6 +99,7 @@
 		B39DC9DD74B9406E8D570278 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		CA944715CEE444D2B23E1454 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		CD60458F0C764F12850DFABC /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		D8D5A9D1D6B149008339426B /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Bold.ttf"; path = "../res/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		E71AAA54E79A4A83A626EEAD /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		EA4FAAA70758415896B609E4 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		FC88F0F755D64506ACC1A266 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
@@ -208,6 +212,8 @@
 				75BE9135803E4EEC9C08A985 /* Octicons.ttf */,
 				B39DC9DD74B9406E8D570278 /* SimpleLineIcons.ttf */,
 				16F6F2C800DE4F2A959326DE /* Zocial.ttf */,
+				D8D5A9D1D6B149008339426B /* Quicksand-Bold.ttf */,
+				5690B7C6597F41619AEB7B18 /* Rabar_013.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -341,6 +347,8 @@
 				7F67F1D8CBB74A38BFF4EA0C /* Octicons.ttf in Resources */,
 				FC979E609F284FB5B449BEEC /* SimpleLineIcons.ttf in Resources */,
 				580C708DC23A47AB806854BF /* Zocial.ttf in Resources */,
+				3DA571AB7CCF4BA7AD967F3B /* Quicksand-Bold.ttf in Resources */,
+				48271B80649D462EA828F041 /* Rabar_013.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,7 +482,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DWT/DWT.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -504,7 +512,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.0.10;
+				MARKETING_VERSION = 2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -513,11 +521,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.scriptsbundle.DWT;
 				PRODUCT_NAME = "DWT Listing-Business Directory";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = DwtDevProfileNewest;
+				PROVISIONING_PROFILE_SPECIFIER = "DWT-Distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "DWT-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -558,7 +566,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.0.10;
+				MARKETING_VERSION = 2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -567,10 +575,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.scriptsbundle.DWT;
 				PRODUCT_NAME = "DWT Listing-Business Directory";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = DWTDistribution;
+				PROVISIONING_PROFILE_SPECIFIER = "DWT-Distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "DWT-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

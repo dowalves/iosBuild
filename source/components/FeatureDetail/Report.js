@@ -76,7 +76,9 @@ import Api from '../../ApiController/ApiController';
                 />
                 {
                     store.settings.data.is_demo_mode === false ? 
-                        <TouchableOpacity style={{ elevation: 3, height: height(6), justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginVertical: 5, marginHorizontal: 20, backgroundColor: main_clr }}>
+                        <TouchableOpacity 
+                        onPress={()=>this.postReport()}
+                        style={{ elevation: 3, height: height(6), justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginVertical: 5, marginHorizontal: 20, backgroundColor: main_clr }}>
                             {
                                 this.state.loading ?
                                     <ActivityIndicator size='large' color={COLOR_PRIMARY} animating={true} />

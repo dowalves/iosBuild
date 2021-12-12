@@ -107,7 +107,7 @@ class FeatureDetailTabBar extends Component<Props> {
     let { orderStore } = Store;
     //API CALLING FOR REPORTS
     try {
-      let response = await ApiController.post('listing-report');
+      let response = await ApiController.get('listing-report');
       if (response.success) {
         orderStore.home.REPORTS = response.data;
       }

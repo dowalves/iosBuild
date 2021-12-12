@@ -36,9 +36,9 @@ export const COLOR_LIME_GREEN = 'rgb(50,205,50)';
 //font families are here
 export const FONT_NORMAL = Platform.select({
   ios: "Open Sans",
-  android: "OpenSans"
+  android: "Rabar_013"
 });
-export const FONT_BOLD = "Montserrat-SemiBold";
+export const FONT_BOLD = "Rabar_013";
 //spinner preloader and activity indicator settings
 export const INDICATOR_COLOR = '#000000';
 export const INDICATOR_SIZE = 'large';   //normal , small , large

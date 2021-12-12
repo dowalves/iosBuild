@@ -255,7 +255,8 @@ const inputSize = totalSize(1.5);
                             placeholderTextColor='gray'
                             underlineColorAndroid='transparent'
                             autoCorrect={true}
-                            style={[{ height: height(15), width: width(90), fontSize: totalSize(1.7), backgroundColor: 'transparent', paddingHorizontal: 10, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
+                            
+                            style={[{ height: height(15), width: width(90), fontSize: totalSize(1.7), backgroundColor: 'transparent', paddingHorizontal: 10, borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6, textAlignVertical: 'top', },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
                         />
                     </View>
                     {

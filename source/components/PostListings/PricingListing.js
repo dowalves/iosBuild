@@ -35,6 +35,7 @@ const inputSize = totalSize(1.5);
             hour_selected: false,
             checkBox: false,
             fbURL: '',
+        
             twURL: '',
             gURL: '',
             inURL: '',
@@ -70,7 +71,7 @@ const inputSize = totalSize(1.5);
             timezone: data.timezone.main_title,
             fbURL: data.fb.value,
             twURL: data.tw.value,
-            gURL: data.tw.value,
+            gURL: data.google.value,
             inURL: data.in.value,
             youtubeURL: data.youtube.value,
             insURL: data.insta.value,
@@ -166,6 +167,7 @@ const inputSize = totalSize(1.5);
         store.LISTING_OBJ.priceto = this.state.price_to;
         store.LISTING_OBJ.fb = this.state.fbURL;
         store.LISTING_OBJ.tw = this.state.twURL;
+        store.LISTING_OBJ.google = this.state.gURL;
         store.LISTING_OBJ.linkedin = this.state.inURL;
         store.LISTING_OBJ.youtube = this.state.youtubeURL;
         store.LISTING_OBJ.insta = this.state.insURL;
@@ -506,6 +508,7 @@ const inputSize = totalSize(1.5);
                                     style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
                                 />
                             </View>
+                            
                             <View style={{ height: height(6), width: width(90), marginTop: 10, flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6, backgroundColor: 'white' }}>
                                 <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
                                     <Icon name="twitter" size={22} color="#c4c4c4" />
@@ -514,6 +517,21 @@ const inputSize = totalSize(1.5);
                                     onChangeText={(value) => { this.setState({ twURL: value }) }}
                                     placeholder={data.tw.placeholder}
                                     value={this.state.twURL}
+                                    placeholderTextColor='gray'
+                                    scrollEnabled={false}
+                                    underlineColorAndroid='transparent'
+                                    autoCorrect={true}
+                                    style={[{ height: height(6), width: width(77), fontSize: inputSize, alignSelf: 'stretch', backgroundColor: 'transparent', paddingHorizontal: 10 },I18nManager.isRTL?{textAlign:'right'}:{textAlign:'left'}]}
+                                />
+                            </View>
+                            <View style={{ height: height(6), width: width(90), marginTop: 5, flexDirection: 'row', borderColor: '#c4c4c4', borderRadius: 3, borderWidth: 0.6, backgroundColor: 'white' }}>
+                                <View style={{ height: height(6), width: width(12), justifyContent: 'center', alignItems: 'center', borderRightWidth: 0.6, borderRightColor: '#c4c4c4' }}>
+                                    <Icon name="google" size={22} color="#c4c4c4" />
+                                </View>
+                                <TextInput
+                                    onChangeText={(value) => { this.setState({ gURL: value }) }}
+                                    placeholder={data.google.placeholder}
+                                    value={this.state.gURL}
                                     placeholderTextColor='gray'
                                     scrollEnabled={false}
                                     underlineColorAndroid='transparent'

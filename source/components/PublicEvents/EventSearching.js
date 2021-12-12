@@ -10,6 +10,8 @@ import Store from '../../Stores';
 import Geolocation from 'react-native-geolocation-service';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/AdvanceSearch/AdvanceSearchStyleSheet';
+import Toast from 'react-native-simple-toast';
+
 let _this = null;
 
 export default class EventSearching extends Component<Props> {
@@ -50,19 +52,19 @@ export default class EventSearching extends Component<Props> {
       headerTitleStyle: {
         fontSize: totalSize(2.2),
       },
-    //   headerRight: (
-    //     <TouchableOpacity onPress={() => { _this.getCurrentPosition() }}>
-    //       {
-    //         params.loading ?
-    //           <ActivityIndicator color={store.settings.data.navbar_clr} size='small' animating={true} />
-    //           :
-    //           <Image source={require('../../images/map-placeholder.png')} style={{ height: 20, width: 25, marginRight: 15, resizeMode: 'contain' }} />
-    //       }
-    //     </TouchableOpacity>
-    //   )
+      //   headerRight: (
+      //     <TouchableOpacity onPress={() => { _this.getCurrentPosition() }}>
+      //       {
+      //         params.loading ?
+      //           <ActivityIndicator color={store.settings.data.navbar_clr} size='small' animating={true} />
+      //           :
+      //           <Image source={require('../../images/map-placeholder.png')} style={{ height: 20, width: 25, marginRight: 15, resizeMode: 'contain' }} />
+      //       }
+      //     </TouchableOpacity>
+      //   )
     }
   };
-  componentWillMount = async() => {
+  componentWillMount = async () => {
     await this.setState({ seachText: '' })
   }
   componentDidMount() {
@@ -94,19 +96,19 @@ export default class EventSearching extends Component<Props> {
       //calling function from search screen
       params.getSearchList();
       // calling navigationScreen func for the purpose of moving to drawer's particular screen from outside of drawer by passing drawer route and header title
-      params.navigateToScreen('PublicEvents','Public Events');
+      params.navigateToScreen('PublicEvents', 'Public Events');
     }
   }
   placesComplete = async (text, state) => {
     if (text === '' && state === 'road') {
       this.setState({ predictions: [], focus: false })
-    } 
+    }
     if (text.length > 0 && state === 'road') {
       this.setState({ location: text, focus: true })
-    } 
+    }
     // const API_KEY = 'AIzaSyDVcpaziLn_9wTNCWIG6K09WKgzJQCW2tI'; // new
     const API_KEY = 'AIzaSyDYq16-4tDS4S4bcwE2JiOa2FQEF5Hw8ZI';  //old play4team
-    fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text+'&types=address' + '&key=' + API_KEY)
+    fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + text + '&types=address' + '&key=' + API_KEY)
       .then((response) => response.json())
       .then(func = async (responseJson) => {
         // console.log('result Places AutoComplete===>>', responseJson);
@@ -132,9 +134,11 @@ export default class EventSearching extends Component<Props> {
             longitude: position.coords.longitude,
           });
           this.setState({ currentLoc: false })
-        },
-          (error) => this.setState({ error: error.message }),
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
+        }, (error) => {
+          Toast.show(error.message)
+          this.setState({ currentLoc: false })
+          
+        })
       }
       else {
         this.setState({ currentLoc: false })
@@ -170,17 +174,17 @@ export default class EventSearching extends Component<Props> {
       })
   }
   render() {
-    let data = store.LISTING_FILTER_EVENTS.data;    
+    let data = store.LISTING_FILTER_EVENTS.data;
     let settings = store.settings.data;
     return (
       <View style={styles.container}>
         {
           this.state.loading ?
-            <ActivityIndicator color={ settings.navbar_clr } size='large' animating={true} />
+            <ActivityIndicator color={settings.navbar_clr} size='large' animating={true} />
             :
             <View style={styles.ImgSubCon}>
               <ScrollView
-                showsVerticalScrollIndicator={ false }
+                showsVerticalScrollIndicator={false}
                 ref={ref => this.scrollView = ref}
                 onContentSizeChange={(contentWidth, contentHeight) => {
                   this.scrollView.scrollToEnd({ animated: true });
@@ -198,14 +202,14 @@ export default class EventSearching extends Component<Props> {
                                     onChangeText={(value) => this.placesComplete(value, 'road')}
                                     underlineColorAndroid='transparent'
                                     label={item.title}
-                                    labelStyle={{ color:'red' }}
+                                    labelStyle={{ color: 'red' }}
                                     value={this.state.location}
                                     mode='flat'
                                     underlineColor='#c4c4c4'
                                     placeholder={item.placeholder}
-                                    placeholderTextColor= '#c4c4c4'
+                                    placeholderTextColor='#c4c4c4'
                                     autoFocus={false}
-                                    style={[styles.textInput,{ padding: 0,marginHorizontal: 0 }]}
+                                    style={[styles.textInput, { padding: 0, marginHorizontal: 0 }]}
                                   />
                                   {
                                     this.state.focus === true && this.state.predictions.length > 0 ?
@@ -232,7 +236,7 @@ export default class EventSearching extends Component<Props> {
                                   onChangeText={(value) => this.setState({ seachText: value })}
                                   underlineColorAndroid='transparent'
                                   label={item.title}
-                                  mode='flat' 
+                                  mode='flat'
                                   placeholder={item.placeholder}
                                   placeholderTextColor='#c4c4c4'
                                   style={styles.textInput}
@@ -249,7 +253,7 @@ export default class EventSearching extends Component<Props> {
                               // value={item.type_name === 'event_cat' && store.moveToSearch ? store.CATEGORY.name : ''}
                               textColor={COLOR_SECONDARY}
                               itemColor='gray'
-                              onChangeText={(value) => { this.search(item.type_name, value, item.option_dropdown) , store.moveToSearch? store.CATEGORY = {} : null , store.moveToSearch = false   }}
+                              onChangeText={(value) => { this.search(item.type_name, value, item.option_dropdown), store.moveToSearch ? store.CATEGORY = {} : null, store.moveToSearch = false }}
                               // focus={() => console.warn('hello')}
                               data={item.option_dropdown}
                             />
@@ -259,7 +263,7 @@ export default class EventSearching extends Component<Props> {
                   }
                 </View>
               </ScrollView>
-              <TouchableOpacity style={[styles.btnCon,{ backgroundColor: store.settings.data.navbar_clr }]} onPress={() => { this.search(null, null, null, 'search') }}>
+              <TouchableOpacity style={[styles.btnCon, { backgroundColor: store.settings.data.navbar_clr }]} onPress={() => { this.search(null, null, null, 'search') }}>
                 <Text style={styles.btnText}>{data.filter_btn}</Text>
               </TouchableOpacity>
             </View>

@@ -203,8 +203,8 @@ import ListingComponentBox from './ListingComponentBox2';
                             <Image style={{ height: height(5), width: width(10), resizeMode: 'contain' }} source={{ uri: item.img }} />
                           </Animatable.View>
 
-                          <Text style={[styles.childTxt, { fontWeight: '500', width: wp('18') }]}>{item.name}</Text>
-                          <Text style={[styles.childTxt2, { width: wp('18') }]}>01 Listings</Text>
+                          <Text  numberOfLines={1} ellipsizeMode='tail' style={[styles.childTxt, { fontWeight: '500', width: wp('18') }]}>{item.name}</Text>
+                          { item.count != null && <Text style={[styles.childTxt2, { width: wp('18') }]}>{item.count} {item.dwt_listing_text}</Text>}
 
 
                         </TouchableOpacity>
@@ -229,10 +229,10 @@ import ListingComponentBox from './ListingComponentBox2';
                   <View style={{ marginHorizontal: 20, width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
                     <Text style={{ marginVertical: 20, fontSize: 20, color: COLOR_PRIMARY, fontWeight: 'bold' }}>{home.featured_list_txt}</Text>
                     {
-                      home.sb_wpml_see_all_title != undefined ?
-                        <Text style={{ marginVertical: 20, fontSize: 10, color: COLOR_PRIMARY, fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                      // home.sb_wpml_see_all_title != undefined ?
+                      //   <Text style={{ marginVertical: 20, fontSize: 10, color: COLOR_PRIMARY, fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
 
-                        : null
+                      //   : null
                     }
 
                   </View>
@@ -389,7 +389,7 @@ import ListingComponentBox from './ListingComponentBox2';
               home.location_enabled && home.location_list.length!=0 ?
                 <View style={{ marginHorizontal: 20 }}>
 
-                  <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
+                  <View style={{ width: width(90), flexDirection: 'row', alignContent: 'center', alignItems: 'center',justifyContent:"space-between" }}>
                     {
                       home.sb_wpml_best_location_title != undefined ? [
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: COLOR_SECONDARY, marginVertical: 15 }}>{home.sb_wpml_best_location_title}</Text>
@@ -399,7 +399,11 @@ import ListingComponentBox from './ListingComponentBox2';
 
                     {
                       home.sb_wpml_see_all_title != undefined ?
-                        <Text style={{ marginVertical: 20, fontSize: 10, color: 'red', fontWeight: 'bold', position: 'absolute', right: 0 }}>{home.sb_wpml_see_all_title}</Text>
+                      <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+
+                      <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                      {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
+                    </TouchableOpacity>
 
                         : null
                     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform, StyleSheet, Text, View, Image, I18nManager, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl
+  Platform, StyleSheet, Text, View, Image, I18nManager, ScrollView, TouchableOpacity, Picker, ActivityIndicator, RefreshControl, Alert
 } from 'react-native';
 import stripe from 'tipsi-stripe';
 import RNPaypal from 'react-native-paypal-lib';
@@ -27,7 +27,7 @@ const theme = {
   errorColor: 'red'
 };
 let itemSkewsIos = ['dwt_business_plan', 'dwt_premium_plan'];
-let itemSkewsAndroid = [];
+let itemSkewsAndroid = ['Premium'];
 
 let packgeIdIap = '';
 let packageTypeIap = '';
@@ -58,13 +58,16 @@ export default class Packages extends Component<Props> {
     if (isLogged) {
       packageTypeIap = pkgType;
       packgeIdIap = pkgId;
+      console.log("start",pkgId,+pkgType)
+
       let code = '';
       if (Platform.OS == 'ios') {
         code = model.ios.code;
+
       }
       else
         code = model.android.code;
-      this.requestSubscription(code, pkgId, pkgType);
+      this.requestSubscription(code, pkgId, "paid");
     } else {
       Toast.show('You need to login')
     }
@@ -92,7 +95,7 @@ export default class Packages extends Component<Props> {
     //   this.setState({ breaker: 0 })
     //   console.log('inAppPurchase ERROR===>>>', err.code, err.message);
     // }
-  }
+   }
 
   purchaseUpdateSubscription;
   purchaseErrorSubscription;
@@ -138,20 +141,31 @@ export default class Packages extends Component<Props> {
 
 
   }
-  componentWillMount = async () => {
 
 
-  }
+  
   requestPurchase = async (sku) => {
     try {
-      RNIap.requestPurchase(sku);
+      RNIap.requestPurchase(sku,id,type);
+
     } catch (err) {
       console.log(err.code, err.message);
     }
   }
   requestSubscription = async (sku, id, type) => {
+    // const warrr  =  RNIap.requestSubscription(sku);
+    //   console.log("asasaas",warrr)
+    //   packx = {
+    //     id: id,
+    //     type: type
+    //   }
+    //   console.log("mray packs upar ",packx)
+
+
+//      this.iapSave(packx)
+
     try {
-      const resxxx = await RNIap.requestSubscription(sku);
+      const resxxx = await RNIap.requestPurchase(sku,id,type);
 
 
       console.log('result is ', resxxx)
@@ -159,17 +173,20 @@ export default class Packages extends Component<Props> {
         id: id,
         type: type
       }
+      console.log("mray packs",packx)
+   
       this.iapSave(packx)
-      // RNIap.requestSubscription(sku);
+      RNIap.requestSubscription(sku);
     } catch (err) {
       console.log(err.message);
     }
+    
   }
   iapSave = async (packagexx) => {
     let params = {
       package_id: packagexx.id,
       package_type: packagexx.type,
-      source: 'in_app'
+            source: 'in_app'
     }
     try {
       let response = await ApiController.post('payment', params);
@@ -201,6 +218,7 @@ export default class Packages extends Component<Props> {
     }
     return false
   }
+  
   getPackages = async () => {
     this.setState({ loading: true });
     try {
@@ -227,6 +245,9 @@ export default class Packages extends Component<Props> {
     }
   }
   callerPaymentMethodes = async (itemValue, pkgId, pkgType, amount, currency, item) => {
+    var pkgTypeNew = pkgType
+  
+
     store.PACKAGES_OBJ.packages.forEach(item => {
       if (item.package_id === pkgId) {
         item.selectedMethod = itemValue;
@@ -247,8 +268,8 @@ export default class Packages extends Component<Props> {
         }
       } else {
         if (itemValue === 'in_app') {
-          if (item.android.key && item.ios.key) {
-            await this.inAppPurchase(pkgId, pkgType, item, item);
+          if (item.android.key || item.ios.key) {
+            await this.inAppPurchase(pkgId, "paid", item, item);
           } else {
             Toast.show(store.PACKAGES_OBJ.generic_msg)
           }

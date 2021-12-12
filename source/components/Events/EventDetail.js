@@ -188,7 +188,7 @@ import Toast from 'react-native-simple-toast';
                     <Image source={require('../../images/calendar.png')} style={styles.rowIcon} />
                     <Text style={styles.tableText}>{eventDetail.event_detial.event_start_date} - {eventDetail.event_detial.event_end_date}</Text>
                   </View>
-                  <View style={styles.timmerCon}>
+                  {/* <View style={styles.timmerCon}>
                     <CountDown
                       until={this.state.timer}
                       digitTxtColor={COLOR_PRIMARY}
@@ -203,7 +203,7 @@ import Toast from 'react-native-simple-toast';
                       onFinish={() => alert('finished')}
                       size={15}
                     />
-                  </View>
+                  </View> */}
                 </View>
                 <View style={{ flex: 1, marginVertical: 15 }}>
                   <Text style={styles.disTitle}>{titles.desc}</Text>

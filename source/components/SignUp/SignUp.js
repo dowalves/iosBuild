@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import {
   Platform, ActivityIndicator, Text, View, Button, Image, ImageBackground, TouchableOpacity, I18nManager,
@@ -51,10 +52,10 @@ import appleAuth, {
     // })
 
     GoogleSignin.configure({
-      scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-      webClientId: '359254612575-o5l9kv2r4tsafj93r8v4rr5otg0652u7.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      // scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
+      webClientId: '4158251055-tqnemjtqd3cthpp9qfrvln5nh9dg2q9l.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
       offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-      iosClientId: '359254612575-4che0isisosmk44qtrgdbnbs7maginjo.apps.googleusercontent.com', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+      iosClientId: '4158251055-f2iatrscrrdf20ao2dinif86elilvrkn.apps.googleusercontent.com', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
       forceCodeForRefreshToken: true,
     });
   }

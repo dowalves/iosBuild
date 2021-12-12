@@ -202,7 +202,10 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../../hel
                             }
                             {
                               home.sb_wpml_see_all_title != undefined ?
-                                <Text style={{ fontSize: 10, fontWeight: 'bold', color: data.main_clr, marginTop: wp('2'), position: 'absolute', right: wp('5') }}>{home.sb_wpml_see_all_title}</Text>
+                              <TouchableOpacity style={[styles.readMoreBtnCon]} onPress={() => this.navigateToScreen('Categories')}>
+                              <Text style={[styles.latestFeature, { fontSize: 10, fontWeight: 'bold', marginTop: 3, marginStart:"89%",color: store.settings.data.main_clr }]}>{home.sb_wpml_see_all_title}</Text>
+                              {/* <Text style={[styles.latestFeature, { fontSize: 10,fontWeight:'bold', marginTop: 3, color: store.settings.data.navbar_clr }]}>{home.section_btn}</Text> */}
+                            </TouchableOpacity>
 
                                 : null
                             }

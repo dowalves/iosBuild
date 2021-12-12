@@ -71,6 +71,11 @@ class orderStore {
     @observable GET_LISTING = null;
     @observable TAGS = [];
     @observable AMENITIES= {};
+    @observable DYNAMIC_FIELDS= {
+        INNER_DYNAMIC_FIELDS: []
+    };
+   
+
     @observable FROM_ARR = [];
     @observable TO_ARR = [];
     @observable SHOP_OPENED = [];

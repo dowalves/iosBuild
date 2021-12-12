@@ -103,19 +103,19 @@ class Dashboard extends Component<Props> {
               :
               null
           }
-          {/* <View style={styles.planBox}>
+          <View style={styles.planBox}>
             <View style={styles.boxTitleCon}>
               <Text style={styles.boxTitleTxt}>{plan.heading}</Text>
             </View>
             <View style={{height:height(8)}}>
               <Text style={styles.boxMessage}>{plan.desc}</Text>
             </View>
-            <View style={{ alignItems:'center',alignSelf:'flex-start' }}>
+            {/* <View style={{ alignItems:'center',alignSelf:'flex-start' }}>
               <TouchableOpacity style={styles.viewBtn}>
                 <Text style={styles.btnTxt}>{plan.btn_txt}</Text>
               </TouchableOpacity>
-            </View>
-          </View> */}
+            </View> */}
+          </View>
         </ScrollView>
       </View>
     );

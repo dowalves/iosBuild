@@ -41,7 +41,7 @@ class ListingComponentBox extends Component<Props> {
                     </ProgressImage>
 
                 </View>
-                {
+                {/* {
                     I18nManager.isRTL ? [
                         <Image
                             source={require('../../images/left-star.png')}
@@ -53,7 +53,7 @@ class ListingComponentBox extends Component<Props> {
                                 style={{ height: wp('8'), width: wp('8'), position: 'absolute', right: 0 }}
                             />
                         ]
-                }
+                } */}
 
 
                 <View style={styles.txtViewConBox}>

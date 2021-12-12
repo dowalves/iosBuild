@@ -43,17 +43,22 @@ class ListingComponentBox extends Component<Props> {
 
                 </View>
                 {
-                    I18nManager.isRTL ? [
-                        <Image
-                            source={require('../../images/left-star.png')}
-                            style={{ height: wp('8'), width: wp('8'), position: 'absolute', right: 0 }}
-                        />
-                    ] : [
-                            <Image
-                                source={require('../../images/right_Star.png')}
+                    
+                        I18nManager.isRTL ? [
+                            
+                            item.is_featured == "1" ? [ <Image
+                                source={require('../../images/left-star.png')}
                                 style={{ height: wp('8'), width: wp('8'), position: 'absolute', right: 0 }}
-                            />
-                        ]
+                            /> ] : []
+
+                        ] : [
+                            item.is_featured == "1" ? [ <Image
+                                    source={require('../../images/right_Star.png')}
+                                    style={{ height: wp('8'), width: wp('8'), position: 'absolute', right: 0 }}
+                                /> ] : []
+                            ]
+                    
+                    
                 }
 
 

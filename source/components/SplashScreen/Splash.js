@@ -37,11 +37,11 @@ import firebase from 'react-native-firebase';
         RNRestart.Restart()
       }
     } else if (response.data.is_rtl == false) {
-    //  ` // if (I18nManager.isRTL) {
-    //   //   RNRestart.Restart()
+      if (I18nManager.isRTL) {
+        RNRestart.Restart()
 
-    //   // } else {
-    //   // }`
+      } else {
+      }
     }
     // console.log('is rtl',I18nManager.isRTL)
 
@@ -65,8 +65,8 @@ import firebase from 'react-native-firebase';
     // }
     // NetInfo.isConnected.fetch().then(async isConnected => {
     //   if (isConnected) {
-        await this.splash(true)
-        await this.manageFcmToken();
+    await this.splash(true)
+    await this.manageFcmToken();
     //   } else {
     //     this.setState({ nointernet: true })
 
@@ -81,7 +81,7 @@ import firebase from 'react-native-firebase';
 
     let { orderStore } = Store;
     const fcmToken = await firebase.messaging().getToken();
-    console.log('fcmtoken',fcmToken)
+    console.log('fcmtoken', fcmToken)
     // if (fcmToken) { 
     //   const userData = await LocalDb.getUserProfile();
     // //  console.warn(userData.id)          
@@ -134,7 +134,7 @@ import firebase from 'react-native-firebase';
           <ImageBackground source={require('../../images/Downtown_Shadownew.png')} style={styles.imgCon}>
             <View style={styles.LogoCon}>
               <Image source={require('../../images/splash_logo.png')} />
-              <Text style={styles.slogoTitle}>Find & Explore World Top Places</Text>
+              <Text style={styles.slogoTitle}>WWW.NGTDXB.COM</Text>
             </View>
             <View style={styles.IndicatorCon} >
               {

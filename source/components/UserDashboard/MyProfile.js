@@ -55,7 +55,7 @@ export default class MyProfile extends Component<Props> {
               />
           </View>
           {/* <Text style={styles.labelTxt}>{data.about_user.desc}</Text> */}
-          <Text style={styles.labelMedia}>Social Media accounts</Text>
+          <Text style={styles.labelMedia}>{data.p_social_acont}</Text>
           {
             data.profile_social_media.map((item,key)=>{
               return(
@@ -77,11 +77,11 @@ export default class MyProfile extends Component<Props> {
             <View style={{height:height(8), alignItems:'flex-start'}}>
               <Text style={styles.boxMessage}>{plan.desc}</Text>
             </View>
-            <View style={{ alignItems:'center',alignSelf:'flex-start' }}>
+            {/* <View style={{ alignItems:'center',alignSelf:'flex-start' }}>
               <TouchableOpacity style={styles.viewBtn}>
                 <Text style={styles.btnTxt}>{plan.btn_txt}</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </ScrollView>
       </View>

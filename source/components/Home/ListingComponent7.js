@@ -86,11 +86,11 @@ class ListingComponent extends Component<Props> {
                         />
                         {
                             item.listing_location!=null?[
-                            <Text style={{ fontSize: 10, color: 'white', marginLeft: 2, }}>{item.listing_location}</Text>
+                            <Text style={{ fontSize: 9, color: 'white', marginLeft: 2, }}>{item.listing_location}</Text>
                             ]:[]
                         }
 
-                          <Text style={[styles.closedBtnTxt,{position:'absolute',right:wp('1')}]}>{item.business_hours_status}</Text>
+                          <Text style={[styles.closedBtnTxt,{position:'absolute',right:wp('1'),fontSize: 9}]}>{item.business_hours_status}</Text>
                     </View>
 
                 </View>
