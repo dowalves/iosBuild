@@ -12,6 +12,7 @@ workflows:
             - |
                 # build Android
                 cd android
+                chmod +x gradlew
                 ./gradlew assembleDebug
             - |
                 # build iOS
