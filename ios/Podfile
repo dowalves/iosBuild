@@ -101,7 +101,6 @@ target 'DWT' do
 
     pod 'RCTRestart', :path => '../node_modules/react-native-restart/ios'
 
-    pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
     pod 'lottie-ios', :path => '../node_modules/lottie-ios'
 
 
