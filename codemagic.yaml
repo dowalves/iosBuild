@@ -4,7 +4,7 @@ workflows:
         environment:
             vars:
                 XCODE_WORKSPACE: "quotdadhesab"
-                XCODE_SCHEME: "quotdadhesab.sibapp"
+                XCODE_SCHEME: "dadhesab.sibapp"
             node: latest
         scripts:
             - npm install
