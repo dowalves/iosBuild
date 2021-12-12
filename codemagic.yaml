@@ -3,8 +3,8 @@ workflows:
         name: React Native App
         environment:
             vars:
-                XCODE_WORKSPACE: "{{ ADD WORKSPACE NAME HERE }}"
-                XCODE_SCHEME: "{{ ADD SCHEME NAME HERE }}"
+                XCODE_WORKSPACE: &quotdadhesab&quot
+                XCODE_SCHEME: &quotdadhesab.sibapp&quot
             node: latest
         scripts:
             - npm install
