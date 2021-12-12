@@ -2,9 +2,6 @@ workflows:
     react-native:
         name: React Native App
         environment:
-            vars:
-                XCODE_WORKSPACE: "dadhesab"
-                XCODE_SCHEME: "dadhesab.sibapp"
             node: latest
         scripts:
             - npm install
