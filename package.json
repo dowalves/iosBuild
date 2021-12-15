@@ -1,5 +1,5 @@
 {
-  "name": "ngtdxb",
+  "name": "DWT",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -88,5 +88,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./res/fonts/"
+    ]
   }
 }

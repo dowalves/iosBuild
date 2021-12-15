@@ -1,4 +1,4 @@
-package com.ngtdxb.dwt;
+package com.dwt;
 
 //facebook login libraries
 import android.app.Application;

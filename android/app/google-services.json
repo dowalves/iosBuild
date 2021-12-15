@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:12341234:android:43bec041c6650e1fd2dc45",
         "android_client_info": {
-          "package_name": "com.ngtdxb.dwt"
+          "package_name": "com.dwt"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "12341234-i72efro31tq4pnvtim9d0nlq3tj5rkm1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ngtdxb.dwt",
+            "package_name": "com.dwt",
             "certificate_hash": "7d494f2bf69c0d98c93b700847e0b0348e87e084"
           }
         },

@@ -30,10 +30,60 @@ import RNRestart from 'react-native-restart'
             name: '',
             themes:[
                 {
+                    name:'Theme 1',
+                    image:require('../../images/themes/01.png'),
+                    id:1 
+                },
+                {
+                    name:'Theme 2',
+                    image:require('../../images/themes/02.png'),
+                    id:2 
+                },
+                {
+                    name:'Theme 3',
+                    image:require('../../images/themes/03.png'),
+                    id:3 
+                },
+                {
+                    name:'Theme 4',
+                    image:require('../../images/themes/04.png'),
+                    id:4 
+                },
+                {
+                    name:'Theme 5',
+                    image:require('../../images/themes/05.png'),
+                    id:5 
+                },
+                {
                     name:'Theme 6',
                     image:require('../../images/themes/06.png'),
                     id:6 
                 },
+                {
+                    name:'Theme 7',
+                    image:require('../../images/themes/07.png'),
+                    id:7 
+                },
+                {
+                    name:'Theme 8',
+                    image:require('../../images/themes/08.png'),
+                    id:8 
+                },
+                {
+                    name:'Theme 9',
+                    image:require('../../images/themes/09.png'),
+                    id:9 
+                },
+                {
+                    name:'Theme 10',
+                    image:require('../../images/themes/10.png'),
+                    id:10 
+                },
+                {
+                    name:'Theme 11',
+                    image:require('../../images/themes/099.png'),
+                    id:11 
+                }
             ]
         }
     }

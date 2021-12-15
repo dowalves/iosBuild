@@ -1,4 +1,4 @@
-package com.ngtdxb.dwt;
+package com.dwt;
 
 import android.content.Intent;
 
