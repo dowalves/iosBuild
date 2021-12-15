@@ -15,7 +15,7 @@ workflows:
                 pod install
                 #xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
                 cd ..
-                react-native build-ios
+                npx react-native build-ios
         artifacts:
             - android/app/build/outputs/**/**/*.apk
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
