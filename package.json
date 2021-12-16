@@ -17,7 +17,7 @@
     "i": "^0.3.6",
     "js-base64": "^2.5.1",
     "lottie-ios": "^3.2.3",
-    "lottie-react-native": "^5.0.1",
+    "lottie-react-native": "^4.0.0",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
     "prop-types": "^15.7.2",
