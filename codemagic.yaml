@@ -22,7 +22,7 @@ workflows:
       - name: xCode build
         script: |
           cd ios
-          xcodebuild clean archive -workspace DWT.xcworkspace -scheme DWT -archivePath DWR.xcarchive CODE_SIGNING_ALLOWED=NO -UseModernBuildSystem=NO | xcpretty
+          xcodebuild clean archive -workspace DWT.xcworkspace -scheme DWT -archivePath DWR.xcarchive CODE_SIGNING_ALLOWED=NO -UseModernBuildSystem=NO | xcpretty | sed -nE '/error:/,/^[[:digit:]] errors? generated/ p'
     artifacts:
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
 
